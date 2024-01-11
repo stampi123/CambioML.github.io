@@ -4,6 +4,7 @@ import PageHero from "@/app/components/hero/PageHero";
 import Button from "../../components/Button";
 import Container from "../../components/Container";
 import Section from "@/app/components/Section";
+import { imgPrefix } from "@/app/hooks/useImgPrefix";
 
 const sections = [
     {
@@ -61,7 +62,7 @@ const AboutPage = () => {
                                 <div className={`flex items-center justify-center h-full w-max`}>
                                     <div className={`${ investor.height || 'h-[100px]'} w-auto`}>
                                         <img
-                                            src={investor.image}
+                                            src={imgPrefix + investor.image}
                                             alt={investor.alt}
                                             className={`cursor-pointer max-h-full max-w-full`}
                                         />

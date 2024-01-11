@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import { imgPrefix } from '@/app/hooks/useImgPrefix';
+
 interface SocialButtonProps {
     image: string;
     url: string;
@@ -16,7 +18,7 @@ const SocialButton: React.FC<SocialButtonProps> = ({
                     className="cursor-pointer"
                     height="100"
                     width="100"
-                    src={image}
+                    src={imgPrefix + image}
                 />
             </a>
         </div>

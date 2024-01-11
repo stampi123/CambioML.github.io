@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { imgPrefix } from '@/app/hooks/useImgPrefix';
 
 interface SolutionsCardProps {
     title: string;
@@ -41,7 +42,7 @@ const SolutionsCard: React.FC<SolutionsCardProps> = ({
                         <Image
                             fill
                             alt="Solution Image"
-                            src={image || '/images/cambioml-logo-large.png'}
+                            src={imgPrefix + (image || '/images/cambioml-logo-large.png')}
                             className="
                             object-cover
                             h-full
