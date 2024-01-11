@@ -3,6 +3,7 @@
 import Heading from "./Heading";
 import Button from "./Button";
 import { CaretRight } from "@phosphor-icons/react";
+import useNotifyModal from "../hooks/useNotifyModal";
 
 interface ProductCardProps {
     title: string;
@@ -13,6 +14,7 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ title, subtitle, notify, outline, children }) => {
+    const notifyModal = useNotifyModal();
     return (
         <div className="flex flex-col items-center justify-center w-full">
             <div className={`flex flex-col items-center justify-between rounded-xl  p-10 h-[600px]
@@ -25,7 +27,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ title, subtitle, notify, outl
                     </div>
                 </div>
                 <div className="w-full">
-                    <Button label="Notify Me" onClick={() => {console.log("notify click")}} outline={outline}
+                    <Button label="Notify Me" onClick={() => {
+                        console.log("notify click");
+                        notifyModal.onOpen();
+                    }} outline={outline}
                     labelIcon={CaretRight}
                     />
                 </div>

@@ -2,6 +2,7 @@ import { Lato } from "next/font/google"
 import './globals.css'
 import Navbar from './components/navbar/Navbar';
 import Footer from './components/footer/Footer';
+import NotifyModal from "./components/modals/NotifyModal";
 
 export const metadata = {
   title: 'cambioml',
@@ -23,6 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={font.className}>
         <Navbar />
+        <NotifyModal/>
         <div className="pb-500 pt-[75px] min-h-screen min-w-[650px]">
           {children}
           <Footer />

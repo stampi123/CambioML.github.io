@@ -1,3 +1,3 @@
-const imgPrefix = '/website-source-next';
+const imgPrefix = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
 export { imgPrefix };
