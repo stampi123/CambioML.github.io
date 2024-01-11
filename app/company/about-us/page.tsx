@@ -28,12 +28,12 @@ const investors = [
         url: "https://www.ycombinator.com/companies/cambioml",
     },
     {
-        image: "/images/investors/general_catalyst.png",
+        image: "/images/investors/general-catalyst.png",
         alt: "General Catalyst",
         url: "https://www.generalcatalyst.com/",
     },
     {
-        image: "/images/investors/samsung_next.png",
+        image: "/images/investors/samsung-next.png",
         alt: "Samsung Next",
         url: "https://www.samsungnext.com/",
         height: "h-[50px]",

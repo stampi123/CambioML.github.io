@@ -41,7 +41,7 @@ const SolutionsCard: React.FC<SolutionsCardProps> = ({
                         <Image
                             fill
                             alt="Solution Image"
-                            src={image || '/images/cambioml_logo_large.png'}
+                            src={image || '/images/cambioml-logo-large.png'}
                             className="
                             object-cover
                             h-full

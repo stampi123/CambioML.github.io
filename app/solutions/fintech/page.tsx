@@ -7,7 +7,7 @@ const Solutions = [
         title: "10K Evaluator",
         description: "Use uniflow and pykoi to fine-tune a pretrained model from a Nike 10K PDF.",
         url: "https://github.com/CambioML/cambio-cookbook/blob/main/examples/10K_Evaluator/10K_PDF_Evaluator.ipynb",
-        image: "/images/solutions/Nike10k.png"
+        image: "/images/solutions/nike-10k.png"
     },
 ]
 
