@@ -3,9 +3,7 @@
 import PageHero from "@/app/components/hero/PageHero";
 import Button from "../../components/Button";
 import Container from "../../components/Container";
-import Heading from "../../components/Heading";
 import Section from "@/app/components/Section";
-import Image from "next/image";
 
 const sections = [
     {

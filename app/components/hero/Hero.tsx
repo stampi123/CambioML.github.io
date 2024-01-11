@@ -3,6 +3,7 @@
 import Container from "../Container";
 import Image from 'next/image';
 import { useTypingEffect } from "@/app/hooks/useTypingEffect";
+import { imgPrefix } from "@/app/hooks/useImgPrefix";
 
 interface HeroProps {
     title: string;
@@ -17,7 +18,7 @@ const Hero: React.FC<HeroProps> = ({ title, descriptions, center, image }) => {
             <Container styles="h-[85vh]">
                 {image &&
                     <Image
-                        src={image}
+                        src={imgPrefix + image}
                         alt="Hero"
                         fill
                         style={{
