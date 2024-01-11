@@ -17,7 +17,10 @@ import emailjs from "@emailjs/browser";
 const NotifyModal = () => {
   const notifyModal = useNotifyModal();
   const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || ""), []);
+  useEffect(() => {
+    emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "")
+    console.log("emailjs initialized", process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY);
+  }, []);
 
   const {
     register,
