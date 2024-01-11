@@ -19,7 +19,7 @@ const Hero: React.FC<HeroProps> = ({ title, descriptions, center, image }) => {
                     <Image
                         src={image}
                         alt="Hero"
-                        layout="fill"
+                        fill
                         style={{
                             objectFit: 'cover',
                             zIndex: -1,
