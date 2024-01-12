@@ -8,7 +8,7 @@ interface FeatureImageProps {
 
 const FeatureImage: React.FC<FeatureImageProps> = ({image, alt}) => {
   return (
-    <div className="flex flex-col items-center justify-center border-solid border-2 border-neutral-100 shadow-lg rounded-xl w-full h-[600px] relative">
+    <div className="border-solid border-2 border-neutral-100 shadow-lg rounded-xl w-full h-[600px] relative">
     <Image
       src={imgPrefix + image}
       fill
