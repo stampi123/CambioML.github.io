@@ -6,6 +6,7 @@ import Container from "../../components/Container";
 import Section from "@/app/components/Section";
 import { imgPrefix } from "@/app/hooks/useImgPrefix";
 import Heading from "@/app/components/Heading";
+import TeamMember from "@/app/components/about-us/TeamMember";
 
 const sections = [
     {
@@ -56,38 +57,8 @@ const AboutPage = () => {
                 <div className="py-20">
                     <Heading title="Founding Team" center />
                     <div className="pt-5 flex flex-row justify-center items-center w-full">
-                        <div className="grid gap-10 grid-cols-[300px_1fr]">
-                            <div className="w-full flex justify-end items-center">
-                                <div className="w-[150px] h-[150px]">
-                                    <img
-                                        src={imgPrefix + "/images/team/rachel.png"}
-                                        alt="Rachel Hu, CEO"
-                                        className="cursor-pointer max-h-full max-w-full rounded-full"
-                                    />
-                                </div>
-                            </div>
-                            <div>
-                                <h2 className="text-2xl font-semibold">Rachel Hu</h2>
-                                <h2 className="text-lg font-semibold">CEO</h2>
-                                <p>Former AWS Scientist who</p>
-                            </div>
-                        </div>
-                        <div className="grid gap-10 grid-cols-[300px_1fr]">
-                            <div className="w-full flex justify-end items-center">
-                                <div className="w-[150px] h-[150px]">
-                                    <img
-                                        src={imgPrefix + "/images/team/jojo.png"}
-                                        alt="Jojo Ortiz, Founding Engineer"
-                                        className="cursor-pointer max-h-full max-w-full rounded-full"
-                                    />
-                                </div>
-                            </div>
-                            <div>
-                                <h2 className="text-2xl font-semibold">Jojo Ortiz</h2>
-                                <h2 className="text-lg font-semibold">Founding Engineer</h2>
-                                <p>Former Tesla Engineer who</p>
-                            </div>
-                        </div>
+                        <TeamMember name="Rachel Hu" title="CEO" image="/images/team/rachel.png" bio="Former AWS Scientist who" url="https://www.linkedin.com/in/rachelsonghu/"/>
+                        <TeamMember name="Jojo Ortiz" title="Founding Engineer" image="/images/team/jojo.png" bio="Former Tesla Engineer who" url="https://www.linkedin.com/in/joseromanortiz/"/>
                     </div>
                 </div>
                 <Heading title="Our Investors" center />
