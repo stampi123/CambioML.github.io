@@ -17,8 +17,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ title, subtitle, notify, outl
     const notifyModal = useNotifyModal();
     return (
         <div className="flex flex-col items-center justify-center w-full">
-            <div className={`flex flex-col items-center justify-between rounded-xl  p-10 h-[600px]
-        col-span-1 w-[500px] md:w-full ${outline ? 'border-solid border-2 border-cambio-blue' : 'bg-cambio-blue'}
+            <div className={`flex flex-col items-center justify-between rounded-xl  p-10 h-[600px] shadow-md
+        col-span-1 w-[500px] md:w-full ${outline ? 'border-solid border-2 border-neutral-100' : 'bg-cambio-blue'}
         `}>
                 <div>
                     <Heading title={title} subtitle={subtitle} center />

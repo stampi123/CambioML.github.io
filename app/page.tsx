@@ -4,6 +4,7 @@ import Feature from "./components/feature/Feature";
 import Hero from "./components/hero/Hero";
 import { FaAws } from "react-icons/fa";
 import { SiMicrosoftazure } from "react-icons/si";
+import FeatureImage from "./components/feature/FeatureImage";
 
 
 
@@ -17,17 +18,7 @@ export default function Home() {
       />
       <div className="h-full w-full py-10">
         <Feature title="Transform any unstructured data to you private domain-expert AI" center>
-          <div className="flex flex-col items-center justify-center border-solid border-2 border-neutral-100 shadow-lg rounded-xl w-full h-[600px] relative">
-            <Image
-              src="/images/graphics/cambioml-flow-graphic.png"
-              // className="w-full h-full rounded-[inherit]"
-              // width={0}
-              // height={0}
-              fill
-              objectFit="contain"
-              alt="Cambioml Flow Graphic"
-            />
-          </div>
+          <FeatureImage image="/images/graphics/cambioml-flow-graphic.png" alt="CambioML Flow Graphic" />
         </Feature>
         <Feature title="Host your private LLMs anywhere in your control" description="" center>
           <div className="w-full h-full
@@ -47,9 +38,7 @@ export default function Home() {
           </div>
         </Feature>
         <Feature title="Auto evaluate and ensure compliance as needed" description="" center>
-          <div className="flex flex-col items-center justify-center border-solid border-2 border-cambio-blue  rounded-xl w-full h-[500px]">
-            TODO
-          </div>
+          <FeatureImage image="/images/graphics/main-page-demo.gif" alt="CambioML Flow Graphic" />
         </Feature>
       </div>
     </>
