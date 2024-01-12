@@ -8,17 +8,6 @@ import { imgPrefix } from "@/app/hooks/useImgPrefix";
 import Heading from "@/app/components/Heading";
 import TeamMember from "@/app/components/about-us/TeamMember";
 
-const sections = [
-    {
-        title: "Who we are",
-        paragraphs: ["cambioML is a team of former scientists from AWS AI building SaaS solutions enable Fortune 500 companies to build self-owned AI agents based on their massive, multi-modal and confidential data. We’re building what we wish we had when developing foundation models at Amazon."],
-    },
-    {
-        title: "What we offer",
-        paragraphs: ["We offer a suite of products that enable you to build your own AI agents based on your massive, multi-modal and confidential data. Our products are built on top of our open-source libraries, uniflow and pykoi."],
-    },
-]
-
 const investors = [
     {
         image: "/images/investors/ycombinator.png",
@@ -60,7 +49,7 @@ const AboutPage = () => {
                     </div>
                 </div>
                 <div className="py-40 max-w-[800px]">
-                    <Section title="What we offer" paragraphs={["cambioML is a team of former scientists from AWS AI building SaaS solutions enable Fortune 500 companies to build self-owned AI agents based on their massive, multi-modal and confidential data. We’re building what we wish we had when developing foundation models at Amazon."]} center />
+                    <Section title="What we offer" paragraphs={["We offer a suite of products that enable you to build your own AI agents based on your massive, multi-modal and confidential data. Our products are built on top of our open-source libraries, uniflow and pykoi."]} center />
                 </div>
                 <Heading title="Our Investors" center />
                 <div className="pt-5 flex gap-8 max-w-800 align-items justify-items h-[100px] w-max">
