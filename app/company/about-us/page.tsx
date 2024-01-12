@@ -49,17 +49,18 @@ const AboutPage = () => {
         <div className="pb-10">
             <PageHero title="About us" />
             <Container styles="h-max" centerX center-y>
-                {sections.map((section) => (
-                    <div className="pt-40 max-w-[800px]">
-                        <Section title={section.title} paragraphs={section.paragraphs || [""]} center />
-                    </div>
-                ))}
-                <div className="py-20">
+                <div className="pt-40 max-w-[800px]">
+                    <Section title="Who we are" paragraphs={["cambioML is a team of former scientists from AWS AI building SaaS solutions enable Fortune 500 companies to build self-owned AI agents based on their massive, multi-modal and confidential data. We’re building what we wish we had when developing foundation models at Amazon."]} center />
+                </div>
+                <div className="pt-40 max-w-[800px] w-full">
                     <Heading title="Founding Team" center />
-                    <div className="pt-5 flex flex-row justify-center items-center w-full">
-                        <TeamMember name="Rachel Hu" title="CEO" image="/images/team/rachel.png" bio="Former AWS Scientist who" url="https://www.linkedin.com/in/rachelsonghu/"/>
-                        <TeamMember name="Jojo Ortiz" title="Founding Engineer" image="/images/team/jojo.png" bio="Former Tesla Engineer who" url="https://www.linkedin.com/in/joseromanortiz/"/>
+                    <div className="pt-5 grid gap-3 grid-cols-1 md:grid-cols-2 w-full">
+                        <TeamMember name="Rachel Hu" title="CEO" image="/images/team/rachel.png" url="https://www.linkedin.com/in/rachelsonghu/" />
+                        <TeamMember name="Jojo Ortiz" title="Founding Engineer" image="/images/team/jojo.png" url="https://www.linkedin.com/in/joseromanortiz/" />
                     </div>
+                </div>
+                <div className="py-40 max-w-[800px]">
+                    <Section title="What we offer" paragraphs={["cambioML is a team of former scientists from AWS AI building SaaS solutions enable Fortune 500 companies to build self-owned AI agents based on their massive, multi-modal and confidential data. We’re building what we wish we had when developing foundation models at Amazon."]} center />
                 </div>
                 <Heading title="Our Investors" center />
                 <div className="pt-5 flex gap-8 max-w-800 align-items justify-items h-[100px] w-max">
