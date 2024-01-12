@@ -17,7 +17,7 @@ const menuItems = [
     {
         label: 'Solutions',
         links: [
-            'Fintech',
+            'Finance',
             'Manufacturing',
             'Compliance',
         ]
