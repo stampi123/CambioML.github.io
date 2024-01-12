@@ -12,11 +12,13 @@ const Solutions = [
     },
 ]
 
-const SolutionsPage = () => {
+const FintechSolutionsPage = () => {
     return (
         <div className="pb-10 w-full h-full flex flex-col justify-center items-center">
             <PageHero title="Fintech" description="Power your finance with AI" />
-            <Section title="Boost your revenue with your private LLMs" paragraphs={["Leverage CambioML's Confucia, our proprietary state-of-the-art finance and economics LLMs, to enhance your industry solutions. Confucia delivers deep financial insight, significantly improves market agility, and enhances portfolio performance. Build your private LLMs in a week instead of starting from scratch."]} center />
+            <div className="flex flex-col items-center justify-center py-20">
+                <Section title="Boost your revenue with your private LLMs" paragraphs={["Leverage CambioML's Confucia, our proprietary state-of-the-art finance and economics LLMs, to enhance your industry solutions. Confucia delivers deep financial insight, significantly improves market agility, and enhances portfolio performance. Build your private LLMs in a week instead of starting from scratch."]} center />
+            </div>
             <Container>
                 <div className="pt-10 flex items-center justify-center">
                     <div className="max-w-[1200px] w-full h-full">
@@ -43,4 +45,4 @@ const SolutionsPage = () => {
     )
 }
 
-export default SolutionsPage;
+export default FintechSolutionsPage;
