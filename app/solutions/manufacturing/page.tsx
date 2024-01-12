@@ -33,8 +33,10 @@ const ManufacturingSolutionsPage = () => {
                             gap-8
                             "
                         >
-                            {Solutions.map((useCase) => (
-                                <SolutionsCard title={useCase.title}
+                            {Solutions.map((useCase, i) => (
+                                <SolutionsCard
+                                    key={useCase.title + i}
+                                    title={useCase.title}
                                     description={useCase.description}
                                     image={useCase.image}
                                     url={useCase.url} />
