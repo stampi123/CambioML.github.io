@@ -12,12 +12,14 @@ const Solutions = [
     },
 ]
 
-const SolutionsPage = () => {
+const ManufacturingSolutionsPage = () => {
     return (
         <div className="pb-10 w-full h-full">
-            <PageHero title="Manufacturing" description="Streamline your processes with AI" />
-            <div className="flex flex-col items-center justify-center py-20">
-                <Section title="Boost your manufacturing output 10x" paragraphs={["Leverage CambioML to maximize your uptime and quickly resolve downtime issues."]} center />
+            <PageHero title="Manufacturing" description="Boost your revenue with your private LLMs" />
+            <div className="flex flex-col items-center justify-center py-20 gap-10">
+                <Section title="FabDesign" paragraphs={["Seamlessly generate optimized designs, efficient processes, and advanced simulations via simple prompts. Revolutionize your manufacturing workflow and unlock limitless potential with Production Prodigy's intuitive AI-driven capabilities."]} center />
+                <Section title="FabSearch" paragraphs={["Records any file you've seen, said, or heard and makes it searchable. For your privacy, we store all of the recordings locally on your Mac."]} center />
+                <Section title="FabAnalytics" paragraphs={["Say goodbye to data silos and unlock actionable insights for optimized operations and enhanced decision-making. Streamline your data flow and revolutionize your manufacturing processes with FabAnalytics today."]} center />
             </div>
             <Container>
                 <div className="pt-10 flex items-center justify-center">
@@ -45,4 +47,4 @@ const SolutionsPage = () => {
     )
 }
 
-export default SolutionsPage;
+export default ManufacturingSolutionsPage;
