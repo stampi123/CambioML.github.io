@@ -15,12 +15,12 @@ export default function Home() {
         image="/images/hero.png"
       />
       <div className="h-full w-full py-10">
-        <Feature title="Private domain-expert AI from any unstructured data" center>
+        <Feature title="Transform any unstructured data to you private domain-expert AI" center>
           <div className="flex flex-col items-center justify-center border-solid border-2 border-cambio-blue rounded-xl w-full h-[500px]">
             TODO
           </div>
         </Feature>
-        <Feature title="Host your private LLMs anywhere in your control" description="Fully SOC2 Compliant" center>
+        <Feature title="Host your private LLMs anywhere in your control" description="" center>
           <div className="w-full h-full
                             mt-10
                             grid
@@ -37,7 +37,7 @@ export default function Home() {
             </ProductCard>
           </div>
         </Feature>
-        <Feature title="Auto-evaluation and compliance on-demand" description="Fully SOC 2 Compliant" center>
+        <Feature title="Auto evaluate and ensure compliance as needed" description="" center>
           <div className="flex flex-col items-center justify-center border-solid border-2 border-cambio-blue  rounded-xl w-full h-[500px]">
             TODO
           </div>

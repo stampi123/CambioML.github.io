@@ -9,11 +9,11 @@ import { imgPrefix } from "@/app/hooks/useImgPrefix";
 const sections = [
     {
         title: "Who we are",
-        description: "cambioML is a team of former scientists from AWS AI building SaaS solutions enable Fortune 500 companies to build self-owned AI agents based on their massive, multi-modal and confidential data. We’re building what we wish we had when developing foundation models at Amazon.",
+        paragraphs: ["cambioML is a team of former scientists from AWS AI building SaaS solutions enable Fortune 500 companies to build self-owned AI agents based on their massive, multi-modal and confidential data. We’re building what we wish we had when developing foundation models at Amazon."],
     },
     {
         title: "What we offer",
-        description: "We offer a suite of products that enable you to build your own AI agents based on your massive, multi-modal and confidential data. Our products are built on top of our open-source libraries, uniflow and pykoi.",
+        paragraphs: ["We offer a suite of products that enable you to build your own AI agents based on your massive, multi-modal and confidential data. Our products are built on top of our open-source libraries, uniflow and pykoi."],
     },
     {
         title: "Our Investors",
@@ -52,7 +52,7 @@ const AboutPage = () => {
             <Container styles="h-max" centerX center-y>
                 {sections.map((section) => (
                     <div className="pt-40 max-w-[800px]">
-                        <Section title={section.title} description={section.description || ""} center />
+                        <Section title={section.title} paragraphs={section.paragraphs || [""]} center />
                     </div>
                 ))}
                 <div className="pt-5 flex gap-8 max-w-800 align-items justify-items h-[100px] w-max">
