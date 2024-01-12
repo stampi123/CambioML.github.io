@@ -3,6 +3,7 @@ import './globals.css'
 import Navbar from './components/navbar/Navbar';
 import Footer from './components/footer/Footer';
 import NotifyModal from "./components/modals/NotifyModal";
+import ToasterProvider from "./providers/ToasterProvider";
 
 export const metadata = {
   title: 'cambioml',
@@ -23,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
+        <ToasterProvider/>
         <Navbar />
         <NotifyModal/>
         <div className="pb-500 pt-[75px] min-h-screen min-w-[650px]">

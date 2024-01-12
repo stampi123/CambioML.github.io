@@ -19,7 +19,6 @@ const NotifyModal = () => {
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "")
-    console.log("emailjs initialized", process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY);
   }, []);
 
   const {
@@ -32,6 +31,7 @@ const NotifyModal = () => {
     defaultValues: {
       name: '',
       email: '',
+      message: '',
     }
   })
 
@@ -43,19 +43,20 @@ const NotifyModal = () => {
       from_name: data.name,
       to_name: 'Cambio',
       email: data.email,
-      message: 'New subscriber!',
+      message: data.message,
     };
 
     try {
       setIsLoading(true);
       await emailjs.send(serviceId, templateId, templateParams)
-      toast("email sent!")
+      toast.success("Sent!")
+      notifyModal.onClose();
     } catch (error) {
+      toast.error("Contact failed. Please try again.")
       console.log(error);
     } finally {
       setIsLoading(false);
     }
-    notifyModal.onClose();
   }
 
 
@@ -82,6 +83,14 @@ const NotifyModal = () => {
         errors={errors}
         required
       />
+      <Input
+        id="message"
+        label="Message"
+        disabled={isLoading}
+        register={register}
+        errors={errors}
+        type="textarea"
+      />
     </div>
   )
 
@@ -90,7 +99,7 @@ const NotifyModal = () => {
       disabled={isLoading}
       isOpen={notifyModal.isOpen}
       title=""
-      actionLabel="Continue"
+      actionLabel="Submit"
       onClose={notifyModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}

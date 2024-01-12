@@ -27,12 +27,21 @@ const ProductCard: React.FC<ProductCardProps> = ({ title, subtitle, notify, outl
                     </div>
                 </div>
                 <div className="w-full">
-                    <Button label="Notify Me" onClick={() => {
-                        console.log("notify click");
-                        notifyModal.onOpen();
-                    }} outline={outline}
-                    labelIcon={CaretRight}
-                    />
+                    {
+                        notify ?
+                            <Button label="Notify Me" onClick={() => {
+                                notifyModal.onOpen();
+                            }} outline={outline}
+                                labelIcon={CaretRight}
+                            />
+                            :
+                            <Button label="Get started" onClick={() => {
+                                    console.log("get started click");
+                                }}
+                                outline={outline}
+                                labelIcon={CaretRight}
+                            />
+                    }
                 </div>
             </div>
         </div>
