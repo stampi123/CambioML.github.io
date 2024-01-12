@@ -4,7 +4,7 @@ interface TeamMemberProps {
     image: string;
     name: string;
     title: string;
-    bio: string;
+    bio?: string;
     url: string;
 }
 
@@ -27,7 +27,9 @@ const TeamMember: React.FC<TeamMemberProps> = ({
             <div>
                 <h2 className="text-2xl font-semibold">{name}</h2>
                 <h2 className="text-lg font-semibold">{title}</h2>
-                <p>{bio}</p>
+                {bio &&
+                    <p>{bio}</p>
+                }
             </div>
         </div>
     )

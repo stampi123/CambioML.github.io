@@ -1,10 +1,7 @@
 'use client';
 
 import PageHero from "@/app/components/hero/PageHero";
-import Container from "../../../components/Container";
-import SolutionsCard from "../../../components/solutions/SolutionsCard";
 import Section from "@/app/components/Section";
-import Button from "@/app/components/Button";
 import { useRouter } from "next/navigation";
 
 const Solutions = [

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import ProductCard from "./components/ProductCard";
 import Feature from "./components/feature/Feature";
 import Hero from "./components/hero/Hero";
@@ -16,8 +17,16 @@ export default function Home() {
       />
       <div className="h-full w-full py-10">
         <Feature title="Transform any unstructured data to you private domain-expert AI" center>
-          <div className="flex flex-col items-center justify-center border-solid border-2 border-cambio-blue rounded-xl w-full h-[500px]">
-            TODO
+          <div className="flex flex-col items-center justify-center border-solid border-2 border-neutral-100 shadow-lg rounded-xl w-full h-[600px] relative">
+            <Image
+              src="/images/graphics/cambioml-flow-graphic.png"
+              // className="w-full h-full rounded-[inherit]"
+              // width={0}
+              // height={0}
+              fill
+              objectFit="contain"
+              alt="Cambioml Flow Graphic"
+            />
           </div>
         </Feature>
         <Feature title="Host your private LLMs anywhere in your control" description="" center>
