@@ -25,8 +25,8 @@ const socialLinks = [
 
 const Footer = () => {
     return (
-        <Container styles="h-[525px] md:h-[475px] lg:h-[425px] xl:h-[375px]" bgcolor="bg-cambio-blue">
-            <div className="py-10 h-full grid grid-cols-[2fr_1fr_1fr_1fr_1fr] gap-2 md:gap-5">
+        <Container styles="h-[300px]" bgcolor="bg-cambio-blue">
+            <div className="py-10 h-full grid grid-cols-[2fr_50px_1fr_1fr_1fr] gap-2 md:gap-5">
                 <div className="flex flex-col gap-3 md:gap-5">
                     <Logo small />
                     <div className="font-semibold text-md">CambioML: Private LLMs to Boost Enterprises</div>
@@ -37,25 +37,24 @@ const Footer = () => {
                     </div>
                     <div className="text-sm text-neutral-500">© {(new Date().getFullYear())} Cambio Corp </div>
                 </div>
+                <div className="col-span-1"></div>
                 <FooterMenu title="Libraries" links={[
-                    {
-                        title: "uniflow",
-                        url: "/libraries/uniflow",
-                    },
                     {
                         title: "pykoi",
                         url: "/libraries/pykoi",
                     },
-                ]} />
-                <FooterMenu title="Support" links={[
                     {
-                        title: "Documentation",
-                        url: "https://www.cambioml.com",
+                        title: "uniflow",
+                        url: "/libraries/uniflow",
                     },
                 ]} />
-                <FooterMenu title="Resources" links={[
+                <FooterMenu title="Documentation" links={[
                     {
-                        title: "Blog",
+                        title: "pykoi",
+                        url: "https://www.cambioml.com",
+                    },
+                    {
+                        title: "uniflow",
                         url: "https://www.cambioml.com",
                     },
                 ]} />
