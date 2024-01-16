@@ -18,7 +18,7 @@ export default function Home() {
       />
       <div className="h-full w-full py-10">
         <Feature title="Transform any unstructured data to you private domain-expert AI" center>
-          <FeatureImage image="/images/graphics/cambioml-flow-graphic.png" alt="CambioML Flow Graphic" />
+          <FeatureImage image="/images/graphics/cambioml-flow-graphic.png" alt="CambioML Flow Graphic" shadow/>
         </Feature>
         <Feature title="Host your private LLMs anywhere in your control" description="" center>
           <div className="w-full h-full
