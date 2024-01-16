@@ -4,7 +4,6 @@ import Container from "../../components/Container";
 import Section from "@/app/components/Section";
 import { Tabs, Tab } from "@/app/components/Tabs";
 import CodeBlock from "@/app/components/CodeBlock";
-import FeatureImage from "@/app/components/feature/FeatureImage";
 import DemoTab from "@/app/components/DemoTab";
 
 const PykoiPage = () => {

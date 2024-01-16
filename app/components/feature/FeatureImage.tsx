@@ -14,7 +14,7 @@ const FeatureImage: React.FC<FeatureImageProps> = ({image, alt, height, shadow})
     <Image
       src={imgPrefix + image}
       fill
-      objectFit="contain"
+      style={{objectFit:"contain"}}
       alt={alt}
     />
   </div>
