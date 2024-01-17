@@ -5,6 +5,7 @@ import Hero from "./components/hero/Hero";
 import { FaAws } from "react-icons/fa";
 import { SiMicrosoftazure } from "react-icons/si";
 import FeatureImage from "./components/feature/FeatureImage";
+import FlowOverview from "./components/feature/FlowOverview";
 
 
 
@@ -17,8 +18,11 @@ export default function Home() {
         image="/images/hero.png"
       />
       <div className="h-full w-full py-10">
-        <Feature title="Transform any unstructured data to you private domain-expert AI" center>
-          <FeatureImage image="/images/graphics/cambioml-flow-graphic.png" alt="CambioML Flow Graphic" shadow/>
+        <Feature title="Transform domain-specific data to your own private AI agent" center>
+          <FlowOverview/>
+        </Feature>
+        <Feature title="Distill domain knowledge from any unstructured data" center>
+          <FeatureImage image="/images/graphics/cambioml-flow-graphic.png" alt="CambioML Flow Graphic" shadow />
         </Feature>
         <Feature title="Host your private LLMs anywhere in your control" description="" center>
           <div className="w-full h-full
@@ -36,9 +40,6 @@ export default function Home() {
               Host our services on your data center
             </ProductCard>
           </div>
-        </Feature>
-        <Feature title="Auto evaluate and ensure compliance as needed" description="" center>
-          <FeatureImage image="/images/graphics/main-page-demo.gif" alt="CambioML Flow Graphic" />
         </Feature>
       </div>
     </>

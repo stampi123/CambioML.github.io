@@ -8,13 +8,6 @@ import { useRouter } from 'next/navigation';
 
 const menuItems = [
     {
-        label: 'Libraries',
-        links: [
-            'pykoi',
-            'uniflow',
-        ]
-    },
-    {
         label: 'Solutions',
         links: [
             'Finance',
