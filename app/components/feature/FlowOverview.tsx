@@ -3,6 +3,7 @@ import { useState } from "react";
 import DemoTab from "../DemoTab";
 import Image from "next/image";
 import { imgPrefix } from "@/app/hooks/useImgPrefix";
+import CodeBlock from "../CodeBlock";
 
 const STATE = {
     UNIFLOW: 0,
@@ -45,15 +46,16 @@ const FlowOverview = () => {
                 </div>
                 <FlowImage image="/images/graphics/cambio-flow-4.png" alt="Users"/>
             </div>
-            <div className="xl:h-[600px] w-full py-5 rounded-lg">
+            <div className="lg:h-[600px] w-full py-5 rounded-lg">
                 {(tab === STATE.UNIFLOW) &&
-                    <DemoTab code={`from uniflow import ExtractMarkdowClient
+                    <CodeBlock code={`from uniflow import ExtractMarkdowClient
 
 client = ExtractMarkdowClient()
 
 output = client.run(data)`}
-                        image="/images/uniflow/uniflow-extract-markdown.gif"
-                        alt="Uniflow markdown demo" />
+                        language="python"
+                    />
+
                 }
                 {(tab === STATE.PYKOI) &&
                     <DemoTab code={`from pykoi import Finetuning, RLHFConfig

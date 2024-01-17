@@ -48,14 +48,14 @@ const Footer = () => {
                         url: "/libraries/uniflow",
                     },
                 ]} />
-                <FooterMenu title="Documentation" links={[
+                <FooterMenu title="Solutions" links={[
                     {
-                        title: "pykoi",
-                        url: "https://www.cambioml.com",
+                        title: "Finance",
+                        url: "/solutions/finance",
                     },
                     {
-                        title: "uniflow",
-                        url: "https://www.cambioml.com",
+                        title: "Manufacturing",
+                        url: "/solutions/manufacturing",
                     },
                 ]} />
                 <FooterMenu title="Company" links={[

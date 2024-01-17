@@ -10,7 +10,7 @@ interface DemoTabProps {
 const DemoTab: React.FC<DemoTabProps> = ({ code, image, alt }) => {
     return (
         // <div className="w-full flex justify-content">
-        <div className="gap-5 py-4 w-full xl:w-[80vw] max-w-screen-xl h-full xl:h-[500px] grid grid-cols-1 xl:grid-cols-2 gap-0 xl:absolute xl:left-[50%] xl:translate-x-[-50%]">
+        <div className="gap-5 py-4 w-full lg:w-[80vw] max-w-screen-xl h-full lg:h-[500px] grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-0 lg:absolute lg:left-[50%] lg:translate-x-[-50%]">
             <div className="h-full w-full flex items-center justify-center">
                 <CodeBlock code={code} language="python" />
             </div>

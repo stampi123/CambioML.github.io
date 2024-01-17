@@ -5,11 +5,16 @@ import Section from "@/app/components/Section";
 import { Tabs, Tab } from "@/app/components/Tabs";
 import CodeBlock from "@/app/components/CodeBlock";
 import DemoTab from "@/app/components/DemoTab";
+import { useRouter } from "next/navigation";
 
 const PykoiPage = () => {
+    const router = useRouter();
     return (
         <>
-            <PageHero title="🎏 pykoi" description="Let AI Finetune your Private LLMs" />
+            <PageHero title="🎏 pykoi" description="Let AI Finetune your Private LLMs" button={{
+                label: "Read the Docs",
+                onClick: () => router.push("/libraries/pykoi/docs"),
+            }}/>
             <Container styles="h-max min-h-[80vh] py-20 max-w-[850px]">
                 <Section title="pykoi supercharges your ability to finetune your models" paragraphs={["pykoi is an open-source python library to finetune LLMs with RLAIF. Pykoi provides a unified interface including RLHF/RLAIF data and feedback collection, finetuning with reinforcement learning and reward modeling, and LLM comparisons."]} center />
                 <Section title="Sharable UI for Data & Feedback Collection" paragraphs={["Add a chatbot UI with (optional) feedback options to any LLM. The data and interactions will automatically be collected to a database. Currently, two feedback options are supported, vote and rank. Explore how users are using your chatbot, collect feedback, or feed the data directly into RLHF (see below)."]} center />
