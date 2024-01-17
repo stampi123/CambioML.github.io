@@ -12,7 +12,7 @@ const menuItems = [
         links: [
             'Finance',
             'Manufacturing',
-            'Compliance',
+            // 'Compliance',
         ]
     },
     {
