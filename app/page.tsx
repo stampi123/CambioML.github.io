@@ -13,7 +13,8 @@ export default function Home() {
   return (
     <>
       <Hero
-        title="Private LLMs: Your Secret Boost"
+        title="Custom-built AI Just For You"
+        subtitle="ML scientists spending 80% of time cleaning messy data for AI model training. We make it 10x faster."
         descriptions={["Faster Decision Making", "Better Compliance", "More Secure"]}
         image="/images/hero.png"
       />
