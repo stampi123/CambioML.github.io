@@ -2,6 +2,7 @@
 import { useState } from "react";
 import DemoTab from "../DemoTab";
 import Image from "next/image";
+import { imgPrefix } from "@/app/hooks/useImgPrefix";
 
 const STATE = {
     UNIFLOW: 0,
@@ -85,7 +86,7 @@ interface FlowImageProps {
 const FlowImage:React.FC<FlowImageProps> = ({image, alt}) => {
     return (
         <div className="col-span-1 flex items-center justify-center relative">
-            <Image src={image} alt={alt} fill style={{ objectFit: "contain" }} />
+            <Image src={imgPrefix + image} alt={alt} fill style={{ objectFit: "contain" }} />
         </div>
     )
 }
