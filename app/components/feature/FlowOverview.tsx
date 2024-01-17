@@ -19,7 +19,7 @@ const FlowOverview = () => {
         setTab(index);
     }
 
-    const selectedStyles = "text-[#f8f8ff] bg-cambio-red rounded-lg";
+    const selectedStyles = "text-white bg-cambio-red rounded-lg";
     const unselectedStyles = "text-neutral-500 bg-neutral-200 rounded-lg";
 
     return (
