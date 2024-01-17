@@ -66,7 +66,7 @@ my_data_pd = qa_database.retrieve_all_question_answers_as_pandas()
 config = pk.RLHFConfig(base_model_path="meta-llama/Llama-2-7b-hf",
                           dataset_type="local_db")
 rlhf_step1_sft = pk.SupervisedFinetuning(config)
-rlhf_step1_sft.train_and_save("./models/rlhf_step1_sft")`} showLineNumbers />
+rlhf_step1_sft.train_and_save("./models/rlhf_step1_sft")`} language="python"/>
                     </Tab>
                     <Tab label="Reward Finetuning">
                         <CodeBlock code={`import pykoi as pk
@@ -78,7 +78,7 @@ my_data_pd = qa_database.retrieve_all_question_answers_as_pandas()
 # run reward model finetuning
 config = pk.RLHFConfig()
 rlhf_step2_rft = pk.RewardFinetuning(config)
-rlhf_step2_rft.train_and_save("./models/rlhf_step2_rw")`} showLineNumbers />
+rlhf_step2_rft.train_and_save("./models/rlhf_step2_rw")`} language="python"/>
                     </Tab>
                     <Tab label="Reinforcement Learning">
                         <CodeBlock code={`import pykoi as pk
@@ -93,7 +93,7 @@ config = pk.RLHFConfig(
 )
 
 rlhf_step3_rl = pk.RLFinetuning(config)
-rlhf_step3_rl.train_and_save("./models/rlhf_step3_rl")`} showLineNumbers />
+rlhf_step3_rl.train_and_save("./models/rlhf_step3_rl")`} language="python" />
                     </Tab>
                 </Tabs>
                 <Section title="LLM Comparisons" paragraphs={["Easily compare multiple models to each other. Rank the outputs relative to each other, and visualize the results."]} center />
