@@ -27,7 +27,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, code }) => {
         {isCopied ? 'Copied!' : 'Copy'}
       </button>
       <div className="rounded-lg overflow-hidden p-5 bg-[#f8f8ff]" >
-        <SyntaxHighlighter language={language} style={docco} showLineNumbers>
+        <SyntaxHighlighter language={language} style={docco}>
           {code}
         </SyntaxHighlighter>
       </div>

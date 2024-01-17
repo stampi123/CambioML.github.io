@@ -51,8 +51,8 @@ const FlowOverview = () => {
 client = ExtractMarkdowClient()
 
 output = client.run(data)`}
-                        image="/images/logo.png"
-                        alt="logo" />
+                        image="/images/uniflow/uniflow-extract-markdown.gif"
+                        alt="Uniflow markdown demo" />
                 }
                 {(tab === STATE.PYKOI) &&
                     <DemoTab code={`from pykoi import Finetuning, RLHFConfig
@@ -60,8 +60,8 @@ output = client.run(data)`}
 rlhf = Finetuning(RLHFConfig)
 
 rlhf.train_and_save("./models")`}
-                        image="/images/logo.png"
-                        alt="logo" />
+                        image="/images/pykoi/pykoi-rag-chatbot-modify.gif"
+                        alt="Pykoi rag chatbot demo" />
                 }
                 {(tab === STATE.AUTOEVAL) &&
                     <DemoTab code={`from uniflow import AutoRater
@@ -69,8 +69,8 @@ rlhf.train_and_save("./models")`}
 client = AutoRater()
 
 output = client.run(data)`}
-                        image="/images/logo.png"
-                        alt="logo" />
+                        image="/images/pykoi/comparison-chat.gif"
+                        alt="Autoeval Chat Comparisons" />
                 }
             </div>
         </div>)
