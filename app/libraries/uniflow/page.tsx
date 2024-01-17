@@ -10,7 +10,7 @@ const UniflowPage = () => {
         <>
             <PageHero title="🌊 uniflow" description="Flow your unstructured data to your private LLMs" button={{
                 label: "Read the Docs",
-                onClick: () => router.push("/libraries/uniflow/docs"),
+                link: "/docs/uniflow/index.html",
             }}/>
             <Container styles="h-max min-h-[80vh] py-20 max-w-[850px]">
                 <Section title="uniflow streamlines your data" paragraphs={["Are you an ML professional grappling with the challenge of extracting high-quality data from confidential and unstructured data such as PDFs and PPTs? Fine-tuning large language models (LLMs) often requires dealing with such complex data, which poses significant challenges in terms of data privacy, processing efficiency, and model accuracy.",

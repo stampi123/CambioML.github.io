@@ -1,5 +1,6 @@
 'use client';
 
+import { link } from "fs";
 import Button from "../Button";
 import Container from "../Container";
 import Image from 'next/image';
@@ -8,7 +9,7 @@ interface PageHeroProps {
     title: string;
     description?: string;
     image?: string;
-    button?: { label: string, onClick: () => void };
+    button?: { label: string, link?: string, onClick?: () => void };
 }
 
 const PageHero: React.FC<PageHeroProps> = ({ title, description, image, button }) => {
@@ -28,7 +29,7 @@ const PageHero: React.FC<PageHeroProps> = ({ title, description, image, button }
                         quality={100} />
                 }
                 <div className={`flex justify-center items-center h-full w-full`}>
-                    <div className="max-w-[800px] flex flex-col items-center justify-center gap-40 h-full">
+                    <div className="max-w-[800px] flex flex-col items-center justify-center gap-20 h-full">
                         <div>
 
                             <h1 className="text-6xl font-bold text-gray-900 mb-8 text-center">{title}</h1>
@@ -40,7 +41,14 @@ const PageHero: React.FC<PageHeroProps> = ({ title, description, image, button }
                         {
                             button &&
                             <div className="w-full">
-                                <Button label={button.label} onClick={button.onClick} />
+                                {
+                                    button.onClick ?
+                                        <Button label={button.label} onClick={button.onClick} />
+                                        :
+                                        <a href={button.link} target="_blank" rel="noopener noreferrer">
+                                            <Button label={button.label} />
+                                        </a>
+                                }
                             </div>
                         }
                     </div>
