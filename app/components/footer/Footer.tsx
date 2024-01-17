@@ -61,7 +61,7 @@ const Footer = () => {
                 <FooterMenu title="Company" links={[
                     {
                         title: "About us",
-                        url: "/about/about-us",
+                        url: "/company/about-us",
                     },
                 ]} />
             </div>
