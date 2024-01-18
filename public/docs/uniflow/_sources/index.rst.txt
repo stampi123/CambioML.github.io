@@ -1,0 +1,46 @@
+.. uniflow documentation master file, created by
+   sphinx-quickstart on Mon Jul 24 01:54:20 2023.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to uniflow!
+===================================
+
+**uniflow** is an open-source python library for ML scientists and practitioners.
+uniflow helps you quickly prepare LLM finetuning data, from your private and unstructured data including PDFs, HTMLs, PPTs, Images, etc. With uniflow, you can easily extract and chunk text, generate questions and answers, summarize text, etc. for preparing your private LLMs finetuning.
+
+.. toctree::
+   :maxdepth: 4
+   :caption: Getting Started
+
+   installation
+   tour
+
+
+.. toctree::
+   :maxdepth: 4
+   :caption: Features
+
+   extract
+   transform
+   rate
+   pipeline
+
+.. toctree::
+   :maxdepth: 4
+   :caption: Code
+
+   modules
+
+.. toctree::
+   :maxdepth: 4
+   :caption: Social
+
+   community
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

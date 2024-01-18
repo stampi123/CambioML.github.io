@@ -1,0 +1,4 @@
+Pipeline
+===================================
+
+With the Pipeline, you can link several different `uniflow` flows to create a single flow.

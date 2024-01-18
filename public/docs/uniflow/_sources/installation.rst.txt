@@ -1,0 +1,22 @@
+Installation
+===================================
+
+**uniflow** is an open-source data curation platform for LLMs. Using uniflow,
+everyone can create structured data from unstructured data.
+
+
+Getting started is easy, simply pip install the uniflow library:
+
+.. code:: bash
+
+  pip install uniflow
+
+then import the library into Python:
+
+.. code:: python
+
+  import uniflow
+
+.. note::
+
+   This project is under active development!

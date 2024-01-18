@@ -1,0 +1,15 @@
+Quick Tour
+===================================
+
+Using uniflow, one may easily:
+
+- Extract and split from unstructured text including
+    - PDFs
+    - HTML
+    - Images
+    - Markdown
+- Transform content into structured data, e.g. create questions and answers from text
+- Rate and compare the quality of the data
+
+Our goal is to close the gap between active learning and data collection. We make
+it easy to produce structured data for your own models, so you can use that data to finetune your models.
