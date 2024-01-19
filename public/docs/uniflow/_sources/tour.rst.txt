@@ -1,7 +1,7 @@
 Quick Tour
 ===================================
 
-Using uniflow, one may easily:
+Using `uniflow`, one may easily:
 
 - Extract and split from unstructured text including
     - PDFs

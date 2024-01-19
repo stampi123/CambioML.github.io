@@ -3,14 +3,14 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="AutoRater" href="rate.html" /><link rel="prev" title="Extract" href="extract.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="TransformClient" href="transform_client.html" /><link rel="prev" title="Extract Config" href="extract_config.html" />
 
     <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
         <title>Transform - uniflow 0.0.16 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
-    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=c42c57ed" />
     
     
 
@@ -145,7 +145,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -157,8 +157,8 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   <div class="sidebar-logo-container">
-    <img class="sidebar-logo only-light" src="_static/cambioml-logo-round.png" alt="Light Logo"/>
-    <img class="sidebar-logo only-dark" src="_static/cambioml-logo-round.png" alt="Dark Logo"/>
+    <img class="sidebar-logo only-light" src="_static/uniflow-logo-round.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="_static/uniflow-logo-round.png" alt="Dark Logo"/>
   </div>
   
   
@@ -175,23 +175,25 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Features</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="extract.html">Extract</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Transform</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rate.html">AutoRater</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="extract.html">Extract</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Extract</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="extract_client.html">Extract Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extract_config.html">Extract Config</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">Transform</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Transform</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="transform_client.html">TransformClient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transform_config.html">TransformConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transform_model_config.html">ModelConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transform_prompt_template.html">PromptTemplate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transform_context.html">Context</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="autorater.html">AutoRater</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pipeline.html">Pipeline</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Code</span></p>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">uniflow</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of uniflow</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="conf.html">conf module</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="tests.html">tests package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of tests package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="tests.flow.html">tests.flow package</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="tests.op.html">tests.op package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of tests.op package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="tests.op.basic.html">tests.op.basic package</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">uniflow</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of uniflow</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="uniflow.html">uniflow package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of uniflow package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="uniflow.flow.html">uniflow.flow package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of uniflow.flow package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="uniflow.flow.extract.html">uniflow.flow.extract package</a></li>
@@ -213,6 +215,10 @@
 </li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Social</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="community.html">Community</a></li>
 </ul>
 
 </div>
@@ -241,7 +247,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -250,6 +256,78 @@
           <section id="transform">
 <h1>Transform<a class="headerlink" href="#transform" title="Link to this heading">#</a></h1>
 <p>With <strong>uniflow</strong> you can transform your split content into structured data.</p>
+<p>For example, if you have a list of paragraphs, you can use <strong>uniflow</strong> to transform it into a list of structured questions and answers.</p>
+<section id="full-code-example">
+<h2>Full Code example<a class="headerlink" href="#full-code-example" title="Link to this heading">#</a></h2>
+<p>Here is some example code to give you an full overview. We’ll break it down in subsequent sections.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">uniflow.flow.client</span> <span class="kn">import</span> <span class="n">TransformClient</span>
+<span class="kn">from</span> <span class="nn">uniflow.flow.config</span> <span class="kn">import</span> <span class="n">TransformOpenAIConfig</span>
+<span class="kn">from</span> <span class="nn">uniflow.op.model.model_config</span> <span class="kn">import</span> <span class="n">OpenAIModelConfig</span>
+<span class="kn">from</span> <span class="nn">uniflow.op.prompt</span> <span class="kn">import</span> <span class="n">PromptTemplate</span><span class="p">,</span> <span class="n">Context</span>
+
+<span class="n">raw_context_input</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;We report on a series of experiments with convolutional neural networks (CNN) trained on top of pre-trained word vectors for sentence-level classification tasks. We show that a simple CNN with little hyperparameter tuning and static vectors achieves excellent results on multiple benchmarks. Learning task-specific vectors through fine-tuning offers further gains in performance. We additionally propose a simple modification to the architecture to allow for the use of both task-specific and static vectors. The CNN models discussed herein improve upon the state of the art on 4 out of 7 tasks, which include sentiment analysis and question classification.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Convolutional neural networks (CNN) utilize layers with convolving filters that are applied to local features [1]. Originally invented for computer vision, CNN models have subsequently been shown to be effective for NLP and have achieved excellent results in semantic parsing [13], search query retrieval [2], sentence modeling [1], and other traditional NLP tasks [1].      &quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">guided_prompt</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="p">(</span>
+    <span class="n">instruction</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Generate one question and its corresponding answer based on the last context in the last</span>
+<span class="s2">    example. Follow the format of the examples below to include context, question, and answer in the response&quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">few_shot_prompt</span><span class="o">=</span><span class="p">[</span><span class="n">Context</span><span class="p">(</span>
+        <span class="n">context</span><span class="o">=</span><span class="s2">&quot;In 1948, Claude E. Shannon published A Mathematical Theory of</span><span class="se">\n</span><span class="s2">Communication (Shannon, 1948) establishing the theory of</span><span class="se">\n</span><span class="s2">information. In his article, Shannon introduced the concept of</span><span class="se">\n</span><span class="s2">information entropy for the first time. We will begin our journey here.&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="n">question</span><span class="o">=</span><span class="s2">&quot;Who published A Mathematical Theory of Communication in 1948?&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="n">answer</span><span class="o">=</span><span class="s2">&quot;Claude E. Shannon.&quot;&quot;&quot;</span>
+    <span class="p">)]</span>
+<span class="p">)</span>
+<span class="n">input_data</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">Context</span><span class="p">(</span>
+            <span class="n">context</span><span class="o">=</span><span class="n">p</span><span class="p">,</span>
+            <span class="n">question</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">answer</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">raw_context_input</span>
+<span class="p">]</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">TransformOpenAIConfig</span><span class="p">(</span>
+    <span class="n">prompt_template</span><span class="o">=</span><span class="n">guided_prompt</span><span class="p">,</span>
+    <span class="n">model_config</span><span class="o">=</span><span class="n">OpenAIModelConfig</span><span class="p">(</span>
+        <span class="n">response_format</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;json_object&quot;</span><span class="p">}</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+<span class="n">transform_client</span> <span class="o">=</span> <span class="n">TransformClient</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+<span class="n">output</span> <span class="o">=</span> <span class="n">transform_client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As you can see, you’ll need to convert your input data into <code class="code docutils literal notranslate"><span class="pre">Context</span></code> objects, write a <code class="code docutils literal notranslate"><span class="pre">PromptTemplate</span></code> to guide the LLM, and then run your data with a <code class="code docutils literal notranslate"><span class="pre">TransformConfig</span></code> through a <code class="code docutils literal notranslate"><span class="pre">TransformClient</span></code>.</p>
+<p>This will return a list of structured questions and answers by default:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[{</span><span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;response&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;context&#39;</span><span class="p">:</span> <span class="s1">&#39;We report on a series of experiments with convolutional neural networks (CNN) trained on top of pre-trained word vectors for sentence-level classification tasks. We show that a simple CNN with little hyperparameter tuning and static vectors achieves excellent results on multiple benchmarks. Learning task-specific vectors through fine-tuning offers further gains in performance. We additionally propose a simple modification to the architecture to allow for the use of both task-specific and static vectors. The CNN models discussed herein improve upon the state of the art on 4 out of 7 tasks, which include sentiment analysis and question classification.&#39;</span><span class="p">,</span> <span class="s1">&#39;question&#39;</span><span class="p">:</span> <span class="s1">&#39;What type of neural network was used in the experiments?&#39;</span><span class="p">,</span> <span class="s1">&#39;answer&#39;</span><span class="p">:</span> <span class="s1">&#39;Convolutional neural networks (CNN).&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;No errors.&#39;</span><span class="p">}],</span>
+<span class="s1">&#39;root&#39;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">uniflow</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">Node</span> <span class="n">at</span> <span class="mh">0x1169cae00</span><span class="o">&gt;</span><span class="p">},</span>
+<span class="p">{</span><span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;response&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;context&#39;</span><span class="p">:</span> <span class="s1">&#39;Convolutional neural networks (CNN) utilize layers with convolving filters that are applied to local features [1]. Originally invented for computer vision, CNN models have subsequently been shown to be effective for NLP and have achieved excellent results in semantic parsing [13], search query retrieval [2], sentence modeling [1], and other traditional NLP tasks [1].     &#39;</span><span class="p">,</span> <span class="s1">&#39;question&#39;</span><span class="p">:</span> <span class="s1">&#39;What are some tasks for which CNN models have been shown to be effective?&#39;</span><span class="p">,</span> <span class="s1">&#39;answer&#39;</span><span class="p">:</span> <span class="s1">&#39;CNN models have been shown to be effective for semantic parsing, search query retrieval, sentence modeling, and other traditional NLP tasks.&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;No errors.&#39;</span><span class="p">}],</span>
+<span class="s1">&#39;root&#39;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">uniflow</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">Node</span> <span class="n">at</span> <span class="mh">0x1169caa40</span><span class="o">&gt;</span><span class="p">}]</span>
+</pre></div>
+</div>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>Use <strong>uniflow</strong>’s Transform flows to create structured data from unstructured data. The <code class="code docutils literal notranslate"><span class="pre">PromptTemplate</span></code> object guides the user in creating the prompt for the LLM to generate the structured data. The <code class="code docutils literal notranslate"><span class="pre">Context</span></code> object contains the context from which the LLM will create the structured data, as well as the structure for the LLM to follow.</p>
+<p>Once the user has created the <code class="code docutils literal notranslate"><span class="pre">PromptTemplate</span></code> and <code class="code docutils literal notranslate"><span class="pre">Context</span></code> objects, they can run the <code class="code docutils literal notranslate"><span class="pre">TransformClient</span></code> to generate the structured data.</p>
+<p>Finally, with this structured data, the user can further fine-tune their models.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="transform_client.html">TransformClient</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform_config.html">TransformConfig</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="transform_config.html#pre-defined-configurations">Pre-defined Configurations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="transform_model_config.html">ModelConfig</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform_prompt_template.html">PromptTemplate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform_context.html">Context</a></li>
+</ul>
+</div>
+</section>
 </section>
 
         </article>
@@ -257,23 +335,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="rate.html">
+          <a class="next-page" href="transform_client.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">AutoRater</div>
+                <div class="title">TransformClient</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="extract.html">
+          <a class="prev-page" href="extract_config.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Extract</div>
+                <div class="title">Extract Config</div>
                 
               </div>
             </a>
@@ -303,8 +381,28 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Transform</a><ul>
+<li><a class="reference internal" href="#full-code-example">Full Code example</a></li>
+<li><a class="reference internal" href="#summary">Summary</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

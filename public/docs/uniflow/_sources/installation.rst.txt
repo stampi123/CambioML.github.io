@@ -11,11 +11,11 @@ Getting started is easy, simply pip install the uniflow library:
 
   pip install uniflow
 
-then import the library into Python:
+then import the uniflow classes into your project:
 
 .. code:: python
 
-  import uniflow
+  from uniflow.MODULE import CLASS
 
 .. note::
 

@@ -3,14 +3,14 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Transform" href="transform.html" /><link rel="prev" title="Quick Tour" href="tour.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Extract Client" href="extract_client.html" /><link rel="prev" title="Quick Tour" href="tour.html" />
 
     <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
         <title>Extract - uniflow 0.0.16 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
-    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=c42c57ed" />
     
     
 
@@ -157,8 +157,8 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   <div class="sidebar-logo-container">
-    <img class="sidebar-logo only-light" src="_static/cambioml-logo-round.png" alt="Light Logo"/>
-    <img class="sidebar-logo only-dark" src="_static/cambioml-logo-round.png" alt="Dark Logo"/>
+    <img class="sidebar-logo only-light" src="_static/uniflow-logo-round.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="_static/uniflow-logo-round.png" alt="Dark Logo"/>
   </div>
   
   
@@ -175,23 +175,25 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Features</span></p>
 <ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Extract</a></li>
-<li class="toctree-l1"><a class="reference internal" href="transform.html">Transform</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rate.html">AutoRater</a></li>
+<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">Extract</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Extract</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="extract_client.html">Extract Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extract_config.html">Extract Config</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="transform.html">Transform</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Transform</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="transform_client.html">TransformClient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transform_config.html">TransformConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transform_model_config.html">ModelConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transform_prompt_template.html">PromptTemplate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="transform_context.html">Context</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="autorater.html">AutoRater</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pipeline.html">Pipeline</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Code</span></p>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">uniflow</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of uniflow</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="conf.html">conf module</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="tests.html">tests package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of tests package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3"><a class="reference internal" href="tests.flow.html">tests.flow package</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="tests.op.html">tests.op package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of tests.op package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="tests.op.basic.html">tests.op.basic package</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">uniflow</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of uniflow</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="uniflow.html">uniflow package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of uniflow package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="uniflow.flow.html">uniflow.flow package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of uniflow.flow package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="uniflow.flow.extract.html">uniflow.flow.extract package</a></li>
@@ -213,6 +215,10 @@
 </li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Social</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="community.html">Community</a></li>
 </ul>
 
 </div>
@@ -260,6 +266,50 @@
 </ul>
 </dd>
 </dl>
+<p>Here is some example code to get you started:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">uniflow.flow.client</span> <span class="kn">import</span> <span class="n">ExtractClient</span>
+<span class="kn">from</span> <span class="nn">uniflow.flow.config</span> <span class="kn">import</span> <span class="n">ExtractPDFConfig</span>
+<span class="kn">from</span> <span class="nn">uniflow.op.model.model_config</span> <span class="kn">import</span> <span class="n">NougatModelConfig</span>
+<span class="kn">from</span> <span class="nn">uniflow.op.extract.split.constants</span> <span class="kn">import</span> <span class="n">PARAGRAPH_SPLITTER</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span><span class="s2">&quot;filename&quot;</span><span class="p">:</span> <span class="n">input_file_path</span><span class="p">},</span>
+<span class="p">]</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">ExtractPDFConfig</span><span class="p">(</span>
+  <span class="n">model_config</span><span class="o">=</span><span class="n">NougatModelConfig</span><span class="p">(</span>
+    <span class="n">model_name</span> <span class="o">=</span> <span class="s2">&quot;0.1.0-small&quot;</span><span class="p">,</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># When batch_size&gt;1, nougat will run on CUDA, otherwise it will run on CPU</span>
+  <span class="p">),</span>
+  <span class="n">splitter</span><span class="o">=</span><span class="n">PARAGRAPH_SPLITTER</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">nougat_client</span> <span class="o">=</span> <span class="n">ExtractClient</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+<span class="n">output</span> <span class="o">=</span> <span class="n">nougat_client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will take the input file located at <strong>input_file_path</strong>, extract the text using the Nougat Model, and split it into paragraphs. The output will contain a dictionary with a <cite>text</cite> key for each file, which contains a list of the extracted paragraphs.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[{</span><span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;# Convolutional Neural Networks for Sentence Classification&#39;</span><span class="p">,</span>
+    <span class="s1">&#39; Yoon Kim&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;New York University&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;yhk255@nyu.edu&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;###### Abstract&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;We report on a series of experiments with convolutional neural networks (CNN) trained on top of pre-trained word vectors for sentence-level classification tasks. We show that a simple CNN with little hyperparameter tuning and static vectors achieves excellent results on multiple benchmarks. Learning task-specific vectors through fine-tuning offers further gains in performance. We additionally propose a simple modification to the architecture to allow for the use of both task-specific and static vectors. The CNN models discussed herein improve upon the state of the art on 4 out of 7 tasks, which include sentiment analysis and question classification.&#39;</span><span class="p">,</span>
+    <span class="o">...</span><span class="p">]}]</span>
+<span class="p">}]</span>
+</pre></div>
+</div>
+<p>With this split text, you can further use <strong>uniflow</strong> to transform the text into structured data, such as questions and answers.</p>
+<p>For a more in-depth example, you can check out <a class="reference external" href="https://github.com/CambioML/uniflow/tree/main/example/extract">these notebooks</a></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="extract_client.html">Extract Client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extract_config.html">Extract Config</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="extract_config.html#pre-defined-configurations">Pre-defined Configurations</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </section>
 
         </article>
@@ -267,12 +317,12 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="transform.html">
+          <a class="next-page" href="extract_client.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Transform</div>
+                <div class="title">Extract Client</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
