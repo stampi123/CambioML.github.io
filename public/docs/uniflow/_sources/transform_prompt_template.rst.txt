@@ -39,4 +39,6 @@ Here's an example of how to use the :code:`PromptTemplate` object:
 
 As you can see, we are instructing the LLM to generate a question and answer, and also to follow our :code:`few_shot_prompt`. The :code:`few_shot_prompt` contains a single :code:`Context` object with an example :code:`context`, :code:`question`, and :code:`answer`. The :code:`PromptTemplate` is then passed to the :code:`TransformConfig` object which is passed to the :code:`TransformClient` object. The :code:`TransformClient` object is then used to run the :code:`input_data` through the LLM.
 
-Next, we'll learn about the :code:`Context` object.
+....
+
+Next, we'll see how we can tie our :code:`ExtractFlow` and :code:`TransformFlow` together to create a :code:`MultiFlowsPipeline`.

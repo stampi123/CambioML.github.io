@@ -49,5 +49,14 @@ Pre-defined Configurations
 |                                          |                                            |                 | groups using OpenAI's GPT-4 model.                 |
 +------------------------------------------+--------------------------------------------+-----------------+----------------------------------------------------+
 
+ModelConfig
+===========
+For more details on these :code:`ModelConfigs` and their default parameters, please see the |model_config_link|.
 
-Next, we'll go through each of the pre-defined configurations and show you how to use them.
+.. |model_config_link| raw:: html
+
+   <a href="https://github.com/CambioML/uniflow/blob/main/uniflow/op/model/model_config.py" target="_blank" rel="noopener noreferrer">model_config module</a>
+
+....
+
+Next, we'll dive into writing prompts for **uniflow** using the :code:`PromptTemplates`.

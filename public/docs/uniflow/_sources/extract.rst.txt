@@ -1,4 +1,4 @@
-Extract
+ExtractFlow
 ===================================
 
 With **uniflow** you can extract and split from unstructured text including
@@ -48,7 +48,11 @@ This will take the input file located at **input_file_path**, extract the text u
 
 With this split text, you can further use **uniflow** to transform the text into structured data, such as questions and answers.
 
-For a more in-depth example, you can check out `these notebooks <https://github.com/CambioML/uniflow/tree/main/example/extract>`_
+For a more in-depth example, you can check out |notebook_link|.
+
+.. |notebook_link| raw:: html
+
+   <a href="https://github.com/CambioML/uniflow/tree/main/example/extract" target="_blank" rel="noopener noreferrer">these notebooks</a>
 
 .. toctree::
    :maxdepth: 4

@@ -3,11 +3,11 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="uniflow" href="modules.html" /><link rel="prev" title="AutoRater" href="autorater.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Rater" href="rater.html" /><link rel="prev" title="PromptTemplate" href="transform_prompt_template.html" />
 
     <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>Pipeline - uniflow 0.0.16 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+        <title>MultiFlowsPipeline - uniflow 0.0.17 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=c42c57ed" />
@@ -17,7 +17,7 @@
 
 <style>
   body {
-    --color-code-background: #f8f8f8;
+    --color-code-background: #eeffcc;
   --color-code-foreground: black;
   --color-admonition-title--note: #00ebc7;
   --color-admonition-title-background--note: #a2fff1;
@@ -134,7 +134,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">uniflow 0.0.16 documentation</div></a>
+      <a href="index.html"><div class="brand">uniflow 0.0.17 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -145,7 +145,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -175,21 +175,20 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Features</span></p>
 <ul class="current">
-<li class="toctree-l1 has-children"><a class="reference internal" href="extract.html">Extract</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Extract</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="extract_client.html">Extract Client</a></li>
-<li class="toctree-l2"><a class="reference internal" href="extract_config.html">Extract Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="context.html">Context</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="extract.html">ExtractFlow</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of ExtractFlow</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="extract_client.html">ExtractClient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extract_config.html">ExtractConfig</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="transform.html">Transform</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Transform</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="transform.html">TransformFlow</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of TransformFlow</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="transform_client.html">TransformClient</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transform_config.html">TransformConfig</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transform_model_config.html">ModelConfig</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transform_prompt_template.html">PromptTemplate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transform_context.html">Context</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="autorater.html">AutoRater</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Pipeline</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">MultiFlowsPipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rater.html">Rater</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Code</span></p>
 <ul>
@@ -247,19 +246,94 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section id="pipeline">
-<h1>Pipeline<a class="headerlink" href="#pipeline" title="Link to this heading">#</a></h1>
-<p>With the Pipeline, you can link several different <cite>uniflow</cite> flows to create a single flow.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This project is under active development!</p>
+          <section id="multiflowspipeline">
+<h1>MultiFlowsPipeline<a class="headerlink" href="#multiflowspipeline" title="Link to this heading">#</a></h1>
+<p>With the Pipeline, you can link several different <strong>uniflow</strong> flows to create a single flow.</p>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h2>
+<dl class="simple">
+<dt>In this example, we’ll create a pipeline to do that following:</dt><dd><ol class="arabic simple">
+<li><p>Extract text from a PDF file</p></li>
+<li><p>Generate questions and answers for the text</p></li>
+</ol>
+</dd>
+</dl>
+<p>To do this, we’ll have to link up our <code class="code docutils literal notranslate"><span class="pre">ExtractPDFFlow</span></code> and <code class="code docutils literal notranslate"><span class="pre">TransformFlow</span></code> flows into a <code class="code docutils literal notranslate"><span class="pre">MultiFlowsPipeline</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">uniflow.pipeline</span> <span class="kn">import</span> <span class="n">MultiFlowsPipeline</span>
+<span class="kn">from</span> <span class="nn">uniflow.flow.config</span> <span class="kn">import</span> <span class="n">PipelineConfig</span>
+<span class="kn">from</span> <span class="nn">uniflow.flow.config</span> <span class="kn">import</span> <span class="n">TransformOpenAIConfig</span><span class="p">,</span> <span class="n">ExtractPDFConfig</span>
+<span class="kn">from</span> <span class="nn">uniflow.flow.config</span> <span class="kn">import</span> <span class="n">OpenAIModelConfig</span><span class="p">,</span> <span class="n">NougatModelConfig</span>
+<span class="kn">from</span> <span class="nn">uniflow.op.prompt</span> <span class="kn">import</span> <span class="n">PromptTemplate</span><span class="p">,</span> <span class="n">Context</span>
+<span class="kn">from</span> <span class="nn">uniflow.op.extract.split.constants</span> <span class="kn">import</span> <span class="n">PARAGRAPH_SPLITTER</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s2">&quot;pdf&quot;</span><span class="p">:</span> <span class="n">input_file_path</span><span class="p">},</span>
+<span class="p">]</span>
+
+<span class="c1"># 1. Configure our PDF extract flow</span>
+
+<span class="n">extract_config</span> <span class="o">=</span> <span class="n">ExtractPDFConfig</span><span class="p">(</span>
+    <span class="n">model_config</span><span class="o">=</span><span class="n">NougatModelConfig</span><span class="p">(</span>
+        <span class="n">model_name</span> <span class="o">=</span> <span class="s2">&quot;0.1.0-small&quot;</span><span class="p">,</span>
+        <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># When batch_size&gt;1, nougat will run on CUDA, otherwise it will run on CPU</span>
+    <span class="p">),</span>
+    <span class="n">splitter</span><span class="o">=</span><span class="s2">&quot;fads&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># 2. Configure our QA generation flow</span>
+<span class="n">guided_prompt</span> <span class="o">=</span> <span class="n">PromptTemplate</span><span class="p">(</span>
+    <span class="n">instruction</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Generate one question and its corresponding answer based on the last context in the last</span>
+<span class="s2">    example. Follow the format of the examples below to include context, question, and answer in the response&quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">few_shot_prompt</span><span class="o">=</span><span class="p">[</span><span class="n">Context</span><span class="p">(</span>
+        <span class="n">context</span><span class="o">=</span><span class="s2">&quot;In 1948, Claude E. Shannon published A Mathematical Theory of</span><span class="se">\n</span><span class="s2">Communication (Shannon, 1948) establishing the theory of</span><span class="se">\n</span><span class="s2">information. In his article, Shannon introduced the concept of</span><span class="se">\n</span><span class="s2">information entropy for the first time. We will begin our journey here.&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="n">question</span><span class="o">=</span><span class="s2">&quot;Who published A Mathematical Theory of Communication in 1948?&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="n">answer</span><span class="o">=</span><span class="s2">&quot;Claude E. Shannon.&quot;&quot;&quot;</span>
+    <span class="p">)]</span>
+<span class="p">)</span>
+
+<span class="n">transform_config</span> <span class="o">=</span> <span class="n">TransformOpenAIConfig</span><span class="p">(</span>
+    <span class="n">prompt_template</span><span class="o">=</span><span class="n">guided_prompt</span><span class="p">,</span>
+    <span class="n">model_config</span><span class="o">=</span><span class="n">OpenAIModelConfig</span><span class="p">(</span>
+        <span class="n">response_format</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;json_object&quot;</span><span class="p">}</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+
+<span class="c1"># 3. Configure our pipeline</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">MultiFlowsPipeline</span><span class="p">(</span><span class="n">PipelineConfig</span><span class="p">(</span>
+    <span class="n">extract_config</span><span class="o">=</span><span class="n">extract_config</span><span class="p">,</span>
+    <span class="n">transform_config</span><span class="o">=</span><span class="n">transform_config</span><span class="p">,</span>
+<span class="p">))</span>
+
+<span class="c1"># 4. Run the pipeline</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
 </div>
+<p>As you can see, we first set up our <code class="code docutils literal notranslate"><span class="pre">ExtractPDFConfig</span></code> and <code class="code docutils literal notranslate"><span class="pre">TransformOpenAIConfig</span></code> configs, just as we normally do. Then, we pass them into our <code class="code docutils literal notranslate"><span class="pre">PipelineConfig</span></code> object which, we pass that into our <code class="code docutils literal notranslate"><span class="pre">MultiFlowsPipeline</span></code> object. This allows us to seamlessly run our extract and transform flows in a single pipeline.</p>
+<p>After running the pipeline, we get the following output:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[[{</span><span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;response&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;context&#39;</span><span class="p">:</span> <span class="s1">&#39;In 1948, Claude E. Shannon published A Mathematical Theory of</span><span class="se">\n</span><span class="s1">Communication (Shannon, 1948) establishing the theory of</span><span class="se">\n</span><span class="s1">information. In his article, Shannon introduced the concept of</span><span class="se">\n</span><span class="s1">information entropy for the first time. We will begin our journey here.&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;question&#39;</span><span class="p">:</span> <span class="s1">&#39;What concept did Claude E. Shannon introduce for the first time in his article A Mathematical Theory of Communication?&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;answer&#39;</span><span class="p">:</span> <span class="s1">&#39;Claude E. Shannon introduced the concept of information entropy for the first time.&#39;</span><span class="p">}],</span>
+    <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;No errors.&#39;</span><span class="p">}],</span>
+    <span class="s1">&#39;root&#39;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">uniflow</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">Node</span> <span class="n">at</span> <span class="mh">0x17a8b7550</span><span class="o">&gt;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;response&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;context&#39;</span><span class="p">:</span> <span class="s1">&#39;We report on a series of experiments with convolutional neural networks (CNN) trained on top of pre-trained word vectors for sentence-level classification tasks. We show that a simple CNN with little hyperparameter tuning and static vectors achieves excellent results on multiple benchmarks. Learning task-specific vectors through fine-tuning offers further gains in performance. We additionally propose a simple modification to the architecture to allow for the use of both task-specific and static vectors. The CNN models discussed herein improve upon the state of the art on 4 out of 7 tasks, which include sentiment analysis and question classification.&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;question&#39;</span><span class="p">:</span> <span class="s1">&#39;What type of neural networks were used in the experiments reported in the context?&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;answer&#39;</span><span class="p">:</span> <span class="s1">&#39;Convolutional neural networks (CNN) were used in the experiments.&#39;</span><span class="p">}],</span>
+        <span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;No errors.&#39;</span><span class="p">}],</span>
+    <span class="s1">&#39;root&#39;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">uniflow</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">Node</span> <span class="n">at</span> <span class="mh">0x17a8b7010</span><span class="o">&gt;</span><span class="p">},</span>
+        <span class="o">...</span>
+<span class="p">]]</span>
+</pre></div>
+</div>
+<p>For the full example and breakdown, see <a href="https://github.com/CambioML/uniflow/blob/main/example/pipeline/pipeline_pdf.ipynb" target="_blank" rel="noopener noreferrer">this notebook</a>.</p>
+<hr class="docutils" />
+<p>Next, we’ll see how you can use <strong>uniflow’s</strong> <code class="code docutils literal notranslate"><span class="pre">Rater</span></code> to rate different data.</p>
+</section>
 </section>
 
         </article>
@@ -267,23 +341,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="modules.html">
+          <a class="next-page" href="rater.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">uniflow</div>
+                <div class="title">Rater</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="autorater.html">
+          <a class="prev-page" href="transform_prompt_template.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">AutoRater</div>
+                <div class="title">PromptTemplate</div>
                 
               </div>
             </a>
@@ -313,13 +387,32 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">MultiFlowsPipeline</a><ul>
+<li><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=c7cdf6fe"></script>
+</div><script src="_static/documentation_options.js?v=63b572e7"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>

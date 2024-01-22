@@ -29,19 +29,19 @@ const FlowOverview = () => {
                 <FlowImage image="/images/graphics/cambio-flow-1.png" alt="PDF, HTML, IMAGES"/>
                 <div className={`col-span-1 flex items-center justify-center`}>
                     <div className={`cursor-pointer text-2xl p-3 rounded-lg ${tab === STATE.UNIFLOW ? selectedStyles : unselectedStyles}`} onClick={(e) => handleClick(e, STATE.UNIFLOW)}>
-                        uniflow
+                        Extract
                     </div>
                 </div>
                 <FlowImage image="/images/graphics/cambio-flow-2.png" alt="Structured QAs"/>
                 <div className={`col-span-1 flex items-center justify-center`}>
                     <div className={`cursor-pointer text-2xl p-3 rounded-lg ${tab === STATE.PYKOI ? selectedStyles : unselectedStyles}`} onClick={(e) => handleClick(e, STATE.PYKOI)}>
-                        pykoi
+                        Train
                     </div>
                 </div>
                 <FlowImage image="/images/graphics/cambio-flow-3.png" alt="LLMs"/>
                 <div className={`col-span-1 flex items-center justify-center`}>
                     <div className={`cursor-pointer text-2xl p-3 rounded-lg ${tab === STATE.AUTOEVAL ? selectedStyles : unselectedStyles}`} onClick={(e) => handleClick(e, STATE.AUTOEVAL)}>
-                        autoeval
+                        Validate
                     </div>
                 </div>
                 <FlowImage image="/images/graphics/cambio-flow-4.png" alt="Users"/>

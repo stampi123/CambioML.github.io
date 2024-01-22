@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="uniflow.flow.transform package" href="uniflow.flow.transform.html" /><link rel="prev" title="uniflow.flow.extract package" href="uniflow.flow.extract.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="uniflow" href="modules.html" /><link rel="prev" title="MultiFlowsPipeline" href="pipeline.html" />
 
     <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>uniflow.flow.rater package - uniflow 0.0.17 documentation</title>
+        <title>Rater - uniflow 0.0.17 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
@@ -174,7 +174,7 @@
 <li class="toctree-l1"><a class="reference internal" href="tour.html">Quick Tour</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Features</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="context.html">Context</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="extract.html">ExtractFlow</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of ExtractFlow</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="extract_client.html">ExtractClient</a></li>
@@ -188,15 +188,15 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pipeline.html">MultiFlowsPipeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rater.html">Rater</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Rater</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Code</span></p>
-<ul class="current">
-<li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">uniflow</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of uniflow</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2 current has-children"><a class="reference internal" href="uniflow.html">uniflow package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of uniflow package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l3 current has-children"><a class="reference internal" href="uniflow.flow.html">uniflow.flow package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of uniflow.flow package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">uniflow</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of uniflow</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="uniflow.html">uniflow package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of uniflow package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="uniflow.flow.html">uniflow.flow package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of uniflow.flow package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l4"><a class="reference internal" href="uniflow.flow.extract.html">uniflow.flow.extract package</a></li>
-<li class="toctree-l4 current current-page"><a class="current reference internal" href="#">uniflow.flow.rater package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="uniflow.flow.rater.html">uniflow.flow.rater package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="uniflow.flow.transform.html">uniflow.flow.transform package</a></li>
 </ul>
 </li>
@@ -252,76 +252,105 @@
           </label>
         </div>
         <article role="main">
-          <section id="uniflow-flow-rater-package">
-<h1>uniflow.flow.rater package<a class="headerlink" href="#uniflow-flow-rater-package" title="Link to this heading">#</a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
-</section>
-<section id="module-uniflow.flow.rater.rater_flow">
-<span id="uniflow-flow-rater-rater-flow-module"></span><h2>uniflow.flow.rater.rater_flow module<a class="headerlink" href="#module-uniflow.flow.rater.rater_flow" title="Link to this heading">#</a></h2>
-<p>Classify flow for single point auto-rater.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="uniflow.flow.rater.rater_flow.RaterFlow">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uniflow.flow.rater.rater_flow.</span></span><span class="sig-name descname"><span class="pre">RaterFlow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prompt_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="uniflow.op.html#uniflow.op.prompt.PromptTemplate" title="uniflow.op.prompt.PromptTemplate"><span class="pre">PromptTemplate</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label2score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/uniflow/flow/rater/rater_flow.html#RaterFlow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uniflow.flow.rater.rater_flow.RaterFlow" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="uniflow.flow.html#uniflow.flow.flow.Flow" title="uniflow.flow.flow.Flow"><code class="xref py py-class docutils literal notranslate"><span class="pre">Flow</span></code></a></p>
-<p>Rater Classification Flow.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="uniflow.flow.rater.rater_flow.RaterFlow.TAG">
-<span class="sig-name descname"><span class="pre">TAG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'rater'</span></em><a class="headerlink" href="#uniflow.flow.rater.rater_flow.RaterFlow.TAG" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+          <section id="rater">
+<h1>Rater<a class="headerlink" href="#rater" title="Link to this heading">#</a></h1>
+<p>With <strong>uniflow</strong> you can use the power of LLMs to automatically validate the quality and compliance of your models.</p>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h2>
+<p>Here is some example code to give you an full overview. We’ll break it down in subsequent sections.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">uniflow.flow.client</span> <span class="kn">import</span> <span class="n">RaterClient</span>
+<span class="kn">from</span> <span class="nn">uniflow.flow.config</span>  <span class="kn">import</span> <span class="p">(</span>
+   <span class="n">RaterForClassificationHuggingfaceConfig</span><span class="p">,</span>
+   <span class="n">HuggingfaceModelConfig</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">uniflow.op.prompt</span> <span class="kn">import</span> <span class="n">Context</span>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="uniflow.flow.rater.rater_flow.RaterFlow.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="uniflow.html#uniflow.node.Node" title="uniflow.node.Node"><span class="pre">Node</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="uniflow.html#uniflow.node.Node" title="uniflow.node.Node"><span class="pre">Node</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/uniflow/flow/rater/rater_flow.html#RaterFlow.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uniflow.flow.rater.rater_flow.RaterFlow.run" title="Link to this definition">#</a></dt>
-<dd><p>Run Model Flow.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>nodes</strong> (<em>Sequence</em><em>[</em><a class="reference internal" href="uniflow.html#uniflow.node.Node" title="uniflow.node.Node"><em>Node</em></a><em>]</em>) – Nodes to run.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Nodes after running.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Sequence[<a class="reference internal" href="uniflow.html#uniflow.node.Node" title="uniflow.node.Node">Node</a>]</p>
-</dd>
-</dl>
-</dd></dl>
+<span class="n">raw_input</span> <span class="o">=</span> <span class="p">[</span>
+   <span class="p">(</span><span class="s2">&quot;The Pacific Ocean is the largest and deepest of Earth&#39;s oceanic divisions. It extends from the Arctic Ocean in the north to the Southern Ocean in the south.&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;What is the largest ocean on Earth?&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;The largest ocean on Earth is the Pacific Ocean.&quot;</span><span class="p">),</span> <span class="c1"># correct</span>
+   <span class="p">(</span><span class="s2">&quot;Shakespeare, a renowned English playwright and poet, wrote 39 plays during his lifetime. His works include famous plays like &#39;Hamlet&#39; and &#39;Romeo and Juliet&#39;.&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;How many plays did Shakespeare write?&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;Shakespeare wrote 31 plays.&quot;</span><span class="p">),</span> <span class="c1"># incorrect</span>
+   <span class="p">(</span><span class="s2">&quot;The human brain is an intricate organ responsible for intelligence, memory, and emotions. It is made up of approximately 86 billion neurons.&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;What is the human brain responsible for?&quot;</span><span class="p">,</span>
+   <span class="s2">&quot;The human brain is responsible for physical movement.&quot;</span><span class="p">),</span> <span class="c1"># incorrect</span>
+<span class="p">]</span>
 
-</dd></dl>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+   <span class="n">Context</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">question</span><span class="o">=</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">answer</span><span class="o">=</span><span class="n">c</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+   <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">raw_input</span>
+<span class="p">]</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">RaterForClassificationHuggingfaceConfig</span><span class="p">(</span>
+   <span class="n">model_config</span><span class="o">=</span><span class="n">HuggingfaceModelConfig</span><span class="p">(</span>
+      <span class="n">response_start_key</span><span class="o">=</span><span class="s2">&quot;explanation&quot;</span><span class="p">,</span>
+      <span class="n">response_format</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;json_object&quot;</span><span class="p">},</span>
+      <span class="n">batch_size</span><span class="o">=</span><span class="mi">2</span>
+   <span class="p">)</span>
+<span class="p">)</span>
 
-</section>
-<section id="module-uniflow.flow.rater">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-uniflow.flow.rater" title="Link to this heading">#</a></h2>
-<p>Rater __init__ Module.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="uniflow.flow.rater.RaterFlow">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">uniflow.flow.rater.</span></span><span class="sig-name descname"><span class="pre">RaterFlow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prompt_template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="uniflow.op.html#uniflow.op.prompt.PromptTemplate" title="uniflow.op.prompt.PromptTemplate"><span class="pre">PromptTemplate</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label2score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/uniflow/flow/rater/rater_flow.html#RaterFlow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uniflow.flow.rater.RaterFlow" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="uniflow.flow.html#uniflow.flow.flow.Flow" title="uniflow.flow.flow.Flow"><code class="xref py py-class docutils literal notranslate"><span class="pre">Flow</span></code></a></p>
-<p>Rater Classification Flow.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="uniflow.flow.rater.RaterFlow.TAG">
-<span class="sig-name descname"><span class="pre">TAG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'rater'</span></em><a class="headerlink" href="#uniflow.flow.rater.RaterFlow.TAG" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="uniflow.flow.rater.RaterFlow.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="uniflow.html#uniflow.node.Node" title="uniflow.node.Node"><span class="pre">Node</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="uniflow.html#uniflow.node.Node" title="uniflow.node.Node"><span class="pre">Node</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/uniflow/flow/rater/rater_flow.html#RaterFlow.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#uniflow.flow.rater.RaterFlow.run" title="Link to this definition">#</a></dt>
-<dd><p>Run Model Flow.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>nodes</strong> (<em>Sequence</em><em>[</em><a class="reference internal" href="uniflow.html#uniflow.node.Node" title="uniflow.node.Node"><em>Node</em></a><em>]</em>) – Nodes to run.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Nodes after running.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Sequence[<a class="reference internal" href="uniflow.html#uniflow.node.Node" title="uniflow.node.Node">Node</a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+<span class="n">client</span> <span class="o">=</span> <span class="n">RaterClient</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As you can see, you’ll need to convert your input data into <code class="code docutils literal notranslate"><span class="pre">Context</span></code> objects, set up your <strong>RaterClassificationConfig</strong>, and run your data through a <code class="code docutils literal notranslate"><span class="pre">RaterClient</span></code>.</p>
+<p>This will return the following output:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span> <span class="p">[{</span><span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;No errors.&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;response&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;average_score&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+                          <span class="s1">&#39;majority_vote&#39;</span><span class="p">:</span> <span class="s1">&#39;yes&#39;</span><span class="p">,</span>
+                          <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;answer&#39;</span><span class="p">:</span> <span class="s1">&#39;The largest ocean on Earth &#39;</span>
+                                                 <span class="s1">&#39;is the Pacific Ocean.&#39;</span><span class="p">,</span>
+                                       <span class="s1">&#39;context&#39;</span><span class="p">:</span> <span class="s1">&#39;The Pacific Ocean is the &#39;</span>
+                                                  <span class="s1">&#39;largest and deepest of &#39;</span>
+                                                  <span class="s2">&quot;Earth&#39;s oceanic &quot;</span>
+                                                  <span class="s1">&#39;divisions. It extends &#39;</span>
+                                                  <span class="s1">&#39;from the Arctic Ocean in &#39;</span>
+                                                  <span class="s1">&#39;the north to the Southern &#39;</span>
+                                                  <span class="s1">&#39;Ocean in the south.&#39;</span><span class="p">,</span>
+                                       <span class="s1">&#39;explanation&#39;</span><span class="p">:</span> <span class="s1">&#39;The answer is &#39;</span>
+                                                      <span class="s1">&#39;consistent with the &#39;</span>
+                                                      <span class="s1">&#39;fact stated in the &#39;</span>
+                                                      <span class="s1">&#39;context that the &#39;</span>
+                                                      <span class="s1">&#39;Pacific Ocean is the &#39;</span>
+                                                      <span class="s1">&#39;largest ocean on &#39;</span>
+                                                      <span class="s1">&#39;Earth, so the answer &#39;</span>
+                                                      <span class="s1">&#39;is correct.&#39;</span><span class="p">,</span>
+                                       <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;Yes.&#39;</span><span class="p">,</span>
+                                       <span class="s1">&#39;question&#39;</span><span class="p">:</span> <span class="s1">&#39;What is the largest &#39;</span>
+                                                   <span class="s1">&#39;ocean on Earth?&#39;</span><span class="p">}],</span>
+                          <span class="s1">&#39;scores&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">],</span>
+                          <span class="s1">&#39;votes&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;yes&#39;</span><span class="p">]},</span>
+                         <span class="p">{</span><span class="s1">&#39;average_score&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                          <span class="s1">&#39;majority_vote&#39;</span><span class="p">:</span> <span class="s1">&#39;no&#39;</span><span class="p">,</span>
+                          <span class="s1">&#39;samples&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;answer&#39;</span><span class="p">:</span> <span class="s1">&#39;Shakespeare wrote 31 &#39;</span>
+                                                 <span class="s1">&#39;plays.&#39;</span><span class="p">,</span>
+                                       <span class="s1">&#39;context&#39;</span><span class="p">:</span> <span class="s1">&#39;Shakespeare, a renowned &#39;</span>
+                                                  <span class="s1">&#39;English playwright and &#39;</span>
+                                                  <span class="s1">&#39;poet, wrote 39 plays &#39;</span>
+                                                  <span class="s1">&#39;during his lifetime. His &#39;</span>
+                                                  <span class="s1">&#39;works include famous &#39;</span>
+                                                  <span class="s2">&quot;plays like &#39;Hamlet&#39; and &quot;</span>
+                                                  <span class="s2">&quot;&#39;Romeo and Juliet&#39;.&quot;</span><span class="p">,</span>
+                                       <span class="s1">&#39;explanation&#39;</span><span class="p">:</span> <span class="s1">&#39;The answer is &#39;</span>
+                                                      <span class="s1">&#39;inconsistent with the &#39;</span>
+                                                      <span class="s1">&#39;fact stated in the &#39;</span>
+                                                      <span class="s1">&#39;context that &#39;</span>
+                                                      <span class="s1">&#39;Shakespeare wrote 39 &#39;</span>
+                                                      <span class="s1">&#39;plays, therefore the &#39;</span>
+                                                      <span class="s1">&#39;answer is incorrect.&#39;</span><span class="p">,</span>
+                                       <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;No&#39;</span><span class="p">,</span>
+                                       <span class="s1">&#39;question&#39;</span><span class="p">:</span> <span class="s1">&#39;How many plays did &#39;</span>
+                                                   <span class="s1">&#39;Shakespeare write?&#39;</span><span class="p">}],</span>
+                          <span class="s1">&#39;scores&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">],</span>
+                          <span class="s1">&#39;votes&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;no&#39;</span><span class="p">]}]}],</span>
+<span class="s1">&#39;root&#39;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">uniflow</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">Node</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f67989c2080</span><span class="o">&gt;</span><span class="p">},</span>
+<span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>As you can see, the <code class="code docutils literal notranslate"><span class="pre">Rater</span></code> will return the average score and majority vote for each sample, as well as the individual scores and votes for each sample. It will also return the error message, if any, for each sample.</p>
+<p>For the full example and breakdown, see <a href="https://github.com/CambioML/uniflow/blob/main/example/rater/huggingface_classification.ipynb" target="_blank" rel="noopener noreferrer">this notebook</a>.</p>
+<hr class="docutils" />
+<p>Next, dive into the code to learn more about how to use <strong>uniflow</strong>.</p>
 </section>
 </section>
 
@@ -330,23 +359,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="uniflow.flow.transform.html">
+          <a class="next-page" href="modules.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">uniflow.flow.transform package</div>
+                <div class="title">uniflow</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="uniflow.flow.extract.html">
+          <a class="prev-page" href="pipeline.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">uniflow.flow.extract package</div>
+                <div class="title">MultiFlowsPipeline</div>
                 
               </div>
             </a>
@@ -388,24 +417,8 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">uniflow.flow.rater package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-uniflow.flow.rater.rater_flow">uniflow.flow.rater.rater_flow module</a><ul>
-<li><a class="reference internal" href="#uniflow.flow.rater.rater_flow.RaterFlow"><code class="docutils literal notranslate"><span class="pre">RaterFlow</span></code></a><ul>
-<li><a class="reference internal" href="#uniflow.flow.rater.rater_flow.RaterFlow.TAG"><code class="docutils literal notranslate"><span class="pre">RaterFlow.TAG</span></code></a></li>
-<li><a class="reference internal" href="#uniflow.flow.rater.rater_flow.RaterFlow.run"><code class="docutils literal notranslate"><span class="pre">RaterFlow.run()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#module-uniflow.flow.rater">Module contents</a><ul>
-<li><a class="reference internal" href="#uniflow.flow.rater.RaterFlow"><code class="docutils literal notranslate"><span class="pre">RaterFlow</span></code></a><ul>
-<li><a class="reference internal" href="#uniflow.flow.rater.RaterFlow.TAG"><code class="docutils literal notranslate"><span class="pre">RaterFlow.TAG</span></code></a></li>
-<li><a class="reference internal" href="#uniflow.flow.rater.RaterFlow.run"><code class="docutils literal notranslate"><span class="pre">RaterFlow.run()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a class="reference internal" href="#">Rater</a><ul>
+<li><a class="reference internal" href="#example">Example</a></li>
 </ul>
 </li>
 </ul>

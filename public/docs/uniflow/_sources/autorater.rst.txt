@@ -1,8 +1,0 @@
-AutoRater
-===================================
-
-With **uniflow** you can use the power of LLMs to automatically rate the quality and performance of your models.
-
-.. note::
-
-   This project is under active development!

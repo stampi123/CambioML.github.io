@@ -3,11 +3,11 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Extract Client" href="extract_client.html" /><link rel="prev" title="Quick Tour" href="tour.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="ExtractClient" href="extract_client.html" /><link rel="prev" title="Context" href="context.html" />
 
     <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>Extract - uniflow 0.0.16 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+        <title>ExtractFlow - uniflow 0.0.17 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=c42c57ed" />
@@ -17,7 +17,7 @@
 
 <style>
   body {
-    --color-code-background: #f8f8f8;
+    --color-code-background: #eeffcc;
   --color-code-foreground: black;
   --color-admonition-title--note: #00ebc7;
   --color-admonition-title-background--note: #a2fff1;
@@ -134,7 +134,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">uniflow 0.0.16 documentation</div></a>
+      <a href="index.html"><div class="brand">uniflow 0.0.17 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -175,21 +175,20 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Features</span></p>
 <ul class="current">
-<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">Extract</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Extract</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="extract_client.html">Extract Client</a></li>
-<li class="toctree-l2"><a class="reference internal" href="extract_config.html">Extract Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="context.html">Context</a></li>
+<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">ExtractFlow</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of ExtractFlow</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="extract_client.html">ExtractClient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extract_config.html">ExtractConfig</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="transform.html">Transform</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Transform</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="transform.html">TransformFlow</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of TransformFlow</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="transform_client.html">TransformClient</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transform_config.html">TransformConfig</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transform_model_config.html">ModelConfig</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transform_prompt_template.html">PromptTemplate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transform_context.html">Context</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="autorater.html">AutoRater</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pipeline.html">Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">MultiFlowsPipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rater.html">Rater</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Code</span></p>
 <ul>
@@ -253,8 +252,8 @@
           </label>
         </div>
         <article role="main">
-          <section id="extract">
-<h1>Extract<a class="headerlink" href="#extract" title="Link to this heading">#</a></h1>
+          <section id="extractflow">
+<h1>ExtractFlow<a class="headerlink" href="#extractflow" title="Link to this heading">#</a></h1>
 <dl class="simple">
 <dt>With <strong>uniflow</strong> you can extract and split from unstructured text including</dt><dd><ul class="simple">
 <li><p>PDFs</p></li>
@@ -300,11 +299,11 @@
 </pre></div>
 </div>
 <p>With this split text, you can further use <strong>uniflow</strong> to transform the text into structured data, such as questions and answers.</p>
-<p>For a more in-depth example, you can check out <a class="reference external" href="https://github.com/CambioML/uniflow/tree/main/example/extract">these notebooks</a></p>
+<p>For a more in-depth example, you can check out <a href="https://github.com/CambioML/uniflow/tree/main/example/extract" target="_blank" rel="noopener noreferrer">these notebooks</a>.</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="extract_client.html">Extract Client</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extract_config.html">Extract Config</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="extract_client.html">ExtractClient</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extract_config.html">ExtractConfig</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="extract_config.html#pre-defined-configurations">Pre-defined Configurations</a></li>
 </ul>
 </li>
@@ -322,18 +321,18 @@
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Extract Client</div>
+                <div class="title">ExtractClient</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="tour.html">
+          <a class="prev-page" href="context.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Quick Tour</div>
+                <div class="title">Context</div>
                 
               </div>
             </a>
@@ -369,7 +368,7 @@
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=c7cdf6fe"></script>
+</div><script src="_static/documentation_options.js?v=63b572e7"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>

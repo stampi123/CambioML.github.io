@@ -1,12 +1,12 @@
 #########
-Transform
+TransformFlow
 #########
 
 With **uniflow** you can transform your split content into structured data.
 
 For example, if you have a list of paragraphs, you can use **uniflow** to transform it into a list of structured questions and answers.
 
-Full Code example
+Example
 =================
 
 Here is some example code to give you an full overview. We'll break it down in subsequent sections.
@@ -78,6 +78,4 @@ Finally, with this structured data, the user can further fine-tune their models.
 
    transform_client
    transform_config
-   transform_model_config
    transform_prompt_template
-   transform_context

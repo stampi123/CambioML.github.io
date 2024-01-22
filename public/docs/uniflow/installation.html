@@ -6,8 +6,8 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Quick Tour" href="tour.html" /><link rel="prev" title="Welcome to uniflow!" href="index.html" />
 
     <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>Installation - uniflow 0.0.16 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+        <title>Installation - uniflow 0.0.17 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=c42c57ed" />
@@ -17,7 +17,7 @@
 
 <style>
   body {
-    --color-code-background: #f8f8f8;
+    --color-code-background: #eeffcc;
   --color-code-foreground: black;
   --color-admonition-title--note: #00ebc7;
   --color-admonition-title-background--note: #a2fff1;
@@ -134,7 +134,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">uniflow 0.0.16 documentation</div></a>
+      <a href="index.html"><div class="brand">uniflow 0.0.17 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -145,7 +145,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -175,21 +175,20 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Features</span></p>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="extract.html">Extract</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Extract</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="extract_client.html">Extract Client</a></li>
-<li class="toctree-l2"><a class="reference internal" href="extract_config.html">Extract Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="context.html">Context</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="extract.html">ExtractFlow</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of ExtractFlow</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="extract_client.html">ExtractClient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extract_config.html">ExtractConfig</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="transform.html">Transform</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Transform</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="transform.html">TransformFlow</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of TransformFlow</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="transform_client.html">TransformClient</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transform_config.html">TransformConfig</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transform_model_config.html">ModelConfig</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transform_prompt_template.html">PromptTemplate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transform_context.html">Context</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="autorater.html">AutoRater</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pipeline.html">Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">MultiFlowsPipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rater.html">Rater</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Code</span></p>
 <ul>
@@ -247,7 +246,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -255,20 +254,50 @@
         <article role="main">
           <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h1>
-<p><strong>uniflow</strong> is an open-source data curation platform for LLMs. Using uniflow,
+<p><strong>uniflow</strong> is an open-source data curation platform for LLMs. Using <strong>uniflow</strong>,
 everyone can create structured data from unstructured data.</p>
-<p>Getting started is easy, simply pip install the uniflow library:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>uniflow
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h2>
+<p>Getting started is easy, simply <code class="code docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code> the <strong>uniflow</strong> library:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip3<span class="w"> </span>install<span class="w"> </span>uniflow
 </pre></div>
 </div>
-<p>then import the uniflow classes into your project:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">uniflow.MODULE</span> <span class="kn">import</span> <span class="n">CLASS</span>
+</section>
+<section id="in-depth-installation">
+<h2>In-depth Installation<a class="headerlink" href="#in-depth-installation" title="Link to this heading">#</a></h2>
+<p>To get started with <strong>uniflow</strong>, you can install it using <code class="code docutils literal notranslate"><span class="pre">pip</span></code> in a conda environment.</p>
+<p>First, create a conda environment on your terminal using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>uniflow<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10<span class="w"> </span>-y
+conda<span class="w"> </span>activate<span class="w"> </span>uniflow<span class="w">  </span><span class="c1"># some OS requires `source activate uniflow`</span>
 </pre></div>
 </div>
+<p>Next, install the compatible pytorch based on your OS.</p>
+<p>If you are on a GPU, install pytorch based on your cuda version. You can find your CUDA version via nvcc -V.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip3<span class="w"> </span>install<span class="w"> </span>--pre<span class="w"> </span>torch<span class="w"> </span>--index-url<span class="w"> </span>https://download.pytorch.org/whl/nightly/cu121<span class="w">  </span><span class="c1"># cu121 means cuda 12.1</span>
+</pre></div>
+</div>
+<p>If you are on a CPU instance,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip3<span class="w"> </span>install<span class="w"> </span>torch
+</pre></div>
+</div>
+<p>Then, install uniflow:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip3<span class="w"> </span>install<span class="w"> </span>uniflow
+</pre></div>
+</div>
+<p>If you are running the <code class="code docutils literal notranslate"><span class="pre">HuggingfaceModelFlow</span></code>, you will also need to install the <code class="code docutils literal notranslate"><span class="pre">transformers</span></code>, <code class="code docutils literal notranslate"><span class="pre">accelerate</span></code>, <code class="code docutils literal notranslate"><span class="pre">bitsandbytes</span></code>, <code class="code docutils literal notranslate"><span class="pre">scipy</span></code> libraries:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip3<span class="w"> </span>install<span class="w"> </span>transformers<span class="w"> </span>accelerate<span class="w"> </span>bitsandbytes<span class="w"> </span>scipy
+</pre></div>
+</div>
+<p>Finally, if you are running the <code class="code docutils literal notranslate"><span class="pre">LMQGModelFlow</span></code>, you will also need to install the <code class="code docutils literal notranslate"><span class="pre">lmqg</span></code> and <code class="code docutils literal notranslate"><span class="pre">spacy</span></code> libraries:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip3<span class="w"> </span>install<span class="w"> </span>lmqg<span class="w"> </span>spacy
+</pre></div>
+</div>
+<p>Congrats you have finished the installation!</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This project is under active development!</p>
 </div>
+</section>
 </section>
 
         </article>
@@ -322,13 +351,33 @@ everyone can create structured data from unstructured data.</p>
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li><a class="reference internal" href="#in-depth-installation">In-depth Installation</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=c7cdf6fe"></script>
+</div><script src="_static/documentation_options.js?v=63b572e7"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>

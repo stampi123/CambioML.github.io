@@ -1,6 +1,6 @@
 Context
 #######
-The :code:`Context` object is used by uniflow to control the desired structure of the output data. As such, we use it to wrap our input data, as well as in our :code:`few_shot_prompt` examples.
+The :code:`Context` object is used by **uniflow** to describe the input data. As such, we use it to wrap our input data in all our different flows. It's also used in our :code:`few_shot_prompt` examples for our :code:`TransformFlow` to help describe the desired output data structure.
 
 The :code:`Context` object contains the following fields:
 
@@ -9,13 +9,16 @@ The :code:`Context` object contains the following fields:
 +==========================+=========+=====================================================+
 | **context**              | string  | the context from which the LLM will create the data |
 +--------------------------+---------+-----------------------------------------------------+
-| **`additional fields`**  | string  | additional fields, such as :code:`question` and     |
+| **additional fields**    | string  | additional fields, such as :code:`question` and     |
 |                          |         | :code:`answer` to define the structure for the data |
 +--------------------------+---------+-----------------------------------------------------+
 
 The rest of the :code:`Context` is flexible to be created by the user. The user can create a :code:`Context` object with a question and answer, or a summary, etc.. The LLM will follow this Context to create the structured data output from all the input contexts.
 
-For example, if you want to generate summaries from text, you can use :code:`Context` as follows:
+
+Example
+-----------------
+For example, if you want to generate summaries from text in a :code:`TransformFlow`, you can use :code:`Context` as follows:
 
 .. code:: python
 
@@ -54,3 +57,9 @@ For example, if you want to generate summaries from text, you can use :code:`Con
     'summary': 'A series of experiments with convolutional neural networks (CNN) trained on pre-trained word vectors for sentence-level classification tasks demonstrates that a simple CNN with little hyperparameter tuning and static vectors achieves excellent results on multiple benchmarks, and task-specific vectors through fine-tuning offer further gains in performance.',}
 
 Note that both the :code:`context` and :code:`summary` fields are required in the :code:`Context` object for both the :code:`input_data` and the :code:`few_shot_prompt`. The :code:`summary` field is empty in the input data, but is filled in the :code:`few_shot_prompt` field of the :code:`PromptTemplate` object.
+
+You can see further examples of how to use the :code:`Context` object in the :code:`ExtractFlow` and :code:`RateFlow` sections of the documentation.
+
+....
+
+Next, we'll learn about how you can use **uniflow** to extract and split unstructured data using the :code:`ExtractFlow`.

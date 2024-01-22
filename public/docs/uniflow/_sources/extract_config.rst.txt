@@ -1,4 +1,4 @@
-Extract Config
+ExtractConfig
 #####################
 
 The :code:`ExtractConfig` is the configuration for the Extract flow. It contains the following fields:
@@ -35,4 +35,6 @@ Pre-defined Configurations
 |                                          |           |                 |                              | Notebook (.ipynb) files.                          |
 +------------------------------------------+-----------+-----------------+------------------------------+---------------------------------------------------+
 
-Next, we'll go through each of the pre-defined configurations and show you how to use them.
+....
+
+Next, we'll see how we can transform our data using the :code:`TransformFlow`.

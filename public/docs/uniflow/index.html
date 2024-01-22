@@ -6,8 +6,8 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Installation" href="installation.html" />
 
     <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
-        <title>uniflow 0.0.16 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+        <title>uniflow 0.0.17 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=c42c57ed" />
@@ -17,7 +17,7 @@
 
 <style>
   body {
-    --color-code-background: #f8f8f8;
+    --color-code-background: #eeffcc;
   --color-code-foreground: black;
   --color-admonition-title--note: #00ebc7;
   --color-admonition-title-background--note: #a2fff1;
@@ -134,7 +134,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="#"><div class="brand">uniflow 0.0.16 documentation</div></a>
+      <a href="#"><div class="brand">uniflow 0.0.17 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -175,21 +175,20 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Features</span></p>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="extract.html">Extract</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Extract</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="extract_client.html">Extract Client</a></li>
-<li class="toctree-l2"><a class="reference internal" href="extract_config.html">Extract Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="context.html">Context</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="extract.html">ExtractFlow</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of ExtractFlow</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="extract_client.html">ExtractClient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extract_config.html">ExtractConfig</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="transform.html">Transform</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Transform</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="transform.html">TransformFlow</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of TransformFlow</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="transform_client.html">TransformClient</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transform_config.html">TransformConfig</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transform_model_config.html">ModelConfig</a></li>
 <li class="toctree-l2"><a class="reference internal" href="transform_prompt_template.html">PromptTemplate</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transform_context.html">Context</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="autorater.html">AutoRater</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pipeline.html">Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">MultiFlowsPipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rater.html">Rater</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Code</span></p>
 <ul>
@@ -256,7 +255,7 @@
           <section id="welcome-to-uniflow">
 <h1>Welcome to uniflow!<a class="headerlink" href="#welcome-to-uniflow" title="Link to this heading">#</a></h1>
 <p><strong>uniflow</strong> is an open-source python library for ML scientists and practitioners.
-uniflow helps you quickly prepare LLM finetuning data, from your private and unstructured data including PDFs, HTMLs, PPTs, Images, etc. With uniflow, you can easily extract and chunk text, generate questions and answers, summarize text, etc. for preparing your private LLMs finetuning.</p>
+<strong>uniflow</strong> helps you quickly prepare LLM finetuning data, from your private and unstructured data including PDFs, HTMLs, PPTs, Images, etc. With the <a class="reference internal" href="extract.html#extractflow"><span class="std std-ref">ExtractFlow</span></a> and <a class="reference internal" href="transform.html#transformflow"><span class="std std-ref">TransformFlow</span></a>, you can easily extract and chunk text, generate questions and answers, summarize text, etc. for preparing your private LLMs finetuning. You can further streamline your process by combining these flows into a <a class="reference internal" href="pipeline.html#multiflowspipeline"><span class="std std-ref">MultiFlowsPipeline</span></a>. Finally, with the <a class="reference internal" href="rater.html#rater"><span class="std std-ref">Rater</span></a> you can easily evaluate the performance of your LLMs.</p>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
@@ -267,66 +266,17 @@ uniflow helps you quickly prepare LLM finetuning data, from your private and uns
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Features</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="extract.html">Extract</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="extract_client.html">Extract Client</a></li>
-<li class="toctree-l2"><a class="reference internal" href="extract_config.html">Extract Config</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="extract_config.html#pre-defined-configurations">Pre-defined Configurations</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="transform.html">Transform</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="transform.html#full-code-example">Full Code example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="transform.html#summary">Summary</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="transform_client.html">TransformClient</a></li>
-<li class="toctree-l3"><a class="reference internal" href="transform_config.html">TransformConfig</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="transform_config.html#pre-defined-configurations">Pre-defined Configurations</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="transform_model_config.html">ModelConfig</a></li>
-<li class="toctree-l3"><a class="reference internal" href="transform_prompt_template.html">PromptTemplate</a></li>
-<li class="toctree-l3"><a class="reference internal" href="transform_context.html">Context</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="autorater.html">AutoRater</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pipeline.html">Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="context.html">Context</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extract.html">ExtractFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transform.html">TransformFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">MultiFlowsPipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rater.html">Rater</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Code</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">uniflow</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="uniflow.html">uniflow package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="uniflow.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="uniflow.flow.html">uniflow.flow package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="uniflow.op.html">uniflow.op package</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="uniflow.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="uniflow.html#module-uniflow.constants">uniflow.constants module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="uniflow.html#module-uniflow.node">uniflow.node module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="uniflow.html#uniflow.node.Node"><code class="docutils literal notranslate"><span class="pre">Node</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="uniflow.html#module-uniflow.pipeline">uniflow.pipeline module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="uniflow.html#uniflow.pipeline.MultiFlowsPipeline"><code class="docutils literal notranslate"><span class="pre">MultiFlowsPipeline</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="uniflow.html#module-uniflow.viz">uniflow.viz module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="uniflow.html#uniflow.viz.Viz"><code class="docutils literal notranslate"><span class="pre">Viz</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="uniflow.html#module-uniflow">Module contents</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="uniflow.html#uniflow.Context"><code class="docutils literal notranslate"><span class="pre">Context</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="uniflow.html#uniflow.PromptTemplate"><code class="docutils literal notranslate"><span class="pre">PromptTemplate</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">uniflow</a></li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
@@ -411,7 +361,7 @@ uniflow helps you quickly prepare LLM finetuning data, from your private and uns
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=c7cdf6fe"></script>
+</div><script src="_static/documentation_options.js?v=63b572e7"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=32e29ea5"></script>
