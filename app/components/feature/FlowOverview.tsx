@@ -1,7 +1,8 @@
 'use client';
+
 import { useState } from "react";
-import DemoTab from "../DemoTab";
 import Image from "next/image";
+import DemoTab from "../DemoTab";
 import { imgPrefix } from "@/app/hooks/useImgPrefix";
 import CodeBlock from "../CodeBlock";
 
@@ -14,9 +15,8 @@ const STATE = {
 const FlowOverview = () => {
     const [tab, setTab] = useState(0);
 
-    const handleClick = (e: any, index: number) => {
+    const handleClick = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
         e.preventDefault();
-        console.log('click', index)
         setTab(index);
     }
 

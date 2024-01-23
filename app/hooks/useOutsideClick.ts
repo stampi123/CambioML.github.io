@@ -15,7 +15,7 @@ export const useOutsideClick = (callback: () => void, excludeRef?: React.RefObje
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [callback]);
+  }, [callback, excludeRef]);
 
   return ref;
 };

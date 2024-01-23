@@ -7,22 +7,22 @@ export const useTypingEffect = (words: string[],
     const [text, setText] = useState('');
     const [isDeleting, setIsDeleting] = useState(false);
 
-    function type() {
-        const currentWord = words[wordIndex];
-        const shouldDelete = isDeleting ? 1 : -1;
-        setText(current => currentWord.substring(0, current.length - shouldDelete));
-        if (!isDeleting && text === currentWord) {
-          setTimeout(() => setIsDeleting(true), 100);
-        } else if (isDeleting && text === '') {
-          setIsDeleting(false);
-          setWordIndex((current) => (current + 1) % words.length);
-        }
-      }
 
-      useEffect(() => {
+    useEffect(() => {
+        function type() {
+            const currentWord = words[wordIndex];
+            const shouldDelete = isDeleting ? 1 : -1;
+            setText(current => currentWord.substring(0, current.length - shouldDelete));
+            if (!isDeleting && text === currentWord) {
+              setTimeout(() => setIsDeleting(true), 100);
+            } else if (isDeleting && text === '') {
+              setIsDeleting(false);
+              setWordIndex((current) => (current + 1) % words.length);
+            }
+          }
         const timer = setTimeout(type, isDeleting ? deleteInterval : typeInterval);
         return () => clearTimeout(timer);
-      }, [wordIndex, isDeleting, text]);
+      }, [wordIndex, isDeleting, text, deleteInterval, typeInterval, words]);
 
       return text;
 };

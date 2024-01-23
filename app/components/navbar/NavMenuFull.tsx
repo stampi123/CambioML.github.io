@@ -3,7 +3,6 @@
 // import { AiOutlineMenu } from 'react-icons/ai';
 import { List, X } from '@phosphor-icons/react'
 import { useCallback, useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 interface NavMenuProps {
     menuItems: {
@@ -15,7 +14,6 @@ interface NavMenuProps {
 
 const NavMenu: React.FC<NavMenuProps> = ({ menuItems, makeOnClick }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const router = useRouter();
 
     const toggleOpen = useCallback(() => {
         setIsOpen((value) => !value);
@@ -68,7 +66,7 @@ const NavMenu: React.FC<NavMenuProps> = ({ menuItems, makeOnClick }) => {
                 "
                 >
                     <div className="w-full flex flex-col justify-center">
-                        {menuItems.map((item, i) => (
+                        {menuItems.map((item) => (
                             <>
                                 <div className="w-full h-max flex justify-center text-4xl py-5 font-semibold">
                                     {item.label}

@@ -1,14 +1,13 @@
 'use client';
+
 import PageHero from "@/app/components/hero/PageHero";
 import Container from "../../components/Container";
 import Section from "@/app/components/Section";
 import { Tabs, Tab } from "@/app/components/Tabs";
 import CodeBlock from "@/app/components/CodeBlock";
 import DemoTab from "@/app/components/DemoTab";
-import { useRouter } from "next/navigation";
 
 const PykoiPage = () => {
-    const router = useRouter();
     return (
         <>
             <PageHero title="🎏 pykoi" description="Let AI Finetune your Private LLMs" button={{

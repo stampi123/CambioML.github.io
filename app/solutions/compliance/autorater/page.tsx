@@ -2,19 +2,8 @@
 
 import PageHero from "@/app/components/hero/PageHero";
 import Section from "@/app/components/Section";
-import { useRouter } from "next/navigation";
-
-const Solutions = [
-    {
-        title: "AutoRater Use Case 1",
-        description: "Use uniflow for AutoRater.",
-        url: "https://www.cambioml.com",
-        image: ""
-    },
-]
 
 const AutoRaterSolutionsPage = () => {
-    const router = useRouter();
     return (
         <div className="pb-10 w-full h-full">
             <PageHero title="AutoRater" description="Get Auto Compliant with LLMs" />
