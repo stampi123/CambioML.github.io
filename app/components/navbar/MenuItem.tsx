@@ -5,12 +5,10 @@ interface MenuItemProps {
   label: string;
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({
-  onClick,
-  label
-}) => {
+const MenuItem = ({ onClick, label }: MenuItemProps) => {
   return (
-    <div className="
+    <div
+      className="
       px-4
       py-3
       hover:bg-neutral-100
@@ -18,11 +16,11 @@ const MenuItem: React.FC<MenuItemProps> = ({
       font-semibold
       text-md
     "
-    onClick={onClick}
+      onClick={onClick}
     >
       {label}
     </div>
-  )
+  );
 };
 
 export default MenuItem;

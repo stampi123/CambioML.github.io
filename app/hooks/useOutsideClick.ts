@@ -5,7 +5,12 @@ export const useOutsideClick = (callback: () => void, excludeRef?: React.RefObje
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if ((ref.current && !ref.current.contains(event.target as Node)) && (excludeRef?.current && !excludeRef.current.contains(event.target as Node))) {
+      if (
+        ref.current &&
+        !ref.current.contains(event.target as Node) &&
+        excludeRef?.current &&
+        !excludeRef.current.contains(event.target as Node)
+      ) {
         callback();
       }
     };
