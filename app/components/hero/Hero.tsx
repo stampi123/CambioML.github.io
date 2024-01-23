@@ -4,6 +4,7 @@ import Container from "../Container";
 import Image from 'next/image';
 import { useTypingEffect } from "@/app/hooks/useTypingEffect";
 import { imgPrefix } from "@/app/hooks/useImgPrefix";
+import { useEffect, useState } from "react";
 
 interface HeroProps {
     title: string;
