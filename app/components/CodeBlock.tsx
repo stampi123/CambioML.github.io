@@ -9,7 +9,7 @@ interface CodeBlockProps {
   code: string;
 }
 
-const CodeBlock: React.FC<CodeBlockProps> = ({ language, code }) => {
+const CodeBlock = ({ language, code }: CodeBlockProps) => {
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopyClick = () => {
@@ -26,7 +26,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, code }) => {
       >
         {isCopied ? 'Copied!' : 'Copy'}
       </button>
-      <div className="rounded-lg overflow-x-scroll w-full p-5 bg-[#f8f8ff]" >
+      <div className="rounded-lg overflow-x-scroll w-full p-5 bg-[#f8f8ff]">
         <SyntaxHighlighter language={language} style={docco} showLineNumbers>
           {code}
         </SyntaxHighlighter>

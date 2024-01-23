@@ -1,5 +1,6 @@
 'use client';
-import { Icon } from "@phosphor-icons/react";
+
+import { Icon } from '@phosphor-icons/react';
 
 interface ButtonProps {
   label: string;
@@ -10,14 +11,7 @@ interface ButtonProps {
   labelIcon?: Icon;
 }
 
-const Button: React.FC<ButtonProps> = ({
-  label,
-  onClick,
-  disabled,
-  outline,
-  small,
-  labelIcon: LabelIcon
-}) => {
+const Button = ({ label, onClick, disabled, outline, small, labelIcon: LabelIcon }: ButtonProps) => {
   return (
     <button
       onClick={onClick}
@@ -50,14 +44,17 @@ const Button: React.FC<ButtonProps> = ({
         />
       )} */}
       <div className="flex items-center justify-center">
-        <span>{label} </span>{LabelIcon && <LabelIcon
-          size={24}
-          className="
+        <span>{label} </span>
+        {LabelIcon && (
+          <LabelIcon
+            size={24}
+            className="
           "
-        />}
+          />
+        )}
       </div>
     </button>
-  )
+  );
 };
 
 export default Button;

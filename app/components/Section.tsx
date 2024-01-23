@@ -1,7 +1,6 @@
 'use client';
 
-import React from "react";
-import Heading from "./Heading";
+import Heading from './Heading';
 
 interface SectionProps {
   title: string;
@@ -9,11 +8,7 @@ interface SectionProps {
   center?: boolean;
 }
 
-const Section: React.FC<SectionProps> = ({
-  title,
-  paragraphs,
-  center
-}) => {
+const Section = ({ title, paragraphs, center }: SectionProps) => {
   return (
     <div className={`max-w-[850px] pt-10 ${center ? 'text-center' : 'text-start'}`}>
       <Heading title={title} center={center} />
@@ -25,7 +20,7 @@ const Section: React.FC<SectionProps> = ({
         ))}
       </div>
     </div>
-  )
+  );
 };
 
 export default Section;

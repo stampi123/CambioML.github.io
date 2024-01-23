@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useCallback, useEffect, useState } from "react";
-import { X } from "@phosphor-icons/react";
-import Button from "../Button";
+import React, { useCallback, useEffect, useState } from 'react';
+import { X } from '@phosphor-icons/react';
+import Button from '../Button';
 
 interface ModalProps {
   isOpen?: boolean;
@@ -27,7 +27,7 @@ const Modal: React.FC<ModalProps> = ({
   actionLabel,
   disabled,
   secondaryAction,
-  secondaryActionLabel
+  secondaryActionLabel,
 }) => {
   const [showModal, setShowModal] = useState(isOpen);
 
@@ -56,7 +56,6 @@ const Modal: React.FC<ModalProps> = ({
   if (!isOpen) {
     return null;
   }
-
 
   return (
     <>
@@ -141,14 +140,10 @@ const Modal: React.FC<ModalProps> = ({
                 >
                   <X size={18} />
                 </button>
-                <div className="text-lg font-semibold">
-                  {title}
-                </div>
+                <div className="text-lg font-semibold">{title}</div>
               </div>
               {/*BODY*/}
-              <div className="relative p-6 flex-auto">
-                {body}
-              </div>
+              <div className="relative p-6 flex-auto">{body}</div>
               {/* FOOTER */}
               <div className="flex flex-col gap-2 p-6">
                 <div
@@ -161,18 +156,9 @@ const Modal: React.FC<ModalProps> = ({
                 "
                 >
                   {secondaryAction && secondaryActionLabel && (
-                    <Button
-                      outline
-                      disabled={disabled}
-                      label={secondaryActionLabel}
-                      onClick={handleSecondaryAction}
-                    />
+                    <Button outline disabled={disabled} label={secondaryActionLabel} onClick={handleSecondaryAction} />
                   )}
-                  <Button
-                    disabled={disabled}
-                    label={actionLabel}
-                    onClick={handleSubmit}
-                  />
+                  <Button disabled={disabled} label={actionLabel} onClick={handleSubmit} />
                 </div>
                 {footer}
               </div>
@@ -181,7 +167,7 @@ const Modal: React.FC<ModalProps> = ({
         </div>
       </div>
     </>
-  )
+  );
 };
 
 export default Modal;

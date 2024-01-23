@@ -8,7 +8,7 @@ interface LogoProps {
   small?: boolean;
 }
 
-const Logo: React.FC<LogoProps> = ({small}) => {
+const Logo = ({ small }: LogoProps) => {
   const router = useRouter();
 
   return (
@@ -20,6 +20,6 @@ const Logo: React.FC<LogoProps> = ({small}) => {
       src={imgPrefix + '/images/logo.png'}
       onClick={() => router.push('/')}
     />
-  )
-}
+  );
+};
 export default Logo;
