@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState, useEffect, useRef } from 'react';
+import { useCallback, useState, useRef } from 'react';
 import MenuItem from './MenuItem';
 import { useRouter } from 'next/navigation';
 import { useOutsideClick } from '../../hooks/useOutsideClick';

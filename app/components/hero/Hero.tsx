@@ -7,8 +7,8 @@ import { imgPrefix } from "@/app/hooks/useImgPrefix";
 
 interface HeroProps {
     title: string;
+    descriptions: string[];
     subtitle?: string;
-    descriptions?: string[];
     center?: boolean;
     image?: string;
 }
@@ -31,13 +31,10 @@ const Hero: React.FC<HeroProps> = ({ title, subtitle, descriptions, center, imag
                 }
                 <div className={`flex flex-col justify-center ${center && 'items-center'} h-full w-full`}>
                     <div className="max-w-[540px]">
-                        {
-                            descriptions &&
-                            <p className={`mt-3 text-2xl text-gray-500 pb-5 ${center && 'text-center'}`}>
-                                {useTypingEffect(descriptions, 100, 75)}
-                                <span className="text-cambio-red">|</span>
-                            </p>
-                        }
+                        <p className={`mt-3 text-2xl text-gray-500 pb-5 ${center && 'text-center'}`}>
+                            {useTypingEffect(descriptions, 100, 75)}
+                            <span className="text-cambio-red">|</span>
+                        </p>
                         <h1 className={`text-6xl font-bold text-gray-900 pb-20 ${center && 'text-center'}`}>{title}</h1>
                         {
                             subtitle &&

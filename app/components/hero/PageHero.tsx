@@ -1,6 +1,5 @@
 'use client';
 
-import { link } from "fs";
 import Button from "../Button";
 import Container from "../Container";
 import Image from 'next/image';

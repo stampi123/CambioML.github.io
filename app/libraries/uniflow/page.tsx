@@ -1,11 +1,10 @@
 'use client';
+
 import PageHero from "@/app/components/hero/PageHero";
 import Container from "../../components/Container";
 import Section from "@/app/components/Section";
-import { useRouter } from "next/navigation";
 
 const UniflowPage = () => {
-    const router = useRouter();
     return (
         <>
             <PageHero title="🌊 uniflow" description="Flow your unstructured data to your private LLMs" button={{
