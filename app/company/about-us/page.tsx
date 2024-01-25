@@ -57,12 +57,36 @@ const AboutPage = () => {
               title="CEO"
               image="/images/team/rachel.png"
               url="https://www.linkedin.com/in/rachelsonghu/"
+              logos={[
+                {
+                  image: '/images/companies/aws-logo.png',
+                  alt: 'AWS',
+                  url: 'https://aws.amazon.com/',
+                },
+                {
+                  image: '/images/team/berkeley.png',
+                  alt: 'University of California, Berkeley',
+                  url: 'https://www.berkeley.edu//',
+                },
+              ]}
             />
             <TeamMember
               name="Jojo Ortiz"
               title="Founding Engineer"
               image="/images/team/jojo.png"
               url="https://www.linkedin.com/in/joseromanortiz/"
+              logos={[
+                {
+                  image: '/images/team/tesla.png',
+                  alt: 'Tesla',
+                  url: 'https://www.tesla.com/',
+                },
+                {
+                  image: '/images/team/stanford.png',
+                  alt: 'Stanford University',
+                  url: 'https://www.stanford.edu/',
+                },
+              ]}
             />
           </div>
         </div>

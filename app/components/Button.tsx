@@ -28,8 +28,8 @@ const Button = ({ label, onClick, disabled, outline, small, labelIcon: LabelIcon
         ${outline ? 'bg-inherit' : 'bg-cambio-blue'}
         ${outline ? 'border-cambio-blue' : 'border-neutral-800'}
         ${outline ? 'text-black' : 'text-neutral-800'}
-        ${small ? 'py-1' : 'py-3'}
-        ${small ? 'text-sm' : 'text-md'}
+        ${small ? 'py-3' : 'py-4'}
+        ${small ? 'text-md' : 'text-lg'}
         ${small ? 'border-[1px]' : 'border-2'}
       `}
     >
