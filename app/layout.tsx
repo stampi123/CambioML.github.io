@@ -2,7 +2,8 @@ import { Lato } from 'next/font/google';
 import './globals.css';
 import Navbar from './components/navbar/Navbar';
 import Footer from './components/footer/Footer';
-import NotifyModal from './components/modals/DemoModal';
+import DemoModal from './components/modals/DemoModal';
+import ImageModal from './components/modals/ImageModal';
 import ToasterProvider from './providers/ToasterProvider';
 
 export const metadata = {
@@ -22,7 +23,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={font.className}>
         <ToasterProvider />
         <Navbar />
-        <NotifyModal />
+        <DemoModal />
+        <ImageModal />
         <div className="pb-500 pt-[75px] min-h-screen min-w-[650px]">
           {children}
           <Footer />

@@ -24,7 +24,7 @@ const DemoTab = ({ code, demo, title, image, imageTitle, alt }: DemoTabProps) =>
         <div className="py-5 lg:h-[400px] w-full flex flex-col items-center justify-between">
           <div className="font-semibold text-3xl pb-10">{title}</div>
           {code && <CodeBlock code={code} language="python" />}
-          {demo && <FeatureImage image={demo} alt={alt} height="h-[400px]" />}
+          {demo && <FeatureImage image={demo} alt={alt} height="h-[400px]" enableModal />}
         </div>
       </div>
       <div className="flex w-full items-center justify-center col-span-1 lg:col-span-2">
