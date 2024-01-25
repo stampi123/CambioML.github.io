@@ -121,6 +121,7 @@ const AboutPage = () => {
             onClick={() => {
               router.push('/docs');
             }}
+            small
           />
           <Button
             label="Read the documentation"
@@ -128,6 +129,7 @@ const AboutPage = () => {
               router.push('/docs');
             }}
             outline
+            small
           />
         </div>
       </Container>
