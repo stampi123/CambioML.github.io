@@ -2,7 +2,7 @@ import { Lato } from 'next/font/google';
 import './globals.css';
 import Navbar from './components/navbar/Navbar';
 import Footer from './components/footer/Footer';
-import NotifyModal from './components/modals/NotifyModal';
+import NotifyModal from './components/modals/DemoModal';
 import ToasterProvider from './providers/ToasterProvider';
 
 export const metadata = {

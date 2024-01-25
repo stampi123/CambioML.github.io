@@ -2,15 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import useNotifyModal from '@/app/hooks/useNotifyModal';
+import useDemoModal from '@/app/hooks/useDemoModal';
 import Modal from './Modal';
 import Heading from '../Heading';
 import Input from '../inputs/Input';
 import { toast } from 'react-hot-toast';
 import emailjs from '@emailjs/browser';
 
-const NotifyModal = () => {
-  const notifyModal = useNotifyModal();
+const DemoModal = () => {
+  const DemoModal = useDemoModal();
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || '');
@@ -43,7 +43,7 @@ const NotifyModal = () => {
       setIsLoading(true);
       await emailjs.send(serviceId, templateId, templateParams);
       toast.success('Sent!');
-      notifyModal.onClose();
+      DemoModal.onClose();
     } catch (error) {
       toast.error('Contact failed. Please try again.');
     } finally {
@@ -53,7 +53,7 @@ const NotifyModal = () => {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading title="Contact Us" subtitle="Get notified when we launch!" center />
+      <Heading title="Book a Demo" subtitle="" center />
       <Input id="name" label="Name" disabled={isLoading} register={register} errors={errors} required />
       <Input id="email" label="Email" disabled={isLoading} register={register} errors={errors} required />
       <Input id="message" label="Message" disabled={isLoading} register={register} errors={errors} type="textarea" />
@@ -63,14 +63,14 @@ const NotifyModal = () => {
   return (
     <Modal
       disabled={isLoading}
-      isOpen={notifyModal.isOpen}
+      isOpen={DemoModal.isOpen}
       title=""
       actionLabel="Submit"
-      onClose={notifyModal.onClose}
+      onClose={DemoModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
     />
   );
 };
 
-export default NotifyModal;
+export default DemoModal;

@@ -6,12 +6,13 @@ interface FeatureImageProps {
   alt: string;
   height?: string;
   shadow?: boolean;
+  border?: boolean;
 }
 
-const FeatureImage = ({ image, alt, height, shadow }: FeatureImageProps) => {
+const FeatureImage = ({ image, alt, height, shadow, border }: FeatureImageProps) => {
   return (
     <div
-      className={`border-solid border-2 border-neutral-100 ${shadow && 'shadow-lg'} rounded-xl w-full ${height || 'h-[600px]'} relative`}
+      className={`${border && 'border-solid border-2 border-neutral-100'} ${shadow && 'shadow-lg'} rounded-xl w-full ${height || 'h-[600px]'} relative`}
     >
       <Image src={imgPrefix + image} fill style={{ objectFit: 'contain' }} alt={alt} />
     </div>

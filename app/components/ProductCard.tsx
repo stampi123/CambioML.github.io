@@ -3,20 +3,17 @@
 import Heading from './Heading';
 import Button from './Button';
 import { CaretRight } from '@phosphor-icons/react';
-import useNotifyModal from '../hooks/useNotifyModal';
-import { useRouter } from 'next/navigation';
+import useDemoModal from '../hooks/useDemoModal';
 
 interface ProductCardProps {
   title: string;
   subtitle?: string;
   children: React.ReactNode;
-  notify?: boolean;
   outline?: boolean;
 }
 
-const ProductCard = ({ title, subtitle, notify, outline, children }: ProductCardProps) => {
-  const router = useRouter();
-  const notifyModal = useNotifyModal();
+const ProductCard = ({ title, subtitle, outline, children }: ProductCardProps) => {
+  const demoModal = useDemoModal();
   return (
     <div className="flex flex-col items-center justify-center w-full">
       <div
@@ -31,25 +28,15 @@ const ProductCard = ({ title, subtitle, notify, outline, children }: ProductCard
           </div>
         </div>
         <div className="w-full">
-          {notify ? (
-            <Button
-              label="Notify Me"
-              onClick={() => {
-                notifyModal.onOpen();
-              }}
-              outline={outline}
-              labelIcon={CaretRight}
-            />
-          ) : (
-            <Button
-              label="Get started"
-              onClick={() => {
-                router.push('/signup');
-              }}
-              outline={outline}
-              labelIcon={CaretRight}
-            />
-          )}
+          <Button
+            label="Book a Demo"
+            onClick={() => {
+              demoModal.onOpen();
+            }}
+            outline={outline}
+            labelIcon={CaretRight}
+            small
+          />
         </div>
       </div>
     </div>

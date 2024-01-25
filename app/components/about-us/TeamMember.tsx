@@ -7,9 +7,14 @@ interface TeamMemberProps {
   title: string;
   bio?: string;
   url: string;
+  logos: {
+    image: string;
+    alt: string;
+    url: string;
+  }[];
 }
 
-const TeamMember = ({ image, name, title, bio, url }: TeamMemberProps) => {
+const TeamMember = ({ image, name, title, bio, url, logos }: TeamMemberProps) => {
   return (
     <div className="col-span-1 h-[150px] w-full flex items-center justify-center">
       <div className="h-full grid gap-10 grid-cols-[150px_200px]">
@@ -29,6 +34,21 @@ const TeamMember = ({ image, name, title, bio, url }: TeamMemberProps) => {
         <div className="flex flex-col justify-center">
           <h2 className="text-2xl font-semibold">{name}</h2>
           <h2 className="text-lg text-neutral-500">{title}</h2>
+          <div className="py-5 flex gap-5 max-w-800 align-items justify-items h-[100px] w-max">
+            {logos.map((logo, i) => (
+              <a target="_blank" href={logo.url} rel="noopener noreferrer" key={logo.url + i}>
+                <div className={`flex items-center justify-center h-full w-max`}>
+                  <div className="h-[30px] w-auto">
+                    <img
+                      src={imgPrefix + logo.image}
+                      alt={logo.alt}
+                      className={`cursor-pointer max-h-full max-w-full`}
+                    />
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
           {bio && <p>{bio}</p>}
         </div>
       </div>
