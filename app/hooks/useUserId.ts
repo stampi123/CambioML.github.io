@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const COOKIE_NAME = 'playgroundUserId';
 const COOKIE_HOURS = 24;
+const EXPIRES = true; // Set to false to use session cookies
 
 const useUserId = (): string => {
   const [userId, setUserId] = useState<string | null>(null);
@@ -23,10 +24,15 @@ const useUserId = (): string => {
 };
 
 const setCookie = (name: string, value: string): void => {
-  const expirationDate = new Date();
-  expirationDate.setTime(expirationDate.getTime() + COOKIE_HOURS * 60 * 60 * 1000);
-  const cookieValue = `${name}=${encodeURIComponent(value)}; expires=${expirationDate.toUTCString()}; path=/`;
-  document.cookie = cookieValue;
+  if (EXPIRES) {
+    const expirationDate = new Date();
+    expirationDate.setTime(expirationDate.getTime() + COOKIE_HOURS * 60 * 60 * 1000);
+    const cookieValue = `${name}=${encodeURIComponent(value)}; expires=${expirationDate.toUTCString()}; path=/`;
+    document.cookie = cookieValue;
+  } else {
+    const cookieValue = `${name}=${encodeURIComponent(value)}; path=/`;
+    document.cookie = cookieValue;
+  }
 };
 
 const getCookie = (name: string): string | null => {
