@@ -9,19 +9,19 @@ const DocsPage = () => {
     <>
       <PageHero title="📑 Documentation" />
       <Container styles="h-max min-h-[50vh] py-20 max-w-[850px]">
-        <div className="py-10">
+        <div className="py-10 flex flex-col gap-10 items-center justify-center">
           <Heading title="🎏 Pykoi" subtitle="Get started with pykoi" center />
-          <div className="pt-5">
+          <div className="pt-5 w-[300px]">
             <a href="/docs/pykoi/index.html" target="_blank">
-              <Button label="Read the Docs" />
+              <Button label="Read the Docs" small />
             </a>
           </div>
         </div>
-        <div className="py-10">
+        <div className="py-10 flex flex-col gap-10 items-center justify-center">
           <Heading title="🌊 Uniflow" subtitle="Get started with uniflow" center />
-          <div className="pt-5">
+          <div className="pt-5 w-[300px]">
             <a href="/docs/uniflow/index.html" target="_blank">
-              <Button label="Read the Docs" />
+              <Button label="Read the Docs" small />
             </a>
           </div>
         </div>
