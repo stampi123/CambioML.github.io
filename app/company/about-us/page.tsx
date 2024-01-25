@@ -44,7 +44,7 @@ const AboutPage = () => {
           <Section
             title="Who we are"
             paragraphs={[
-              'cambioML is a team of former scientists from AWS AI building SaaS solutions enable Fortune 500 companies to build self-owned AI agents based on their massive, multi-modal and confidential data. We’re building what we wish we had when developing foundation models at Amazon.',
+              `CambioML is a team of former ML scientists and engineers at AWS and Tesla, driven by a shared passion for leveraging AI to fast-track R&D across various industries. Our team's blend of machine learning acumen and sector-specific insights enables us to create technology that's not only state-of-the-art, but also deeply attuned to our customers' needs.`,
             ]}
             center
           />
@@ -85,6 +85,7 @@ const AboutPage = () => {
                   image: '/images/team/stanford.png',
                   alt: 'Stanford University',
                   url: 'https://www.stanford.edu/',
+                  height: 'h-[45px]',
                 },
               ]}
             />
@@ -94,7 +95,7 @@ const AboutPage = () => {
           <Section
             title="What we offer"
             paragraphs={[
-              'We offer a suite of products that enable you to build your own AI agents based on your massive, multi-modal and confidential data. Our products are built on top of our open-source libraries, uniflow and pykoi.',
+              'CambioML offers LLM-based data enrichment tools that precisely extract unstructured data from mixed formats such as PDFs, HTMLs and images. With CambioML, ML scientists and R&D engineers can extract accurate information without spending 80% of their time on data cleaning or worrying about the information loss. Users can ask complex research questions and identify semantic trends across multiple data sources, and understand the LLM outputs via in-depth interpretation, thereby accelerating R&D processes.',
             ]}
             center
           />
@@ -121,6 +122,7 @@ const AboutPage = () => {
             onClick={() => {
               router.push('/docs');
             }}
+            small
           />
           <Button
             label="Read the documentation"
@@ -128,6 +130,7 @@ const AboutPage = () => {
               router.push('/docs');
             }}
             outline
+            small
           />
         </div>
       </Container>

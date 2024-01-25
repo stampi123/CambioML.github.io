@@ -28,7 +28,7 @@ const DemoTab = ({ code, demo, title, image, imageTitle, alt }: DemoTabProps) =>
         </div>
       </div>
       <div className="flex w-full items-center justify-center col-span-1 lg:col-span-2">
-        <div className="w-[200px]">
+        <div className="w-[250px]">
           <Button
             label="Book a Demo"
             onClick={() => {

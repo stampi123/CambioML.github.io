@@ -11,6 +11,7 @@ interface TeamMemberProps {
     image: string;
     alt: string;
     url: string;
+    height?: string;
   }[];
 }
 
@@ -34,11 +35,11 @@ const TeamMember = ({ image, name, title, bio, url, logos }: TeamMemberProps) =>
         <div className="flex flex-col justify-center">
           <h2 className="text-2xl font-semibold">{name}</h2>
           <h2 className="text-lg text-neutral-500">{title}</h2>
-          <div className="py-5 flex gap-5 max-w-800 align-items justify-items h-[100px] w-max">
+          <div className="py-5 flex gap-[20px] max-w-800 align-items justify-items h-[100px] w-max">
             {logos.map((logo, i) => (
               <a target="_blank" href={logo.url} rel="noopener noreferrer" key={logo.url + i}>
                 <div className={`flex items-center justify-center h-full w-max`}>
-                  <div className="h-[30px] w-auto">
+                  <div className={`${logo.height || 'h-[30px]'} w-auto`}>
                     <img
                       src={imgPrefix + logo.image}
                       alt={logo.alt}

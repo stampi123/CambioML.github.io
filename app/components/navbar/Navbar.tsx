@@ -9,11 +9,7 @@ import { useRouter } from 'next/navigation';
 const menuItems = [
   {
     label: 'Solutions',
-    links: [
-      'Finance',
-      'Manufacturing',
-      // 'Compliance',
-    ],
+    links: ['Finance', 'Research & Development'],
   },
   {
     label: 'Company',

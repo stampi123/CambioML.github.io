@@ -46,7 +46,7 @@ const Hero = ({ title, subtitle, descriptions, center, image }: HeroProps) => {
               </div>
             )}
           </div>
-          <div className="w-[200px] h-[175px] flex flex-col-reverse z-10">
+          <div className="w-[300px] h-[175px] flex flex-col-reverse z-10">
             <Button
               label="Book a Demo"
               onClick={() => {
