@@ -58,8 +58,8 @@ const Footer = () => {
               url: '/solutions/finance',
             },
             {
-              title: 'Manufacturing',
-              url: '/solutions/manufacturing',
+              title: 'Research & Development',
+              url: '/solutions/research-&-development',
             },
           ]}
         />
