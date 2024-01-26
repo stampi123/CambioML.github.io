@@ -3,14 +3,14 @@
 import { useState } from 'react';
 import UseCaseTab from './UseCaseTab';
 
-const STATE = {
-  ML: 0,
-  RD: 1,
-  PORTFOLIO: 2,
-};
+enum TAB {
+  ML,
+  RD,
+  PORTFOLIO,
+}
 
 const UseCaseOverview = () => {
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState(TAB.ML);
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
     e.preventDefault();
@@ -24,26 +24,26 @@ const UseCaseOverview = () => {
     <div className="flex flex-col items-center align-center w-full">
       <div className="h-[100px] w-full flex justify-between py-5">
         <div
-          className={`cursor-pointer text-2xl p-3 rounded-lg ${tab === STATE.ML ? selectedStyles : unselectedStyles}`}
-          onClick={(e) => handleClick(e, STATE.ML)}
+          className={`cursor-pointer text-2xl p-3 rounded-lg ${tab === TAB.ML ? selectedStyles : unselectedStyles}`}
+          onClick={(e) => handleClick(e, TAB.ML)}
         >
           ML Scientists
         </div>
         <div
-          className={`cursor-pointer text-2xl p-3 rounded-lg ${tab === STATE.RD ? selectedStyles : unselectedStyles}`}
-          onClick={(e) => handleClick(e, STATE.RD)}
+          className={`cursor-pointer text-2xl p-3 rounded-lg ${tab === TAB.RD ? selectedStyles : unselectedStyles}`}
+          onClick={(e) => handleClick(e, TAB.RD)}
         >
           R&D Engineers
         </div>
         <div
-          className={`cursor-pointer text-2xl p-3 rounded-lg ${tab === STATE.PORTFOLIO ? selectedStyles : unselectedStyles}`}
-          onClick={(e) => handleClick(e, STATE.PORTFOLIO)}
+          className={`cursor-pointer text-2xl p-3 rounded-lg ${tab === TAB.PORTFOLIO ? selectedStyles : unselectedStyles}`}
+          onClick={(e) => handleClick(e, TAB.PORTFOLIO)}
         >
           Portfolio Managers
         </div>
       </div>
       <div className="lg:h-[800px] py-5 rounded-lg">
-        {tab === STATE.ML && (
+        {tab === TAB.ML && (
           <UseCaseTab
             code={`from uniflow import ExtractPDFClient
 
@@ -56,7 +56,7 @@ output = client.run(data)`}
             alt="RD rag chatbot demo"
           />
         )}
-        {tab === STATE.RD && (
+        {tab === TAB.RD && (
           <UseCaseTab
             code={`from uniflow import TransformQAGeneration
 
@@ -69,7 +69,7 @@ output = client.run(data)`}
             alt="RD rag chatbot demo"
           />
         )}
-        {tab === STATE.PORTFOLIO && (
+        {tab === TAB.PORTFOLIO && (
           <UseCaseTab
             title="Financial analysis for your own investment style"
             image="/images/graphics/cambio-flow-portfolio.png"
