@@ -5,4 +5,5 @@ const nextConfig = {
   images: { unoptimized: true },
 };
 
-module.exports = nextConfig;
+//prettier-ignore
+module.exports = nextConfig
