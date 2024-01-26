@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { X } from '@phosphor-icons/react';
 import Button from '../Button';
+import { useOutsideClickModal } from '@/app/hooks/useOutsideClickModal';
 
 interface ModalProps {
   isOpen?: boolean;
@@ -30,6 +31,9 @@ const Modal: React.FC<ModalProps> = ({
   secondaryActionLabel,
 }) => {
   const [showModal, setShowModal] = useState(isOpen);
+  const thisRef = useOutsideClickModal(() => {
+    handleClose();
+  });
 
   useEffect(() => {
     setShowModal(isOpen);
@@ -115,6 +119,7 @@ const Modal: React.FC<ModalProps> = ({
               outline-none
               focus:outline-none
             "
+              ref={thisRef}
             >
               <div
                 className="
@@ -135,10 +140,12 @@ const Modal: React.FC<ModalProps> = ({
                   hover:opacity-70
                   transition
                   absolute
-                  right-9
+                  right-7
+                  hover:bg-neutral-200
+                  rounded-full
                 "
                 >
-                  <X size={18} />
+                  <X size={24} />
                 </button>
                 <div className="text-lg font-semibold">{title}</div>
               </div>

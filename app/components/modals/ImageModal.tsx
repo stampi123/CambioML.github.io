@@ -3,9 +3,13 @@
 import useImageModal from '@/app/hooks/useImageModal';
 import { X } from '@phosphor-icons/react';
 import { useEffect, useState } from 'react';
+import { useOutsideClickModal } from '@/app/hooks/useOutsideClickModal';
 
 const ImageModal = () => {
   const imageModal = useImageModal();
+  const thisRef = useOutsideClickModal(() => {
+    handleClose();
+  });
 
   const [showModal, setShowModal] = useState(imageModal.isOpen);
 
@@ -14,6 +18,7 @@ const ImageModal = () => {
   }, [imageModal.isOpen]);
 
   const handleClose = () => {
+    setShowModal(false);
     setTimeout(() => {
       imageModal.onClose();
     }, 300);
@@ -24,9 +29,8 @@ const ImageModal = () => {
   }
 
   return (
-    <>
-      <div
-        className="
+    <div
+      className="
         justify-center
         items-center
         flex
@@ -39,9 +43,9 @@ const ImageModal = () => {
         focus:outline-none
         bg-neutral-800/70
       "
-      >
-        <div
-          className="
+    >
+      <div
+        className="
           relative
           w-full
           md:w-4/5
@@ -52,9 +56,9 @@ const ImageModal = () => {
           lg:h-auto
           md:h-auto
         "
-        >
-          <div
-            className={`
+      >
+        <div
+          className={`
           translate
           duration-300
           h-full
@@ -62,9 +66,9 @@ const ImageModal = () => {
           ${showModal ? 'translate-y-0' : 'translate-y-full'}
           ${showModal ? 'opacity-100' : 'opacity-0'}
           `}
-          >
-            <div
-              className="
+        >
+          <div
+            className="
               translate
               h-full
               md:h-auto
@@ -79,9 +83,10 @@ const ImageModal = () => {
               outline-none
               focus:outline-none
             "
-            >
-              <div
-                className="
+            ref={thisRef}
+          >
+            <div
+              className="
                 flex
                 items-center
                 p-6
@@ -90,29 +95,30 @@ const ImageModal = () => {
                 relative
                 border-b-[1px]
               "
-              >
-                <button
-                  onClick={handleClose}
-                  className="
+            >
+              <button
+                onClick={handleClose}
+                className="
                   p-1
                   border=0
                   hover:opacity-70
                   transition
                   absolute
-                  right-9
+                  right-7
+                  hover:bg-neutral-200
+                  rounded-full
                 "
-                >
-                  <X size={18} />
-                </button>
-              </div>
-              <div className="flex items-center justify-center h-auto lg:h-[600px] xl:h-[800px] w-auto">
-                <img src={imageModal.image} alt="modal" className="h-auto lg:h-auto w-auto lg:w-full" />
-              </div>
+              >
+                <X size={24} />
+              </button>
+            </div>
+            <div className="flex items-center justify-center h-auto lg:h-[600px] xl:h-[800px] w-auto">
+              <img src={imageModal.image} alt="modal" className="h-auto lg:h-auto w-auto lg:w-full" />
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
