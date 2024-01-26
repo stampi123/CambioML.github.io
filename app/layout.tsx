@@ -18,7 +18,6 @@ const font = Lato({
 });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  // prettier-ignore
   return (
     <html lang="en">
       <body className={font.className}>
@@ -32,5 +31,5 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </div>
       </body>
     </html>
-  )
+  );
 }
