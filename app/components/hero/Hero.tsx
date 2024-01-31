@@ -34,7 +34,7 @@ const Hero = ({ title, subtitle, descriptions, center, image }: HeroProps) => {
           />
         )}
         <div className={`flex flex-col justify-center ${center && 'items-center'} h-full w-full`}>
-          <div className="max-w-[750px]">
+          <div className="max-w-[800px]">
             <p className={`mt-3 text-2xl text-gray-500 pb-5 ${center && 'text-center'}`}>
               Any {useTypingEffect(descriptions, 100, 75)}
               <span className="text-cambio-red">|</span>
