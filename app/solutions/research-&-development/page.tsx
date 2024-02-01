@@ -1,7 +1,6 @@
 'use client';
 
 import PageHero from '@/app/components/hero/PageHero';
-import Section from '@/app/components/Section';
 import useDemoModal from '@/app/hooks/useDemoModal';
 import Feature from '@/app/components/feature/Feature';
 import DemoFeature from '@/app/components/feature/DemoFeature';
