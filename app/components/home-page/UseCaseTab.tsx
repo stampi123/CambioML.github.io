@@ -2,18 +2,21 @@ import Button from '../Button';
 import CodeBlock from '../CodeBlock';
 import FeatureImage from '../feature/FeatureImage';
 import useDemoModal from '../../hooks/useDemoModal';
+import { useRouter } from 'next/navigation';
 
-interface DemoTabProps {
+interface UseCaseTabProps {
   code?: string;
   demo?: string;
   title: string;
   imageTitle: string;
   image: string;
   alt: string;
+  detailsPath?: string;
 }
 
-const DemoTab = ({ code, demo, title, image, imageTitle, alt }: DemoTabProps) => {
+const UseCaseTab = ({ code, demo, title, image, imageTitle, alt, detailsPath }: UseCaseTabProps) => {
   const demoModal = useDemoModal();
+  const router = useRouter();
   return (
     <div className="gap-5 p-4 w-full lg:w-[80vw] max-w-screen-xl h-full lg:h-[700px] grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-[50px] lg:absolute lg:left-[50%] lg:translate-x-[-50%] border-solid border-neutral-200 border-2 shadow-md rounded-xl">
       <div className="w-full flex flex-col items-center justify-center border-2 border-neutral-200 border-solid p-4 rounded-lg">
@@ -27,7 +30,7 @@ const DemoTab = ({ code, demo, title, image, imageTitle, alt }: DemoTabProps) =>
           {demo && <FeatureImage image={demo} alt={alt} height="h-[400px]" enableModal />}
         </div>
       </div>
-      <div className="flex w-full items-center justify-center col-span-1 lg:col-span-2">
+      <div className="flex gap-10 w-full items-center justify-center col-span-1 lg:col-span-2">
         <div className="w-[250px]">
           <Button
             label="Book a Demo"
@@ -36,9 +39,19 @@ const DemoTab = ({ code, demo, title, image, imageTitle, alt }: DemoTabProps) =>
             }}
           />
         </div>
+        {detailsPath && (
+          <div className="w-[250px]">
+            <Button
+              label="Get more details"
+              onClick={() => {
+                router.push(detailsPath);
+              }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default DemoTab;
+export default UseCaseTab;

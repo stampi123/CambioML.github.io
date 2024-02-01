@@ -67,6 +67,7 @@ output = client.run(data)`}
             image="/images/graphics/cambio-flow-rd.png"
             imageTitle="Your Own Data Center or Cloud"
             alt="RD rag chatbot demo"
+            detailsPath="/solutions/research-&-development"
           />
         )}
         {tab === TAB.PORTFOLIO && (
@@ -76,6 +77,7 @@ output = client.run(data)`}
             imageTitle="Your Corporate Laptop"
             alt="PORTFOLIO Chat Comparisons"
             demo="/images/pykoi/pykoi-rag-chatbot-modify.gif"
+            detailsPath="/solutions/finance"
           />
         )}
       </div>
