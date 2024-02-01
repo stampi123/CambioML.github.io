@@ -1,48 +1,46 @@
+'use client';
+
 import PageHero from '@/app/components/hero/PageHero';
-import Container from '../../components/Container';
-import SolutionsCard from '../../components/solutions/SolutionsCard';
+import Section from '@/app/components/Section';
+import useDemoModal from '@/app/hooks/useDemoModal';
+import Feature from '@/app/components/feature/Feature';
+import DemoFeature from '@/app/components/feature/DemoFeature';
 
-const Solutions = [
-  {
-    title: 'Coming Soon!',
-    description: 'Accelerate your R&D efforts with CambioML',
-    url: 'https://www.cambioml.com',
-    image: '',
-  },
-];
-
-const ManufacturingSolutionsPage = () => {
+const RDSolutionsPage = () => {
+  const demoModal = useDemoModal();
   return (
-    <div className="pb-10 w-full h-full">
-      <PageHero title="Research & Development" description="Accelerate your R&D processes" />
-      <div className="flex flex-col items-center justify-center py-20 gap-10"></div>
-      <Container>
-        <div className="pt-10 flex items-center justify-center">
-          <div className="max-w-[1200px] w-full h-full">
-            <div
-              className="
-                            mt-10
-                            grid
-                            grid-cols-1
-                            md:grid-cols-2
-                            gap-8
-                            "
-            >
-              {Solutions.map((useCase, i) => (
-                <SolutionsCard
-                  key={useCase.title + i}
-                  title={useCase.title}
-                  description={useCase.description}
-                  image={useCase.image}
-                  url={useCase.url}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </Container>
+    <div className="pb-10 w-full h-full flex flex-col justify-center items-center">
+      <PageHero
+        title={`Access the Knowns and
+        Unlock the Unknowns in R&D`}
+        description={`Reduce time spent on data cleaning by up to 90%
+        Keep up-to-date with the state-of-the-art research
+        Discover the unknowns in R&D with ease`}
+        button={{ label: 'Book a Demo', onClick: demoModal.onOpen }}
+      />
+      <div className="flex flex-col gap-10 items-center justify-center py-20">
+        <Feature title="Access unknown insights from multi-source data" center>
+          <DemoFeature
+            imageTitle="Your Corporate Laptop"
+            image="/images/graphics/cambio-flow-rd.png"
+            alt="Cambio Flow R&D"
+            text={`• Reduce time spent on data cleaning by up to 90%
+            • Discover the unknowns in R&D with ease
+            • Fully own and control your proprietary AI agent`}
+          />
+        </Feature>
+        <Feature title="Write your research report to prove state-of-the-art" center>
+          <DemoFeature
+            demo="/images/pykoi/pykoi-rag-chatbot-modify.gif"
+            alt="Cambio Flow Portfolio"
+            text={`• Back up your research novelty with real data
+            • Compare your research with the SOTA at ease
+            • Fully own and control your proprietary AI agent`}
+          />
+        </Feature>
+      </div>
     </div>
   );
 };
 
-export default ManufacturingSolutionsPage;
+export default RDSolutionsPage;

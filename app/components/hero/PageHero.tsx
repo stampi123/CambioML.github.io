@@ -33,7 +33,7 @@ const PageHero = ({ title, description, image, button }: PageHeroProps) => {
         <div className={`flex justify-center items-center h-full w-full`}>
           <div className="max-w-[800px] flex flex-col items-center justify-center gap-20 h-full">
             <div>
-              <h1 className="text-6xl font-bold text-gray-900 mb-8 text-center">{title}</h1>
+              <h1 className="text-6xl font-bold text-gray-900 mb-8 text-center whitespace-pre-line">{title}</h1>
               {description && <p className="text-3xl text-gray-600 text-center whitespace-pre-line">{description}</p>}
             </div>
             {button && (
