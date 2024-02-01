@@ -14,7 +14,7 @@ const Section = ({ title, paragraphs, center }: SectionProps) => {
       <Heading title={title} center={center} />
       <div className="flex flex-col items-center gap-5">
         {paragraphs.map((paragraph, index) => (
-          <div key={index} className="font-light text-neutral-500 mt-5 text-2xl">
+          <div key={index} className="font-light text-neutral-600 mt-5 text-2xl">
             <p key={index}>{paragraph}</p>
           </div>
         ))}
