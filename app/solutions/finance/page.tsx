@@ -13,7 +13,7 @@ const FintechSolutionsPage = () => {
       <PageHero
         title="Your Customized AI Assistant to Beat Wall Street"
         description={`Find mispriced equity faster.
-        Be the GPT4 at Wall Street with interpretability.
+        Explain your investment decisions with real data.
         Fully own and control your proprietary AI agent.`}
         button={{ label: 'Book a Demo', onClick: demoModal.onOpen }}
       />
