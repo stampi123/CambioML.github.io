@@ -1,5 +1,7 @@
 'use client';
 
+import useUserId from '../hooks/useUserId';
+import Container from '../components/Container';
 import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
@@ -75,6 +77,9 @@ const IconContainer = styled.div`
   font-size: 36px;
   margin-bottom: 10px;
 `;
+
+const iconContainerClasses = 'flex items-center justify-center text-3xl mb-4';
+
 const FileList = styled.ul`
   list-style: none;
   padding: 0;
@@ -141,6 +146,8 @@ const Table: React.FC<TableProps> = ({ data }) => {
 
 
 const FileUpload: React.FC = () => {
+  const client_id: string = useUserId();
+
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -156,6 +163,7 @@ const FileUpload: React.FC = () => {
   const [displayTable, setDisplayTable] = useState<any | null>(null);
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
+
     setSuccessMessage(null);
     setErrorMessage(null);
     setLoading(true);
@@ -171,7 +179,7 @@ const FileUpload: React.FC = () => {
     const uploadedFile = acceptedFiles[0];
     const file_name = uploadedFile.name;
     console.log("file_name: ", file_name);
-    const client_id: string = "114";
+    // const client_id: string = useUserId();
 
     // This API needs two parameters: file_name and client_id
     const GetPresignedS3UrlAPI: string = `https://yc4onecxcf.execute-api.us-west-2.amazonaws.com/default/getPresignedS3Url?file_name=${file_name}&client_id=${client_id}`;
@@ -342,10 +350,10 @@ const FileUpload: React.FC = () => {
 
       {!loading && uploadedFiles.length === 0 && (
         <DropzoneContainer {...getRootProps()} className="bg-gray-100 p-4 border-dashed border-2 border-gray-300">
-          <IconContainer className="text-blue-500">
+          <div className={iconContainerClasses}>
             {/* <FontAwesomeIcon icon={faCloudUploadAlt} size='1x' /> */}
             {<CloudArrowUp size={32} />}
-          </IconContainer>
+          </div>
 
         <input {...getInputProps()} className="hidden" />
         <p className="mt-2">
