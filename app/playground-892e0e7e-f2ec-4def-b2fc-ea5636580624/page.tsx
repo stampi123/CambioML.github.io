@@ -208,8 +208,8 @@ const FileUpload: React.FC = () => {
       await new Promise((resolve) => setTimeout(resolve, 10000));
       // move processing
       const pollJobStatus = async () => {
-        // Time out after 120 seconds
-        const timeoutDuration = 120000;
+        // Time out after 300 seconds
+        const timeoutDuration = 300000;
         const startTime = Date.now();
 
         // eslint-disable-next-line no-constant-condition
@@ -288,6 +288,7 @@ const FileUpload: React.FC = () => {
             {isDragActive ? 'Drop files here' : 'Drag and drop a single file here, or click to select a file'}
           </p>
           <p className="text-sm text-gray-500">PDFs, HTMLs, and TXTs only</p>
+          <p className="text-sm text-gray-500">Please do not upload any sensitive information.</p>
           <p className="text-sm text-gray-500">Max 10 MB</p>
         </div>
       )}
