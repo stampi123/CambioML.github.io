@@ -22,20 +22,24 @@ const ProcessingContainer = styled.div`
 `;
 
 const ProcessingSpinner = styled.div`
-  border: 6px solid #f3f3f3;
-  border-top: 6px solid #3498db;
+  border: 6px solid #F3F3F3;
+  border-top: 6px solid #3498DB;
   border-radius: 50%;
   width: 30px;
   height: 30px;
   animation: spin 1s linear infinite;
-
   @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 `;
 
-const DropzoneContainerClass = 'border-2 bg-gray-100 border-dashed border-gray-300 rounded-md m-20 text-center cursor-pointer transition duration-300 ease-in-out flex flex-col items-center justify-center h-1/2 hover:border-blue-500';
+const DropzoneContainerClass =
+  'border-2 bg-gray-100 border-dashed border-gray-300 rounded-md m-20 text-center cursor-pointer transition duration-300 ease-in-out flex flex-col items-center justify-center h-1/2 hover:border-blue-500';
 
 const TryAgainIcon = styled.div`
   cursor: pointer;
@@ -61,11 +65,6 @@ const cellStyle: React.CSSProperties = {
   textAlign: 'center',
 };
 
-const itemStyle: React.CSSProperties = {
-  border: '1px solid #ddd',
-  padding: '8px',
-};
-
 const tableContainerStyle: React.CSSProperties = {
   overflowX: 'auto',
 };
@@ -79,30 +78,31 @@ const Table: React.FC<TableProps> = ({ data }) => {
     <div style={tableContainerStyle}>
       <table style={{ borderCollapse: 'collapse', width: '100%' }}>
         <thead>
-        <tr>
-          <th style={cellStyle}>Context</th>
-          <th style={cellStyle}>Question</th>
-          <th style={cellStyle}>Answer</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((rowData, index) => (
-          <tr key={index}>
-            {rowData.map((value, columnIndex) => (
-              <td key={columnIndex} style={cellStyle}>
-                <div>{value}</div>
-              </td>
-            ))}
+          <tr>
+            <th style={cellStyle}>Context</th>
+            <th style={cellStyle}>Question</th>
+            <th style={cellStyle}>Answer</th>
           </tr>
-        ))}
-      </tbody>
+        </thead>
+        <tbody>
+          {data.map((rowData, index) => (
+            <tr key={index}>
+              {rowData.map((value, columnIndex) => (
+                <td key={columnIndex} style={cellStyle}>
+                  <div>{value}</div>
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   );
 };
 
 const FileUpload: React.FC = () => {
-  const client_id: string = useUserId();
+  const client_id = useUserId();
+  console.log('client_id: ', client_id);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -126,6 +126,7 @@ const FileUpload: React.FC = () => {
     const resultList: any[][] = [];
     const uploadedFile = acceptedFiles[0];
     const file_name = uploadedFile.name;
+    console.log("file_name: ", file_name);
 
     // Exception handling for big file and unsupported type
     if (uploadedFile) {
@@ -134,7 +135,6 @@ const FileUpload: React.FC = () => {
         setErrorMessage('File type is not supported. Please refresh the page and try again.');
         return;
       }
-
       if (uploadedFile.size > 10 * 1024 * 1024){
         setErrorMessage('File size exceeds the limit of 10 MB. Please refresh the page and try again.');
         return;
@@ -144,9 +144,10 @@ const FileUpload: React.FC = () => {
     // User limit check, set at 10 for now
     const GetClientLimitAPI: string = `https://zhqduo3vi8.execute-api.us-west-2.amazonaws.com/default/GetClientLimit?client_id=${client_id}`;
     try {
-      const limit = await axios.get<{count: number}>(GetClientLimitAPI);
+      const limit = await axios.get<{ count: number }>(GetClientLimitAPI);
       const userLimit = limit.data;
-      if(userLimit.count > 10){
+      console.log('userLimit: ', userLimit.count);
+      if (userLimit.count > 10) {
         setErrorMessage("You've reached your hourly user limit. Please try again later. Thanks!");
         return;
       }
@@ -175,33 +176,34 @@ const FileUpload: React.FC = () => {
           setUploadedFiles(acceptedFiles);
           setSuccessMessage('File uploaded successfully!');
           setErrorMessage(null);
-          setLoading(false); 
+          setLoading(false);
         } else {
           setUploadingFile(false);
           setSuccessMessage(null);
           setErrorMessage('Error uploading file. Please refresh the page and try again.');
-          console.error('Upload to S3 - POST Error:', httpResponse.statusText);
         }
       } catch (error) {
         setUploadingFile(false);
         setSuccessMessage(null);
         setErrorMessage('Error uploading file. Please refresh the page and try again.');
-        console.error('Upload to S3 - POST Axios error:');
       }
 
       const backendFileName = data.fields.key;
       const GetJobStatusAPI: string = `https://1nqoh4mjxl.execute-api.us-west-2.amazonaws.com/default/getPlaygroundJobResult?job_id=${backendFileName}`;
 
       // Delay to make sure the file is uploaded to S3 so the job id found is not void
-      await new Promise(resolve => setTimeout(resolve, 10000));
+      await new Promise((resolve) => setTimeout(resolve, 10000));
       // move processing
       const pollJobStatus = async () => {
         // Time out after 120 seconds
         const timeoutDuration = 120000; 
         const startTime = Date.now();
+
         while (true) {
           try {
             const response = await axios.get(GetJobStatusAPI);
+            console.log('Waiting:', response.status);
+            
             if (Date.now() - startTime > timeoutDuration) {
               setCompleted(false);
               setUploadingFile(false);
@@ -228,6 +230,7 @@ const FileUpload: React.FC = () => {
                         let curContext = responseArray[j]?.context;
                         let curQuestion = responseArray[j]?.question;
                         resultList.push([curContext, curQuestion, curAnswer]);
+                        console.log(`Row ${i + 1}, Response ${j + 1}: Answer=${curAnswer}, Context=${curContext}, Question=${curQuestion}`);
                       }
                     }
                   }
@@ -238,13 +241,11 @@ const FileUpload: React.FC = () => {
               break;
             } else if (response.status === 202) {
               // Wait for 5 seconds before making the next request
-              await new Promise(resolve => setTimeout(resolve, 5000));
+              await new Promise((resolve) => setTimeout(resolve, 5000));
             } else {
-              console.error('Error:', response.status);
               break;
             }
           } catch (error) {
-            console.error('JobStatus: ', error);
             break;
           }
         }
@@ -263,66 +264,52 @@ const FileUpload: React.FC = () => {
       <div style={textContainerStyle}>
         <h1 className="font-bold text-2xl">Playground: Hassle-free Uniflow Experience!</h1>
       </div>
-
       {!loading && uploadedFiles.length === 0 && (
         <div className={DropzoneContainerClass} {...getRootProps()}>
-          <div className={iconContainerClasses}>
-            {<CloudArrowUp size={32} />}
-          </div>
-
-        <input {...getInputProps()} className="hidden" />
-        <p className="mt-2">
-          {isDragActive ? 'Drop files here' : 'Drag and drop a single file here, or click to select a file'}
-        </p>
-        <p className="text-sm text-gray-500">PDFs, HTMLs, and TXTs only</p>
-        <p className="text-sm text-gray-500">Max 10 MB</p>
+          <div className={iconContainerClasses}>{<CloudArrowUp size={32} />}</div>
+          <input {...getInputProps()} className="hidden" />
+          <p className="mt-2">
+            {isDragActive ? 'Drop files here' : 'Drag and drop a single file here, or click to select a file'}
+          </p>
+          <p className="text-sm text-gray-500">PDFs, HTMLs, and TXTs only</p>
+          <p className="text-sm text-gray-500">Max 10 MB</p>
         </div>
       )}
-
       {successMessage && !completed && !uploadingFile && (
         <div>
-          <SuccessMessage>
-            {successMessage}
-          </SuccessMessage>
-
+          <SuccessMessage>{successMessage}</SuccessMessage>
           <ProcessingContainer>
-            <ProcessingSpinner/>
+            <ProcessingSpinner />
             <p>Processing...</p>
           </ProcessingContainer>
         </div>
       )}
-
       {successMessage && uploadingFile && (
         <div>
-          <SuccessMessage>
-            {successMessage}
-          </SuccessMessage>
-
+          <SuccessMessage>{successMessage}</SuccessMessage>
           <ProcessingContainer>
-            <ProcessingSpinner/>
+            <ProcessingSpinner />
             <p>Processing...</p>
           </ProcessingContainer>
         </div>
       )}
-
       {errorMessage && !completed && (
         <div>
-          <ErrorMessage>{
-          errorMessage
-          }</ErrorMessage>
+          <ErrorMessage>{errorMessage}</ErrorMessage>
           <div className="flex items-center h-[50vh] justify-center text-red-500">
             <FileX className="mr-2" size={72} />
           </div>
         </div>
       )}
-
       {completed && (
-      <div>
-        <Table data={displayTable} />
-        <TryAgainIcon onClick={handleTryAgainClick}>
-          <p><small>Upload another file</small></p>
-        </TryAgainIcon>
-      </div>
+        <div>
+          <Table data={displayTable} />
+          <TryAgainIcon onClick={handleTryAgainClick}>
+            <p>
+              <small>Upload another file</small>
+            </p>
+          </TryAgainIcon>
+        </div>
       )}
     </div>
   );
