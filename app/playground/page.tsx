@@ -144,20 +144,24 @@ const FileUpload: React.FC = () => {
     // const response = await axios.get(GetJobStatusAPI, {
     //   params: { yourParamName: param }, // Replace 'yourParamName' with the actual parameter name expected by the API
     // });
+    // await new Promise((resolve) => setTimeout(resolve, 5000));
 
-    const GetClientLimitAPI: string = `https://zhqduo3vi8.execute-api.us-west-2.amazonaws.com/default/GetClientLimit`;
+    // const GetClientLimitAPI: string = `https://zhqduo3vi8.execute-api.us-west-2.amazonaws.com/default/GetClientLimit`;
 
+    const GetClientLimitAPI: string = `https://zhqduo3vi8.execute-api.us-west-2.amazonaws.com/default/GetClientLimit?client_id=${client_id}`;
     console.log('GetClientLimitAPI: ', GetClientLimitAPI);
     try {
-      const limit = await axios.get<{ count: number }>(GetClientLimitAPI, {
-        params: {client_id: client_id}, 
-      });
+      // const limit = await axios.get<{ count: number }>(GetClientLimitAPI, {
+      //   params: {client_id: client_id}, 
+      // });
+      const limit = await axios.get<{ count: number }>(GetClientLimitAPI);
+
       const userLimit = limit.data;
       console.log('userLimit: ', userLimit.count);
-      if (userLimit.count > 10) {
-        setErrorMessage("You've reached your hourly user limit. Please try again later. Thanks!");
-        return;
-      }
+      // if (userLimit.count > 10) {
+      //   setErrorMessage("You've reached your hourly user limit. Please try again later. Thanks!");
+      //   return;
+      // }
     } catch (error) {
       setErrorMessage('Bad API Request ');
       console.log(error);
