@@ -5,7 +5,9 @@ import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 import axios from 'axios';
-import { CloudArrowUp, FileX } from "@phosphor-icons/react";
+import { CloudArrowUp, FileX } from '@phosphor-icons/react';
+
+type ResultList = Array<[string, string, string]>;
 
 const containerClasses = 'max-w-[2520px] mx-auto p-20 text-center flex flex-col justify-between';
 
@@ -22,8 +24,8 @@ const ProcessingContainer = styled.div`
 `;
 
 const ProcessingSpinner = styled.div`
-  border: 6px solid #F3F3F3;
-  border-top: 6px solid #3498DB;
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #3498db;
   border-radius: 50%;
   width: 30px;
   height: 30px;
@@ -70,7 +72,7 @@ const tableContainerStyle: React.CSSProperties = {
 };
 
 interface TableProps {
-  data: any[][];
+  data: ResultList;
 }
 
 const Table: React.FC<TableProps> = ({ data }) => {
@@ -115,15 +117,14 @@ const FileUpload: React.FC = () => {
     window.location.reload();
   };
 
-  const [displayTable, setDisplayTable] = useState<any | null>(null);
+  const [displayTable, setDisplayTable] = useState<ResultList | null>(null);
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
-
     setSuccessMessage(null);
     setErrorMessage(null);
     setLoading(true);
 
-    const resultList: any[][] = [];
+    const resultList: ResultList = [];
     const uploadedFile = acceptedFiles[0];
     const file_name = uploadedFile.name;
 
@@ -134,7 +135,7 @@ const FileUpload: React.FC = () => {
         setErrorMessage('File type is not supported. Please refresh the page and try again.');
         return;
       }
-      if (uploadedFile.size > 10 * 1024 * 1024){
+      if (uploadedFile.size > 10 * 1024 * 1024) {
         setErrorMessage('File size exceeds the limit of 10 MB. Please refresh the page and try again.');
         return;
       }
@@ -152,7 +153,7 @@ const FileUpload: React.FC = () => {
     // console.log('GetClientLimitAPI: ', GetClientLimitAPI);
     // try {
     //   // const limit = await axios.get<{ count: number }>(GetClientLimitAPI, {
-    //   //   params: {client_id: client_id}, 
+    //   //   params: {client_id: client_id},
     //   // });
     //   const limit = await axios.get<{ count: number }>(GetClientLimitAPI);
 
@@ -208,14 +209,15 @@ const FileUpload: React.FC = () => {
       // move processing
       const pollJobStatus = async () => {
         // Time out after 120 seconds
-        const timeoutDuration = 120000; 
+        const timeoutDuration = 120000;
         const startTime = Date.now();
 
+        // eslint-disable-next-line no-constant-condition
         while (true) {
           try {
             const response = await axios.get(GetJobStatusAPI);
             console.log('Waiting:', response.status);
-            
+
             if (Date.now() - startTime > timeoutDuration) {
               setCompleted(false);
               setUploadingFile(false);
@@ -223,7 +225,7 @@ const FileUpload: React.FC = () => {
               setErrorMessage('Your request timed out. Please refresh the page and try again.');
               return;
             }
-            // statuscode mapping 
+            // statuscode mapping
             // 200 means the job is done
             // 202 means the job is still running
             // 400 means the parameter is invalid
@@ -233,16 +235,18 @@ const FileUpload: React.FC = () => {
               const outputArray = response.data;
               if (outputArray && outputArray.length > 0) {
                 for (let i = 0; i < outputArray.length; i++) {
-                  let curOutput = outputArray[i]?.output;
+                  const curOutput = outputArray[i]?.output;
                   if (curOutput && curOutput.length > 0) {
-                    let responseArray = curOutput[0]?.response;              
+                    const responseArray = curOutput[0]?.response;
                     if (responseArray && responseArray.length > 0) {
                       for (let j = 0; j < responseArray.length; j++) {
-                        let curAnswer = responseArray[j]?.answer;
-                        let curContext = responseArray[j]?.context;
-                        let curQuestion = responseArray[j]?.question;
+                        const curAnswer = responseArray[j]?.answer;
+                        const curContext = responseArray[j]?.context;
+                        const curQuestion = responseArray[j]?.question;
                         resultList.push([curContext, curQuestion, curAnswer]);
-                        console.log(`Row ${i + 1}, Response ${j + 1}: Answer=${curAnswer}, Context=${curContext}, Question=${curQuestion}`);
+                        console.log(
+                          `Row ${i + 1}, Response ${j + 1}: Answer=${curAnswer}, Context=${curContext}, Question=${curQuestion}`
+                        );
                       }
                     }
                   }
@@ -313,7 +317,7 @@ const FileUpload: React.FC = () => {
           </div>
         </div>
       )}
-      {completed && (
+      {completed && displayTable && (
         <div>
           <Table data={displayTable} />
           <TryAgainIcon onClick={handleTryAgainClick}>
