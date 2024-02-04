@@ -126,7 +126,6 @@ const FileUpload: React.FC = () => {
     const resultList: any[][] = [];
     const uploadedFile = acceptedFiles[0];
     const file_name = uploadedFile.name;
-    console.log("file_name: ", file_name);
 
     // Exception handling for big file and unsupported type
     if (uploadedFile) {
@@ -142,9 +141,17 @@ const FileUpload: React.FC = () => {
     }
 
     // User limit check, set at 10 for now
-    const GetClientLimitAPI: string = `https://zhqduo3vi8.execute-api.us-west-2.amazonaws.com/default/GetClientLimit?client_id=${client_id}`;
+    // const response = await axios.get(GetJobStatusAPI, {
+    //   params: { yourParamName: param }, // Replace 'yourParamName' with the actual parameter name expected by the API
+    // });
+
+    const GetClientLimitAPI: string = `https://zhqduo3vi8.execute-api.us-west-2.amazonaws.com/default/GetClientLimit`;
+
+    console.log('GetClientLimitAPI: ', GetClientLimitAPI);
     try {
-      const limit = await axios.get<{ count: number }>(GetClientLimitAPI);
+      const limit = await axios.get<{ count: number }>(GetClientLimitAPI, {
+        params: {client_id: client_id}, 
+      });
       const userLimit = limit.data;
       console.log('userLimit: ', userLimit.count);
       if (userLimit.count > 10) {
@@ -152,7 +159,8 @@ const FileUpload: React.FC = () => {
         return;
       }
     } catch (error) {
-      setErrorMessage('Bad API Request');
+      setErrorMessage('Bad API Request ');
+      console.log(error);
       return;
     }
 
