@@ -41,7 +41,7 @@ const ProcessingSpinner = styled.div`
 `;
 
 const DropzoneContainerClass =
-  'border-2 bg-gray-100 border-dashed border-gray-300 rounded-md m-20 text-center cursor-pointer transition duration-300 ease-in-out flex flex-col items-center justify-center h-1/2 hover:border-blue-500';
+  'border-2 bg-gray-100 border-dashed border-gray-300 h-[50vh] rounded-md m-20 text-center cursor-pointer transition duration-300 ease-in-out flex flex-col items-center justify-center hover:border-blue-500';
 
 const TryAgainIcon = styled.div`
   cursor: pointer;
@@ -208,8 +208,8 @@ const FileUpload: React.FC = () => {
       await new Promise((resolve) => setTimeout(resolve, 10000));
       // move processing
       const pollJobStatus = async () => {
-        // Time out after 300 seconds
-        const timeoutDuration = 300000;
+        // Time out after 600 seconds
+        const timeoutDuration = 600000;
         const startTime = Date.now();
 
         // eslint-disable-next-line no-constant-condition
