@@ -20,7 +20,7 @@ const ProcessingContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 50vh; /* Adjust the height based on your requirement */
+  height: 55vh; /* Adjust the height based on your requirement */
 `;
 
 const ProcessingSpinner = styled.div`
@@ -319,8 +319,10 @@ const FileUpload: React.FC = () => {
         </div>
       )}
       {completed && displayTable && (
-        <div>
-          <Table data={displayTable} />
+        <div className="h-[60vh]">
+          <div className="max-h-[50vh] overflow-y-auto">
+            <Table data={displayTable} />
+          </div>
           <TryAgainIcon onClick={handleTryAgainClick}>
             <p>
               <small>Upload another file</small>
