@@ -5,7 +5,8 @@ import Footer from './components/footer/Footer';
 import DemoModal from './components/modals/DemoModal';
 import ImageModal from './components/modals/ImageModal';
 import ToasterProvider from './providers/ToasterProvider';
-import { GoogleAnalytics } from '@next/third-parties/google';
+import { GoogleTagManager } from '@next/third-parties/google';
+import { CookieConsent } from './components/CookieConsent';
 
 export const metadata = {
   title: 'cambioml',
@@ -31,7 +32,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Footer />
         </div>
       </body>
-      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
+      <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ''} />
+      <CookieConsent />
     </html>
   );
 }
