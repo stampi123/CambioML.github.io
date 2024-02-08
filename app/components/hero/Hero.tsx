@@ -18,7 +18,7 @@ const Hero = ({ title, subtitle, valueProps, center, image }: HeroProps) => {
   const demoModal = useDemoModal();
   return (
     <div className={`w-full h-full overflow-hidden relative mt-[10px] ${!image && 'bg-cambio-blue'}`}>
-      <Container styles="h-[80vh]">
+      <Container styles="h-[80vh] min-h-[600px]">
         {image && (
           <Image
             src={imgPrefix + image}

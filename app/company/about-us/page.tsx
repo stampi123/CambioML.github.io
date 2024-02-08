@@ -40,7 +40,7 @@ const AboutPage = () => {
     <div className="pb-10">
       <PageHero title="About us" />
       <Container styles="h-max" centerX center-y>
-        <div className="pt-40 max-w-[800px]">
+        <div className="pt-10 max-w-[800px]">
           <Section
             title="Who we are"
             paragraphs={[
