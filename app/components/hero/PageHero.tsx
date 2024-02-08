@@ -16,7 +16,7 @@ const PageHero = ({ title, description, image, button }: PageHeroProps) => {
     <div
       className={`w-full h-full overflow-hidden relative ${!image && 'bg-gradient-to-tr from-cambio-blue from-30% via-white to-cambio-blue to-70%'}`}
     >
-      <Container styles="h-[575px]">
+      <Container styles="h-[50vh]">
         {image && (
           <Image
             src={image}

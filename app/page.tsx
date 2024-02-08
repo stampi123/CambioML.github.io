@@ -6,17 +6,19 @@ import { SiMicrosoftazure } from 'react-icons/si';
 import FeatureImage from './components/feature/FeatureImage';
 import UseCaseOverview from './components/home-page/UseCaseOverview';
 import Customers from './components/home-page/Customers';
+import Paragraphs from './components/Paragraphs';
 
 export default function Home() {
   return (
     <>
       <Hero
-        title="Software for Enterprise R&D to Accelerate Innovation"
-        subtitle={`Reduce time spent cleaning and enriching data by up to 90%
-        Discover insights from 10x more data in multiple formats
-        Fully own and control your proprietary data`}
-        descriptions={['encrypted PDF', 'Images and Markdown', 'public HTML', 'papers and patents']}
+        title="ML Platform for Enterprise R&D"
+        subtitle="Extract knowledge from your unstructured data"
+        valueProps={`Discover novel research insights from 10x more data
+        Reduce time spent cleaning unstructured data by up to 90%
+        Accelerate the discovery of revenue opportunities`}
         image="/images/hero.png"
+        center
       />
       <div className="h-full w-full py-10">
         <Feature title="Distill domain knowledge from your mixed unstructured data" center>
@@ -25,7 +27,20 @@ export default function Home() {
         <Feature title="Open-source Libraries are Adopted by Researchers at" bgColor="bg-neutral-100" center>
           <Customers />
         </Feature>
-        <Feature title="Extract domain-specific knowledge from your R&D data with ease" center>
+        <Feature title="Accurate, Explainable, and Secure" center>
+          <div className="h-[400px] flex items-center justify-center py-10">
+            <Paragraphs
+              paragraphs={[
+                '🎯 Accurately extract unstructured data from PDFs, HTMLs and Markdown',
+                '✨ Explain insights by domain-specific LLMs',
+                '🔒 Fully own and control your proprietary data',
+              ]}
+              between
+              large
+            />
+          </div>
+        </Feature>
+        <Feature title="Extract domain-specific knowledge from your R&D data with ease" bgColor="bg-neutral-100" center>
           <UseCaseOverview />
         </Feature>
         <Feature title="Host your private LLMs anywhere in your control" description="" center>

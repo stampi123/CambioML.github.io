@@ -17,26 +17,28 @@ const UseCaseOverview = () => {
     setTab(index);
   };
 
-  const selectedStyles = 'text-white bg-cambio-red';
-  const unselectedStyles = 'text-neutral-500 bg-neutral-200';
+  const selectedStyles = 'text-white bg-cambio-red shadow-md';
+  const unselectedStyles =
+    'text-neutral-500 bg-neutral-200 hover:bg-neutral-300 hover:shadow-md hover:text-neutral-700 transition-all duration-200 ease-in-out';
+  const commonStyles = 'cursor-pointer text-2xl p-3 rounded-lg';
 
   return (
     <div className="flex flex-col items-center align-center w-full">
       <div className="h-[100px] w-full flex justify-between py-5">
         <div
-          className={`cursor-pointer text-2xl p-3 rounded-lg ${tab === TAB.ML ? selectedStyles : unselectedStyles}`}
+          className={`${commonStyles} ${tab === TAB.ML ? selectedStyles : unselectedStyles}`}
           onClick={(e) => handleClick(e, TAB.ML)}
         >
           ML Scientists
         </div>
         <div
-          className={`cursor-pointer text-2xl p-3 rounded-lg ${tab === TAB.RD ? selectedStyles : unselectedStyles}`}
+          className={`${commonStyles} ${tab === TAB.RD ? selectedStyles : unselectedStyles}`}
           onClick={(e) => handleClick(e, TAB.RD)}
         >
           R&D Engineers
         </div>
         <div
-          className={`cursor-pointer text-2xl p-3 rounded-lg ${tab === TAB.PORTFOLIO ? selectedStyles : unselectedStyles}`}
+          className={`${commonStyles} ${tab === TAB.PORTFOLIO ? selectedStyles : unselectedStyles}`}
           onClick={(e) => handleClick(e, TAB.PORTFOLIO)}
         >
           Portfolio Managers
@@ -50,7 +52,11 @@ const UseCaseOverview = () => {
 client = ExtractPDFClient()
 
 output = client.run(data)`}
-            title="Get your data for LLM training in few lines of code"
+            benefits={[
+              'Get your training data ready for your private LLMs',
+              'Reduce time spent on data cleaning by up to 90%',
+              'Aggregate knowledge from multi-formats including PDFs and HTMLs',
+            ]}
             image="/images/graphics/cambio-flow-ml.png"
             imageTitle="Your Own GPUs"
             alt="RD rag chatbot demo"
@@ -63,7 +69,11 @@ output = client.run(data)`}
 client = TransformQAGeneration()
 
 output = client.run(data)`}
-            title="Extract R&D insights from multiple sources of data"
+            benefits={[
+              'Discover unknown research insights from 10x more data',
+              'Answer the research related questions from unstructured data',
+              'Accurately extract unstructured data from PDFs, HTMLs and Markdowns',
+            ]}
             image="/images/graphics/cambio-flow-rd.png"
             imageTitle="Your Own Data Center or Cloud"
             alt="RD rag chatbot demo"
@@ -72,7 +82,11 @@ output = client.run(data)`}
         )}
         {tab === TAB.PORTFOLIO && (
           <UseCaseTab
-            title="Financial analysis for your own investment style"
+            benefits={[
+              'Discover hidden investment signals from massive multi-format data',
+              'Accelerate the discovery of revenue opportunity',
+              'Accurately explain the signals by back-testing data',
+            ]}
             image="/images/graphics/cambio-flow-portfolio.png"
             imageTitle="Your Corporate Laptop"
             alt="PORTFOLIO Chat Comparisons"
