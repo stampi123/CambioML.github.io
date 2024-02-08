@@ -6,7 +6,6 @@ import DemoModal from './components/modals/DemoModal';
 import ImageModal from './components/modals/ImageModal';
 import ToasterProvider from './providers/ToasterProvider';
 import { GoogleTagManager } from '@next/third-parties/google';
-import { CookieConsent } from './components/CookieConsent';
 
 export const metadata = {
   title: 'cambioml',
@@ -33,7 +32,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </div>
       </body>
       <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ''} />
-      <CookieConsent />
     </html>
   );
 }
