@@ -26,7 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navbar />
         <DemoModal />
         <ImageModal />
-        <div className="pb-500 pt-[75px] min-h-screen min-w-[650px]">
+        <div className="pb-500 min-h-screen min-w-[650px]">
           {children}
           <Footer />
         </div>
