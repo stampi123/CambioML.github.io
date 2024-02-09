@@ -5,7 +5,7 @@ import Logo from './Logo';
 import NavMenu from './NavMenu';
 import NavMenuFull from './NavMenuFull';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useWindowScroll } from '@/app/hooks/useWindowScroll';
 
 const menuItems = [
   {
@@ -20,16 +20,7 @@ const menuItems = [
 
 const Navbar = () => {
   const router = useRouter();
-  const [isScrolled, setIsScrolled] = useState(false);
-  const listenScrollEvent = () => {
-    window.scrollY > 50 ? setIsScrolled(true) : setIsScrolled(false);
-  };
-  useEffect(() => {
-    window.addEventListener('scroll', listenScrollEvent);
-    return () => {
-      window.removeEventListener('scroll', listenScrollEvent);
-    };
-  }, []);
+  const isScrolled = useWindowScroll(50);
 
   const makeOnClick = (label: string, link: string, callback: () => void) => {
     const url = `/${label}/${link}`.toLowerCase().replaceAll(' ', '-');
