@@ -23,15 +23,9 @@ export default function Home() {
       <div className="h-full w-full py-10">
         <Feature title="Distill domain knowledge from your mixed unstructured data" center>
           <div className="h-[1000px] lg:h-[450px] grid grid-cols-1 lg:grid-cols-3 gap-10 py-10">
-            {/* {[
-              ``,
-              ``,
-              ``,
-            ].map((paragraph, i) => ( */}
             <Card text="Discover novel research insights from 10x more data" center cardIcon={FileMagnifyingGlass} />
             <Card text="Reduce time spent cleaning unstructured data by up to 90%" center cardIcon={TrendDown} />
             <Card text="Accelerate the discovery of revenue opportunities" center cardIcon={Gauge} />
-            {/* ))} */}
           </div>
         </Feature>
         <Feature title="Open-source Libraries are Adopted by Researchers at" bgColor="bg-neutral-100" center>
