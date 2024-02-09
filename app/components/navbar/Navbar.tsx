@@ -5,6 +5,7 @@ import Logo from './Logo';
 import NavMenu from './NavMenu';
 import NavMenuFull from './NavMenuFull';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const menuItems = [
   {
@@ -19,6 +20,16 @@ const menuItems = [
 
 const Navbar = () => {
   const router = useRouter();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const listenScrollEvent = () => {
+    window.scrollY > 50 ? setIsScrolled(true) : setIsScrolled(false);
+  };
+  useEffect(() => {
+    window.addEventListener('scroll', listenScrollEvent);
+    return () => {
+      window.removeEventListener('scroll', listenScrollEvent);
+    };
+  }, []);
 
   const makeOnClick = (label: string, link: string, callback: () => void) => {
     const url = `/${label}/${link}`.toLowerCase().replaceAll(' ', '-');
@@ -29,11 +40,12 @@ const Navbar = () => {
   };
 
   return (
-    <div className="fixed w-full bg-white z-50 shadow-sm">
+    <div
+      className={`fixed w-full z-50 ${isScrolled ? 'bg-white shadow-sm border-b-[1px]' : 'bg-transparent'} transition-all duration-300 ease-in-out`}
+    >
       <div
         className="
         py-4
-        border-b-[1px]
         "
       >
         <Container>

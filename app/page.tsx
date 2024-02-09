@@ -1,12 +1,14 @@
+'use client';
+
 import ProductCard from './components/ProductCard';
 import Feature from './components/feature/Feature';
 import Hero from './components/hero/Hero';
 import { FaAws } from 'react-icons/fa';
 import { SiMicrosoftazure } from 'react-icons/si';
-import FeatureImage from './components/feature/FeatureImage';
 import UseCaseOverview from './components/home-page/UseCaseOverview';
 import Customers from './components/home-page/Customers';
-import Paragraphs from './components/Paragraphs';
+import Card from './components/Card';
+import { FileMagnifyingGlass, TrendDown, Gauge, Crosshair, Sparkle, LockKey } from '@phosphor-icons/react';
 
 export default function Home() {
   return (
@@ -14,30 +16,36 @@ export default function Home() {
       <Hero
         title="ML Platform for Enterprise R&D"
         subtitle="Extract knowledge from your unstructured data"
-        valueProps={`Discover novel research insights from 10x more data
-        Reduce time spent cleaning unstructured data by up to 90%
-        Accelerate the discovery of revenue opportunities`}
+        typingWords={['encrypted PDF', 'images and Markdown', 'public HTML', 'papers and patents']}
         image="/images/hero.png"
         center
       />
       <div className="h-full w-full py-10">
         <Feature title="Distill domain knowledge from your mixed unstructured data" center>
-          <FeatureImage image="/images/graphics/cambioml-flow-graphic.png" alt="CambioML Flow Graphic" shadow />
+          <div className="h-[1000px] lg:h-[450px] grid grid-cols-1 lg:grid-cols-3 gap-10 py-10">
+            {/* {[
+              ``,
+              ``,
+              ``,
+            ].map((paragraph, i) => ( */}
+            <Card text="Discover novel research insights from 10x more data" center cardIcon={FileMagnifyingGlass} />
+            <Card text="Reduce time spent cleaning unstructured data by up to 90%" center cardIcon={TrendDown} />
+            <Card text="Accelerate the discovery of revenue opportunities" center cardIcon={Gauge} />
+            {/* ))} */}
+          </div>
         </Feature>
         <Feature title="Open-source Libraries are Adopted by Researchers at" bgColor="bg-neutral-100" center>
           <Customers />
         </Feature>
         <Feature title="Accurate, Explainable, and Secure" center>
-          <div className="h-[400px] flex items-center justify-center py-10">
-            <Paragraphs
-              paragraphs={[
-                '🎯 Accurately extract unstructured data from PDFs, HTMLs and Markdown',
-                '✨ Explain insights by domain-specific LLMs',
-                '🔒 Fully own and control your proprietary data',
-              ]}
-              between
-              large
+          <div className="h-[1000px] lg:h-[450px] grid grid-cols-1 lg:grid-cols-3 gap-10 py-10">
+            <Card
+              text="Accurately extract unstructured data from PDFs, HTMLs and Markdown"
+              center
+              cardIcon={Crosshair}
             />
+            <Card text="Explain insights by domain-specific LLMs" center cardIcon={Sparkle} />
+            <Card text="Fully own and control your proprietary data" center cardIcon={LockKey} />
           </div>
         </Feature>
         <Feature title="Extract domain-specific knowledge from your R&D data with ease" bgColor="bg-neutral-100" center>
