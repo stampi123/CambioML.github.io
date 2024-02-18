@@ -18,12 +18,6 @@ const textContainerStyle: React.CSSProperties = {
   marginBottom: '20px', // Add margin at the bottom to separate the text from the table
 };
 
-interface OAuth_Response {
-  credential: string;
-  client_id: string;
-  select_by: string;
-}
-
 const ProcessingContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -120,6 +114,8 @@ const Table: React.FC<TableProps> = ({ data }) => {
 const FileUpload: React.FC = () => {
   // const client_id = useUserId();
   // console.log('client_id: ', client_id);
+  let client_id: string = 'AAA';
+
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -152,13 +148,21 @@ const FileUpload: React.FC = () => {
     setLoggedIn(true); 
     googleLogout();
 
+    // const parsed_API: OAuth_Response
+    // console.log('client-id: ', response.credential);
+    let temp: string = response.credential;
+    client_id = temp;
+    console.log('client_id at handle in: ', client_id);
+
     // const client_id = response.
 
-    setTimeout(() => {
-      googleLogout();
-      setLoggedIn(false);
-    }, 20 * 60 * 1000); // log out after 20 mins
+    // setTimeout(() => {
+    //   googleLogout();
+    //   setLoggedIn(false);
+    // }, 20 * 60 * 1000); // log out after 20 mins
   };
+
+  console.log('client_id before onDrop: ', client_id);
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     setSuccessMessage(null);
@@ -184,9 +188,11 @@ const FileUpload: React.FC = () => {
     }
 
     // New Design 
-    // console.log('client_id: ', client_id);
+    console.log('client_id: ', client_id);
     const job_id: string = '1';
     const token_id: string = '111';
+
+    // let client_id = 'AAA';
 
     const GetPresignedS3UrlAPI: string = `https://3vi3v75dh2.execute-api.us-west-2.amazonaws.com/v1/upload?token=${token_id}&client_id=${client_id}?file_name=${file_name}`;
     // const GetPresignedS3UrlAPI: string = `https://yc4onecxcf.execute-api.us-west-2.amazonaws.com/default/getPresignedS3Url?file_name=${file_name}&client_id=${client_id}`;
