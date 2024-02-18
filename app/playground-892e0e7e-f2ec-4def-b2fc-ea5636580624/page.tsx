@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { CloudArrowUp, FileX, DownloadSimple } from '@phosphor-icons/react';
 import { GoogleLogin, GoogleOAuthProvider, googleLogout } from '@react-oauth/google';
+let client_id: string = 'AAA';
 
 <GoogleOAuthProvider clientId="864543610613-1s9pqj09cmmmoheteovakjpsug1cqeth.apps.googleusercontent.com">...</GoogleOAuthProvider>;
 
@@ -114,7 +115,6 @@ const Table: React.FC<TableProps> = ({ data }) => {
 const FileUpload: React.FC = () => {
   // const client_id = useUserId();
   // console.log('client_id: ', client_id);
-  let client_id: string = 'AAA';
 
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -146,12 +146,12 @@ const FileUpload: React.FC = () => {
   const handleLogin = (response: any) => {
     console.log('Logged in successfully:', response);
     setLoggedIn(true); 
-    googleLogout();
+    // googleLogout();
 
     // const parsed_API: OAuth_Response
     // console.log('client-id: ', response.credential);
     let temp: string = response.credential;
-    client_id = temp;
+    client_id = temp; 
     console.log('client_id at handle in: ', client_id);
 
     // const client_id = response.
@@ -188,11 +188,10 @@ const FileUpload: React.FC = () => {
     }
 
     // New Design 
-    console.log('client_id: ', client_id);
+    console.log('client_id inside onDrop: ', client_id);
     const job_id: string = '1';
     const token_id: string = '111';
 
-    // let client_id = 'AAA';
 
     const GetPresignedS3UrlAPI: string = `https://3vi3v75dh2.execute-api.us-west-2.amazonaws.com/v1/upload?token=${token_id}&client_id=${client_id}?file_name=${file_name}`;
     // const GetPresignedS3UrlAPI: string = `https://yc4onecxcf.execute-api.us-west-2.amazonaws.com/default/getPresignedS3Url?file_name=${file_name}&client_id=${client_id}`;
