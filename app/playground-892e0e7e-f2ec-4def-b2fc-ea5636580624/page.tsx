@@ -5,7 +5,10 @@ import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 import axios from 'axios';
-import { CloudArrowUp, FileX } from '@phosphor-icons/react';
+import { CloudArrowUp, FileX, DownloadSimple } from '@phosphor-icons/react';
+import { GoogleLogin, GoogleOAuthProvider, googleLogout } from '@react-oauth/google';
+
+<GoogleOAuthProvider clientId="864543610613-1s9pqj09cmmmoheteovakjpsug1cqeth.apps.googleusercontent.com">...</GoogleOAuthProvider>;
 
 type ResultList = Array<[string, string, string]>;
 
@@ -14,6 +17,12 @@ const containerClasses = 'max-w-[2520px] mx-auto p-20 text-center flex flex-col 
 const textContainerStyle: React.CSSProperties = {
   marginBottom: '20px', // Add margin at the bottom to separate the text from the table
 };
+
+interface OAuth_Response {
+  credential: string;
+  client_id: string;
+  select_by: string;
+}
 
 const ProcessingContainer = styled.div`
   display: flex;
@@ -61,6 +70,12 @@ const ErrorMessage = styled.p`
   font-weight: bold;
 `;
 
+const GoogleLoginWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const cellStyle: React.CSSProperties = {
   border: '1px solid #ddd',
   padding: '8px',
@@ -103,14 +118,15 @@ const Table: React.FC<TableProps> = ({ data }) => {
 };
 
 const FileUpload: React.FC = () => {
-  const client_id = useUserId();
-  console.log('client_id: ', client_id);
+  // const client_id = useUserId();
+  // console.log('client_id: ', client_id);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [completed, setCompleted] = useState<boolean>(false);
   const [uploadingFile, setUploadingFile] = useState<boolean>(false);
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
   const handleTryAgainClick = () => {
     // Reload the page to start the file upload process again
@@ -119,10 +135,36 @@ const FileUpload: React.FC = () => {
 
   const [displayTable, setDisplayTable] = useState<ResultList | null>(null);
 
+  const handleDownload = useCallback(() => {
+    if (displayTable) {
+      // Convert table data to CSV format and use url to download 
+      const csvContent = displayTable.map(row => row.join(',')).join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+    
+      window.open(url, '_blank');
+      URL.revokeObjectURL(url);
+    }
+  }, [displayTable]);
+
+  const handleLogin = (response: any) => {
+    console.log('Logged in successfully:', response);
+    setLoggedIn(true); 
+    googleLogout();
+
+    // const client_id = response.
+
+    setTimeout(() => {
+      googleLogout();
+      setLoggedIn(false);
+    }, 20 * 60 * 1000); // log out after 20 mins
+  };
+
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     setSuccessMessage(null);
     setErrorMessage(null);
     setLoading(true);
+    setLoggedIn(true);
 
     const resultList: ResultList = [];
     const uploadedFile = acceptedFiles[0];
@@ -141,40 +183,20 @@ const FileUpload: React.FC = () => {
       }
     }
 
-    // User limit check, set at 10 for now
-    // const response = await axios.get(GetJobStatusAPI, {
-    //   params: { yourParamName: param }, // Replace 'yourParamName' with the actual parameter name expected by the API
-    // });
-    // await new Promise((resolve) => setTimeout(resolve, 5000));
+    // New Design 
+    // console.log('client_id: ', client_id);
+    const job_id: string = '1';
+    const token_id: string = '111';
 
-    // const GetClientLimitAPI: string = `https://zhqduo3vi8.execute-api.us-west-2.amazonaws.com/default/GetClientLimit`;
-
-    // const GetClientLimitAPI: string = `https://zhqduo3vi8.execute-api.us-west-2.amazonaws.com/default/GetClientLimit?client_id=${client_id}`;
-    // console.log('GetClientLimitAPI: ', GetClientLimitAPI);
-    // try {
-    //   // const limit = await axios.get<{ count: number }>(GetClientLimitAPI, {
-    //   //   params: {client_id: client_id},
-    //   // });
-    //   const limit = await axios.get<{ count: number }>(GetClientLimitAPI);
-
-    //   const userLimit = limit.data;
-    //   console.log('userLimit: ', userLimit.count);
-    //   // if (userLimit.count > 10) {
-    //   //   setErrorMessage("You've reached your hourly user limit. Please try again later. Thanks!");
-    //   //   return;
-    //   // }
-    // } catch (error) {
-    //   setErrorMessage('Bad API Request ');
-    //   console.log(error);
-    //   return;
-    // }
-
-    // This API needs two parameters: file_name and client_id
-    const GetPresignedS3UrlAPI: string = `https://yc4onecxcf.execute-api.us-west-2.amazonaws.com/default/getPresignedS3Url?file_name=${file_name}&client_id=${client_id}`;
+    const GetPresignedS3UrlAPI: string = `https://3vi3v75dh2.execute-api.us-west-2.amazonaws.com/v1/upload?token=${token_id}&client_id=${client_id}?file_name=${file_name}`;
+    // const GetPresignedS3UrlAPI: string = `https://yc4onecxcf.execute-api.us-west-2.amazonaws.com/default/getPresignedS3Url?file_name=${file_name}&client_id=${client_id}`;
 
     const fetchData = async () => {
       const response = await axios.get<{ fields: Record<string, string>; url: string }>(GetPresignedS3UrlAPI);
       const data = response.data;
+
+      console.log('GetPresignedS3UrlAPI: ', data);
+
       const postData = new FormData();
       Object.entries(data.fields).forEach(([key, value]) => {
         postData.append(key, value);
@@ -280,7 +302,24 @@ const FileUpload: React.FC = () => {
       <div style={textContainerStyle}>
         <h1 className="font-bold text-2xl">Playground: Hassle-free Uniflow Experience!</h1>
       </div>
-      {!loading && uploadedFiles.length === 0 && (
+
+      {!loggedIn && (
+        <GoogleLoginWrapper>
+          <GoogleOAuthProvider clientId="864543610613-1s9pqj09cmmmoheteovakjpsug1cqeth.apps.googleusercontent.com">
+            <GoogleLogin
+              onSuccess={credentialResponse => {
+                handleLogin(credentialResponse);
+              }}
+              onError={() => {
+                console.log('Login Failed');
+              }}
+              // useOneTap
+            />
+          </GoogleOAuthProvider>
+        </GoogleLoginWrapper>
+      )}
+
+      {loggedIn && !loading && uploadedFiles.length === 0 && (
         <div className={DropzoneContainerClass} {...getRootProps()}>
           <div className={iconContainerClasses}>{<CloudArrowUp size={32} />}</div>
           <input {...getInputProps()} className="hidden" />
@@ -328,6 +367,14 @@ const FileUpload: React.FC = () => {
               <small>Upload another file</small>
             </p>
           </TryAgainIcon>
+
+          {/* <button className="DownloadButton" onClick={handleDownload}>Download Table</button> */}
+
+          <button className="DownloadButton" onClick={handleDownload}>
+            {/* <DownloadSimple size={24} weight="fill" NEED TO BE CENTERED /> */}
+            <span style={{ marginLeft: '5px' }}>Download Table</span>
+          </button>
+
         </div>
       )}
     </div>
