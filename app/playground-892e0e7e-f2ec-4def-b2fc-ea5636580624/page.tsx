@@ -7,9 +7,12 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { CloudArrowUp, FileX, DownloadSimple } from '@phosphor-icons/react';
 import { GoogleLogin, GoogleOAuthProvider, googleLogout } from '@react-oauth/google';
-let client_id: string = 'AAA';
 
-<GoogleOAuthProvider clientId="864543610613-1s9pqj09cmmmoheteovakjpsug1cqeth.apps.googleusercontent.com">...</GoogleOAuthProvider>;
+// Global 
+let client_id: string = 'AAA';
+let token: string = 'AAA';
+
+{/* <GoogleOAuthProvider clientId="864543610613-1s9pqj09cmmmoheteovakjpsug1cqeth.apps.googleusercontent.com">...</GoogleOAuthProvider>; */}
 
 type ResultList = Array<[string, string, string]>;
 
@@ -151,8 +154,10 @@ const FileUpload: React.FC = () => {
     // const parsed_API: OAuth_Response
     // console.log('client-id: ', response.credential);
     let temp: string = response.credential;
-    client_id = temp; 
-    console.log('client_id at handle in: ', client_id);
+    token = temp; 
+    client_id = response.clientId;
+    console.log('token at handle in: ', token);
+    console.log('clientId: ', client_id);
 
     // const client_id = response.
 
@@ -188,22 +193,22 @@ const FileUpload: React.FC = () => {
     }
 
     // New Design 
-    console.log('client_id inside onDrop: ', client_id);
-    const job_id: string = '1';
-    const token_id: string = '111';
-
-
-    const GetPresignedS3UrlAPI: string = `https://3vi3v75dh2.execute-api.us-west-2.amazonaws.com/v1/upload?token=${token_id}&client_id=${client_id}?file_name=${file_name}`;
+    const GetPresignedS3UrlAPI: string = `https://3vi3v75dh2.execute-api.us-west-2.amazonaws.com/v1/upload?token=${token}&client_id=${client_id}&file_name=${file_name}`;
     // const GetPresignedS3UrlAPI: string = `https://yc4onecxcf.execute-api.us-west-2.amazonaws.com/default/getPresignedS3Url?file_name=${file_name}&client_id=${client_id}`;
 
     const fetchData = async () => {
-      const response = await axios.get<{ fields: Record<string, string>; url: string }>(GetPresignedS3UrlAPI);
+
+      console.log('client_id INSIDE FETCH: ', client_id);
+      console.log('token INSIDE fetch: ', token);
+
+      // const response = await axios.get<{ fields: Record<string, string>; url: string;  }>(GetPresignedS3UrlAPI);
+      const response = await axios.get<{ presignedUrl: Record<string, string>; jobId: string;  userId: string}>(GetPresignedS3UrlAPI);
       const data = response.data;
 
       console.log('GetPresignedS3UrlAPI: ', data);
 
       const postData = new FormData();
-      Object.entries(data.fields).forEach(([key, value]) => {
+      Object.entries(data.presignedUrl).forEach(([key, value]) => {
         postData.append(key, value);
       });
 
@@ -310,7 +315,8 @@ const FileUpload: React.FC = () => {
 
       {!loggedIn && (
         <GoogleLoginWrapper>
-          <GoogleOAuthProvider clientId="864543610613-1s9pqj09cmmmoheteovakjpsug1cqeth.apps.googleusercontent.com">
+          {/* "864543610613-1s9pqj09cmmmoheteovakjpsug1cqeth.apps.googleusercontent.com" */}
+          <GoogleOAuthProvider clientId="913930642277-3ujt41atfr9olurj60jrcmt1nuaiu8ms.apps.googleusercontent.com">
             <GoogleLogin
               onSuccess={credentialResponse => {
                 handleLogin(credentialResponse);
