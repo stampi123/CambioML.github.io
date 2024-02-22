@@ -9,10 +9,8 @@ import { CloudArrowUp, FileX, DownloadSimple } from '@phosphor-icons/react';
 import { GoogleLogin, GoogleOAuthProvider, googleLogout } from '@react-oauth/google';
 
 // Global 
-let client_id: string = 'AAA';
-let token: string = 'AAA';
-
-{/* <GoogleOAuthProvider clientId="864543610613-1s9pqj09cmmmoheteovakjpsug1cqeth.apps.googleusercontent.com">...</GoogleOAuthProvider>; */}
+let client_id: string = 'client_id';
+let token: string = 'token';
 
 type ResultList = Array<[string, string, string]>;
 
@@ -63,15 +61,10 @@ const SuccessMessage = styled.p`
   color: green;
   font-weight: bold;
 `;
+
 const ErrorMessage = styled.p`
   color: red;
   font-weight: bold;
-`;
-
-const GoogleLoginWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 const cellStyle: React.CSSProperties = {
@@ -149,25 +142,56 @@ const FileUpload: React.FC = () => {
   const handleLogin = (response: any) => {
     console.log('Logged in successfully:', response);
     setLoggedIn(true); 
-    // googleLogout();
 
-    // const parsed_API: OAuth_Response
-    // console.log('client-id: ', response.credential);
     let temp: string = response.credential;
     token = temp; 
     client_id = response.clientId;
-    console.log('token at handle in: ', token);
-    console.log('clientId: ', client_id);
 
-    // const client_id = response.
-
-    // setTimeout(() => {
-    //   googleLogout();
-    //   setLoggedIn(false);
-    // }, 20 * 60 * 1000); // log out after 20 mins
+    setTimeout(() => {
+      setLoggedIn(false);
+      handleLogout();
+    }, 60 * 60 * 1000); // auto log out after 60 mins
   };
 
-  console.log('client_id before onDrop: ', client_id);
+  const handleLogout = () => {
+    setLoggedIn(false); 
+
+    // if (window.gapi && window.gapi.auth2) {
+    //   // Get the auth2 instance
+    //   const auth2: gapi.auth2.GoogleAuth | null = window.gapi.auth2.getAuthInstance();
+    
+    //   // Check if the auth2 instance exists
+    //   if (auth2) {
+    //     // Call signOut method to log out the user
+    //     auth2.signOut().then(() => {
+    //       console.log('User signed out successfully.');
+    //     }).catch((error: Error) => {
+    //       console.error('Error signing out:', error);
+    //     });
+    //   }
+    // }
+
+    localStorage.removeItem('accessToken'); 
+    sessionStorage.clear(); 
+    document.cookie.split(';').forEach(function(cookie) {
+      document.cookie = cookie
+        .replace(/^ +/, '')
+        .replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
+    }); 
+
+    // Clear browser cache
+    caches.keys().then(function(names) {
+      names.forEach(function(name) {
+        caches.delete(name);
+      });
+    });
+
+    window.location.href = '/playground-892e0e7e-f2ec-4def-b2fc-ea5636580624';
+  };
+
+
+
+  // console.log('client_id before onDrop: ', client_id);
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     setSuccessMessage(null);
@@ -179,7 +203,7 @@ const FileUpload: React.FC = () => {
     const uploadedFile = acceptedFiles[0];
     const file_name = uploadedFile.name;
 
-    // Exception handling for big file and unsupported type
+    // Exception handling for big files and unsupported type
     if (uploadedFile) {
       const allowedTypes = ['application/pdf', 'text/html', 'text/plain'];
       if (!allowedTypes.includes(uploadedFile.type)) {
@@ -194,7 +218,6 @@ const FileUpload: React.FC = () => {
 
     // New Design 
     const GetPresignedS3UrlAPI: string = `https://3vi3v75dh2.execute-api.us-west-2.amazonaws.com/v1/upload?token=${token}&client_id=${client_id}&file_name=${file_name}`;
-    // const GetPresignedS3UrlAPI: string = `https://yc4onecxcf.execute-api.us-west-2.amazonaws.com/default/getPresignedS3Url?file_name=${file_name}&client_id=${client_id}`;
 
     const fetchData = async () => {
 
@@ -206,16 +229,17 @@ const FileUpload: React.FC = () => {
       const data = response.data;
 
       console.log('GetPresignedS3UrlAPI: ', data);
+      console.log("url: ", data.presignedUrl.url);
 
       const postData = new FormData();
-      Object.entries(data.presignedUrl).forEach(([key, value]) => {
+      Object.entries(data.presignedUrl.fields).forEach(([key, value]) => {
         postData.append(key, value);
       });
 
       postData.append('file', uploadedFile);
 
       try {
-        const httpResponse = await axios.post(data.url, postData);
+        const httpResponse = await axios.post(data.presignedUrl.url, postData);
         if (httpResponse.status === 204) {
           setUploadingFile(false);
           setUploadedFiles(acceptedFiles);
@@ -233,11 +257,15 @@ const FileUpload: React.FC = () => {
         setErrorMessage('Error uploading file. Please refresh the page and try again.');
       }
 
-      const backendFileName = data.fields.key;
-      const GetJobStatusAPI: string = `https://1nqoh4mjxl.execute-api.us-west-2.amazonaws.com/default/getPlaygroundJobResult?job_id=${backendFileName}`;
+      console.log("data.jobId: ", data.jobId);
+      console.log("data.userId: ", data.userId);
+
+      const job_id = data.jobId;
+      const user_id = data.userId;
+      const GetJobStatusAPI: string = `https://3vi3v75dh2.execute-api.us-west-2.amazonaws.com/v1/sync?job_id=${job_id}&user_id=${user_id}`;
 
       // Delay to make sure the file is uploaded to S3 so the job id found is not void
-      await new Promise((resolve) => setTimeout(resolve, 10000));
+      await new Promise((resolve) => setTimeout(resolve, 20000));
       // move processing
       const pollJobStatus = async () => {
         // Time out after 600 seconds
@@ -248,6 +276,9 @@ const FileUpload: React.FC = () => {
         while (true) {
           try {
             const response = await axios.get(GetJobStatusAPI);
+
+            console.log('GetJobStatusAPI response: ', response);
+
             console.log('Waiting:', response.status);
 
             if (Date.now() - startTime > timeoutDuration) {
@@ -264,28 +295,30 @@ const FileUpload: React.FC = () => {
             // 404 means the job is not found
             // 500 means the job has failed
             if (response.status === 200) {
-              const outputArray = response.data;
-              if (outputArray && outputArray.length > 0) {
-                for (let i = 0; i < outputArray.length; i++) {
-                  const curOutput = outputArray[i]?.output;
-                  if (curOutput && curOutput.length > 0) {
-                    const responseArray = curOutput[0]?.response;
-                    if (responseArray && responseArray.length > 0) {
-                      for (let j = 0; j < responseArray.length; j++) {
-                        const curAnswer = responseArray[j]?.answer;
-                        const curContext = responseArray[j]?.context;
-                        const curQuestion = responseArray[j]?.question;
-                        resultList.push([curContext, curQuestion, curAnswer]);
-                        console.log(
-                          `Row ${i + 1}, Response ${j + 1}: Answer=${curAnswer}, Context=${curContext}, Question=${curQuestion}`
-                        );
-                      }
-                    }
-                  }
-                }
-                setCompleted(true);
-                setDisplayTable(resultList);
-              }
+
+              console.log('results: ', response.data.results);
+              console.log('OriginalFileName: ', response.data.OriginalFileName);
+              
+              const resultsArray = response.data.results;
+
+              // Parsing results
+              resultsArray.forEach((result: any[], index: number) => {
+                console.log(`Result ${index + 1}:`);
+                result.forEach(item => {
+                    if (item.output instanceof Array) {
+                        item.output.forEach((outputItem: { error: any; response: { context: string; question: string; answer: string; }[]; }) => {
+                            outputItem.response.forEach((response: { context: string; question: string; answer: string; }) => 
+                            {
+                              resultList.push([response.context, response.question, response.answer]);
+                            });
+                        });
+                    } 
+                });
+              });
+
+              setCompleted(true);
+              setDisplayTable(resultList);
+
               break;
             } else if (response.status === 202) {
               // Wait for 5 seconds before making the next request
@@ -314,20 +347,20 @@ const FileUpload: React.FC = () => {
       </div>
 
       {!loggedIn && (
-        <GoogleLoginWrapper>
-          {/* "864543610613-1s9pqj09cmmmoheteovakjpsug1cqeth.apps.googleusercontent.com" */}
+        <div className="flex items-center h-[25vh] justify-center">
           <GoogleOAuthProvider clientId="913930642277-3ujt41atfr9olurj60jrcmt1nuaiu8ms.apps.googleusercontent.com">
-            <GoogleLogin
-              onSuccess={credentialResponse => {
-                handleLogin(credentialResponse);
-              }}
-              onError={() => {
-                console.log('Login Failed');
-              }}
-              // useOneTap
-            />
+            {/* <div className="text-lg px-6 py-3 bg-blue-500 text-white rounded-lg shadow-md"> */}
+              <GoogleLogin
+                onSuccess={credentialResponse => {
+                  handleLogin(credentialResponse);
+                }}
+                onError={() => {
+                  console.log('Login Failed');
+                }}
+              />
+            {/* </div> */}
           </GoogleOAuthProvider>
-        </GoogleLoginWrapper>
+        </div>
       )}
 
       {loggedIn && !loading && uploadedFiles.length === 0 && (
@@ -379,12 +412,25 @@ const FileUpload: React.FC = () => {
             </p>
           </TryAgainIcon>
 
-          {/* <button className="DownloadButton" onClick={handleDownload}>Download Table</button> */}
-
-          <button className="DownloadButton" onClick={handleDownload}>
-            {/* <DownloadSimple size={24} weight="fill" NEED TO BE CENTERED /> */}
-            <span style={{ marginLeft: '5px' }}>Download Table</span>
-          </button>
+          <div className="flex items-center justify-center">
+            <button className="DownloadButton" onClick={handleDownload}>
+              <div className="flex items-center">
+                <DownloadSimple size={24} weight="fill"/>
+                <span style={{ marginLeft: '5px' }}>Download Table</span>
+              </div>
+            </button>
+          </div>
+          
+          <div className="flex items-center justify-center">
+            <button
+              onClick={() => {
+                handleLogout();
+              }}
+              className="text-lg px-4 py-3 text-black rounded-lg shadow-md"
+            >
+              Logout
+            </button>
+          </div>
 
         </div>
       )}
