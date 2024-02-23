@@ -127,10 +127,18 @@ const FileUpload: React.FC = () => {
 
   const [displayTable, setDisplayTable] = useState<ResultList | null>(null);
 
+  // TESTING ONLY:
+  // const testTableData: Array<[string, string, string]> = [
+  //   ['Context 1', 'Question 1', 'Answer 1'],
+  //   ['Context 2', 'Question 2', 'Answer 2'],
+  //   ['Context 3', 'Question 3', 'Answer 3'],
+  // ];
+
   const handleDownload = useCallback(() => {
     if (displayTable) {
       // Convert table data to CSV format and use url to download 
-      const csvContent = displayTable.map(row => row.join(',')).join('\n');
+      const columnNames = ['Context', 'Question', 'Answer'];
+      const csvContent = [columnNames.join(',')].concat(displayTable.map(row => row.join(','))).join('\n');
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
       const url = URL.createObjectURL(blob);
     
@@ -156,20 +164,13 @@ const FileUpload: React.FC = () => {
   const handleLogout = () => {
     setLoggedIn(false); 
 
-    // if (window.gapi && window.gapi.auth2) {
-    //   // Get the auth2 instance
-    //   const auth2: gapi.auth2.GoogleAuth | null = window.gapi.auth2.getAuthInstance();
-    
-    //   // Check if the auth2 instance exists
-    //   if (auth2) {
-    //     // Call signOut method to log out the user
-    //     auth2.signOut().then(() => {
-    //       console.log('User signed out successfully.');
-    //     }).catch((error: Error) => {
-    //       console.error('Error signing out:', error);
-    //     });
-    //   }
-    // }
+    // Get all cookies and remove them
+    const cookies: string[] = document.cookie.split(";");
+
+    for (const cookie of cookies) {
+        const [name, _] = cookie.split("="); 
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+    }
 
     localStorage.removeItem('accessToken'); 
     sessionStorage.clear(); 
@@ -186,12 +187,10 @@ const FileUpload: React.FC = () => {
       });
     });
 
-    window.location.href = '/playground-892e0e7e-f2ec-4def-b2fc-ea5636580624';
+    token = "";
+    window.location.href = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:3000/playground-892e0e7e-f2ec-4def-b2fc-ea5636580624";
+
   };
-
-
-
-  // console.log('client_id before onDrop: ', client_id);
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     setSuccessMessage(null);
@@ -220,11 +219,6 @@ const FileUpload: React.FC = () => {
     const GetPresignedS3UrlAPI: string = `https://3vi3v75dh2.execute-api.us-west-2.amazonaws.com/v1/upload?token=${token}&client_id=${client_id}&file_name=${file_name}`;
 
     const fetchData = async () => {
-
-      console.log('client_id INSIDE FETCH: ', client_id);
-      console.log('token INSIDE fetch: ', token);
-
-      // const response = await axios.get<{ fields: Record<string, string>; url: string;  }>(GetPresignedS3UrlAPI);
       const response = await axios.get<{ presignedUrl: Record<string, string>; jobId: string;  userId: string}>(GetPresignedS3UrlAPI);
       const data = response.data;
 
@@ -373,6 +367,16 @@ const FileUpload: React.FC = () => {
           <p className="text-sm text-gray-500">PDFs, HTMLs, and TXTs only</p>
           <p className="text-sm text-gray-500">Please do not upload any sensitive information.</p>
           <p className="text-sm text-gray-500">Max 10 MB</p>
+
+          <button
+            onClick={() => {
+              handleLogout();
+            }}
+            className="text-lg px-4 py-3 text-black rounded-lg shadow-md"
+          >
+            Logout
+          </button>
+
         </div>
       )}
       {successMessage && !completed && !uploadingFile && (
