@@ -5,7 +5,7 @@ import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 import axios from 'axios';
 import { CloudArrowUp, FileX, DownloadSimple } from '@phosphor-icons/react';
-import { GoogleLogin, GoogleOAuthProvider, googleLogout } from '@react-oauth/google';
+import { GoogleLogin, GoogleOAuthProvider} from '@react-oauth/google';
 
 // Global 
 let client_id: string = 'client_id';
@@ -18,7 +18,7 @@ interface LoginResponse {
 }
 
 interface OutputItem {
-  error: any;
+  error: string;
   response: {
       context: string;
       question: string;
@@ -287,7 +287,7 @@ const FileUpload: React.FC = () => {
               const resultsArray = response.data.results;
 
               // Parsing results
-              resultsArray.forEach((result: ResultItem[], index: number) => {
+              resultsArray.forEach((result: ResultItem[]) => {
                 result.forEach((item: ResultItem) => {
                     if (Array.isArray(item.output)) {
                         item.output.forEach((outputItem: OutputItem) => {
