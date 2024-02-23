@@ -11,6 +11,26 @@ import { GoogleLogin, GoogleOAuthProvider, googleLogout } from '@react-oauth/goo
 let client_id: string = 'client_id';
 let token: string = 'token';
 
+interface LoginResponse {
+  credential: string | undefined;
+  clientId: string;
+  select_by: string;
+}
+
+interface OutputItem {
+  error: any;
+  response: {
+      context: string;
+      question: string;
+      answer: string;
+  }[];
+}
+
+interface ResultItem {
+  output: OutputItem[];
+}
+
+
 type ResultList = Array<[string, string, string]>;
 
 const containerClasses = 'max-w-[2520px] mx-auto p-20 text-center flex flex-col justify-between';
@@ -137,12 +157,13 @@ const FileUpload: React.FC = () => {
     }
   }, [displayTable]);
 
-  const handleLogin = (response: any) => {
-    console.log('Logged in successfully:', response);
+  const handleLogin = (response: LoginResponse) => {
     setLoggedIn(true); 
 
-    let temp: string = response.credential;
-    token = temp; 
+    if (typeof response.credential === 'string'){
+      token = response.credential;
+    }
+
     client_id = response.clientId;
 
     setTimeout(() => {
@@ -248,10 +269,6 @@ const FileUpload: React.FC = () => {
           try {
             const response = await axios.get(GetJobStatusAPI);
 
-            console.log('GetJobStatusAPI response: ', response);
-
-            console.log('Waiting:', response.status);
-
             if (Date.now() - startTime > timeoutDuration) {
               setCompleted(false);
               setUploadingFile(false);
@@ -266,24 +283,20 @@ const FileUpload: React.FC = () => {
             // 404 means the job is not found
             // 500 means the job has failed
             if (response.status === 200) {
-
-              console.log('results: ', response.data.results);
-              console.log('OriginalFileName: ', response.data.OriginalFileName);
               
               const resultsArray = response.data.results;
 
               // Parsing results
-              resultsArray.forEach((result: any[], index: number) => {
-                console.log(`Result ${index + 1}:`);
-                result.forEach(item => {
-                    if (item.output instanceof Array) {
-                        item.output.forEach((outputItem: { error: any; response: { context: string; question: string; answer: string; }[]; }) => {
-                            outputItem.response.forEach((response: { context: string; question: string; answer: string; }) => 
-                            {
-                              resultList.push([response.context, response.question, response.answer]);
+              resultsArray.forEach((result: ResultItem[], index: number) => {
+                result.forEach((item: ResultItem) => {
+                    if (Array.isArray(item.output)) {
+                        item.output.forEach((outputItem: OutputItem) => {
+                            outputItem.response.forEach((response) => {
+                                const { context, question, answer } = response;
+                                resultList.push([context, question, answer]);
                             });
                         });
-                    } 
+                    }
                 });
               });
 
@@ -318,14 +331,15 @@ const FileUpload: React.FC = () => {
       </div>
 
       {!loggedIn && (
-        <div className="flex items-center h-[25vh] justify-center">
+        <div className="flex items-center h-[50vh] justify-center">
           <GoogleOAuthProvider clientId="913930642277-3ujt41atfr9olurj60jrcmt1nuaiu8ms.apps.googleusercontent.com">
               <GoogleLogin
                 onSuccess={credentialResponse => {
-                  handleLogin(credentialResponse);
+                  handleLogin(credentialResponse as LoginResponse);
                 }}
                 onError={() => {
-                  console.log('Login Failed');
+                  setSuccessMessage(null);
+                  setErrorMessage('Log in failed. Please check your Google account.');
                 }}
               />
           </GoogleOAuthProvider>
