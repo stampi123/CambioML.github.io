@@ -1,6 +1,5 @@
 'use client';
 
-import useUserId from '../hooks/useUserId';
 import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
@@ -109,8 +108,6 @@ const Table: React.FC<TableProps> = ({ data }) => {
 };
 
 const FileUpload: React.FC = () => {
-  // const client_id = useUserId();
-  // console.log('client_id: ', client_id);
 
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -126,13 +123,6 @@ const FileUpload: React.FC = () => {
   };
 
   const [displayTable, setDisplayTable] = useState<ResultList | null>(null);
-
-  // TESTING ONLY:
-  // const testTableData: Array<[string, string, string]> = [
-  //   ['Context 1', 'Question 1', 'Answer 1'],
-  //   ['Context 2', 'Question 2', 'Answer 2'],
-  //   ['Context 3', 'Question 3', 'Answer 3'],
-  // ];
 
   const handleDownload = useCallback(() => {
     if (displayTable) {
@@ -164,14 +154,7 @@ const FileUpload: React.FC = () => {
   const handleLogout = () => {
     setLoggedIn(false); 
 
-    // Get all cookies and remove them
-    const cookies: string[] = document.cookie.split(";");
-
-    for (const cookie of cookies) {
-        const [name, _] = cookie.split("="); 
-        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
-    }
-
+    // Remove tokens
     localStorage.removeItem('accessToken'); 
     sessionStorage.clear(); 
     document.cookie.split(';').forEach(function(cookie) {
@@ -222,9 +205,6 @@ const FileUpload: React.FC = () => {
       const response = await axios.get<{ presignedUrl: Record<string, string>; jobId: string;  userId: string}>(GetPresignedS3UrlAPI);
       const data = response.data;
 
-      console.log('GetPresignedS3UrlAPI: ', data);
-      console.log("url: ", data.presignedUrl.url);
-
       const postData = new FormData();
       Object.entries(data.presignedUrl.fields).forEach(([key, value]) => {
         postData.append(key, value);
@@ -250,9 +230,6 @@ const FileUpload: React.FC = () => {
         setSuccessMessage(null);
         setErrorMessage('Error uploading file. Please refresh the page and try again.');
       }
-
-      console.log("data.jobId: ", data.jobId);
-      console.log("data.userId: ", data.userId);
 
       const job_id = data.jobId;
       const user_id = data.userId;
@@ -343,7 +320,6 @@ const FileUpload: React.FC = () => {
       {!loggedIn && (
         <div className="flex items-center h-[25vh] justify-center">
           <GoogleOAuthProvider clientId="913930642277-3ujt41atfr9olurj60jrcmt1nuaiu8ms.apps.googleusercontent.com">
-            {/* <div className="text-lg px-6 py-3 bg-blue-500 text-white rounded-lg shadow-md"> */}
               <GoogleLogin
                 onSuccess={credentialResponse => {
                   handleLogin(credentialResponse);
@@ -352,7 +328,6 @@ const FileUpload: React.FC = () => {
                   console.log('Login Failed');
                 }}
               />
-            {/* </div> */}
           </GoogleOAuthProvider>
         </div>
       )}
@@ -367,16 +342,6 @@ const FileUpload: React.FC = () => {
           <p className="text-sm text-gray-500">PDFs, HTMLs, and TXTs only</p>
           <p className="text-sm text-gray-500">Please do not upload any sensitive information.</p>
           <p className="text-sm text-gray-500">Max 10 MB</p>
-
-          <button
-            onClick={() => {
-              handleLogout();
-            }}
-            className="text-lg px-4 py-3 text-black rounded-lg shadow-md"
-          >
-            Logout
-          </button>
-
         </div>
       )}
       {successMessage && !completed && !uploadingFile && (
@@ -435,7 +400,6 @@ const FileUpload: React.FC = () => {
               Logout
             </button>
           </div>
-
         </div>
       )}
     </div>
