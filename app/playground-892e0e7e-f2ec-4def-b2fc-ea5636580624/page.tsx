@@ -1,11 +1,34 @@
 'use client';
 
-import useUserId from '../hooks/useUserId';
 import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 import axios from 'axios';
-import { CloudArrowUp, FileX } from '@phosphor-icons/react';
+import { CloudArrowUp, FileX, DownloadSimple } from '@phosphor-icons/react';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+
+// Global
+let client_id: string = 'client_id';
+let token: string = 'token';
+
+interface LoginResponse {
+  credential: string | undefined;
+  clientId: string;
+  select_by: string;
+}
+
+interface OutputItem {
+  error: string;
+  response: {
+    context: string;
+    question: string;
+    answer: string;
+  }[];
+}
+
+interface ResultItem {
+  output: OutputItem[];
+}
 
 type ResultList = Array<[string, string, string]>;
 
@@ -56,6 +79,7 @@ const SuccessMessage = styled.p`
   color: green;
   font-weight: bold;
 `;
+
 const ErrorMessage = styled.p`
   color: red;
   font-weight: bold;
@@ -103,14 +127,13 @@ const Table: React.FC<TableProps> = ({ data }) => {
 };
 
 const FileUpload: React.FC = () => {
-  const client_id = useUserId();
-  console.log('client_id: ', client_id);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [completed, setCompleted] = useState<boolean>(false);
   const [uploadingFile, setUploadingFile] = useState<boolean>(false);
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
   const handleTryAgainClick = () => {
     // Reload the page to start the file upload process again
@@ -119,16 +142,70 @@ const FileUpload: React.FC = () => {
 
   const [displayTable, setDisplayTable] = useState<ResultList | null>(null);
 
+  const handleDownload = useCallback(() => {
+    if (displayTable) {
+      // Convert table data to CSV format and use url to download
+      const columnNames = ['Context', 'Question', 'Answer'];
+      const csvContent = [columnNames.join(',')].concat(displayTable.map((row) => row.join(','))).join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+
+      window.open(url, '_blank');
+      URL.revokeObjectURL(url);
+    }
+  }, [displayTable]);
+
+  const handleLogin = (response: LoginResponse) => {
+    setLoggedIn(true);
+
+    if (typeof response.credential === 'string') {
+      token = response.credential;
+    }
+
+    client_id = response.clientId;
+
+    setTimeout(
+      () => {
+        setLoggedIn(false);
+        handleLogout();
+      },
+      60 * 60 * 1000
+    ); // auto log out after 60 mins
+  };
+
+  const handleLogout = () => {
+    setLoggedIn(false);
+
+    // Remove tokens
+    localStorage.removeItem('accessToken');
+    sessionStorage.clear();
+    document.cookie.split(';').forEach(function (cookie) {
+      document.cookie = cookie.replace(/^ +/, '').replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
+    });
+
+    // Clear browser cache
+    caches.keys().then(function (names) {
+      names.forEach(function (name) {
+        caches.delete(name);
+      });
+    });
+
+    token = '';
+    window.location.href =
+      'https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://www.cambioml.com/playground-892e0e7e-f2ec-4def-b2fc-ea5636580624';
+  };
+
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     setSuccessMessage(null);
     setErrorMessage(null);
     setLoading(true);
+    setLoggedIn(true);
 
     const resultList: ResultList = [];
     const uploadedFile = acceptedFiles[0];
     const file_name = uploadedFile.name;
 
-    // Exception handling for big file and unsupported type
+    // Exception handling for big files and unsupported type
     if (uploadedFile) {
       const allowedTypes = ['application/pdf', 'text/html', 'text/plain'];
       if (!allowedTypes.includes(uploadedFile.type)) {
@@ -141,49 +218,24 @@ const FileUpload: React.FC = () => {
       }
     }
 
-    // User limit check, set at 10 for now
-    // const response = await axios.get(GetJobStatusAPI, {
-    //   params: { yourParamName: param }, // Replace 'yourParamName' with the actual parameter name expected by the API
-    // });
-    // await new Promise((resolve) => setTimeout(resolve, 5000));
-
-    // const GetClientLimitAPI: string = `https://zhqduo3vi8.execute-api.us-west-2.amazonaws.com/default/GetClientLimit`;
-
-    // const GetClientLimitAPI: string = `https://zhqduo3vi8.execute-api.us-west-2.amazonaws.com/default/GetClientLimit?client_id=${client_id}`;
-    // console.log('GetClientLimitAPI: ', GetClientLimitAPI);
-    // try {
-    //   // const limit = await axios.get<{ count: number }>(GetClientLimitAPI, {
-    //   //   params: {client_id: client_id},
-    //   // });
-    //   const limit = await axios.get<{ count: number }>(GetClientLimitAPI);
-
-    //   const userLimit = limit.data;
-    //   console.log('userLimit: ', userLimit.count);
-    //   // if (userLimit.count > 10) {
-    //   //   setErrorMessage("You've reached your hourly user limit. Please try again later. Thanks!");
-    //   //   return;
-    //   // }
-    // } catch (error) {
-    //   setErrorMessage('Bad API Request ');
-    //   console.log(error);
-    //   return;
-    // }
-
-    // This API needs two parameters: file_name and client_id
-    const GetPresignedS3UrlAPI: string = `https://yc4onecxcf.execute-api.us-west-2.amazonaws.com/default/getPresignedS3Url?file_name=${file_name}&client_id=${client_id}`;
+    // New Design
+    const GetPresignedS3UrlAPI: string = `https://3vi3v75dh2.execute-api.us-west-2.amazonaws.com/v1/upload?token=${token}&client_id=${client_id}&file_name=${file_name}`;
 
     const fetchData = async () => {
-      const response = await axios.get<{ fields: Record<string, string>; url: string }>(GetPresignedS3UrlAPI);
+      const response = await axios.get<{ presignedUrl: Record<string, string>; jobId: string; userId: string }>(
+        GetPresignedS3UrlAPI
+      );
       const data = response.data;
+
       const postData = new FormData();
-      Object.entries(data.fields).forEach(([key, value]) => {
+      Object.entries(data.presignedUrl.fields).forEach(([key, value]) => {
         postData.append(key, value);
       });
 
       postData.append('file', uploadedFile);
 
       try {
-        const httpResponse = await axios.post(data.url, postData);
+        const httpResponse = await axios.post(data.presignedUrl.url, postData);
         if (httpResponse.status === 204) {
           setUploadingFile(false);
           setUploadedFiles(acceptedFiles);
@@ -201,11 +253,12 @@ const FileUpload: React.FC = () => {
         setErrorMessage('Error uploading file. Please refresh the page and try again.');
       }
 
-      const backendFileName = data.fields.key;
-      const GetJobStatusAPI: string = `https://1nqoh4mjxl.execute-api.us-west-2.amazonaws.com/default/getPlaygroundJobResult?job_id=${backendFileName}`;
+      const job_id = data.jobId;
+      const user_id = data.userId;
+      const GetJobStatusAPI: string = `https://3vi3v75dh2.execute-api.us-west-2.amazonaws.com/v1/sync?job_id=${job_id}&user_id=${user_id}`;
 
       // Delay to make sure the file is uploaded to S3 so the job id found is not void
-      await new Promise((resolve) => setTimeout(resolve, 10000));
+      await new Promise((resolve) => setTimeout(resolve, 20000));
       // move processing
       const pollJobStatus = async () => {
         // Time out after 600 seconds
@@ -216,7 +269,6 @@ const FileUpload: React.FC = () => {
         while (true) {
           try {
             const response = await axios.get(GetJobStatusAPI);
-            console.log('Waiting:', response.status);
 
             if (Date.now() - startTime > timeoutDuration) {
               setCompleted(false);
@@ -232,28 +284,25 @@ const FileUpload: React.FC = () => {
             // 404 means the job is not found
             // 500 means the job has failed
             if (response.status === 200) {
-              const outputArray = response.data;
-              if (outputArray && outputArray.length > 0) {
-                for (let i = 0; i < outputArray.length; i++) {
-                  const curOutput = outputArray[i]?.output;
-                  if (curOutput && curOutput.length > 0) {
-                    const responseArray = curOutput[0]?.response;
-                    if (responseArray && responseArray.length > 0) {
-                      for (let j = 0; j < responseArray.length; j++) {
-                        const curAnswer = responseArray[j]?.answer;
-                        const curContext = responseArray[j]?.context;
-                        const curQuestion = responseArray[j]?.question;
-                        resultList.push([curContext, curQuestion, curAnswer]);
-                        console.log(
-                          `Row ${i + 1}, Response ${j + 1}: Answer=${curAnswer}, Context=${curContext}, Question=${curQuestion}`
-                        );
-                      }
-                    }
+              const resultsArray = response.data.results;
+
+              // Parsing results
+              resultsArray.forEach((result: ResultItem[]) => {
+                result.forEach((item: ResultItem) => {
+                  if (Array.isArray(item.output)) {
+                    item.output.forEach((outputItem: OutputItem) => {
+                      outputItem.response.forEach((response) => {
+                        const { context, question, answer } = response;
+                        resultList.push([context, question, answer]);
+                      });
+                    });
                   }
-                }
-                setCompleted(true);
-                setDisplayTable(resultList);
-              }
+                });
+              });
+
+              setCompleted(true);
+              setDisplayTable(resultList);
+
               break;
             } else if (response.status === 202) {
               // Wait for 5 seconds before making the next request
@@ -280,7 +329,24 @@ const FileUpload: React.FC = () => {
       <div style={textContainerStyle}>
         <h1 className="font-bold text-2xl">Playground: Hassle-free Uniflow Experience!</h1>
       </div>
-      {!loading && uploadedFiles.length === 0 && (
+
+      {!loggedIn && (
+        <div className="flex items-center h-[50vh] justify-center">
+          <GoogleOAuthProvider clientId="913930642277-3ujt41atfr9olurj60jrcmt1nuaiu8ms.apps.googleusercontent.com">
+            <GoogleLogin
+              onSuccess={(credentialResponse) => {
+                handleLogin(credentialResponse as LoginResponse);
+              }}
+              onError={() => {
+                setSuccessMessage(null);
+                setErrorMessage('Log in failed. Please check your Google account.');
+              }}
+            />
+          </GoogleOAuthProvider>
+        </div>
+      )}
+
+      {loggedIn && !loading && uploadedFiles.length === 0 && (
         <div className={DropzoneContainerClass} {...getRootProps()}>
           <div className={iconContainerClasses}>{<CloudArrowUp size={32} />}</div>
           <input {...getInputProps()} className="hidden" />
@@ -328,6 +394,26 @@ const FileUpload: React.FC = () => {
               <small>Upload another file</small>
             </p>
           </TryAgainIcon>
+
+          <div className="flex items-center justify-center">
+            <button className="DownloadButton" onClick={handleDownload}>
+              <div className="flex items-center">
+                <DownloadSimple size={24} weight="fill" />
+                <span style={{ marginLeft: '5px' }}>Download Table</span>
+              </div>
+            </button>
+          </div>
+
+          <div className="flex items-center justify-center">
+            <button
+              onClick={() => {
+                handleLogout();
+              }}
+              className="text-lg px-4 py-3 text-black rounded-lg shadow-md"
+            >
+              Logout
+            </button>
+          </div>
         </div>
       )}
     </div>
