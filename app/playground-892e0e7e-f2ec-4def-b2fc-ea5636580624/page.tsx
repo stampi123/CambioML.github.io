@@ -5,9 +5,9 @@ import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 import axios from 'axios';
 import { CloudArrowUp, FileX, DownloadSimple } from '@phosphor-icons/react';
-import { GoogleLogin, GoogleOAuthProvider} from '@react-oauth/google';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 
-// Global 
+// Global
 let client_id: string = 'client_id';
 let token: string = 'token';
 
@@ -20,16 +20,15 @@ interface LoginResponse {
 interface OutputItem {
   error: string;
   response: {
-      context: string;
-      question: string;
-      answer: string;
+    context: string;
+    question: string;
+    answer: string;
   }[];
 }
 
 interface ResultItem {
   output: OutputItem[];
 }
-
 
 type ResultList = Array<[string, string, string]>;
 
@@ -128,7 +127,6 @@ const Table: React.FC<TableProps> = ({ data }) => {
 };
 
 const FileUpload: React.FC = () => {
-
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -146,54 +144,55 @@ const FileUpload: React.FC = () => {
 
   const handleDownload = useCallback(() => {
     if (displayTable) {
-      // Convert table data to CSV format and use url to download 
+      // Convert table data to CSV format and use url to download
       const columnNames = ['Context', 'Question', 'Answer'];
-      const csvContent = [columnNames.join(',')].concat(displayTable.map(row => row.join(','))).join('\n');
+      const csvContent = [columnNames.join(',')].concat(displayTable.map((row) => row.join(','))).join('\n');
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
       const url = URL.createObjectURL(blob);
-    
+
       window.open(url, '_blank');
       URL.revokeObjectURL(url);
     }
   }, [displayTable]);
 
   const handleLogin = (response: LoginResponse) => {
-    setLoggedIn(true); 
+    setLoggedIn(true);
 
-    if (typeof response.credential === 'string'){
+    if (typeof response.credential === 'string') {
       token = response.credential;
     }
 
     client_id = response.clientId;
 
-    setTimeout(() => {
-      setLoggedIn(false);
-      handleLogout();
-    }, 60 * 60 * 1000); // auto log out after 60 mins
+    setTimeout(
+      () => {
+        setLoggedIn(false);
+        handleLogout();
+      },
+      60 * 60 * 1000
+    ); // auto log out after 60 mins
   };
 
   const handleLogout = () => {
-    setLoggedIn(false); 
+    setLoggedIn(false);
 
     // Remove tokens
-    localStorage.removeItem('accessToken'); 
-    sessionStorage.clear(); 
-    document.cookie.split(';').forEach(function(cookie) {
-      document.cookie = cookie
-        .replace(/^ +/, '')
-        .replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
-    }); 
+    localStorage.removeItem('accessToken');
+    sessionStorage.clear();
+    document.cookie.split(';').forEach(function (cookie) {
+      document.cookie = cookie.replace(/^ +/, '').replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
+    });
 
     // Clear browser cache
-    caches.keys().then(function(names) {
-      names.forEach(function(name) {
+    caches.keys().then(function (names) {
+      names.forEach(function (name) {
         caches.delete(name);
       });
     });
 
-    token = "";
-    window.location.href = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://www.cambioml.com/playground-892e0e7e-f2ec-4def-b2fc-ea5636580624";
-
+    token = '';
+    window.location.href =
+      'https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://www.cambioml.com/playground-892e0e7e-f2ec-4def-b2fc-ea5636580624';
   };
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
@@ -219,11 +218,13 @@ const FileUpload: React.FC = () => {
       }
     }
 
-    // New Design 
+    // New Design
     const GetPresignedS3UrlAPI: string = `https://3vi3v75dh2.execute-api.us-west-2.amazonaws.com/v1/upload?token=${token}&client_id=${client_id}&file_name=${file_name}`;
 
     const fetchData = async () => {
-      const response = await axios.get<{ presignedUrl: Record<string, string>; jobId: string;  userId: string}>(GetPresignedS3UrlAPI);
+      const response = await axios.get<{ presignedUrl: Record<string, string>; jobId: string; userId: string }>(
+        GetPresignedS3UrlAPI
+      );
       const data = response.data;
 
       const postData = new FormData();
@@ -283,20 +284,19 @@ const FileUpload: React.FC = () => {
             // 404 means the job is not found
             // 500 means the job has failed
             if (response.status === 200) {
-              
               const resultsArray = response.data.results;
 
               // Parsing results
               resultsArray.forEach((result: ResultItem[]) => {
                 result.forEach((item: ResultItem) => {
-                    if (Array.isArray(item.output)) {
-                        item.output.forEach((outputItem: OutputItem) => {
-                            outputItem.response.forEach((response) => {
-                                const { context, question, answer } = response;
-                                resultList.push([context, question, answer]);
-                            });
-                        });
-                    }
+                  if (Array.isArray(item.output)) {
+                    item.output.forEach((outputItem: OutputItem) => {
+                      outputItem.response.forEach((response) => {
+                        const { context, question, answer } = response;
+                        resultList.push([context, question, answer]);
+                      });
+                    });
+                  }
                 });
               });
 
@@ -333,15 +333,15 @@ const FileUpload: React.FC = () => {
       {!loggedIn && (
         <div className="flex items-center h-[50vh] justify-center">
           <GoogleOAuthProvider clientId="913930642277-3ujt41atfr9olurj60jrcmt1nuaiu8ms.apps.googleusercontent.com">
-              <GoogleLogin
-                onSuccess={credentialResponse => {
-                  handleLogin(credentialResponse as LoginResponse);
-                }}
-                onError={() => {
-                  setSuccessMessage(null);
-                  setErrorMessage('Log in failed. Please check your Google account.');
-                }}
-              />
+            <GoogleLogin
+              onSuccess={(credentialResponse) => {
+                handleLogin(credentialResponse as LoginResponse);
+              }}
+              onError={() => {
+                setSuccessMessage(null);
+                setErrorMessage('Log in failed. Please check your Google account.');
+              }}
+            />
           </GoogleOAuthProvider>
         </div>
       )}
@@ -398,12 +398,12 @@ const FileUpload: React.FC = () => {
           <div className="flex items-center justify-center">
             <button className="DownloadButton" onClick={handleDownload}>
               <div className="flex items-center">
-                <DownloadSimple size={24} weight="fill"/>
+                <DownloadSimple size={24} weight="fill" />
                 <span style={{ marginLeft: '5px' }}>Download Table</span>
               </div>
             </button>
           </div>
-          
+
           <div className="flex items-center justify-center">
             <button
               onClick={() => {
