@@ -192,7 +192,7 @@ const FileUpload: React.FC = () => {
     });
 
     token = "";
-    window.location.href = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=http://localhost:3000/playground-892e0e7e-f2ec-4def-b2fc-ea5636580624";
+    window.location.href = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://www.cambioml.com/playground-892e0e7e-f2ec-4def-b2fc-ea5636580624";
 
   };
 
