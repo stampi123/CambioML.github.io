@@ -4,7 +4,7 @@ import ProductCard from './components/ProductCard';
 import Feature from './components/feature/Feature';
 import Hero from './components/hero/Hero';
 import { FaAws } from 'react-icons/fa';
-import { SiMicrosoftazure } from 'react-icons/si';
+import { SiMicrosoftazure, SiGooglecloud } from 'react-icons/si';
 import UseCaseOverview from './components/home-page/UseCaseOverview';
 import Customers from './components/home-page/Customers';
 import Card from './components/Card';
@@ -15,8 +15,8 @@ export default function Home() {
     <>
       <Hero
         title="ML Platform for Enterprise R&D"
-        subtitle="Extract knowledge from your unstructured data"
-        typingWords={['encrypted PDF', 'images and Markdown', 'public HTML', 'papers and patents']}
+        subtitle="Extract research insights from your unstructured data"
+        typingWords={['Encrypted PDFs', 'Images and Markdowns', 'HTMLs or public URLs', 'papers and patents']}
         image="/images/hero.png"
         center
       />
@@ -58,6 +58,7 @@ export default function Home() {
             <ProductCard title="Deploy on the Cloud">
               <FaAws size={80} />
               <SiMicrosoftazure size={50} />
+              <SiGooglecloud size={70} />
             </ProductCard>
             <ProductCard title="Deploy on your data center" outline>
               Host our services on your data center

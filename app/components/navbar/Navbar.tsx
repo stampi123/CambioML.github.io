@@ -32,7 +32,7 @@ const Navbar = () => {
 
   return (
     <div
-      className={`fixed w-full z-50 ${isScrolled ? 'bg-white shadow-sm border-b-[1px]' : 'bg-transparent'} transition-all duration-300 ease-in-out`}
+      className={`fixed w-full z-50 flex flex-col justify-center ${isScrolled ? 'bg-white shadow-sm border-b-[1px] h-[75px]' : 'bg-transparent h-[100px]'} transition-all duration-300 ease-in-out`}
     >
       <div
         className="
