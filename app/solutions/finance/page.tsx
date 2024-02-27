@@ -1,10 +1,11 @@
 'use client';
 
 import PageHero from '@/app/components/hero/PageHero';
-import Section from '@/app/components/Section';
+import IconSection from '@/app/components/IconSection';
 import useDemoModal from '@/app/hooks/useDemoModal';
 import Feature from '@/app/components/feature/Feature';
 import DemoFeature from '@/app/components/feature/DemoFeature';
+import { ChartLineUp, Gauge, FolderLock } from '@phosphor-icons/react';
 
 const FintechSolutionsPage = () => {
   const demoModal = useDemoModal();
@@ -18,13 +19,22 @@ const FintechSolutionsPage = () => {
         button={{ label: 'Book a Demo', onClick: demoModal.onOpen }}
       />
       <div className="flex flex-col gap-10 items-center justify-center py-20">
-        <Section
+        <IconSection
           title={`Interested in using LLMs to boost your
           portfolio performance?`}
-          paragraphs={[
-            '• Do you want to extract trading signals from unstructured data 10x faster?',
-            '• Do you need a personalized AI explainer to interpret the trading signals?',
-            '• Are you concerned about information leak from using public LLM APIs?',
+          points={[
+            {
+              icon: Gauge,
+              text: 'Do you want to extract trading signals from unstructured data 10x faster?',
+            },
+            {
+              icon: ChartLineUp,
+              text: 'Do you need a personalized AI explainer to interpret the trading signals?',
+            },
+            {
+              icon: FolderLock,
+              text: 'Are you concerned about information leak from using public LLM APIs?',
+            },
           ]}
           center
         />
@@ -33,18 +43,22 @@ const FintechSolutionsPage = () => {
             imageTitle="Your Corporate Laptop"
             image="/images/graphics/cambio-flow-portfolio.png"
             alt="Cambio Flow Portfolio"
-            text={`• Reduce time spent on data cleaning by up to 90%
-            • Access to 10x more financial insights from multiple sources
-            • Fully own and control your proprietary AI agent`}
+            text={`Reduce time spent on data cleaning by up to 90%
+
+            Access to 10x more financial insights from multiple sources
+
+            Fully own and control your proprietary AI agent`}
           />
         </Feature>
         <Feature title="Interpret your investment decisions with evidence" center>
           <DemoFeature
             demo="/images/pykoi/pykoi-rag-chatbot-modify.gif"
             alt="Cambio Flow Portfolio"
-            text={`• Back up your own investment decisions with real data
-            • Write your economist views with your own style
-            • Fully own and control your proprietary AI agent`}
+            text={`Back up your own investment decisions with real data
+
+            Write your economist views with your own style
+
+            Fully own and control your proprietary AI agent`}
           />
         </Feature>
       </div>
