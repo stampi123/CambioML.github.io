@@ -15,8 +15,8 @@ export default function Home() {
     <>
       <Hero
         title="ML Platform for Enterprise R&D"
-        subtitle="Extract knowledge from your unstructured data"
-        typingWords={['encrypted PDF', 'images and Markdown', 'public HTML', 'papers and patents']}
+        subtitle="Extract research insights from your unstructured data"
+        typingWords={['Encrypted PDFs', 'Images and Markdowns', 'HTMLs or public URLs', 'papers and patents']}
         image="/images/hero.png"
         center
       />
