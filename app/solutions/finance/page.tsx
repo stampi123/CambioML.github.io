@@ -67,13 +67,17 @@ const FintechSolutionsPage = () => {
             solutions={[
               {
                 title: '10K Summarizer',
-                description: 'Summarize 10K reports with uniflow',
+                subtitle: 'Summarize 10K reports with uniflow',
+                description:
+                  'Are you looking to transform dense annual reports (10K) into concise, informative summaries? This guide introduces the use of <code>uniflow</code> to both extract and summarize key information from unstructured annual reports, enabling efficient knowledge discovery and summarization with a Large Language Model (LLM).',
                 url: 'https://github.com/CambioML/cambio-cookbook/blob/main/examples/10K_Evaluator/10K_PDF_Summary.ipynb',
                 image: '/images/solutions/amazon-10k.png',
               },
               {
                 title: '10K Evaluator',
-                description: 'Evaluate 10K reports with uniflow',
+                subtitle: 'Evaluate 10K reports with uniflow',
+                description:
+                  'Do you want to build an agent so that you can ask it anything about the annual report (10K)? In this example, we will show you how use <code>uniflow</code> and <code>pykoi</code> to extract knowledge from a unstructured annual report (10K) and then finetune an LLM on this knowledge.',
                 url: 'https://github.com/CambioML/cambio-cookbook/blob/main/examples/10K_Evaluator/10K_PDF_Evaluator.ipynb',
                 image: '/images/solutions/nike-10k.png',
               },
