@@ -43,7 +43,9 @@ const RDSolutionsPage = () => {
             solutions={[
               {
                 title: 'Research Paper Evaluator',
-                description: 'Fine-tune a chatbot based on a Research paper with uniflow and pykoi',
+                subtitle: 'Fine-tune a chatbot based on a Research paper with uniflow and pykoi',
+                description:
+                  'Do you want to build an agent so that you can ask it anything about a research paper? In this example, we will show you how use <code>uniflow</code> to extract knowledge from <i>An Observational Study of the Effect of Nike Vaporfly Shoes on Marathon Performance</i>, then use <code>pykoi</code> to finetune an LLM, and launch a chatbot',
                 url: 'https://github.com/CambioML/cambio-cookbook/blob/main/examples/ResearchPaperEvaluator/ResearchPDFEvaluator.ipynb',
                 image: '/images/solutions/nike-research.png',
               },
