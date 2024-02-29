@@ -6,6 +6,7 @@ import useDemoModal from '@/app/hooks/useDemoModal';
 import Feature from '@/app/components/feature/Feature';
 import DemoFeature from '@/app/components/feature/DemoFeature';
 import { ChartLineUp, Gauge, FolderLock } from '@phosphor-icons/react';
+import SolutionsList from '@/app/components/solutions/SolutionsList';
 
 const FintechSolutionsPage = () => {
   const demoModal = useDemoModal();
@@ -59,6 +60,24 @@ const FintechSolutionsPage = () => {
             Write your economist views with your own style
 
             Fully own and control your proprietary AI agent`}
+          />
+        </Feature>
+        <Feature title="Use Cases" center>
+          <SolutionsList
+            solutions={[
+              {
+                title: '10K Summarizer',
+                description: 'Summarize 10K reports with uniflow',
+                url: 'https://github.com/CambioML/cambio-cookbook/blob/main/examples/10K_Evaluator/10K_PDF_Summary.ipynb',
+                image: '/images/solutions/amazon-10k.png',
+              },
+              {
+                title: '10K Evaluator',
+                description: 'Evaluate 10K reports with uniflow',
+                url: 'https://github.com/CambioML/cambio-cookbook/blob/main/examples/10K_Evaluator/10K_PDF_Evaluator.ipynb',
+                image: '/images/solutions/nike-10k.png',
+              },
+            ]}
           />
         </Feature>
       </div>

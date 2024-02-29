@@ -18,6 +18,7 @@ const SolutionsCard = ({ title, description, url, image }: SolutionsCardProps) =
         col-span-1
         cursor-pointer
         group
+        h-full
         "
       >
         <div className="flex flex-col gap-2 w-full border-solid border-2 rounded-3xl xl:rounded-4xl hover:shadow-md">

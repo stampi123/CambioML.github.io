@@ -4,6 +4,7 @@ import PageHero from '@/app/components/hero/PageHero';
 import useDemoModal from '@/app/hooks/useDemoModal';
 import Feature from '@/app/components/feature/Feature';
 import DemoFeature from '@/app/components/feature/DemoFeature';
+import SolutionsList from '@/app/components/solutions/SolutionsList';
 
 const RDSolutionsPage = () => {
   const demoModal = useDemoModal();
@@ -35,6 +36,18 @@ const RDSolutionsPage = () => {
             text={`• Back up your research novelty with real data
             • Compare your research with the SOTA at ease
             • Fully own and control your proprietary AI agent`}
+          />
+        </Feature>
+        <Feature title="Use Cases" center>
+          <SolutionsList
+            solutions={[
+              {
+                title: 'Research Paper Evaluator',
+                description: 'Fine-tune a chatbot based on a Research paper with uniflow and pykoi',
+                url: 'https://github.com/CambioML/cambio-cookbook/blob/main/examples/ResearchPaperEvaluator/ResearchPDFEvaluator.ipynb',
+                image: '/images/solutions/nike-research.png',
+              },
+            ]}
           />
         </Feature>
       </div>
