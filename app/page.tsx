@@ -28,6 +28,19 @@ export default function Home() {
             <Card text="Accelerate the discovery of revenue opportunities" center cardIcon={Gauge} />
           </div>
         </Feature>
+        <div className="w-full h-[200px] flex items-center justify-center">
+          <a
+            href="https://www.ycombinator.com/launches/KWQ-cambioml-enterprise-data-gold-mining"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <img
+              alt="Launch YC: CambioML - Enterprise data gold mining"
+              src="https://www.ycombinator.com/launches/KWQ-cambioml-enterprise-data-gold-mining/upvote_embed.svg"
+              className="w-[400px]"
+            />
+          </a>
+        </div>
         <Feature title="Open-source Libraries are Adopted by Researchers at" bgColor="bg-neutral-100" center>
           <Customers />
         </Feature>
