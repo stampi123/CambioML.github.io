@@ -24,10 +24,10 @@ const SolutionsCard = ({ title, subtitle, description, url, image }: SolutionsCa
         cursor-pointer
         group
         h-fit
-        pt-20
+        relative
         "
-        id={createId(title)}
       >
+        <div id={createId(title)} className="absolute -top-28" />
         <div className="grid grid-cols-1 md:grid-cols-2 w-full h-fit md:h-[400px] border-solid border-2 rounded-3xl xl:rounded-4xl hover:shadow-md">
           <div
             className="
