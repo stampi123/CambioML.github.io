@@ -11,6 +11,10 @@ interface SolutionsCardProps {
   image?: string;
 }
 
+const createId = (title: string) => {
+  return title.toLowerCase().replaceAll(' ', '-');
+};
+
 const SolutionsCard = ({ title, subtitle, description, url, image }: SolutionsCardProps) => {
   return (
     <a target="_blank" href={url} rel="noopener noreferrer">
@@ -20,7 +24,9 @@ const SolutionsCard = ({ title, subtitle, description, url, image }: SolutionsCa
         cursor-pointer
         group
         h-fit
+        pt-20
         "
+        id={createId(title)}
       >
         <div className="grid grid-cols-1 md:grid-cols-2 w-full h-fit md:h-[400px] border-solid border-2 rounded-3xl xl:rounded-4xl hover:shadow-md">
           <div
