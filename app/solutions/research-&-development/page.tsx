@@ -43,9 +43,9 @@ const RDSolutionsPage = () => {
             solutions={[
               {
                 title: 'Research Paper Evaluator',
-                subtitle: 'Fine-tune a chatbot based on a Research paper with uniflow and pykoi',
+                subtitle: 'Build Your Own Research Agent from Research Papers with Uniflow',
                 description:
-                  'Do you want to build an agent so that you can ask it anything about a research paper? In this example, we will show you how use <code>uniflow</code> to extract knowledge from <i>An Observational Study of the Effect of Nike Vaporfly Shoes on Marathon Performance</i>, then use <code>pykoi</code> to finetune an LLM, and launch a chatbot',
+                  'Do you want to build an agent so that you can ask it anything about a research paper? In this example, we will show you how use <code>uniflow</code> to extract knowledge from <i>An Observational Study of the Effect of Nike Vaporfly Shoes on Marathon Performance</i>.',
                 url: 'https://medium.com/@CambioML/build-your-own-research-agent-from-research-papers-010e88e876f0',
                 image: '/images/solutions/nike-research.png',
               },
