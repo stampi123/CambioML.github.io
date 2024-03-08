@@ -9,14 +9,15 @@ interface PageHeroProps {
   description?: string;
   image?: string;
   button?: { label: string; link?: string; onClick?: () => void };
+  short?: boolean;
 }
 
-const PageHero = ({ title, description, image, button }: PageHeroProps) => {
+const PageHero = ({ title, description, image, button, short }: PageHeroProps) => {
   return (
     <div
       className={`w-full h-full overflow-hidden relative ${!image && 'bg-gradient-to-tr from-cambio-blue from-30% via-white to-cambio-blue to-70%'}`}
     >
-      <Container styles="h-[55vh] min-h-[650px]">
+      <Container styles={short ? 'h-[175px] mt-20' : 'h-[55vh] min-h-[650px]'}>
         {image && (
           <Image
             src={image}
