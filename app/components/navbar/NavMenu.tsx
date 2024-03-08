@@ -30,13 +30,20 @@ const NavMenu = ({ label, links }: NavMenuProps) => {
     setIsOpen((value) => !value);
   }, []);
 
+  const handleLabelClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    if (links.length === 0) {
+      const url = `/${label}`.toLowerCase().replaceAll(' ', '-');
+      router.push(url);
+      return;
+    }
+    toggleOpen();
+  };
+
   return (
     <div className="relative">
       <div
-        onClick={(e) => {
-          e.stopPropagation();
-          toggleOpen();
-        }}
+        onClick={handleLabelClick}
         className="
                     text-lg
                     font-semibold

@@ -10,7 +10,11 @@ import { useWindowScroll } from '@/app/hooks/useWindowScroll';
 const menuItems = [
   {
     label: 'Solutions',
-    links: ['Finance', 'Research & Development', 'Blog'],
+    links: ['Finance', 'Research & Development'],
+  },
+  {
+    label: 'Blog',
+    links: [],
   },
   {
     label: 'Company',
