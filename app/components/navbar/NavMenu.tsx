@@ -33,7 +33,8 @@ const NavMenu = ({ label, links }: NavMenuProps) => {
   const handleLabelClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     if (links.length === 0) {
-      router.push(`/${label.toLowerCase()}`);
+      const url = `/${label}`.toLowerCase().replaceAll(' ', '-');
+      router.push(url);
       return;
     }
     toggleOpen();
