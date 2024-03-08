@@ -5,6 +5,7 @@ import useDemoModal from '@/app/hooks/useDemoModal';
 import Feature from '@/app/components/feature/Feature';
 import DemoFeature from '@/app/components/feature/DemoFeature';
 import SolutionsList from '@/app/components/solutions/SolutionsList';
+import { solutions } from '@/app/data';
 
 const RDSolutionsPage = () => {
   const demoModal = useDemoModal();
@@ -39,18 +40,7 @@ const RDSolutionsPage = () => {
           />
         </Feature>
         <Feature title="Use Cases" center>
-          <SolutionsList
-            solutions={[
-              {
-                title: 'Research Paper Evaluator',
-                subtitle: 'Build Your Own Research Agent from Research Papers with Uniflow',
-                description:
-                  'Do you want to build an agent so that you can ask it anything about a research paper? In this example, we will show you how use <code>uniflow</code> to extract knowledge from <i>An Observational Study of the Effect of Nike Vaporfly Shoes on Marathon Performance</i>.',
-                url: 'https://medium.com/@CambioML/build-your-own-research-agent-from-research-papers-010e88e876f0',
-                image: '/images/solutions/nike-research.png',
-              },
-            ]}
-          />
+          <SolutionsList solutions={solutions.filter((sol) => sol.industries.includes('research-&-development'))} />
         </Feature>
       </div>
     </div>
