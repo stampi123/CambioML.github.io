@@ -16,24 +16,22 @@ const TransformContainer = () => {
   const [filename, setFilename] = useState<string>('');
 
   useEffect(() => {
-    if (selectedFile?.file instanceof File) {
-      setFilename(selectedFile?.file.name);
-    } else {
-      setFilename(selectedFile?.file || '');
-    }
-    if (
-      selectedFile?.extractState === ExtractState.DONE_EXTRACTING &&
-      selectedFile?.transformState === TransformState.NO_DATA
-    ) {
-      updateFileAtIndex(selectedFileIndex, 'transformState', TransformState.READY);
-    }
-  }, [selectedFile, setFilename, selectedFileIndex, updateFileAtIndex]);
-
-  useEffect(() => {
     if (selectedFileIndex !== null && files.length > 0) {
-      setSelectedFile(files[selectedFileIndex]);
+      const thisFile = files[selectedFileIndex];
+      setSelectedFile(thisFile);
+      if (thisFile.file instanceof File) {
+        setFilename(thisFile.file.name);
+      } else {
+        setFilename(thisFile.file);
+      }
+      if (
+        thisFile.extractState === ExtractState.DONE_EXTRACTING &&
+        thisFile.transformState === TransformState.NO_DATA
+      ) {
+        updateFileAtIndex(selectedFileIndex, 'transformState', TransformState.READY);
+      }
     }
-  }, [selectedFileIndex, files]);
+  }, [selectedFileIndex, files, updateFileAtIndex]);
 
   const updateDisplayTable = (resultList: string[][]) => {
     setDisplayTable(resultList);
@@ -145,7 +143,7 @@ const TransformContainer = () => {
       .then(() => {
         setTimeout(() => {
           pollJobStatus();
-        }, 20000); // Need to delay the polling to give the server time to process the file
+        }, 10000); // Need to delay the polling to give the server time to process the file
       })
       .catch((error) => {
         console.error('error', error);

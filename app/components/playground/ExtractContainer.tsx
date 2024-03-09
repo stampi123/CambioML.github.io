@@ -14,16 +14,14 @@ const ExtractContainer = () => {
   const [filename, setFilename] = useState<string>('');
 
   useEffect(() => {
-    if (selectedFile?.file instanceof File) {
-      setFilename(selectedFile?.file.name);
-    } else {
-      setFilename(selectedFile?.file || '');
-    }
-  }, [selectedFile, setFilename]);
-
-  useEffect(() => {
     if (selectedFileIndex !== null && files.length > 0) {
-      setSelectedFile(files[selectedFileIndex]);
+      const thisFile = files[selectedFileIndex];
+      setSelectedFile(thisFile);
+      if (thisFile.file instanceof File) {
+        setFilename(thisFile.file.name);
+      } else {
+        setFilename(thisFile.file);
+      }
     }
   }, [selectedFileIndex, files]);
 
@@ -40,7 +38,7 @@ const ExtractContainer = () => {
 
       URL.revokeObjectURL(url);
     }
-  }, [selectedFile]);
+  }, [selectedFile, filename]);
 
   const pollJobStatus = async (jobId: string, userId: string) => {
     // Time out after 600 seconds
