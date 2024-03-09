@@ -8,10 +8,11 @@ interface ButtonProps {
   disabled?: boolean;
   outline?: boolean;
   small?: boolean;
+  icon?: Icon;
   labelIcon?: Icon;
 }
 
-const Button = ({ label, onClick, disabled, outline, small, labelIcon: LabelIcon }: ButtonProps) => {
+const Button = ({ label, onClick, disabled, outline, small, icon: Icon, labelIcon: LabelIcon }: ButtonProps) => {
   return (
     <button
       onClick={onClick}
@@ -34,7 +35,7 @@ const Button = ({ label, onClick, disabled, outline, small, labelIcon: LabelIcon
         font-semibold
       `}
     >
-      {/* {Icon && (
+      {Icon && (
         <Icon
           size={24}
           className="
@@ -43,8 +44,8 @@ const Button = ({ label, onClick, disabled, outline, small, labelIcon: LabelIcon
             top-3
           "
         />
-      )} */}
-      <div className="flex items-center justify-center">
+      )}
+      <div className="flex items-center justify-center gap-2">
         <span>{label} </span>
         {LabelIcon && (
           <LabelIcon
