@@ -46,7 +46,7 @@ const Dropzone = () => {
       <p className="mt-2">
         {isDragActive ? 'Drop files here' : 'Drag and drop a single file here, or click to select a file'}
       </p>
-      <p className="text-sm text-gray-500">PDFs only</p>
+      <p className="text-sm text-gray-500">PDF, TXT, and HTML files only</p>
       <p className="text-sm text-gray-500">Please do not upload any sensitive information.</p>
       <p className="text-sm text-gray-500">Max 10 MB</p>
     </div>
