@@ -78,5 +78,9 @@ body,
   border-right: none;
 }
 
+.markdown > * {
+  all: revert;
+}
+
 
 

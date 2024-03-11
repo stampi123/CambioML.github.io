@@ -69,6 +69,7 @@ const ExtractContainer = () => {
             toast.success(`${filename} extracted!`);
             updateFileAtIndex(selectedFileIndex, 'extractResult', result);
             updateFileAtIndex(selectedFileIndex, 's3_file_source', response.data.file_source);
+            console.log('Extracted content:', result);
 
             return;
           } else if (response.status === 202) {
@@ -186,9 +187,9 @@ const ExtractContainer = () => {
         )}
         {selectedFile?.extractState === ExtractState.DONE_EXTRACTING && (
           <div className="flex flex-col items-start w-full h-full p-4 gap-4">
-            <div className="text-xl flex w-full justify-center font-semibold">{`${filename} Extracted Content`}</div>
+            <div className="text-xl flex w-full justify-center font-semibold">{`${filename} Content`}</div>
             <div className="overflow-auto relative w-full h-full bg-neutral-100 rounded-lg">
-              <Markdown className="text-lg p-4 absolute">{selectedFile.extractResult}</Markdown>
+              <Markdown className="markdown p-4 absolute">{selectedFile.extractResult}</Markdown>
             </div>
           </div>
         )}
