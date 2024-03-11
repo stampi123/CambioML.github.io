@@ -219,12 +219,9 @@ const ExtractContainer = () => {
           </div>
         )}
         {selectedFile?.extractState === ExtractState.DONE_EXTRACTING && (
-          // <div className="flex flex-col items-start w-full h-full p-4 gap-4">
-          //   <div className="text-xl flex w-full justify-center font-semibold">{`${filename} Content`}</div>
           <div className="overflow-auto relative w-full h-full rounded-lg">
             <Markdown className="markdown p-4 absolute">{selectedFile.extractResult}</Markdown>
           </div>
-          // </div>
         )}
       </div>
       <div className="w-full flex items-center justify-center grid-row-1">

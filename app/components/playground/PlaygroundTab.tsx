@@ -9,7 +9,7 @@ interface PlaygroundTabProps {
 }
 
 const unselectedStyle = 'text-neutral-500 hover:bg-neutral-100';
-const selectedStyle = 'bg-cambio-blue';
+const selectedStyle = 'text-neutral-800 bg-cambio-blue';
 
 const PlaygroundTab = ({ label, icon: Icon }: PlaygroundTabProps) => {
   const { selectedFileIndex, files, updateSelectedFile, loggedIn } = usePlaygroundStore();
