@@ -162,12 +162,12 @@ const TransformContainer = () => {
         )}
         {selectedFile?.transformState === TransformState.READY && (
           <div className="flex flex-col items-start w-full h-full p-4 gap-4">
-            <Button label="Generate Question-Answer Pairs" onClick={handleTransform} small labelIcon={GridNine} />
             <div className="overflow-auto relative w-full h-full">
               <Markdown className="markdown text-neutral-500 absolute p-4 rounded-lg bg-neutral-100">
                 {selectedFile.extractResult}
               </Markdown>
             </div>
+            <Button label="Generate Question-Answer Pairs" onClick={handleTransform} small labelIcon={GridNine} />
           </div>
         )}
         {selectedFile?.transformState === TransformState.TRANSFORMING && (

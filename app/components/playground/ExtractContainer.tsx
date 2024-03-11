@@ -7,9 +7,12 @@ import { PlaygroundFile, ExtractState } from '@/app/types/PlaygroundTypes';
 import { DownloadSimple, FileMagnifyingGlass, CloudArrowUp } from '@phosphor-icons/react';
 import PulsingIcon from '../PulsingIcon';
 import Markdown from 'react-markdown';
+import UploadButton from './UploadButton';
+
+const textStyles = 'text-xl font-semibold text-neutral-500';
 
 const ExtractContainer = () => {
-  const { selectedFileIndex, files, filesFormData, updateFileAtIndex } = usePlaygroundStore();
+  const { selectedFileIndex, files, filesFormData, updateFileAtIndex, token, clientId } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [filename, setFilename] = useState<string>('');
 
@@ -121,13 +124,13 @@ const ExtractContainer = () => {
       .post(fileData.presignedUrl.url, postData)
       .then((response) => {
         if (response.status === 204) {
-          toast.success(`${filename} uploaded`);
+          toast.success(`${filename} uploaded!`);
           updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.EXTRACTING);
           updateFileAtIndex(selectedFileIndex, 'jobId', fileData.jobId);
           updateFileAtIndex(selectedFileIndex, 'userId', fileData.userId);
           setTimeout(() => {
             pollJobStatus(fileData.jobId, fileData.userId);
-          }, 10000); // Need to delay the polling to give the server time to process the file
+          }, 5000); // Need to delay the polling to give the server time to process the file
         } else {
           toast.error(`Error uploading ${filename}. Please refresh the page and try again.`);
           updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
@@ -140,11 +143,42 @@ const ExtractContainer = () => {
   };
 
   const handleHTMLExtract = async () => {
-    toast.success(`extracting ${selectedFile?.file}`);
     updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.EXTRACTING);
-    setTimeout(() => {
-      updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
-    }, 2000);
+    const params = {
+      token: token,
+      client_id: clientId,
+      files: [
+        {
+          url: selectedFile?.file,
+          source_type: 'url',
+        },
+      ],
+      job_type: 'file_extraction',
+    };
+    axios
+      .post(`${process.env.NEXT_PUBLIC_PLAYGROUND_API_URL}/request`, params, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          toast.success(`${filename} submitted for extraction!`);
+          updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.EXTRACTING);
+          updateFileAtIndex(selectedFileIndex, 'jobId', response.data.jobId);
+          updateFileAtIndex(selectedFileIndex, 'userId', response.data.userId);
+          setTimeout(() => {
+            pollJobStatus(response.data.jobId, response.data.userId);
+          }, 10000); // Need to delay the polling to give the server time to process the file
+        } else {
+          toast.error(`Error uploading ${filename}. Please refresh the page and try again.`);
+          updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
+        }
+      })
+      .catch((error) => {
+        console.error('error', error);
+        toast.error(`Error uploading ${filename}. Please refresh the page and try again.`);
+      });
   };
 
   const handleExtract = async () => {
@@ -159,12 +193,13 @@ const ExtractContainer = () => {
     <div className="w-full h-full pb-4 grid grid-rows-[1fr_50px] gap-4">
       <div className="border border-solid border-2 border-neutral-200 rounded-b-xl grid-row-1">
         {selectedFileIndex === null && (
-          <div className="flex flex-col items-center justify-center h-full overflow-auto">
-            <div className="text-xl font-semibold text-neutral-500">Please upload a file.</div>
+          <div className="flex flex-col items-center justify-center h-full overflow-auto gap-4">
+            <div className={textStyles}>Please upload a file.</div>
+            <UploadButton small />
           </div>
         )}
         {selectedFile?.extractState === ExtractState.READY && (
-          <div className="flex flex-col items-center justify-center gap-4 h-full text-lg">
+          <div className="flex flex-col items-center justify-center gap-4 h-full text-lg text-center">
             {filename}
             <div className="w-[200px]">
               <Button label="Extract" onClick={handleExtract} small labelIcon={FileMagnifyingGlass} />
@@ -173,29 +208,26 @@ const ExtractContainer = () => {
         )}
         {selectedFile?.extractState === ExtractState.UPLOADING && (
           <div className="flex flex-col items-center justify-center h-full gap-2">
-            <div className="text-xl font-semibold text-neutral-500">Uploading</div>
+            <div className={textStyles}>Uploading</div>
             <PulsingIcon Icon={CloudArrowUp} size={40} />
           </div>
         )}
         {selectedFile?.extractState === ExtractState.EXTRACTING && (
           <div className="flex flex-col items-center justify-center h-full gap-2">
-            <div className="text-xl font-semibold text-neutral-500">Extracting</div>
+            <div className={textStyles}>Extracting</div>
             <PulsingIcon Icon={FileMagnifyingGlass} size={40} />
           </div>
         )}
         {selectedFile?.extractState === ExtractState.DONE_EXTRACTING && (
-          <div className="flex flex-col items-start w-full h-full p-4 gap-4">
-            <div className="text-xl flex w-full justify-center font-semibold">{`${filename} Content`}</div>
-            <div className="overflow-auto relative w-full h-full bg-neutral-100 rounded-lg">
-              <Markdown className="markdown p-4 absolute">{selectedFile.extractResult}</Markdown>
-            </div>
+          <div className="overflow-auto relative w-full h-full rounded-lg">
+            <Markdown className="markdown p-4 absolute">{selectedFile.extractResult}</Markdown>
           </div>
         )}
       </div>
       <div className="w-full flex items-center justify-center grid-row-1">
         <div className="w-[60%] min-w-[30px]">
           <Button
-            label="Download txt"
+            label="Download Extracted Text"
             onClick={handleDownload}
             small
             disabled={selectedFile?.extractState !== ExtractState.DONE_EXTRACTING}
