@@ -69,8 +69,6 @@ const ExtractContainer = () => {
             toast.success(`${filename} extracted!`);
             updateFileAtIndex(selectedFileIndex, 'extractResult', result);
             updateFileAtIndex(selectedFileIndex, 's3_file_source', response.data.file_source);
-            console.log('Extracted content:', result);
-
             return;
           } else if (response.status === 202) {
             setTimeout(poll, pollInterval);

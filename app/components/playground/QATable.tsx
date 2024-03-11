@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { TransformResult, OutputItem } from '../../types/PlaygroundTypes';
-import Markdown from 'react-markdown';
 
 interface QATableProps {
   transformResult: TransformResult;
