@@ -3,9 +3,10 @@ import Button from '../Button';
 import { UploadSimple } from '@phosphor-icons/react';
 interface UploadButtonProps {
   small?: boolean;
+  disabled?: boolean;
 }
 
-const UploadButton = ({ small }: UploadButtonProps) => {
+const UploadButton = ({ small, disabled }: UploadButtonProps) => {
   const uploadModal = useUploadModal();
   return (
     <div className={small ? 'w-[200px]' : 'w-[300px]'}>
@@ -16,6 +17,7 @@ const UploadButton = ({ small }: UploadButtonProps) => {
         }}
         small={small}
         labelIcon={UploadSimple}
+        disabled={disabled}
       />
     </div>
   );

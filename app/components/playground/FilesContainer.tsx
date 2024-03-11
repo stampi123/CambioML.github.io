@@ -4,9 +4,9 @@ import { FileDashed } from '@phosphor-icons/react';
 import FileItem from './FileItem';
 
 const FilesContainer = () => {
-  const { files } = usePlaygroundStore();
+  const { files, loggedIn } = usePlaygroundStore();
   return (
-    <div className="h-full w-full grid grid-rows-[50px_1fr_80px]">
+    <div className="h-full w-full  min-h-[400px] grid grid-rows-[50px_1fr_80px]">
       <div className="row-span-1 text-2xl font-semibold pb-10">Files</div>
       <div className="row-span-1 overflow-auto relative box-border">
         {files.length > 0 ? (
@@ -21,9 +21,11 @@ const FilesContainer = () => {
           </div>
         )}
       </div>
-      <div className="row-span-2 h-full flex items-center justify-center">
-        <UploadButton small />
-      </div>
+      {files.length > 0 && (
+        <div className="row-span-2 h-full flex items-center justify-center">
+          <UploadButton small disabled={!loggedIn} />
+        </div>
+      )}
     </div>
   );
 };
