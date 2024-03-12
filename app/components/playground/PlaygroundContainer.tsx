@@ -13,19 +13,20 @@ const PlaygroundContainer = () => {
       <div className="w-[80vw] min-w-[600px] max-w-[2000px] flex flex-col gap-10">
         <div
           className="
-        w-full
-        h-full
-        grid
-        grid-cols-1
-        lg:grid-cols-[300px_1fr]
-        rounded-2xl
-        shadow-md
+          w-full
+          h-full
+          grid
+          grid-cols-1
+          lg:grid-cols-[300px_1fr]
+          rounded-2xl
         "
         >
           <div className={`${playgroundWrapperStyles} rounded-t-2xl lg:rounded-r-none lg:rounded-l-2xl bg-neutral-100`}>
             <FilesContainer />
           </div>
-          <div className={`${playgroundWrapperStyles} rounded-b-2xl lg:rounded-l-none lg:rounded-r-2xl border-l-0`}>
+          <div
+            className={`${playgroundWrapperStyles} rounded-b-2xl lg:rounded-l-none lg:rounded-r-2xl border-t-0 lg:border-l-0`}
+          >
             <ActionContainer />
           </div>
         </div>
