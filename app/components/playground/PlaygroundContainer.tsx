@@ -25,7 +25,7 @@ const PlaygroundContainer = () => {
             <FilesContainer />
           </div>
           <div
-            className={`${playgroundWrapperStyles} rounded-b-2xl lg:rounded-l-none lg:rounded-r-2xl border-t-0 lg:border-l-0`}
+            className={`${playgroundWrapperStyles} rounded-b-2xl lg:rounded-l-none lg:rounded-r-2xl border-t-0 lg:border-l-0 lg:border-t-[1px]`}
           >
             <ActionContainer />
           </div>
