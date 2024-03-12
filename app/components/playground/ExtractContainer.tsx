@@ -105,12 +105,13 @@ const ExtractContainer = () => {
     poll();
   };
 
-  const handlePDFExtract = async () => {
+  const handleFileExtract = async () => {
     updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.UPLOADING);
     const fileData = filesFormData.find((obj) => obj.presignedUrl.fields['x-amz-meta-filename'] === filename);
+    console.log(`Extracting ${filename} | job_id: $${fileData?.jobId}`);
     if (!fileData) {
       updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
-      toast.error(`Error extracting ${filename}. Please refresh the page and try again.`);
+      toast.error(`Error extracting ${filename}. Please try again.`);
       return;
     }
     const postData = new FormData();
@@ -132,13 +133,14 @@ const ExtractContainer = () => {
             pollJobStatus(fileData.jobId, fileData.userId);
           }, 5000); // Need to delay the polling to give the server time to process the file
         } else {
-          toast.error(`Error uploading ${filename}. Please refresh the page and try again.`);
+          toast.error(`Error uploading ${filename}. Please try again.`);
           updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
         }
       })
       .catch((error) => {
         console.error('error', error);
-        toast.error(`Error uploading ${filename}. Please refresh the page and try again.`);
+        toast.error(`Error uploading ${filename}. Please try again.`);
+        updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
       });
   };
 
@@ -167,17 +169,19 @@ const ExtractContainer = () => {
           updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.EXTRACTING);
           updateFileAtIndex(selectedFileIndex, 'jobId', response.data.jobId);
           updateFileAtIndex(selectedFileIndex, 'userId', response.data.userId);
+          console.log(`Extracting ${filename} | job_id: $${response.data.jobId}`);
           setTimeout(() => {
             pollJobStatus(response.data.jobId, response.data.userId);
-          }, 10000); // Need to delay the polling to give the server time to process the file
+          }, 5000); // Need to delay the polling to give the server time to process the file
         } else {
-          toast.error(`Error uploading ${filename}. Please refresh the page and try again.`);
+          toast.error(`Error uploading ${filename}. Please try again.`);
           updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
         }
       })
       .catch((error) => {
         console.error('error', error);
-        toast.error(`Error uploading ${filename}. Please refresh the page and try again.`);
+        toast.error(`Error uploading ${filename}. Please try again.`);
+        updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
       });
   };
 
@@ -185,7 +189,7 @@ const ExtractContainer = () => {
     if (typeof selectedFile?.file === 'string') {
       handleHTMLExtract();
     } else {
-      handlePDFExtract();
+      handleFileExtract();
     }
   };
 

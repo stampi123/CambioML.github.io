@@ -2,7 +2,7 @@ import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { useCallback, useEffect, useState } from 'react';
 import Button from '../Button';
 import QATable from './QATable';
-import { ExtractState, PlaygroundFile, TransformState } from '@/app/types/PlaygroundTypes';
+import { TransformState, PlaygroundFile, ExtractState } from '@/app/types/PlaygroundTypes';
 import axios, { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
 import { DownloadSimple, GridNine } from '@phosphor-icons/react';
@@ -117,7 +117,7 @@ const TransformContainer = () => {
     poll();
   };
 
-  const handleTransform = () => {
+  const handleFileTransform = () => {
     updateFileAtIndex(selectedFileIndex, 'transformState', TransformState.TRANSFORMING);
     const api_url = process.env.NEXT_PUBLIC_PLAYGROUND_API_URL;
     const s3_file_source = selectedFile?.s3_file_source;
@@ -150,6 +150,53 @@ const TransformContainer = () => {
         toast.error(`Error transforming ${filename}. Please try again.`);
         updateFileAtIndex(selectedFileIndex, 'transformState', TransformState.READY);
       });
+  };
+
+  const handleHTMLTransform = async () => {
+    const params = {
+      token: token,
+      client_id: clientId,
+      files: [
+        {
+          url: selectedFile?.file,
+          source_type: 'url',
+        },
+      ],
+      job_type: 'file_extraction',
+      job_id: selectedFile?.jobId,
+    };
+    axios
+      .post(`${process.env.NEXT_PUBLIC_PLAYGROUND_API_URL}/request`, params, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          toast.success(`${filename} submitted for extraction!`);
+          updateFileAtIndex(selectedFileIndex, 'extractState', TransformState.TRANSFORMING);
+          setTimeout(() => {
+            pollJobStatus();
+          }, 10000); // Need to delay the polling to give the server time to process the file
+        } else {
+          toast.error(`Error uploading ${filename}. Please try again.`);
+          updateFileAtIndex(selectedFileIndex, 'extractState', TransformState.READY);
+        }
+      })
+      .catch((error) => {
+        console.error('error', error);
+        toast.error(`Error uploading ${filename}. Please try again.`);
+        updateFileAtIndex(selectedFileIndex, 'extractState', TransformState.READY);
+      });
+  };
+
+  const handleTransform = async () => {
+    console.log(`Transforming ${filename} | job_id: ${selectedFile?.jobId}`);
+    if (typeof selectedFile?.file === 'string') {
+      handleHTMLTransform();
+    } else {
+      handleFileTransform();
+    }
   };
 
   return (

@@ -20,7 +20,7 @@ const UploadModal = () => {
   const [htmlInputError, setHtmlInputError] = useState('');
 
   const handleHtmlInputChange = (value: string) => {
-    if (isValidUrl(value)) {
+    if (validateUrl(value)) {
       setHtmlInputError('');
     } else {
       setHtmlInputError('Invalid URL');
@@ -28,10 +28,18 @@ const UploadModal = () => {
     setHtmlInputValue(value);
   };
 
-  const isValidUrl = (url: string) => {
-    // Regular expression to validate URL ending with .html
-    const urlPattern = /^(http|https):\/\/[^ "]+\.html$/;
-    return urlPattern.test(url);
+  const validateUrl = (url: string): boolean => {
+    const regex = new RegExp(
+      '^(?:http|https)://' + // http:// or https://
+        '(?:www\\.)?' + // optional 'www.'
+        '(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+' + // domain...
+        '[a-zA-Z]{2,6}' + // top-level domain
+        '(?:\\/[\\w\\-\\.\\?\\=\\&\\%]*)?' + // optional path/query
+        '$',
+      'i'
+    ); // end of string
+
+    return regex.test(url);
   };
 
   const handleHtmlAdd = () => {
@@ -204,13 +212,13 @@ const UploadModal = () => {
                 <X size={24} />
               </button>
             </div>
-            <div className="flex items-center justify-center h-auto lg:h-[90vh] w-auto p-10 max-h-[800px]">
+            <div className="flex items-center justify-center h-[600px] lg:h-[90vh] w-auto p-10 max-h-[900px]">
               {uploadModal.uploadModalState === UploadModalState.LOGIN && <LoginComponent />}
               {uploadModal.uploadModalState === UploadModalState.ADD_FILES && (
                 <div className="w-full h-full flex flex-col justify-center items-center gap-4 ">
                   <div className="w-full grid grid-cols-[1fr_125px] gap-4">
                     <InputBasic
-                      label="HTML URL"
+                      label="URL"
                       value={htmlInputValue}
                       onChange={handleHtmlInputChange}
                       error={htmlInputError}

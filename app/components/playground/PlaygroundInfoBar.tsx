@@ -9,10 +9,11 @@ const PlaygroundInfoBar = () => {
       <div className="flex items-center gap-2">
         <Info size={32} className="shrink-0" />
         <div className="whitespace-pre-line italic">
-          {`Please only upload files without sensitive data. For PDFs, we only process the first page. Refresh will clear all files and processed data.`}
+          {`*For PDFs, we only process the first page for better availability.
+          **Please only upload files without sensitive data. Refresh will clear all files and processed data.`}
         </div>
       </div>
-      <div>
+      <div className="flex items-center justify-center">
         <SimpleButton label="Feedback" labelIcon={Question} onClick={playgroundFeedbackModal.onOpen} small />
       </div>
     </div>
