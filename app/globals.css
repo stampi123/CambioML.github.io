@@ -80,6 +80,8 @@ body,
 
 .markdown > * {
   all: revert;
+  margin: 0;
+  line-height: 1.5;
 }
 
 
