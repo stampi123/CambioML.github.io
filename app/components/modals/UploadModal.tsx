@@ -29,8 +29,7 @@ const UploadModal = () => {
   };
 
   const isValidUrl = (url: string) => {
-    // Regular expression to validate URL ending with .html
-    const urlPattern = /^(http|https):\/\/[^ "]+\.html$/;
+    const urlPattern = /^(http|https):\/\/(www\.)?[^\s"]+$/;
     return urlPattern.test(url);
   };
 
@@ -208,9 +207,9 @@ const UploadModal = () => {
               {uploadModal.uploadModalState === UploadModalState.LOGIN && <LoginComponent />}
               {uploadModal.uploadModalState === UploadModalState.ADD_FILES && (
                 <div className="w-full h-full flex flex-col justify-center items-center gap-4 ">
-                  <div className="w-full grid grid-cols-[1fr_125px] gap-4">
+                  <div className="w-full grid grid-cols-[1fr_125px] gap-4 pt-4">
                     <InputBasic
-                      label="HTML URL"
+                      label="URL"
                       value={htmlInputValue}
                       onChange={handleHtmlInputChange}
                       error={htmlInputError}
