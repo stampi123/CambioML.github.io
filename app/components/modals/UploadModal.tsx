@@ -203,11 +203,11 @@ const UploadModal = () => {
                 <X size={24} />
               </button>
             </div>
-            <div className="flex items-center justify-center h-auto lg:h-[90vh] w-auto p-10 max-h-[800px]">
+            <div className="flex items-center justify-center h-auto lg:h-[90vh] w-auto p-10 max-h-[900px]">
               {uploadModal.uploadModalState === UploadModalState.LOGIN && <LoginComponent />}
               {uploadModal.uploadModalState === UploadModalState.ADD_FILES && (
                 <div className="w-full h-full flex flex-col justify-center items-center gap-4 ">
-                  <div className="w-full grid grid-cols-[1fr_125px] gap-4 pt-4">
+                  <div className="w-full grid grid-cols-[1fr_125px] gap-4">
                     <InputBasic
                       label="URL"
                       value={htmlInputValue}
