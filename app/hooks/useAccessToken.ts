@@ -1,43 +1,37 @@
-const COOKIE_NAME = 'accessToken';
-const COOKIE_HOURS = 1;
-const EXPIRES = true; // Set to false to use session cookies
+const STORAGE_KEY = 'accessToken';
 
-export const setAccessCookie = (value: string): void => {
-  if (EXPIRES) {
-    const expirationDate = new Date();
-    expirationDate.setTime(expirationDate.getTime() + COOKIE_HOURS * 60 * 60 * 1000);
-    const cookieValue = `${COOKIE_NAME}=${encodeURIComponent(value)}; expires=${expirationDate.toUTCString()}; path=/`;
-    document.cookie = cookieValue;
+export const setAccessStorage = (
+  value: string,
+  expiresInHours: number = 1,
+  storageType: 'localStorage' | 'sessionStorage' = 'localStorage'
+): void => {
+  const expirationTime = new Date().getTime() + expiresInHours * 60 * 60 * 1000;
+  const data = { value, expiresAt: expirationTime };
+  const serializedData = JSON.stringify(data);
+
+  if (storageType === 'localStorage') {
+    localStorage.setItem(STORAGE_KEY, serializedData);
   } else {
-    const cookieValue = `${COOKIE_NAME}=${encodeURIComponent(value)}; path=/`;
-    document.cookie = cookieValue;
+    sessionStorage.setItem(STORAGE_KEY, serializedData);
   }
 };
 
-export const getAccessCookie = (): string | null => {
-  const cookies = document.cookie.split(';');
+export const getAccessStorage = (): string | null => {
+  const storedData = localStorage.getItem(STORAGE_KEY) || sessionStorage.getItem(STORAGE_KEY);
 
-  for (const cookie of cookies) {
-    const [cookieName, cookieValue] = cookie.split('=').map((c) => c.trim());
+  if (storedData) {
+    const data = JSON.parse(storedData);
+    const expirationTime = data.expiresAt;
 
-    if (cookieName === COOKIE_NAME) {
-      return decodeURIComponent(cookieValue);
+    if (expirationTime && expirationTime > new Date().getTime()) {
+      return data.value;
     }
   }
 
   return null;
 };
 
-export const deleteAccessCookie = (): void => {
-  const cookies = document.cookie.split(';');
-
-  for (const cookie of cookies) {
-    const [cookieName] = cookie.split('=').map((c) => c.trim());
-
-    if (cookieName === COOKIE_NAME) {
-      const cookieToDelete = `${COOKIE_NAME}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-      document.cookie = cookieToDelete;
-      break;
-    }
-  }
+export const deleteAccessStorage = (): void => {
+  localStorage.removeItem(STORAGE_KEY);
+  sessionStorage.removeItem(STORAGE_KEY);
 };

@@ -6,10 +6,9 @@ interface QATableProps {
   updateDisplayTable: (resultList: string[][]) => void;
 }
 
-const cellStyle: React.CSSProperties = {
-  padding: '8px',
-  textAlign: 'center',
-};
+const cellStyle = 'p-2 text-center whitespace-pre-wrap';
+const contextColWidth = '50%';
+const otherColWidth = '25%';
 
 const QATable = ({ transformResult, updateDisplayTable }: QATableProps) => {
   const [resultList, setResultList] = useState<string[][]>([]);
@@ -31,20 +30,25 @@ const QATable = ({ transformResult, updateDisplayTable }: QATableProps) => {
     updateDisplayTable(thisList);
   }, [transformResult]);
   return (
-    <div className="absolute">
-      <table className="border-none">
+    <div className="absolute w-full">
+      <table className="border-none w-full table-fixed">
+        <colgroup>
+          <col style={{ width: contextColWidth }} />
+          <col style={{ width: otherColWidth }} />
+          <col style={{ width: otherColWidth }} />
+        </colgroup>
         <thead>
           <tr>
-            <th style={cellStyle}>Context</th>
-            <th style={cellStyle}>Question</th>
-            <th style={cellStyle}>Answer</th>
+            <th className={cellStyle}>Context</th>
+            <th className={cellStyle}>Question</th>
+            <th className={cellStyle}>Answer</th>
           </tr>
         </thead>
         <tbody>
           {resultList.map((rowData, index) => (
             <tr key={index}>
               {rowData.map((value, columnIndex) => (
-                <td key={columnIndex} style={cellStyle}>
+                <td className={cellStyle} key={columnIndex}>
                   <div>{value}</div>
                 </td>
               ))}
