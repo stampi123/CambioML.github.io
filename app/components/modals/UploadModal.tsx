@@ -20,7 +20,7 @@ const UploadModal = () => {
   const [htmlInputError, setHtmlInputError] = useState('');
 
   const handleHtmlInputChange = (value: string) => {
-    if (isValidUrl(value)) {
+    if (validateUrl(value)) {
       setHtmlInputError('');
     } else {
       setHtmlInputError('Invalid URL');
@@ -28,9 +28,18 @@ const UploadModal = () => {
     setHtmlInputValue(value);
   };
 
-  const isValidUrl = (url: string) => {
-    const urlPattern = /^(http|https):\/\/(www\.)?[^\s"]+$/;
-    return urlPattern.test(url);
+  const validateUrl = (url: string): boolean => {
+    const regex = new RegExp(
+      '^(?:http|https)://' + // http:// or https://
+        '(?:www\\.)?' + // optional 'www.'
+        '(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+' + // domain...
+        '[a-zA-Z]{2,6}' + // top-level domain
+        '(?:\\/[\\w\\-\\.\\?\\=\\&\\%]*)?' + // optional path/query
+        '$',
+      'i'
+    ); // end of string
+
+    return regex.test(url);
   };
 
   const handleHtmlAdd = () => {
