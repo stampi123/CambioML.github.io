@@ -1,8 +1,11 @@
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import { useEffect } from 'react';
-import { getAccessCookie, setAccessCookie } from '@/app/hooks/useAccessToken';
+import { deleteAccessStorage, getAccessStorage, setAccessStorage } from '@/app/hooks/useAccessToken';
 import toast from 'react-hot-toast';
+
+const ACCESS_TIME = 1; //Access token time in hours
+
 interface LoginResponse {
   credential: string | undefined;
   clientId: string;
@@ -12,20 +15,25 @@ interface LoginResponse {
 const LoginComponent = () => {
   const { setLoggedIn, setClientId, setToken } = usePlaygroundStore();
   useEffect(() => {
-    const accessToken = getAccessCookie();
+    const accessToken = getAccessStorage();
     if (accessToken) {
       setLoggedIn(true);
       setClientId(process.env.NEXT_PUBLIC_OAUTH_GOOGLE_CLIENT_ID || '');
       setToken(accessToken);
+    } else {
+      setLoggedIn(false);
+      setClientId('');
+      setToken('');
+      deleteAccessStorage();
     }
-  }, []);
+  }, [setLoggedIn, setClientId, setToken]);
 
   const handleLogin = (response: LoginResponse) => {
     setLoggedIn(true);
 
     if (typeof response.credential === 'string') {
       setToken(response.credential);
-      setAccessCookie(response.credential);
+      setAccessStorage(response.credential, ACCESS_TIME, 'localStorage');
     }
 
     setClientId(response.clientId);
