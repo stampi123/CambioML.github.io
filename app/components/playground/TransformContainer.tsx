@@ -143,7 +143,7 @@ const TransformContainer = () => {
       .then(() => {
         setTimeout(() => {
           pollJobStatus();
-        }, 10000); // Need to delay the polling to give the server time to process the file
+        }, 5000); // Need to delay the polling to give the server time to process the file
       })
       .catch((error) => {
         console.error('error', error);
