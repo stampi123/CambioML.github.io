@@ -162,8 +162,8 @@ const TransformContainer = () => {
         )}
         {selectedFile?.transformState === TransformState.READY && (
           <div className="flex flex-col items-start w-full h-full p-4 gap-4">
-            <div className="overflow-auto relative w-full h-full">
-              <Markdown className="markdown text-neutral-500 absolute p-4 rounded-lg bg-neutral-100">
+            <div className="overflow-auto relative w-full h-full bg-neutral-100 text-neutral-500 rounded-lg">
+              <Markdown className="markdown absolute p-4  whitespace-pre-wrap w-full h-full">
                 {selectedFile.extractResult}
               </Markdown>
             </div>

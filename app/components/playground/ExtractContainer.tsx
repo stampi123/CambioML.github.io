@@ -220,7 +220,7 @@ const ExtractContainer = () => {
         )}
         {selectedFile?.extractState === ExtractState.DONE_EXTRACTING && (
           <div className="overflow-auto relative w-full h-full rounded-lg">
-            <Markdown className="markdown p-4 absolute">{selectedFile.extractResult}</Markdown>
+            <Markdown className="markdown p-4 absolute whitespace-pre-wrap">{selectedFile.extractResult}</Markdown>
           </div>
         )}
       </div>
