@@ -6,7 +6,7 @@ interface QATableProps {
   updateDisplayTable: (resultList: string[][]) => void;
 }
 
-const cellStyle = 'p-2 text-center whitespace-pre-wrap';
+const cellStyle = 'p-2 text-center whitespace-pre-wrap break-words';
 const contextColWidth = '50%';
 const otherColWidth = '25%';
 
