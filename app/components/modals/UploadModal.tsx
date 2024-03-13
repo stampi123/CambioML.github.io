@@ -1,7 +1,7 @@
 'use client';
 
 import { useUploadModal, UploadModalState } from '@/app/hooks/useUploadModal';
-import { X, CloudArrowUp } from '@phosphor-icons/react';
+import { X, CloudArrowUp, FileArrowUp } from '@phosphor-icons/react';
 import { useCallback, useEffect, useState } from 'react';
 import { useOutsideClickModal } from '@/app/hooks/useOutsideClickModal';
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
@@ -9,10 +9,10 @@ import LoginComponent from '../auth/Login';
 import Dropzone from '../playground/Dropzone';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
-import { PresignedResponse } from '@/app/types/PlaygroundTypes';
 import PulsingIcon from '../PulsingIcon';
 import InputBasic from '../inputs/InputBasic';
 import Button from '../Button';
+import { PresignedResponse } from '@/app/types/PlaygroundTypes';
 
 const UploadModal = () => {
   const uploadModal = useUploadModal();
@@ -52,6 +52,30 @@ const UploadModal = () => {
     } else {
       toast.error('Invalid HTML URL');
     }
+  };
+
+  const loadPdfFile = () => {
+    return fetch('/uniflow_intro.pdf')
+      .then((response) => response.blob())
+      .then((blob) => {
+        const file = new File([blob], 'uniflow.pdf', { type: 'application/pdf' });
+        return file;
+      })
+      .catch((error) => {
+        console.error('Error loading PDF file:', error);
+      });
+  };
+
+  const handleStarterFile = async () => {
+    const starterFile = await loadPdfFile();
+    if (!starterFile) {
+      uploadModal.setUploadModalState(UploadModalState.ADD_FILES);
+      toast.error('Error loading starter file. Please try again.');
+      return;
+    }
+    setFilesToUpload([starterFile]);
+    uploadModal.setUploadModalState(UploadModalState.UPLOADING);
+    if (selectedFileIndex === null) setSelectedFileIndex(0);
   };
 
   const handleClose = useCallback(() => {
@@ -234,8 +258,14 @@ const UploadModal = () => {
                     <hr className="flex-1 border-t border-gray-300" />
                     <span className="text-gray-500">OR</span>
                     <hr className="flex-1 border-t border-gray-300" />
-                  </div>{' '}
+                  </div>
                   <Dropzone />
+                  <div className="w-full flex items-center gap-4">
+                    <hr className="flex-1 border-t border-gray-300" />
+                    <span className="text-gray-500">OR</span>
+                    <hr className="flex-1 border-t border-gray-300" />
+                  </div>
+                  <Button label="Upload Starter File" onClick={handleStarterFile} labelIcon={FileArrowUp} small />
                 </div>
               )}
               {uploadModal.uploadModalState === UploadModalState.UPLOADING && (
