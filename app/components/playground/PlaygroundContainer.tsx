@@ -19,6 +19,7 @@ const PlaygroundContainer = () => {
           grid-cols-1
           lg:grid-cols-[300px_1fr]
           rounded-2xl
+          shadow-lg
         "
         >
           <div className={`${playgroundWrapperStyles} rounded-t-2xl lg:rounded-r-none lg:rounded-l-2xl bg-neutral-100`}>
