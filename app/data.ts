@@ -30,6 +30,16 @@ export const solutions: Solution[] = [
     blog: false,
   },
   {
+    title: 'Maximizing Long-Text Potential',
+    subtitle: 'Strategies for Open-Source LLMs Beyond Token Limits',
+    description:
+      'Struggling with processing long texts using open-source LLMs? Discover <strong>Uniflow</strong>, a tool that simplifies handling texts beyond token limits. Learn how to effortlessly manage large documents like "War and Peace" and maximize your LLM\'s potential with <strong>Uniflow</strong>.',
+    url: 'https://medium.com/@CambioML/maximizing-long-text-potential-strategies-for-open-source-llms-beyond-token-limits-5489242593da',
+    image: '/images/solutions/auto-splitter.png',
+    industries: [],
+    blog: true,
+  },
+  {
     title: 'Research Paper Evaluator',
     subtitle: 'Build Your Own Research Agent from Research Papers with Uniflow',
     description:
