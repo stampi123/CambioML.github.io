@@ -37,14 +37,12 @@ const transformContent = (
     <div
       className={textStyle}
     >{`One option is to convert your text to Question-Answer pairs. Uniflow will take each paragraph in your file and generate a single question and answer based on that paragraph.`}</div>
-    <div className={h2Style}>Summarize</div>
+    <div className={h2Style}>Summarize (coming soon)</div>
     <div
       className={textStyle}
     >{`Another option is to generate summaries from your file. Uniflow will take each paragraph in your file and generate a short summary based on that paragraph.`}</div>
     <div className={h2Style}>Next Steps</div>
-    <div
-      className={textStyle}
-    >{`Once you've run the transform, you can download the Question-Answer data as a csv file.`}</div>
+    <div className={textStyle}>{`Once you've run the transform, you can download the data as a csv file.`}</div>
   </>
 );
 
