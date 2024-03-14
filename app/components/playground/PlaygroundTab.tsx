@@ -2,6 +2,7 @@ import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { PlaygroundFile } from '@/app/types/PlaygroundTypes';
 import { Icon } from '@phosphor-icons/react';
 import { useEffect, useState } from 'react';
+import InfoButton from './InfoButton';
 
 interface PlaygroundTabProps {
   label: string;
@@ -27,11 +28,12 @@ const PlaygroundTab = ({ label, icon: Icon }: PlaygroundTabProps) => {
   }, [selectedFileIndex, files]);
   return (
     <div
-      className={`text-xl flex items-center justify-center gap-2 cursor-pointer rounded-t-xl font-semibold ${selectedFile?.activeTab === label ? selectedStyle : unselectedStyle}`}
+      className={`text-xl flex items-center justify-center gap-2 cursor-pointer rounded-t-xl font-semibold  transition duration-300 ${selectedFile?.activeTab === label ? selectedStyle : unselectedStyle}`}
       onClick={handleClick}
     >
       {label}
       {Icon && <Icon size={24} />}
+      <InfoButton infoType={label} />
     </div>
   );
 };
