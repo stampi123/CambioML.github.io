@@ -7,7 +7,7 @@ import Feature from '@/app/components/feature/Feature';
 import DemoFeature from '@/app/components/feature/DemoFeature';
 import { ChartLineUp, Gauge, FolderLock } from '@phosphor-icons/react';
 import SolutionsList from '@/app/components/solutions/SolutionsList';
-import { solutions } from '@/app/data';
+import { solutions } from '@/app/blog/data';
 
 const FintechSolutionsPage = () => {
   const demoModal = useDemoModal();

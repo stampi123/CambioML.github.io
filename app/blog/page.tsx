@@ -1,6 +1,6 @@
 import PageHero from '../components/hero/PageHero';
 import SolutionsList from '../components/solutions/SolutionsList';
-import { solutions } from '../data';
+import { solutions } from './data';
 
 const BlogPage = () => {
   return (
