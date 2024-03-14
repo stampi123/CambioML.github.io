@@ -10,15 +10,6 @@ interface Solution {
 
 export const solutions: Solution[] = [
   {
-    title: 'Use Case',
-    subtitle: 'Use Case subtitle',
-    description: 'Use case <bold>description</bold>',
-    url: 'use-case-url',
-    image: '',
-    industries: [],
-    blog: true,
-  },
-  {
     title: 'Maximizing Long-Text Potential',
     subtitle: 'Strategies for Open-Source LLMs Beyond Token Limits',
     description:
