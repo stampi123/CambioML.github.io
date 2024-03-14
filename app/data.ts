@@ -30,7 +30,7 @@ export const solutions: Solution[] = [
     blog: false,
   },
   {
-    title: 'Maximizing Long-text Potential',
+    title: 'Maximizing Long-Text Potential',
     subtitle: 'Strategies for Open-Source LLMs Beyond Token Limits',
     description:
       'Struggling with processing long texts using open-source LLMs? Discover <strong>Uniflow</strong>, a tool that simplifies handling texts beyond token limits. Learn how to effortlessly manage large documents like "War and Peace" and maximize your LLM\'s potential with <strong>Uniflow</strong>.',
