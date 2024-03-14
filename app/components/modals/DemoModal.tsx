@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import useDemoModal from '@/app/hooks/useDemoModal';
-import Modal from './Modal';
+import FormModal from './FormModal';
 import Heading from '../Heading';
 import Input from '../inputs/Input';
 import { toast } from 'react-hot-toast';
@@ -61,7 +61,7 @@ const DemoModal = () => {
   );
 
   return (
-    <Modal
+    <FormModal
       disabled={isLoading}
       isOpen={DemoModal.isOpen}
       title=""

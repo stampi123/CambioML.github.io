@@ -1,35 +1,18 @@
 'use client';
 
-import React, { useCallback, useEffect, useState } from 'react';
 import { X } from '@phosphor-icons/react';
-import Button from '../Button';
+import { useCallback, useEffect, useState } from 'react';
 import { useOutsideClickModal } from '@/app/hooks/useOutsideClickModal';
 
 interface ModalProps {
   isOpen?: boolean;
   onClose: () => void;
-  onSubmit: () => void;
   title?: string;
   body?: React.ReactElement;
   footer?: React.ReactElement;
-  actionLabel: string;
-  disabled?: boolean;
-  secondaryAction?: () => void;
-  secondaryActionLabel?: string;
 }
 
-const Modal: React.FC<ModalProps> = ({
-  isOpen,
-  onClose,
-  onSubmit,
-  title,
-  body,
-  footer,
-  actionLabel,
-  disabled,
-  secondaryAction,
-  secondaryActionLabel,
-}) => {
+const Modal = ({ isOpen, onClose, title, body, footer }: ModalProps) => {
   const [showModal, setShowModal] = useState(isOpen);
   const thisRef = useOutsideClickModal(() => {
     handleClose();
@@ -40,31 +23,19 @@ const Modal: React.FC<ModalProps> = ({
   }, [isOpen]);
 
   const handleClose = useCallback(() => {
-    if (disabled) return;
     setShowModal(false);
     setTimeout(() => {
       onClose();
     }, 300);
-  }, [disabled, onClose]);
-
-  const handleSubmit = useCallback(() => {
-    if (disabled) return;
-    onSubmit();
-  }, [disabled, onSubmit]);
-
-  const handleSecondaryAction = useCallback(() => {
-    if (disabled || !secondaryAction) return;
-    secondaryAction();
-  }, [disabled, secondaryAction]);
+  }, [onClose]);
 
   if (!isOpen) {
     return null;
   }
 
   return (
-    <>
-      <div
-        className="
+    <div
+      className="
         justify-center
         items-center
         flex
@@ -77,36 +48,32 @@ const Modal: React.FC<ModalProps> = ({
         focus:outline-none
         bg-neutral-800/70
       "
-      >
-        <div
-          className="
+    >
+      <div
+        className="
           relative
           w-full
           md:w-4/5
-          lg:w-3/6
-          xl:w-2/5
+          max-w-screen-2xl
           my-6
           mx-auto
           h-full
-          lg:h-auto
           md:h-auto
         "
-        >
-          <div
-            className={`
+      >
+        <div
+          className={`
           translate
           duration-300
-          h-full
           h-full
           ${showModal ? 'translate-y-0' : 'translate-y-full'}
           ${showModal ? 'opacity-100' : 'opacity-0'}
           `}
-          >
-            <div
-              className="
+        >
+          <div
+            className="
               translate
               h-full
-              lg:h-auto
               md:h-auto
               border-0
               rounded-lg
@@ -119,10 +86,10 @@ const Modal: React.FC<ModalProps> = ({
               outline-none
               focus:outline-none
             "
-              ref={thisRef}
-            >
-              <div
-                className="
+            ref={thisRef}
+          >
+            <div
+              className="
                 flex
                 items-center
                 p-6
@@ -131,10 +98,10 @@ const Modal: React.FC<ModalProps> = ({
                 relative
                 border-b-[1px]
               "
-              >
-                <button
-                  onClick={handleClose}
-                  className="
+            >
+              <button
+                onClick={handleClose}
+                className="
                   p-1
                   border=0
                   hover:opacity-70
@@ -144,36 +111,19 @@ const Modal: React.FC<ModalProps> = ({
                   hover:bg-neutral-200
                   rounded-full
                 "
-                >
-                  <X size={24} />
-                </button>
-                <div className="text-lg font-semibold">{title}</div>
-              </div>
-              {/*BODY*/}
-              <div className="relative p-6 flex-auto">{body}</div>
-              {/* FOOTER */}
-              <div className="flex flex-col gap-2 p-6">
-                <div
-                  className="
-                  flex
-                  flex-row
-                  items-center
-                  gap-4
-                  w-full
-                "
-                >
-                  {secondaryAction && secondaryActionLabel && (
-                    <Button outline disabled={disabled} label={secondaryActionLabel} onClick={handleSecondaryAction} />
-                  )}
-                  <Button disabled={disabled} label={actionLabel} onClick={handleSubmit} />
-                </div>
-                {footer}
-              </div>
+              >
+                <X size={24} />
+              </button>
+              <div className="text-lg font-semibold">{title}</div>
             </div>
+            {/*BODY*/}
+            <div className="relative p-6 flex-auto">{body}</div>
+            {/* FOOTER */}
+            <div className="flex flex-col p-6">{footer}</div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

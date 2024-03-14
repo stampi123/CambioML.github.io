@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import usePlaygroundFeedbackModal from '@/app/hooks/usePlaygroundFeedbackModal';
-import Modal from './Modal';
+import Modal from './FormModal';
 import Heading from '../Heading';
 import Input from '../inputs/Input';
 import { toast } from 'react-hot-toast';
