@@ -25,7 +25,7 @@ const TransformContainer = () => {
         setFilename(thisFile.file);
       }
       if (
-        thisFile.extractState === ExtractState.DONE_EXTRACTING &&
+        thisFile.transformState === ExtractState.DONE_EXTRACTING &&
         thisFile.transformState === TransformState.NO_DATA
       ) {
         updateFileAtIndex(selectedFileIndex, 'transformState', TransformState.READY);
@@ -162,7 +162,7 @@ const TransformContainer = () => {
           source_type: 'url',
         },
       ],
-      job_type: 'file_extraction',
+      job_type: 'qa_generation',
       job_id: selectedFile?.jobId,
     };
     axios
@@ -173,20 +173,20 @@ const TransformContainer = () => {
       })
       .then((response) => {
         if (response.status === 200) {
-          toast.success(`${filename} submitted for extraction!`);
-          updateFileAtIndex(selectedFileIndex, 'extractState', TransformState.TRANSFORMING);
+          toast.success(`${filename} submitted for QA generation!`);
+          updateFileAtIndex(selectedFileIndex, 'transformState', TransformState.TRANSFORMING);
           setTimeout(() => {
             pollJobStatus();
           }, 10000); // Need to delay the polling to give the server time to process the file
         } else {
           toast.error(`Error uploading ${filename}. Please try again.`);
-          updateFileAtIndex(selectedFileIndex, 'extractState', TransformState.READY);
+          updateFileAtIndex(selectedFileIndex, 'transformState', TransformState.READY);
         }
       })
       .catch((error) => {
         console.error('error', error);
         toast.error(`Error uploading ${filename}. Please try again.`);
-        updateFileAtIndex(selectedFileIndex, 'extractState', TransformState.READY);
+        updateFileAtIndex(selectedFileIndex, 'transformState', TransformState.READY);
       });
   };
 
