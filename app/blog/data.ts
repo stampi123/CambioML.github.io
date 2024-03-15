@@ -11,16 +11,6 @@ export interface SolutionType {
 
 export const solutions: SolutionType[] = [
   {
-    title: 'Use Case',
-    subtitle: 'Use Case subtitle',
-    description: 'Use case <bold>description</bold>',
-    url: 'use-case-url',
-    image: '',
-    industries: [],
-    blog: true,
-    date: new Date('2024-03-15'),
-  },
-  {
     title: 'Maximizing Long-Text Potential',
     subtitle: 'Strategies for Open-Source LLMs Beyond Token Limits',
     description:
