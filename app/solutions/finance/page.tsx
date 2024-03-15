@@ -64,7 +64,7 @@ const FintechSolutionsPage = () => {
           />
         </Feature>
         <Feature title="Use Cases" center>
-          <SolutionsList solutions={solutions.filter((sol) => sol.industries.includes('finance'))} />
+          <SolutionsList solutions={solutions.filter((sol) => sol.industries.includes('finance'))} sortNewest />
         </Feature>
       </div>
     </div>

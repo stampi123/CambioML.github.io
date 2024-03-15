@@ -40,7 +40,10 @@ const RDSolutionsPage = () => {
           />
         </Feature>
         <Feature title="Use Cases" center>
-          <SolutionsList solutions={solutions.filter((sol) => sol.industries.includes('research-&-development'))} />
+          <SolutionsList
+            solutions={solutions.filter((sol) => sol.industries.includes('research-&-development'))}
+            sortNewest
+          />
         </Feature>
       </div>
     </div>

@@ -1,4 +1,4 @@
-interface Solution {
+export interface SolutionType {
   title: string;
   subtitle: string;
   description: string;
@@ -6,9 +6,20 @@ interface Solution {
   image: string;
   industries: string[];
   blog: boolean;
+  date: Date;
 }
 
-export const solutions: Solution[] = [
+export const solutions: SolutionType[] = [
+  {
+    title: 'Use Case',
+    subtitle: 'Use Case subtitle',
+    description: 'Use case <bold>description</bold>',
+    url: 'use-case-url',
+    image: '',
+    industries: [],
+    blog: true,
+    date: new Date('2024-03-15'),
+  },
   {
     title: 'Maximizing Long-Text Potential',
     subtitle: 'Strategies for Open-Source LLMs Beyond Token Limits',
@@ -18,6 +29,7 @@ export const solutions: Solution[] = [
     image: '/images/solutions/auto-splitter.png',
     industries: [],
     blog: true,
+    date: new Date('2024-03-14'),
   },
   {
     title: 'Build Your Own Gmail Spam Filter with LLMs',
@@ -28,6 +40,7 @@ export const solutions: Solution[] = [
     image: '/images/solutions/gmail-spam-filter.png',
     industries: [],
     blog: true,
+    date: new Date('2024-03-11'),
   },
   {
     title: 'Research Paper Evaluator',
@@ -38,6 +51,7 @@ export const solutions: Solution[] = [
     image: '/images/solutions/nike-research.png',
     industries: ['research-&-development'],
     blog: true,
+    date: new Date('2024-03-04'),
   },
   {
     title: '10K Summarizer',
@@ -48,6 +62,7 @@ export const solutions: Solution[] = [
     image: '/images/solutions/amazon-10k.png',
     industries: ['finance'],
     blog: false,
+    date: new Date('2024-02-28'),
   },
   {
     title: '10K Evaluator',
@@ -58,5 +73,6 @@ export const solutions: Solution[] = [
     image: '/images/solutions/nike-10k.png',
     industries: ['finance'],
     blog: false,
+    date: new Date('2024-02-21'),
   },
 ];
