@@ -25,7 +25,7 @@ const TransformContainer = () => {
         setFilename(thisFile.file);
       }
       if (
-        thisFile.transformState === ExtractState.DONE_EXTRACTING &&
+        thisFile.extractState === ExtractState.DONE_EXTRACTING &&
         thisFile.transformState === TransformState.NO_DATA
       ) {
         updateFileAtIndex(selectedFileIndex, 'transformState', TransformState.READY);
