@@ -5,6 +5,7 @@ import {
   PlaygroundTabs,
   ExtractState,
   TransformState,
+  CompareState,
 } from '../types/PlaygroundTypes';
 
 interface PlaygroundStore {
@@ -25,18 +26,26 @@ interface PlaygroundStore {
   addHTMLFile: (file: string) => void;
   addFilesFormData: (newResponse: PresignedResponse) => void;
   updateSelectedFile: (property: string, value: string) => void;
-  updateFileAtIndex: (index: number | null, property: string, value: string | ExtractState | TransformState) => void;
+  updateFileAtIndex: (
+    index: number | null,
+    property: string,
+    value: string | ExtractState | TransformState | CompareState | File
+  ) => void;
 }
 
 const initialFileState = {
   extractResult: '',
   transformResult: {},
+  keyValueResult: JSON.stringify({ data1: 1, data2: 2 }, null, 2),
   jobId: '',
   userId: '',
   s3_file_source: {},
   activeTab: PlaygroundTabs.EXTRACT,
   extractState: ExtractState.READY,
-  transformState: TransformState.NO_DATA,
+  qaState: TransformState.READY,
+  summarizeState: TransformState.READY,
+  keyValueState: TransformState.READY,
+  compareState: CompareState.READY,
 };
 
 const usePlaygroundStore = create<PlaygroundStore>((set) => ({

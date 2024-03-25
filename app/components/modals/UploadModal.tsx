@@ -134,9 +134,21 @@ const UploadModal = () => {
 
   const uploadFile = async (file: File) => {
     const file_name = file.name;
-    const GetPresignedS3UrlAPI: string = `${process.env.NEXT_PUBLIC_PLAYGROUND_API_URL}/upload?token=${token}&client_id=${clientId}&file_name=${file_name}&job_type=file_extraction`;
+    const GetPresignedS3UrlAPI = `${process.env.NEXT_PUBLIC_PLAYGROUND_API_URL}/upload`;
+    const config = {
+      params: {
+        token: token,
+        client_id: clientId,
+        file_name: file_name,
+        job_type: 'file_extraction',
+      },
+      // headers: {
+      //   'Content-Type': 'application/json',
+      //   authorizationToken: token,
+      // },
+    };
     await axios
-      .get<PresignedResponse>(GetPresignedS3UrlAPI)
+      .get<PresignedResponse>(GetPresignedS3UrlAPI, config)
       .then((response) => {
         const data = response.data as PresignedResponse;
         addFilesFormData(data);

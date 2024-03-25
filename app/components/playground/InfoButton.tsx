@@ -41,8 +41,12 @@ const transformContent = (
     <div
       className={textStyle}
     >{`Another option is to generate summaries from your file. Uniflow will take each paragraph in your file and generate a short summary based on that paragraph.`}</div>
+    <div className={h2Style}>Key-value Generation (coming soon)</div>
+    <div
+      className={textStyle}
+    >{`Another option is to generate key-values from your file. You can input a query of certain data that you want, and Uniflow will return that data and it's values in a JSON dictionary.`}</div>
     <div className={h2Style}>Next Steps</div>
-    <div className={textStyle}>{`Once you've run the transform, you can download the data as a csv file.`}</div>
+    <div className={textStyle}>{`Once you've run the generation, you can download the data.`}</div>
   </>
 );
 

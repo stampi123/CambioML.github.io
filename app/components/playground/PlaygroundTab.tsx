@@ -9,8 +9,8 @@ interface PlaygroundTabProps {
   icon?: Icon;
 }
 
-const unselectedStyle = 'text-neutral-500 hover:bg-neutral-100';
-const selectedStyle = 'text-neutral-800 bg-cambio-blue';
+const unselectedStyle = 'text-neutral-500 hover:bg-neutral-100 border-b-2';
+const selectedStyle = 'text-neutral-800 border-2 border-b-0';
 
 const PlaygroundTab = ({ label, icon: Icon }: PlaygroundTabProps) => {
   const { selectedFileIndex, files, updateSelectedFile, loggedIn } = usePlaygroundStore();
@@ -28,7 +28,7 @@ const PlaygroundTab = ({ label, icon: Icon }: PlaygroundTabProps) => {
   }, [selectedFileIndex, files]);
   return (
     <div
-      className={`text-xl flex items-center justify-center gap-2 cursor-pointer rounded-t-xl font-semibold  transition duration-300 ${selectedFile?.activeTab === label ? selectedStyle : unselectedStyle}`}
+      className={`text-xl flex items-center justify-center gap-2 cursor-pointer rounded-t-xl font-semibold  transition duration-300 border-solid ${selectedFile?.activeTab === label ? selectedStyle : unselectedStyle}`}
       onClick={handleClick}
     >
       {label}

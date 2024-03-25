@@ -16,16 +16,22 @@ export enum ExtractState {
 }
 
 export enum TransformState {
-  NO_DATA,
   READY,
   TRANSFORMING,
   DONE_TRANSFORMING,
+}
+
+export enum CompareState {
+  READY,
+  COMPARING,
+  DONE_COMPARING,
 }
 
 export interface PlaygroundFile {
   file: File | string;
   extractResult: string;
   transformResult: TransformResult;
+  keyValueResult: string;
   jobId: string;
   userId: string;
   s3_file_source: {
@@ -35,7 +41,12 @@ export interface PlaygroundFile {
   };
   activeTab: string;
   extractState: ExtractState;
-  transformState: TransformState;
+  qaState: TransformState;
+  summarizeState: TransformState;
+  keyValueState: TransformState;
+  compareState: CompareState;
+  compareFile: File;
+  compareResult: string;
 }
 
 export interface TransformResult {
@@ -63,6 +74,7 @@ interface S3FileSource {
 }
 
 export const PlaygroundTabs = {
-  EXTRACT: '1. Extract',
-  TRANSFORM: '2. Transform',
+  EXTRACT: 'Extract',
+  TRANSFORM: 'Transform',
+  COMPARE: 'Compare',
 };
