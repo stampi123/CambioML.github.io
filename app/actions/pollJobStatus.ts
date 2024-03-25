@@ -10,12 +10,6 @@ interface IParams {
 const pollJobStatus = async ({ handleSuccess, handleError, handleTimeout, getParams }: IParams) => {
   const api_url = process.env.NEXT_PUBLIC_PLAYGROUND_API_URL;
   const jobStatusAPI: string = api_url + '/sync';
-  // let paramString = '';
-  // for (const param in getParams) {
-  //   paramString += `&${param}=${getParams[param]}`;
-  // }
-  // paramString = paramString.substring(1);
-  // jobStatusAPI += `?${paramString}`;
   const config = {
     params: getParams,
     headers: {
