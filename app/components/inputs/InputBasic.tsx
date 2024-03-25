@@ -5,9 +5,10 @@ interface InputBasicProps {
   value: string;
   onChange: (value: string) => void;
   error: string;
+  disabled?: boolean;
 }
 
-const InputBasic = ({ label, value, onChange, error }: InputBasicProps) => {
+const InputBasic = ({ label, value, onChange, error, disabled }: InputBasicProps) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value);
   };
@@ -30,6 +31,7 @@ const InputBasic = ({ label, value, onChange, error }: InputBasicProps) => {
         `}
         onChange={handleChange}
         value={value}
+        disabled={disabled}
       />
       <label
         className={`

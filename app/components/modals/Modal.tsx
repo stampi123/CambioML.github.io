@@ -119,7 +119,7 @@ const Modal = ({ isOpen, onClose, title, body, footer }: ModalProps) => {
             {/*BODY*/}
             <div className="relative p-6 flex-auto">{body}</div>
             {/* FOOTER */}
-            <div className="flex flex-col p-6">{footer}</div>
+            {footer && <div className="flex flex-col p-6">{footer}</div>}
           </div>
         </div>
       </div>

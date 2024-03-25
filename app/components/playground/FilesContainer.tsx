@@ -22,7 +22,7 @@ const FilesContainer = () => {
         )}
       </div>
       {files.length > 0 && (
-        <div className="row-span-2 h-full flex items-center justify-center">
+        <div className="row-span-2 h-full flex items-center justify-center pb-2">
           <UploadButton small disabled={!loggedIn} />
         </div>
       )}
