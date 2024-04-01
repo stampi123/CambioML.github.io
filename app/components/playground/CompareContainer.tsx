@@ -1,4 +1,4 @@
-import { TextColumns, Warning } from '@phosphor-icons/react';
+import { TextColumns } from '@phosphor-icons/react';
 import Button from '../Button';
 import { Option } from '../inputs/Select';
 import Select from '../inputs/Select';
