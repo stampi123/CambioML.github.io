@@ -1,4 +1,4 @@
-import { TextColumns, Warning } from '@phosphor-icons/react';
+import { TextColumns } from '@phosphor-icons/react';
 import Button from '../Button';
 import { Option } from '../inputs/Select';
 import Select from '../inputs/Select';
@@ -7,6 +7,7 @@ import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { CompareState, PlaygroundFile } from '@/app/types/PlaygroundTypes';
 import PulsingIcon from '../PulsingIcon';
 import JSZip from 'jszip';
+import ComingSoonBanner from './ComingSoonBanner';
 
 const columnStyles = 'w-full flex flex-col items-center justify-center gap-4';
 
@@ -82,13 +83,14 @@ const CompareContainer = () => {
         <>
           {selectedFile?.compareState === CompareState.READY && (
             <div className="flex flex-col items-start w-full h-full gap-4">
+              <ComingSoonBanner />
               <div className="w-full h-full text-neutral-800 grid grid-cols-1 lg:grid-cols-2 gap-4 relative">
-                {paperOptions.length < 1 && (
+                {/* {paperOptions.length < 1 && (
                   <div className="absolute left-0 top-0 w-full flex items-center justify-center gap-4 bg-neutral-100 p-2 rounded-lg text-neutral-700">
                     <Warning size={20} weight="bold" />
                     <div className="italic">Please upload at least 2 Paper PDFs to compare.</div>
                   </div>
-                )}
+                )} */}
                 <div className={columnStyles}>
                   <div className="text-2xl font-semibold">Paper 1</div>
                   <div className="container mx-auto overflow-x-auto whitespace-no-wrap text-center bg-neutral-100 rounded-lg">
@@ -100,7 +102,7 @@ const CompareContainer = () => {
                   <div className="w-full">
                     <Select
                       options={paperOptions}
-                      disabled={paperOptions.length === 0 && checkIfPDF(selectedFile?.file)}
+                      disabled //={paperOptions.length === 0 && checkIfPDF(selectedFile?.file)}
                       callback={handlePaper2Change}
                       optionLabel="Select a paper"
                     />
@@ -113,7 +115,7 @@ const CompareContainer = () => {
                   onClick={handleCompare}
                   small
                   labelIcon={TextColumns}
-                  disabled={selectedFile.compareFile === undefined}
+                  disabled //{selectedFile.compareFile === undefined}
                 />
               </div>
             </div>
