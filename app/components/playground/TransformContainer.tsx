@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import QAContainer from './QAContainer';
-import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
-import { ExtractState } from '@/app/types/PlaygroundTypes';
-import SummarizeContainer from './SummarizeContainer';
-import KeyValueContainer from './KeyValueContainer';
+// import QAContainer from './QAContainer';
+// import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
+// import { ExtractState } from '@/app/types/PlaygroundTypes';
+// import SummarizeContainer from './SummarizeContainer';
+// import KeyValueContainer from './KeyValueContainer';
+import ComingSoonBanner from './ComingSoonBanner';
 
 enum TransformMethod {
   QA,
@@ -16,7 +17,7 @@ const unselectedTabStyle = 'text-neutral-500 border-neutral-200';
 const tabStyle = 'p-2 text-center cursor-pointer border-solid border-b-2 hover:border-b-4 hover:font-semibold';
 
 const TransformContainer = () => {
-  const { files, selectedFileIndex } = usePlaygroundStore();
+  // const { files, selectedFileIndex } = usePlaygroundStore();
   const [transformMethod, setTransformMethod] = useState<TransformMethod>(TransformMethod.QA);
 
   return (
@@ -42,7 +43,8 @@ const TransformContainer = () => {
         </div>
       </div>
       <div>
-        {selectedFileIndex !== null &&
+        <ComingSoonBanner />
+        {/* {selectedFileIndex !== null &&
         files.length > 0 &&
         files[selectedFileIndex].extractState !== ExtractState.DONE_EXTRACTING ? (
           <div className="flex flex-col items-center justify-center h-full overflow-auto">
@@ -54,7 +56,7 @@ const TransformContainer = () => {
             {transformMethod === TransformMethod.SUMMARIZE && <SummarizeContainer />}
             {transformMethod === TransformMethod.KEY_VALUE && <KeyValueContainer />}
           </>
-        )}
+        )} */}
       </div>
     </div>
   );
