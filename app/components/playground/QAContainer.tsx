@@ -11,6 +11,7 @@ import { DownloadSimple, GridNine } from '@phosphor-icons/react';
 import QATable from './QATable';
 import pollJobStatus from '@/app/actions/pollJobStatus';
 import { downloadFile } from '@/app/actions/downloadFile';
+import ComingSoonBanner from './ComingSoonBanner';
 
 const QAContainer = () => {
   const { selectedFileIndex, files, token, clientId, updateFileAtIndex } = usePlaygroundStore();
@@ -185,13 +186,20 @@ const QAContainer = () => {
     <>
       {selectedFile?.qaState === TransformState.READY && (
         <div className="flex flex-col items-start w-full h-full gap-4">
+          <ComingSoonBanner />
           <div className="overflow-auto relative w-full h-full bg-neutral-100 text-neutral-500 rounded-lg">
             <Markdown className="markdown absolute p-4  whitespace-pre-wrap w-full h-full">
               {selectedFile.extractResult}
             </Markdown>
           </div>
           <div className={`w-full h-fit gap-4`}>
-            <Button label="Generate Question-Answer Pairs" onClick={handleTransform} small labelIcon={GridNine} />
+            <Button
+              label="Generate Question-Answer Pairs"
+              onClick={handleTransform}
+              small
+              labelIcon={GridNine}
+              disabled={true}
+            />
           </div>
         </div>
       )}
