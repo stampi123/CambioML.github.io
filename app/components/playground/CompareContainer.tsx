@@ -8,12 +8,17 @@ import { CompareState, PlaygroundFile } from '@/app/types/PlaygroundTypes';
 import PulsingIcon from '../PulsingIcon';
 import JSZip from 'jszip';
 import ComingSoonBanner from './ComingSoonBanner';
+import { uploadFile } from '@/app/actions/uploadFile';
+import { getFileName } from '@/app/actions/downloadFile';
+import toast from 'react-hot-toast';
+import { runJob } from '@/app/actions/runJob';
+import { AxiosError, AxiosResponse } from 'axios';
 
 const FUNCTIONAL = false;
 const columnStyles = 'w-full flex flex-col items-center justify-center gap-4';
 
 const CompareContainer = () => {
-  const { files, selectedFileIndex, updateFileAtIndex } = usePlaygroundStore();
+  const { token, clientId, files, selectedFileIndex, updateFileAtIndex } = usePlaygroundStore();
   const [paperOptions, setPaperOptions] = useState<Option[]>([]);
 
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
@@ -61,17 +66,86 @@ const CompareContainer = () => {
     zip.file(selectedFile?.file.name, selectedFile?.file);
     zip.file(selectedFile?.compareFile?.name, selectedFile?.compareFile);
 
-    const zippedFolder = await zip.generateAsync({ type: 'blob' });
+    const filename1 = getFileName(selectedFile?.file.name);
+    const filename2 = getFileName(selectedFile?.compareFile.name);
+
+    const zippedContent = await zip.generateAsync({ type: 'blob' });
+    const zippedFolder = new File([zippedContent], `${filename1}_${filename2}_compare.zip`, {
+      type: 'application/zip',
+    });
     return zippedFolder;
+  };
+
+  const handleSuccess = (response: AxiosResponse) => {
+    const result = response.data.file_content;
+    if (result === undefined) {
+      toast.error(`${filename}: Received undefined result. Please try again.`);
+      updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.READY);
+      return;
+    }
+    updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.DONE_COMPARING);
+    toast.success(`${filename} comparison generated!`);
+    updateFileAtIndex(selectedFileIndex, 'compareResult', result);
+    updateFileAtIndex(selectedFileIndex, 's3_file_source', response.data.file_source);
+    return;
+  };
+
+  const handleError = (e: AxiosError) => {
+    if (e.response) {
+      if (e.response.status === 400) {
+        toast.error(`${filename}: Parameter is invalid. Please try again.`);
+        updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.READY);
+        return;
+      } else if (e.response.status === 404) {
+        toast.error(`${filename}: Job not found. Please try again.`);
+        updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.READY);
+        return;
+      } else if (e.response.status === 500) {
+        toast.error(`${filename}: Job has failed. Please try again.`);
+        updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.READY);
+        return;
+      }
+    }
+    toast.error(`Error extracting ${filename}. Please try again.`);
+    updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.READY);
+  };
+
+  const handleTimeout = () => {
+    updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.READY);
+    toast.error(`Extract request for ${filename} timed out. Please try again.`);
   };
 
   const handleCompare = async () => {
     updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.COMPARING);
     const zippedFolder = await zipFiles();
     console.log('Zipped Folder', zippedFolder);
-    setTimeout(() => {
-      updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.DONE_COMPARING);
-    }, 3000);
+    const fileData = await uploadFile({
+      file: zippedFolder as File,
+      token,
+      clientId,
+      jobType: 'file_comparison',
+    });
+    console.log('Data', fileData);
+    if (fileData instanceof Error) {
+      toast.error(`Error comparing files. Please try again.`);
+      updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.READY);
+      return;
+    }
+    toast.success(`Files uploaded for comparison!`);
+    if (selectedFile && selectedFileIndex !== null) {
+      await runJob({
+        fileData,
+        filename,
+        selectedFile,
+        selectedFileIndex,
+        jobType: 'file_comparison',
+        updateFileAtIndex,
+        handleSuccess,
+        handleError,
+        handleTimeout,
+      });
+      // updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.DONE_COMPARING);
+    }
   };
 
   return (
