@@ -1,21 +1,19 @@
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { PlaygroundFile, TransformState } from '@/app/types/PlaygroundTypes';
 import { useCallback, useEffect, useState } from 'react';
-import Markdown from 'react-markdown';
 import Button from '../Button';
 import { BracketsCurly, DownloadSimple } from '@phosphor-icons/react';
 import PulsingIcon from '../PulsingIcon';
 import toast from 'react-hot-toast';
 import InputBasic from '../inputs/InputBasic';
 import { downloadFile } from '@/app/actions/downloadFile';
-import ComingSoonBanner from './ComingSoonBanner';
-// import axios, { AxiosError, AxiosResponse } from 'axios';
-// import pollJobStatus from '@/app/actions/pollJobStatus';
+import axios, { AxiosResponse } from 'axios';
+import ExtractResultContainer from './ExtractResultContainer';
 
-const MIN_INPUT_LENGTH = 10;
+const MIN_INPUT_LENGTH = 50;
 
 const KeyValueContainer = () => {
-  const { selectedFileIndex, files, updateFileAtIndex } = usePlaygroundStore();
+  const { selectedFileIndex, files, updateFileAtIndex, filesFormData } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [filename, setFilename] = useState<string>('');
   const [query, setQuery] = useState<string>('');
@@ -79,16 +77,6 @@ const KeyValueContainer = () => {
   //   toast.error(`Transform request for ${filename} timed out. Please try again.`);
   // };
 
-  const handleKeyValueTransform = () => {
-    updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.TRANSFORMING);
-    toast.success(`Generating KeyValues for ${filename}`);
-    console.log(`File: ${filename} | Query: ${query}`);
-    setTimeout(() => {
-      toast.success(`KeyValue pairs generated for ${filename}`);
-      updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.DONE_TRANSFORMING);
-    }, 2000);
-  };
-
   const handleDownload = useCallback(() => {
     if (selectedFile?.keyValueResult) {
       downloadFile({
@@ -100,58 +88,52 @@ const KeyValueContainer = () => {
     }
   }, [selectedFile, filename]);
 
-  // const handleKeyValueTransform = () => {
-  //   updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.TRANSFORMING);
-  //   const api_url = process.env.NEXT_PUBLIC_PLAYGROUND_API_URL;
-  //   const s3_file_source = selectedFile?.s3_file_source;
-  //   if (!s3_file_source) {
-  //     toast.error(`${filename}: missing s3_file_source. Please try again.`);
-  //     updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.READY);
-  //     return;
-  //   }
-  //   s3_file_source['source_type'] = 'dynamodb';
-  //   const params = {
-  //     token: token,
-  //     client_id: clientId,
-  //     files: [s3_file_source],
-  //     job_type: 'qa_generation',
-  //     job_id: selectedFile?.jobId,
-  //   };
-  //   axios
-  //     .post(`${api_url}/request`, params, {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //     })
-  //     .then(() => {
-  //       setTimeout(() => {
-  //         pollJobStatus({
-  //           getParams: { job_id: selectedFile?.jobId, user_id: selectedFile?.userId, job_type: 'qa_generation' },
-  //           handleSuccess,
-  //           handleError,
-  //           handleTimeout,
-  //         });
-  //       }, 5000); // Need to delay the polling to give the server time to process the file
-  //     })
-  //     .catch((error) => {
-  //       console.error('error', error);
-  //       toast.error(`Error transforming ${filename}. Please try again.`);
-  //       updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.READY);
-  //     });
-  // };
+  const handleKeyValueTransform = async () => {
+    toast.success(`Generating Key-Values for ${filename}`);
+    updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.TRANSFORMING);
+    const jobId = selectedFile?.jobId;
+    const userId = selectedFile?.userId;
+    const fileData = filesFormData.find((obj) => obj.presignedUrl.fields['x-amz-meta-filename'] === filename);
+
+    const params = {
+      userId,
+      jobId,
+      fileKey: fileData?.presignedUrl.fields.key,
+    };
+    axios
+      .post(`${process.env.NEXT_PUBLIC_PLAYGROUND_API_URL}/cambio_api/parse`, params, {
+        headers: {
+          'x-api-key': process.env.NEXT_PUBLIC_PLAYGROUND_API_KEY,
+        },
+      })
+      .then((response: AxiosResponse) => {
+        console.log('Response', response.data);
+        const parsedResult = JSON.parse(response.data.result);
+        console.log('Parsed Result', parsedResult);
+        if (parsedResult === undefined) {
+          toast.error(`${filename}: Received undefined result. Please try again.`);
+          updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.READY);
+          return;
+        }
+        const result = parsedResult.results[0].result;
+        toast.success(`Generated Key-Values from ${filename}!`);
+        updateFileAtIndex(selectedFileIndex, 'keyValueResult', JSON.stringify(result, null, 2));
+        updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.DONE_TRANSFORMING);
+      })
+      .catch((error) => {
+        console.error('error', error);
+        toast.error(`Error generating key-value for ${filename}. Please try again.`);
+        updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.READY);
+      });
+  };
 
   return (
     <>
       {selectedFile?.keyValueState === TransformState.READY && (
         <div className="flex flex-col items-start w-full h-full gap-4">
-          <ComingSoonBanner />
-          <div className="overflow-auto relative w-full h-full bg-neutral-100 text-neutral-500 rounded-lg">
-            <Markdown className="markdown absolute p-4  whitespace-pre-wrap w-full h-full">
-              {selectedFile.extractResult}
-            </Markdown>
-          </div>
+          <ExtractResultContainer extractResult={selectedFile.extractResult} />
           <div className={`w-full h-fit gap-4 grid grid-cols-[2fr_1fr]`}>
-            <InputBasic label="Data Query" value={query} onChange={handleQueryChange} error={inputError} disabled />
+            <InputBasic label="Data Query" value={query} onChange={handleQueryChange} error={inputError} />
             <Button
               label="Generate Key-Values"
               onClick={handleKeyValueTransform}
@@ -171,7 +153,7 @@ const KeyValueContainer = () => {
       {selectedFile?.keyValueState === TransformState.DONE_TRANSFORMING && (
         <div className="flex flex-col items-start w-full h-full gap-4">
           <div className="overflow-auto relative w-full h-full bg-neutral-100 text-neutral-700 rounded-lg p-4">
-            <pre>{selectedFile.keyValueResult}</pre>
+            <pre className="p-4 whitespace-pre-wrap absolute">{selectedFile.keyValueResult}</pre>
           </div>
           <div className={`w-full h-fit gap-4`}>
             <Button label="Download JSON" onClick={handleDownload} small labelIcon={DownloadSimple} />

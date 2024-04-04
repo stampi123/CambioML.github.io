@@ -6,7 +6,7 @@ import Button from '../Button';
 import { Article, DownloadSimple } from '@phosphor-icons/react';
 import PulsingIcon from '../PulsingIcon';
 import toast from 'react-hot-toast';
-import ComingSoonBanner from './ComingSoonBanner';
+import ExtractResultContainer from './ExtractResultContainer';
 
 const SummarizeContainer = () => {
   const { selectedFileIndex, files, updateFileAtIndex } = usePlaygroundStore();
@@ -41,12 +41,7 @@ const SummarizeContainer = () => {
     <>
       {selectedFile?.summarizeState === TransformState.READY && (
         <div className="flex flex-col items-start justify-center w-full h-full gap-4 relative">
-          <ComingSoonBanner />
-          <div className="overflow-auto relative w-full h-full bg-neutral-100 text-neutral-500 rounded-lg">
-            <Markdown className="markdown absolute p-4  whitespace-pre-wrap w-full h-full">
-              {selectedFile.extractResult}
-            </Markdown>
-          </div>
+          <ExtractResultContainer extractResult={selectedFile.extractResult} />
           <div className={`w-full h-fit gap-4`}>
             <Button label="Generate Summaries" onClick={handleSummarize} small labelIcon={Article} disabled={true} />
           </div>

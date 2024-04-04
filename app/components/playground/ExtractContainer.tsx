@@ -6,10 +6,11 @@ import toast from 'react-hot-toast';
 import { PlaygroundFile, ExtractState } from '@/app/types/PlaygroundTypes';
 import { DownloadSimple, FileMagnifyingGlass, CloudArrowUp } from '@phosphor-icons/react';
 import PulsingIcon from '../PulsingIcon';
-import Markdown from 'react-markdown';
 import UploadButton from './UploadButton';
 import pollJobStatus from '@/app/actions/pollJobStatus';
 import { downloadFile } from '@/app/actions/downloadFile';
+import { runJob } from '@/app/actions/runJob';
+import ExtractResultContainer from './ExtractResultContainer';
 
 const textStyles = 'text-xl font-semibold text-neutral-500';
 
@@ -89,39 +90,19 @@ const ExtractContainer = () => {
       toast.error(`Error extracting ${filename}. Please try again.`);
       return;
     }
-    const postData = new FormData();
-    Object.entries(fileData.presignedUrl.fields).forEach(([key, value]) => {
-      postData.append(key, value);
-    });
-
-    postData.append('file', selectedFile?.file || '');
-
-    axios
-      .post(fileData.presignedUrl.url, postData)
-      .then((response) => {
-        if (response.status === 204) {
-          toast.success(`${filename} uploaded!`);
-          updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.EXTRACTING);
-          updateFileAtIndex(selectedFileIndex, 'jobId', fileData.jobId);
-          updateFileAtIndex(selectedFileIndex, 'userId', fileData.userId);
-          setTimeout(() => {
-            pollJobStatus({
-              getParams: { job_id: fileData.jobId, user_id: fileData.userId, job_type: 'file_extraction' },
-              handleSuccess,
-              handleError,
-              handleTimeout,
-            });
-          }, 20000); // Need to delay the polling to give the server time to process the file
-        } else {
-          toast.error(`Error uploading ${filename}. Please try again.`);
-          updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
-        }
-      })
-      .catch((error) => {
-        console.error('error', error);
-        toast.error(`Error uploading ${filename}. Please try again.`);
-        updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
+    if (selectedFile && selectedFileIndex !== null) {
+      runJob({
+        fileData,
+        filename,
+        selectedFile,
+        selectedFileIndex,
+        jobType: 'file_extraction',
+        updateFileAtIndex,
+        handleSuccess,
+        handleError,
+        handleTimeout,
       });
+    }
   };
 
   const handleHTMLExtract = async () => {
@@ -210,9 +191,7 @@ const ExtractContainer = () => {
       )}
       {selectedFile?.extractState === ExtractState.DONE_EXTRACTING && (
         <div className="flex flex-col items-start w-full h-full gap-4 p-4">
-          <div className="overflow-auto relative w-full h-full rounded-lg">
-            <Markdown className="markdown p-4 absolute whitespace-pre-wrap">{selectedFile.extractResult}</Markdown>
-          </div>
+          <ExtractResultContainer extractResult={selectedFile.extractResult} />
           <div className="w-full h-fit">
             <Button
               label="Download Extracted Text"
