@@ -10,7 +10,7 @@ import UploadButton from './UploadButton';
 import pollJobStatus from '@/app/actions/pollJobStatus';
 import { downloadFile } from '@/app/actions/downloadFile';
 import { runJob } from '@/app/actions/runJob';
-import ExtractResultContainer from './ExtractResultContainer';
+import ResultContainer from './ResultContainer';
 
 const textStyles = 'text-xl font-semibold text-neutral-500';
 
@@ -191,7 +191,7 @@ const ExtractContainer = () => {
       )}
       {selectedFile?.extractState === ExtractState.DONE_EXTRACTING && (
         <div className="flex flex-col items-start w-full h-full gap-4 p-4">
-          <ExtractResultContainer extractResult={selectedFile.extractResult} />
+          <ResultContainer extractResult={selectedFile.extractResult} />
           <div className="w-full h-fit">
             <Button
               label="Download Extracted Text"
