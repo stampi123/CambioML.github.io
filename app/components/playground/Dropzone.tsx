@@ -9,7 +9,7 @@ const DropzoneContainerClass =
   'border-2 bg-gray-100 border-dashed border-gray-300 h-[50vh] rounded-md text-center cursor-pointer transition duration-300 ease-in-out flex flex-col items-center justify-center hover:border-neutral-500 w-full';
 
 const iconContainerClasses = 'flex items-center justify-center text-3xl mb-4';
-const allowedTypes = ['application/pdf', 'text/html', 'text/plain'];
+const allowedTypes = ['application/pdf', 'text/html', 'text/plain', 'image/png', 'image/jpeg', 'image/jpg'];
 
 const Dropzone = () => {
   const uploadModal = useUploadModal();
@@ -46,7 +46,7 @@ const Dropzone = () => {
       <p className="mt-2">
         {isDragActive ? 'Drop files here' : 'Drag and drop a single file here, or click to select a file'}
       </p>
-      <p className="text-sm text-gray-500">PDF, TXT, and HTML files only</p>
+      <p className="text-sm text-gray-500">PDF, TXT, HTML, PNG, JPG, and JPEG files only</p>
       <p className="text-sm text-gray-500">Please do not upload any sensitive information.</p>
       <p className="text-sm text-gray-500">Max 10 MB</p>
     </div>

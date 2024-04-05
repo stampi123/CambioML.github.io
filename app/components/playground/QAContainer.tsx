@@ -187,13 +187,7 @@ const QAContainer = () => {
         <div className="flex flex-col items-start w-full h-full gap-4">
           <ResultContainer extractResult={selectedFile.extractResult} />
           <div className={`w-full h-fit gap-4`}>
-            <Button
-              label="Generate Question-Answer Pairs"
-              onClick={handleTransform}
-              small
-              labelIcon={GridNine}
-              disabled={true}
-            />
+            <Button label="Generate Question-Answer Pairs" onClick={handleTransform} small labelIcon={GridNine} />
           </div>
         </div>
       )}
