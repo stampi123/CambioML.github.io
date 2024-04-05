@@ -3,7 +3,7 @@ import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { ExtractState } from '@/app/types/PlaygroundTypes';
 // import QAContainer from './QAContainer';
 // import SummarizeContainer from './SummarizeContainer';
-import KeyValueContainer from './KeyValueContainer';
+// import KeyValueContainer from './KeyValueContainer';
 import ComingSoonBanner from './ComingSoonBanner';
 
 enum TransformMethod {
@@ -53,7 +53,7 @@ const TransformContainer = () => {
           <>
             {transformMethod === TransformMethod.QA && <ComingSoonBanner />}
             {transformMethod === TransformMethod.SUMMARIZE && <ComingSoonBanner />}
-            {transformMethod === TransformMethod.KEY_VALUE && <KeyValueContainer />}
+            {transformMethod === TransformMethod.KEY_VALUE && <ComingSoonBanner />}
           </>
         )}
       </div>
