@@ -42,7 +42,7 @@ const FAIL_STATE: { [key: string]: ExtractState | TransformState | CompareState 
 
 const SLEEP_DURATION: { [key: string]: number } = {
   file_extraction: 20000,
-  file_comparison: 480000,
+  file_comparison: 30000,
 };
 
 export const runJob = async ({

@@ -10,7 +10,7 @@ import { DownloadSimple, GridNine } from '@phosphor-icons/react';
 import QATable from './QATable';
 import pollJobStatus from '@/app/actions/pollJobStatus';
 import { downloadFile } from '@/app/actions/downloadFile';
-import ExtractResultContainer from './ExtractResultContainer';
+import ResultContainer from './ResultContainer';
 
 const QAContainer = () => {
   const { selectedFileIndex, files, token, clientId, updateFileAtIndex } = usePlaygroundStore();
@@ -185,7 +185,7 @@ const QAContainer = () => {
     <>
       {selectedFile?.qaState === TransformState.READY && (
         <div className="flex flex-col items-start w-full h-full gap-4">
-          <ExtractResultContainer extractResult={selectedFile.extractResult} />
+          <ResultContainer extractResult={selectedFile.extractResult} />
           <div className={`w-full h-fit gap-4`}>
             <Button
               label="Generate Question-Answer Pairs"

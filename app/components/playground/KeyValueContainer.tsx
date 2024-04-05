@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 import InputBasic from '../inputs/InputBasic';
 import { downloadFile } from '@/app/actions/downloadFile';
 import axios, { AxiosResponse } from 'axios';
-import ExtractResultContainer from './ExtractResultContainer';
+import ResultContainer from './ResultContainer';
 
 const MIN_INPUT_LENGTH = 50;
 
@@ -131,7 +131,7 @@ const KeyValueContainer = () => {
     <>
       {selectedFile?.keyValueState === TransformState.READY && (
         <div className="flex flex-col items-start w-full h-full gap-4">
-          <ExtractResultContainer extractResult={selectedFile.extractResult} />
+          <ResultContainer extractResult={selectedFile.extractResult} />
           <div className={`w-full h-fit gap-4 grid grid-cols-[2fr_1fr]`}>
             <InputBasic label="Data Query" value={query} onChange={handleQueryChange} error={inputError} />
             <Button

@@ -9,6 +9,7 @@ const DropzoneContainerClass =
   'border-2 bg-gray-100 border-dashed border-gray-300 h-[50vh] rounded-md text-center cursor-pointer transition duration-300 ease-in-out flex flex-col items-center justify-center hover:border-neutral-500 w-full';
 
 const iconContainerClasses = 'flex items-center justify-center text-3xl mb-4';
+const allowedTypes = ['application/pdf', 'text/html', 'text/plain'];
 
 const Dropzone = () => {
   const uploadModal = useUploadModal();
@@ -18,7 +19,6 @@ const Dropzone = () => {
     async (acceptedFiles: File[]) => {
       for (const file of acceptedFiles) {
         if (file) {
-          const allowedTypes = ['application/pdf', 'text/html', 'text/plain'];
           if (!allowedTypes.includes(file.type)) {
             toast.error(`Error processing ${file.name}: File type is not supported.`);
             uploadModal.setUploadModalState(UploadModalState.ADD_FILES);

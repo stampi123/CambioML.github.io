@@ -3,13 +3,17 @@ import { PresignedResponse } from '../types/PlaygroundTypes';
 import toast from 'react-hot-toast';
 
 interface IParams {
-  file: File;
+  file: File | undefined;
   token: string;
   clientId: string;
   jobType: string;
 }
 
 export const uploadFile = async ({ file, token, clientId, jobType }: IParams) => {
+  if (!file) {
+    toast.error('No file selected');
+    return;
+  }
   const file_name = file.name;
   const GetPresignedS3UrlAPI = `${process.env.NEXT_PUBLIC_PLAYGROUND_API_URL}/upload`;
   const config = {
