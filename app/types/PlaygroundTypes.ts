@@ -3,6 +3,8 @@ export interface PresignedResponse {
     fields: Record<string, string>;
     url: string;
   };
+  s3_bucket: string;
+  s3_prefix: string;
   jobId: string;
   userId: string;
 }

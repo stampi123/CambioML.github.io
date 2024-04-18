@@ -6,7 +6,7 @@ import DemoModal from './components/modals/DemoModal';
 import ImageModal from './components/modals/ImageModal';
 import ToasterProvider from './providers/ToasterProvider';
 import { GoogleTagManager } from '@next/third-parties/google';
-import UploadModal from './components/modals/UploadModal';
+// import UploadModal from './components/modals/UploadModal';
 import PlaygroundFeedbackModal from './components/modals/PlaygroundFeedbackModal';
 import InfoModal from './components/modals/InfoModal';
 
@@ -29,13 +29,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navbar />
         <DemoModal />
         <ImageModal />
-        <UploadModal />
+        {/* <UploadModal /> */}
         <PlaygroundFeedbackModal />
         <InfoModal />
-        <div className="pb-500 min-h-screen min-w-[650px]">
-          {children}
-          <Footer />
-        </div>
+        <div className="pb-500 min-h-screen min-w-[650px]">{children}</div>
+        <Footer />
       </body>
       <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ''} />
     </html>

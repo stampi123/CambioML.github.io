@@ -6,15 +6,17 @@ import {
   PresignedResponse,
   TransformState,
 } from '../types/PlaygroundTypes';
-import pollJobStatus from './pollJobStatus';
+import pollJobStatus, { GetParams } from './pollJobStatus';
 import toast from 'react-hot-toast';
 
 interface IParams {
+  api_url: string;
   fileData: PresignedResponse;
   filename: string;
   selectedFileIndex: number;
   selectedFile: PlaygroundFile;
   jobType: string;
+  token?: string;
   handleSuccess: (response: AxiosResponse) => void;
   handleError: (e: AxiosError) => void;
   handleTimeout: () => void;
@@ -28,29 +30,35 @@ interface IParams {
 const JOB_STATE: { [key: string]: string } = {
   file_extraction: 'extractState',
   file_comparison: 'compareState',
+  info_extraction: 'keyValueState',
 };
 
 const SUCCESS_STATE: { [key: string]: ExtractState | TransformState | CompareState } = {
   file_extraction: ExtractState.EXTRACTING,
   file_comparison: CompareState.COMPARING,
+  info_extraction: TransformState.TRANSFORMING,
 };
 
 const FAIL_STATE: { [key: string]: ExtractState | TransformState | CompareState } = {
   file_extraction: ExtractState.READY,
   file_comparison: CompareState.READY,
+  info_extraction: TransformState.READY,
 };
 
 const SLEEP_DURATION: { [key: string]: number } = {
-  file_extraction: 20000,
+  file_extraction: 10000,
   file_comparison: 30000,
+  info_extraction: 5000,
 };
 
 export const runJob = async ({
+  api_url,
   fileData,
   filename,
   selectedFile,
   selectedFileIndex,
   jobType,
+  token,
   updateFileAtIndex,
   handleSuccess,
   handleError,
@@ -62,9 +70,14 @@ export const runJob = async ({
   });
 
   postData.append('file', selectedFile?.file || '');
+  const getParams: GetParams = { job_id: fileData.jobId, user_id: fileData.userId, job_type: jobType };
 
   axios
-    .post(fileData.presignedUrl.url, postData)
+    .post(fileData.presignedUrl.url, postData, {
+      headers: {
+        authorizationToken: token,
+      },
+    })
     .then((response) => {
       if (response.status === 204) {
         toast.success(`${filename} uploaded!`);
@@ -77,10 +90,12 @@ export const runJob = async ({
         updateFileAtIndex(selectedFileIndex, 'userId', fileData.userId);
         setTimeout(() => {
           pollJobStatus({
-            getParams: { job_id: fileData.jobId, user_id: fileData.userId, job_type: jobType },
+            api_url,
+            getParams,
             handleSuccess,
             handleError,
             handleTimeout,
+            ...(token && { token }),
           });
         }, SLEEP_DURATION[jobType]); // Need to delay the polling to give the server time to process the file
       } else {

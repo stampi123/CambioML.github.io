@@ -8,13 +8,14 @@ import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import LoginComponent from '../auth/Login';
 import Dropzone from '../playground/Dropzone';
 import { toast } from 'react-hot-toast';
-import axios from 'axios';
 import PulsingIcon from '../PulsingIcon';
 import InputBasic from '../inputs/InputBasic';
 import Button from '../Button';
-import { PresignedResponse } from '@/app/types/PlaygroundTypes';
+import { uploadFile } from '@/app/actions/uploadFile';
+import { useProductionContext } from '../playground/ProductionContext';
 
 const UploadModal = () => {
+  const { apiURL } = useProductionContext();
   const uploadModal = useUploadModal();
   const [htmlInputValue, setHtmlInputValue] = useState('');
   const [htmlInputError, setHtmlInputError] = useState('');
@@ -115,7 +116,9 @@ const UploadModal = () => {
 
   useEffect(() => {
     if (uploadModal.uploadModalState === UploadModalState.UPLOADING) {
-      const uploadPromises = filesToUpload.map((file) => uploadFile(file));
+      const uploadPromises = filesToUpload.map((file) =>
+        uploadFile({ api_url: apiURL, file, token, clientId, jobType: 'file_extraction', addFiles, addFilesFormData })
+      );
 
       Promise.all(uploadPromises)
         .then(() => {
@@ -131,34 +134,6 @@ const UploadModal = () => {
         });
     }
   }, [uploadModal.uploadModalState, handleClose, uploadModal]);
-
-  const uploadFile = async (file: File) => {
-    const file_name = file.name;
-    const GetPresignedS3UrlAPI = `${process.env.NEXT_PUBLIC_PLAYGROUND_API_URL}/upload`;
-    const config = {
-      params: {
-        token: token,
-        client_id: clientId,
-        file_name: file_name,
-        job_type: 'file_extraction',
-      },
-      // headers: {
-      //   'Content-Type': 'application/json',
-      //   authorizationToken: token,
-      // },
-    };
-    await axios
-      .get<PresignedResponse>(GetPresignedS3UrlAPI, config)
-      .then((response) => {
-        const data = response.data as PresignedResponse;
-        addFilesFormData(data);
-        addFiles(file);
-      })
-      .catch((error) => {
-        toast.error(`Error uploading file: ${file.name}. Please try again.`);
-        throw error;
-      });
-  };
 
   if (!uploadModal.isOpen) {
     return null;

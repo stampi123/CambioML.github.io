@@ -6,19 +6,21 @@ import { useEffect, useState } from 'react';
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { CompareState, PlaygroundFile } from '@/app/types/PlaygroundTypes';
 import PulsingIcon from '../PulsingIcon';
-import JSZip from 'jszip';
+// import JSZip from 'jszip';
 import ComingSoonBanner from './ComingSoonBanner';
 import { uploadFile } from '@/app/actions/uploadFile';
-import { getFileName } from '@/app/actions/downloadFile';
+// import { getFileName } from '@/app/actions/downloadFile';
 import toast from 'react-hot-toast';
 import { runJob } from '@/app/actions/runJob';
 import { AxiosError, AxiosResponse } from 'axios';
+import { useProductionContext } from './ProductionContext';
 
-const FUNCTIONAL = false;
 const columnStyles = 'w-full flex flex-col items-center justify-center gap-4';
 
 const CompareContainer = () => {
-  const { token, clientId, files, selectedFileIndex, updateFileAtIndex } = usePlaygroundStore();
+  const { isProduction, apiURL } = useProductionContext();
+  const { token, clientId, files, addFiles, addFilesFormData, selectedFileIndex, updateFileAtIndex } =
+    usePlaygroundStore();
   const [paperOptions, setPaperOptions] = useState<Option[]>([]);
 
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
@@ -37,7 +39,9 @@ const CompareContainer = () => {
   }, [selectedFileIndex, files]);
 
   const checkIfPDF = (file: File | string) => {
-    return file instanceof File && file.name.toLowerCase().endsWith('.pdf');
+    console.log('File', file);
+    return true;
+    // return file instanceof File && file.name.toLowerCase().endsWith('.pdf');
   };
 
   useEffect(() => {
@@ -57,25 +61,6 @@ const CompareContainer = () => {
     updateFileAtIndex(selectedFileIndex, 'compareFile', compareFile);
   };
 
-  const zipFiles = async () => {
-    if (!selectedFile || !selectedFile.compareFile || selectedFile?.file instanceof File === false) {
-      return;
-    }
-    const zip = new JSZip();
-
-    zip.file(selectedFile?.file.name, selectedFile?.file);
-    zip.file(selectedFile?.compareFile?.name, selectedFile?.compareFile);
-
-    const filename1 = getFileName(selectedFile?.file.name);
-    const filename2 = getFileName(selectedFile?.compareFile.name);
-
-    const zippedContent = await zip.generateAsync({ type: 'blob' });
-    const zippedFolder = new File([zippedContent], `${filename1}_${filename2}_compare.zip`, {
-      type: 'application/zip',
-    });
-    return zippedFolder;
-  };
-
   const handleSuccess = (response: AxiosResponse) => {
     const result = response.data.file_content;
     if (result === undefined) {
@@ -85,6 +70,7 @@ const CompareContainer = () => {
     }
     updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.DONE_COMPARING);
     toast.success(`${filename} comparison generated!`);
+    console.log('Response', response.data);
     updateFileAtIndex(selectedFileIndex, 'compareResult', result);
     updateFileAtIndex(selectedFileIndex, 's3_file_source', response.data.file_source);
     return;
@@ -115,15 +101,48 @@ const CompareContainer = () => {
     toast.error(`Extract request for ${filename} timed out. Please try again.`);
   };
 
+  // const zipFiles = async () => {
+  //   if (
+  //     !selectedFile ||
+  //     !selectedFile.compareFile ||
+  //     !(selectedFile.file instanceof File) ||
+  //     !(selectedFile.compareFile instanceof File)
+  //   ) {
+  //     throw new Error('Invalid files selected');
+  //   }
+
+  //   const zip = new JSZip();
+
+  //   zip.file(selectedFile.file.name, selectedFile.file);
+  //   zip.file(selectedFile.compareFile.name, selectedFile.compareFile);
+
+  //   const filename1 = getFileName(selectedFile.file.name);
+  //   const filename2 = getFileName(selectedFile.compareFile.name);
+
+  //   try {
+  //     const zippedContent = await zip.generateAsync({ type: 'blob' });
+  //     const zippedFolder = await new File([zippedContent], `${filename1}_${filename2}_compare.zip`, {
+  //       type: 'application/zip',
+  //     });
+  //     return zippedFolder;
+  //   } catch (error) {
+  //     throw new Error('Error generating zip file');
+  //   }
+  // };
+
   const handleCompare = async () => {
     updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.COMPARING);
-    const zippedFolder = await zipFiles();
-    console.log('Zipped Folder', zippedFolder);
+    // const zippedFolder = await zipFiles();
+    // console.log('Zipped Folder', zippedFolder);
     const fileData = await uploadFile({
-      file: zippedFolder as File,
+      // file: zippedFolder as File,
+      api_url: apiURL,
+      file: selectedFile?.file as File,
       token,
       clientId,
       jobType: 'file_comparison',
+      addFiles,
+      addFilesFormData,
     });
     console.log('Data', fileData);
     if (fileData instanceof Error) {
@@ -134,6 +153,7 @@ const CompareContainer = () => {
     toast.success(`Files uploaded for comparison!`);
     if (selectedFile && selectedFileIndex !== null) {
       await runJob({
+        api_url: apiURL,
         fileData,
         filename,
         selectedFile,
@@ -144,13 +164,12 @@ const CompareContainer = () => {
         handleError,
         handleTimeout,
       });
-      // updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.DONE_COMPARING);
     }
   };
 
   return (
     <div className="w-full h-full pt-4">
-      {!FUNCTIONAL ? (
+      {isProduction ? (
         <ComingSoonBanner />
       ) : (
         <>
@@ -193,7 +212,7 @@ const CompareContainer = () => {
                       onClick={handleCompare}
                       small
                       labelIcon={TextColumns}
-                      disabled={selectedFile.compareFile === undefined}
+                      // disabled={selectedFile.compareFile === undefined}
                     />
                   </div>
                 </div>
@@ -204,7 +223,7 @@ const CompareContainer = () => {
                   <PulsingIcon Icon={TextColumns} size={40} />
                 </div>
               )}
-              {selectedFile?.compareState === CompareState.DONE_COMPARING && <div>Done Comparing</div>}
+              {selectedFile?.compareState === CompareState.DONE_COMPARING && <>{selectedFile.compareResult}</>}
             </>
           )}
         </>
