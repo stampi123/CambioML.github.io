@@ -52,11 +52,15 @@ const TransformContainer = () => {
           </div>
         ) : (
           <>
-            {transformMethod === TransformMethod.QA && <>{isProduction ? <ComingSoonBanner /> : <QAContainer />}</>}
+            {transformMethod === TransformMethod.QA && (
+              <>{isProduction ? <ComingSoonBanner /> : <ComingSoonBanner />}</>
+            )}
             {transformMethod === TransformMethod.SUMMARIZE && (
               <>{isProduction ? <ComingSoonBanner /> : <ComingSoonBanner />}</>
             )}
-            {transformMethod === TransformMethod.KEY_VALUE && <KeyValueContainer />}
+            {transformMethod === TransformMethod.KEY_VALUE && (
+              <>{isProduction ? <ComingSoonBanner /> : <KeyValueContainer />}</>
+            )}
           </>
         )}
       </div>
