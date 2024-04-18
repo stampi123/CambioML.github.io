@@ -45,7 +45,6 @@ export const uploadFile = async ({ api_url, file, token, clientId, jobType, addF
     .get<PresignedResponse>(api_url + '/upload', getConfig)
     .then((response) => {
       const data = response.data as PresignedResponse;
-      console.log('data', data);
       addFilesFormData(data);
       addFiles(file);
     })

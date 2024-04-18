@@ -32,8 +32,6 @@ const pollJobStatus = async ({ api_url, handleSuccess, handleError, handleTimeou
       authorizationToken: token,
     };
   }
-  console.log('pollJobStatus getConfig', getConfig);
-
   const timeoutDuration = 600000; // 10 minutes
   const pollInterval = 200; // 200 milliseconds
   const startTime = Date.now();
