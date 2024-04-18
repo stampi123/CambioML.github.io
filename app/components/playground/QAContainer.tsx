@@ -11,8 +11,10 @@ import QATable from './QATable';
 import pollJobStatus from '@/app/actions/pollJobStatus';
 import { downloadFile } from '@/app/actions/downloadFile';
 import ResultContainer from './ResultContainer';
+import { useProductionContext } from './ProductionContext';
 
 const QAContainer = () => {
+  const { apiURL } = useProductionContext();
   const { selectedFileIndex, files, token, clientId, updateFileAtIndex } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [displayTable, setDisplayTable] = useState<string[][] | null>(null);
@@ -88,7 +90,6 @@ const QAContainer = () => {
 
   const handleFileTransform = () => {
     updateFileAtIndex(selectedFileIndex, 'qaState', TransformState.TRANSFORMING);
-    const api_url = process.env.NEXT_PUBLIC_PLAYGROUND_API_URL;
     const s3_file_source = selectedFile?.s3_file_source;
     if (!s3_file_source) {
       toast.error(`${filename}: missing s3_file_source. Please try again.`);
@@ -104,7 +105,7 @@ const QAContainer = () => {
       job_id: selectedFile?.jobId,
     };
     axios
-      .post(`${api_url}/request`, params, {
+      .post(`${apiURL}/request`, params, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -112,6 +113,7 @@ const QAContainer = () => {
       .then(() => {
         setTimeout(() => {
           pollJobStatus({
+            api_url: apiURL,
             getParams: { job_id: selectedFile?.jobId, user_id: selectedFile?.userId, job_type: 'qa_generation' },
             handleSuccess,
             handleError,
@@ -140,7 +142,7 @@ const QAContainer = () => {
       job_id: selectedFile?.jobId,
     };
     axios
-      .post(`${process.env.NEXT_PUBLIC_PLAYGROUND_API_URL}/request`, params, {
+      .post(`${apiURL}/request`, params, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -151,6 +153,7 @@ const QAContainer = () => {
           updateFileAtIndex(selectedFileIndex, 'qaState', TransformState.TRANSFORMING);
           setTimeout(() => {
             pollJobStatus({
+              api_url: apiURL,
               getParams: {
                 job_id: selectedFile?.jobId || '',
                 user_id: selectedFile?.userId || '',

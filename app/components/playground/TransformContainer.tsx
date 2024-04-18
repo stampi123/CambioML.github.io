@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { ExtractState } from '@/app/types/PlaygroundTypes';
-// import QAContainer from './QAContainer';
-// import SummarizeContainer from './SummarizeContainer';
-// import KeyValueContainer from './KeyValueContainer';
 import ComingSoonBanner from './ComingSoonBanner';
+import KeyValueContainer from './KeyValueContainer';
+import { useProductionContext } from './ProductionContext';
+import QAContainer from './QAContainer';
 
 enum TransformMethod {
   QA,
@@ -17,6 +17,7 @@ const unselectedTabStyle = 'text-neutral-500 border-neutral-200';
 const tabStyle = 'p-2 text-center cursor-pointer border-solid border-b-2 hover:border-b-4 hover:font-semibold';
 
 const TransformContainer = () => {
+  const { isProduction } = useProductionContext();
   const { files, selectedFileIndex } = usePlaygroundStore();
   const [transformMethod, setTransformMethod] = useState<TransformMethod>(TransformMethod.KEY_VALUE);
 
@@ -51,9 +52,11 @@ const TransformContainer = () => {
           </div>
         ) : (
           <>
-            {transformMethod === TransformMethod.QA && <ComingSoonBanner />}
-            {transformMethod === TransformMethod.SUMMARIZE && <ComingSoonBanner />}
-            {transformMethod === TransformMethod.KEY_VALUE && <ComingSoonBanner />}
+            {transformMethod === TransformMethod.QA && <>{isProduction ? <ComingSoonBanner /> : <QAContainer />}</>}
+            {transformMethod === TransformMethod.SUMMARIZE && (
+              <>{isProduction ? <ComingSoonBanner /> : <ComingSoonBanner />}</>
+            )}
+            {transformMethod === TransformMethod.KEY_VALUE && <KeyValueContainer />}
           </>
         )}
       </div>

@@ -11,10 +11,13 @@ import pollJobStatus from '@/app/actions/pollJobStatus';
 import { downloadFile } from '@/app/actions/downloadFile';
 import { runJob } from '@/app/actions/runJob';
 import ResultContainer from './ResultContainer';
+import config from '../playground/config';
+import { useProductionContext } from './ProductionContext';
 
 const textStyles = 'text-xl font-semibold text-neutral-500';
 
 const ExtractContainer = () => {
+  const { apiURL } = useProductionContext();
   const { selectedFileIndex, files, filesFormData, updateFileAtIndex, token, clientId } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [filename, setFilename] = useState<string>('');
@@ -43,6 +46,7 @@ const ExtractContainer = () => {
   }, [selectedFile, filename]);
 
   const handleSuccess = (response: AxiosResponse) => {
+    console.log('extract content', response.data);
     const result = response.data.file_content;
     if (result === undefined) {
       toast.error(`${filename}: Received undefined result. Please try again.`);
@@ -92,11 +96,13 @@ const ExtractContainer = () => {
     }
     if (selectedFile && selectedFileIndex !== null) {
       runJob({
+        api_url: apiURL,
         fileData,
         filename,
         selectedFile,
         selectedFileIndex,
         jobType: 'file_extraction',
+        ...(config.AUTH0_ENABLED && { token }),
         updateFileAtIndex,
         handleSuccess,
         handleError,
@@ -119,7 +125,7 @@ const ExtractContainer = () => {
       job_type: 'file_extraction',
     };
     axios
-      .post(`${process.env.NEXT_PUBLIC_PLAYGROUND_API_URL}/request`, params, {
+      .post(`${apiURL}/request`, params, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -133,6 +139,7 @@ const ExtractContainer = () => {
           console.log(`Extracting ${filename} | job_id: $${response.data.jobId}`);
           setTimeout(() => {
             pollJobStatus({
+              api_url: apiURL,
               getParams: { job_id: response.data.jobId, user_id: response.data.userId, job_type: 'file_extraction' },
               handleSuccess,
               handleError,
