@@ -24,7 +24,7 @@ const PlaygroundPageContainer = ({ production }: PlaygroundPageContainerProps) =
         <div className="pb-10 w-full h-full flex flex-col justify-center items-center">
           <UploadModal />
           <PageHero
-            title={`🛝 Playground`}
+            title={`${production ? '🛝 Playground' : '🚧 PreProd Playground'}`}
             description={`Test Uniflow with your PDF*, TXT, HTML, and Image files**`}
             short
           />
