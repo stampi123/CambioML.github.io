@@ -1,18 +1,18 @@
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { useCallback, useEffect, useState } from 'react';
 import Button from '../Button';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import toast from 'react-hot-toast';
 import { PlaygroundFile, ExtractState } from '@/app/types/PlaygroundTypes';
 import { DownloadSimple, FileMagnifyingGlass, CloudArrowUp } from '@phosphor-icons/react';
 import PulsingIcon from '../PulsingIcon';
 import UploadButton from './UploadButton';
-import pollJobStatus from '@/app/actions/pollJobStatus';
 import { downloadFile } from '@/app/actions/downloadFile';
 import { runJob } from '@/app/actions/runJob';
 import ResultContainer from './ResultContainer';
 import config from '../playground/config';
 import { useProductionContext } from './ProductionContext';
+import { runRequestJob } from '@/app/actions/runRequestJob';
 
 const textStyles = 'text-xl font-semibold text-neutral-500';
 
@@ -87,7 +87,6 @@ const ExtractContainer = () => {
   const handleFileExtract = async () => {
     updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.UPLOADING);
     const fileData = filesFormData.find((obj) => obj.presignedUrl.fields['x-amz-meta-filename'] === filename);
-    console.log(`Extracting ${filename} | job_id: ${fileData?.jobId}`);
     if (!fileData) {
       updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
       toast.error(`Error extracting ${filename}. Please try again.`);
@@ -112,49 +111,73 @@ const ExtractContainer = () => {
 
   const handleHTMLExtract = async () => {
     updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.EXTRACTING);
-    const params = {
-      token: token,
-      client_id: clientId,
+    // const params = {
+    //   token: token,
+    //   client_id: clientId,
+    //   files: [
+    //     {
+    //       url: selectedFile?.file,
+    //       source_type: 'url',
+    //     },
+    //   ],
+    //   job_type: 'file_extraction',
+    // };
+
+    if (selectedFileIndex === null || !selectedFile || typeof selectedFile.file !== 'string') {
+      updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
+      toast.error(`Error extracting ${filename}. Please try again.`);
+      return;
+    }
+
+    runRequestJob({
+      apiURL,
+      clientId,
+      token,
       files: [
         {
           url: selectedFile?.file,
           source_type: 'url',
         },
       ],
-      job_type: 'file_extraction',
-    };
-    axios
-      .post(`${apiURL}/request`, params, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          toast.success(`${filename} submitted for extraction!`);
-          updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.EXTRACTING);
-          updateFileAtIndex(selectedFileIndex, 'jobId', response.data.jobId);
-          updateFileAtIndex(selectedFileIndex, 'userId', response.data.userId);
-          console.log(`Extracting ${filename} | job_id: $${response.data.jobId}`);
-          setTimeout(() => {
-            pollJobStatus({
-              api_url: apiURL,
-              getParams: { job_id: response.data.jobId, user_id: response.data.userId, job_type: 'file_extraction' },
-              handleSuccess,
-              handleError,
-              handleTimeout,
-            });
-          }, 5000); // Need to delay the polling to give the server time to process the file
-        } else {
-          toast.error(`Error uploading ${filename}. Please try again.`);
-          updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
-        }
-      })
-      .catch((error) => {
-        console.error('error', error);
-        toast.error(`Error uploading ${filename}. Please try again.`);
-        updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
-      });
+      jobType: 'file_extraction',
+      selectedFileIndex,
+      filename,
+      handleError,
+      handleSuccess,
+      handleTimeout,
+      updateFileAtIndex,
+    });
+    // axios
+    //   .post(`${apiURL}/request`, params, {
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //   })
+    //   .then((response) => {
+    //     if (response.status === 200) {
+    //       toast.success(`${filename} submitted for extraction!`);
+    //       updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.EXTRACTING);
+    //       updateFileAtIndex(selectedFileIndex, 'jobId', response.data.jobId);
+    //       updateFileAtIndex(selectedFileIndex, 'userId', response.data.userId);
+    //       setTimeout(() => {
+    //         pollJobStatus({
+    //           api_url: apiURL,
+    //           getParams: { job_id: response.data.jobId, user_id: response.data.userId, job_type: 'file_extraction' },
+    //           handleSuccess,
+    //           handleError,
+    //           handleTimeout,
+    //         });
+    //       }, 5000); // Need to delay the polling to give the server time to process the file
+    //     } else {
+    //       toast.error(`Error uploading ${filename}. Please try again.`);
+    //       updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error('error', error);
+    //     toast.error(`Error uploading ${filename}. Please try again.`);
+    //     updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
+    //   });
   };
 
   const handleExtract = async () => {
