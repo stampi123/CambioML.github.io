@@ -78,9 +78,10 @@ const usePlaygroundStore = create<PlaygroundStore>((set) => ({
       const uniqueFiles = playgroundFilesToAdd.filter((playgroundFile) =>
         state.files.every(
           (existingFile) =>
-            existingFile.file instanceof File &&
-            playgroundFile.file instanceof File &&
-            existingFile.file.name !== playgroundFile.file.name
+            typeof existingFile.file === 'string' ||
+            (existingFile.file instanceof File &&
+              playgroundFile.file instanceof File &&
+              existingFile.file.name !== playgroundFile.file.name)
         )
       );
 
