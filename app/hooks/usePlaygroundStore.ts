@@ -79,9 +79,7 @@ const usePlaygroundStore = create<PlaygroundStore>((set) => ({
         state.files.every(
           (existingFile) =>
             typeof existingFile.file === 'string' ||
-            (existingFile.file instanceof File &&
-              playgroundFile.file instanceof File &&
-              existingFile.file.name !== playgroundFile.file.name)
+            (playgroundFile.file instanceof File && existingFile.file.name !== playgroundFile.file.name)
         )
       );
 
