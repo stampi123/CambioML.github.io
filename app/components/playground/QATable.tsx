@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { TransformResult, OutputItem } from '../../types/PlaygroundTypes';
+import { OutputItem, QAResult } from '../../types/PlaygroundTypes';
 
 interface QATableProps {
-  transformResult: TransformResult;
+  qaResult: QAResult;
   updateDisplayTable: (resultList: string[][]) => void;
 }
 
@@ -10,11 +10,12 @@ const cellStyle = 'p-2 text-center whitespace-pre-wrap break-words';
 const contextColWidth = '50%';
 const otherColWidth = '25%';
 
-const QATable = ({ transformResult, updateDisplayTable }: QATableProps) => {
+const QATable = ({ qaResult, updateDisplayTable }: QATableProps) => {
   const [resultList, setResultList] = useState<string[][]>([]);
   useEffect(() => {
     const thisList: string[][] = [];
-    transformResult.results.forEach((itemList) => {
+    qaResult.forEach((itemList) => {
+      console.log(itemList);
       itemList.forEach((item) => {
         if (Array.isArray(item.output)) {
           item.output.forEach((outputItem: OutputItem) => {
@@ -28,7 +29,7 @@ const QATable = ({ transformResult, updateDisplayTable }: QATableProps) => {
     });
     setResultList(thisList);
     updateDisplayTable(thisList);
-  }, [transformResult]);
+  }, [qaResult]);
   return (
     <div className="absolute w-full">
       <table className="border-none w-full table-fixed">

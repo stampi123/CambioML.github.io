@@ -35,7 +35,7 @@ interface PlaygroundStore {
 
 const initialFileState = {
   extractResult: '',
-  transformResult: {},
+  qaResult: {},
   keyValueResult: JSON.stringify({ data1: 1, data2: 2 }, null, 2),
   jobId: '',
   userId: '',
@@ -78,9 +78,8 @@ const usePlaygroundStore = create<PlaygroundStore>((set) => ({
       const uniqueFiles = playgroundFilesToAdd.filter((playgroundFile) =>
         state.files.every(
           (existingFile) =>
-            existingFile.file instanceof File &&
-            playgroundFile.file instanceof File &&
-            existingFile.file.name !== playgroundFile.file.name
+            typeof existingFile.file === 'string' ||
+            (playgroundFile.file instanceof File && existingFile.file.name !== playgroundFile.file.name)
         )
       );
 

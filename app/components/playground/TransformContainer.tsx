@@ -4,6 +4,7 @@ import { ExtractState } from '@/app/types/PlaygroundTypes';
 import ComingSoonBanner from './ComingSoonBanner';
 import KeyValueContainer from './KeyValueContainer';
 import { useProductionContext } from './ProductionContext';
+import QAContainer from './QAContainer';
 
 enum TransformMethod {
   QA,
@@ -51,9 +52,7 @@ const TransformContainer = () => {
           </div>
         ) : (
           <>
-            {transformMethod === TransformMethod.QA && (
-              <>{isProduction ? <ComingSoonBanner /> : <ComingSoonBanner />}</>
-            )}
+            {transformMethod === TransformMethod.QA && <>{isProduction ? <ComingSoonBanner /> : <QAContainer />}</>}
             {transformMethod === TransformMethod.SUMMARIZE && (
               <>{isProduction ? <ComingSoonBanner /> : <ComingSoonBanner />}</>
             )}

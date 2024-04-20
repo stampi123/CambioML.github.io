@@ -12,10 +12,11 @@ import pollJobStatus from '@/app/actions/pollJobStatus';
 import { downloadFile } from '@/app/actions/downloadFile';
 import ResultContainer from './ResultContainer';
 import { useProductionContext } from './ProductionContext';
+import { runRequestJob } from '@/app/actions/runRequestJob';
 
 const QAContainer = () => {
   const { apiURL } = useProductionContext();
-  const { selectedFileIndex, files, token, clientId, updateFileAtIndex } = usePlaygroundStore();
+  const { selectedFileIndex, files, token, clientId, filesFormData, updateFileAtIndex } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [displayTable, setDisplayTable] = useState<string[][] | null>(null);
   const [filename, setFilename] = useState<string>('');
@@ -59,7 +60,7 @@ const QAContainer = () => {
       return;
     }
     updateFileAtIndex(selectedFileIndex, 'qaState', TransformState.DONE_TRANSFORMING);
-    updateFileAtIndex(selectedFileIndex, 'transformResult', result);
+    updateFileAtIndex(selectedFileIndex, 'qaResult', result);
     toast.success(`Generated QAs from ${filename}!`);
   };
 
@@ -90,42 +91,41 @@ const QAContainer = () => {
 
   const handleFileTransform = () => {
     updateFileAtIndex(selectedFileIndex, 'qaState', TransformState.TRANSFORMING);
-    const s3_file_source = selectedFile?.s3_file_source;
-    if (!s3_file_source) {
-      toast.error(`${filename}: missing s3_file_source. Please try again.`);
+
+    const fileData = filesFormData.find((obj) => obj.presignedUrl.fields['x-amz-meta-filename'] === filename);
+    if (!fileData) {
+      updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.READY);
+      toast.error(`Error extracting ${filename}. Missing formData. Please try again.`);
+      return;
+    }
+    const filesToTransform = [
+      {
+        s3_prefix: fileData.s3_prefix,
+        source_type: 'dynamodb',
+        s3_bucket: fileData.s3_bucket,
+      },
+    ];
+
+    if (selectedFileIndex === null) {
+      toast.error(`${filename}: missing selectedFileIndex. Please try again.`);
       updateFileAtIndex(selectedFileIndex, 'qaState', TransformState.READY);
       return;
     }
-    s3_file_source['source_type'] = 'dynamodb';
-    const params = {
-      token: token,
-      client_id: clientId,
-      files: [s3_file_source],
-      job_type: 'qa_generation',
-      job_id: selectedFile?.jobId,
-    };
-    axios
-      .post(`${apiURL}/request`, params, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .then(() => {
-        setTimeout(() => {
-          pollJobStatus({
-            api_url: apiURL,
-            getParams: { job_id: selectedFile?.jobId, user_id: selectedFile?.userId, job_type: 'qa_generation' },
-            handleSuccess,
-            handleError,
-            handleTimeout,
-          });
-        }, 10000); // Need to delay the polling to give the server time to process the file
-      })
-      .catch((error) => {
-        console.error('error', error);
-        toast.error(`Error transforming ${filename}. Please try again.`);
-        updateFileAtIndex(selectedFileIndex, 'qaState', TransformState.READY);
-      });
+
+    runRequestJob({
+      apiURL,
+      clientId,
+      token,
+      files: filesToTransform,
+      jobType: 'qa_generation',
+      jobId: selectedFile?.jobId,
+      selectedFileIndex,
+      filename,
+      handleError,
+      handleSuccess,
+      handleTimeout,
+      updateFileAtIndex,
+    });
   };
 
   const handleHTMLTransform = async () => {
@@ -201,17 +201,17 @@ const QAContainer = () => {
         </div>
       )}
       {selectedFile?.qaState === TransformState.DONE_TRANSFORMING &&
-        Object.keys(selectedFile?.transformResult || {}).length && (
+        Object.keys(selectedFile?.qaResult || {}).length && (
           <div className="flex flex-col items-start w-full h-full gap-4">
             <div className="flex flex-col items-start w-full h-full overflow-auto relative border-solid border-2 border-neutral-100 rounded-lg">
-              <QATable transformResult={selectedFile?.transformResult} updateDisplayTable={updateDisplayTable} />
+              <QATable qaResult={selectedFile?.qaResult} updateDisplayTable={updateDisplayTable} />
             </div>
             <div className="w-full h-fit">
               <Button
                 label="Download csv"
                 onClick={handleDownload}
                 small
-                disabled={(Object.keys(selectedFile?.transformResult || {}).length || 0) === 0}
+                disabled={(Object.keys(selectedFile?.qaResult || {}).length || 0) === 0}
                 labelIcon={DownloadSimple}
               />
             </div>

@@ -7,11 +7,11 @@ import PulsingIcon from '../PulsingIcon';
 import toast from 'react-hot-toast';
 import InputBasic from '../inputs/InputBasic';
 import { downloadFile } from '@/app/actions/downloadFile';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import ResultContainer from './ResultContainer';
-import pollJobStatus from '@/app/actions/pollJobStatus';
 import KeyValueTable from './KeyValueTable';
 import { useProductionContext } from './ProductionContext';
+import { runRequestJob } from '@/app/actions/runRequestJob';
 
 const MIN_INPUT_LENGTH = 2;
 const KeyValueContainer = () => {
@@ -114,9 +114,15 @@ If a key and/or value is not found in the text, please still include the key wit
     const s3_bucket = fileData.s3_bucket;
     const s3_prefix = fileData.s3_prefix;
 
-    const params = {
+    if (selectedFileIndex === null) {
+      toast.error(`Error extracting ${filename}. Please try again.`);
+      updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.READY);
+      return;
+    }
+    runRequestJob({
+      apiURL,
+      clientId,
       token,
-      client_id: clientId,
       files: [
         {
           s3_bucket,
@@ -126,45 +132,14 @@ If a key and/or value is not found in the text, please still include the key wit
           use_textract: true,
         },
       ],
-      job_type: 'info_extraction',
-      job_id: fileData.jobId,
-    };
-    axios
-      .post(`${apiURL}/request`, params, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          toast.success(`${filename} submitted!`);
-          updateFileAtIndex(selectedFileIndex, 'keyValueSate', TransformState.TRANSFORMING);
-          updateFileAtIndex(selectedFileIndex, 'jobId', response.data.jobId);
-          updateFileAtIndex(selectedFileIndex, 'userId', response.data.userId);
-          console.log(`Transforming ${filename} | job_id: $${response.data.jobId}`);
-          setTimeout(() => {
-            pollJobStatus({
-              api_url: apiURL,
-              getParams: {
-                job_id: response.data.jobId,
-                user_id: response.data.userId,
-                job_type: 'info_extraction',
-              },
-              handleSuccess,
-              handleError,
-              handleTimeout,
-            });
-          }, 5000); // Need to delay the polling to give the server time to process the file
-        } else {
-          toast.error(`Error uploading ${filename}. Please try again.`);
-          updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.READY);
-        }
-      })
-      .catch((error) => {
-        console.error('error', error);
-        toast.error(`Error uploading ${filename}. Please try again.`);
-        updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.READY);
-      });
+      jobType: 'info_extraction',
+      selectedFileIndex,
+      filename,
+      handleError,
+      handleSuccess,
+      handleTimeout,
+      updateFileAtIndex,
+    });
   };
 
   return (
