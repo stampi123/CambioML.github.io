@@ -126,28 +126,6 @@ const QAContainer = () => {
       handleTimeout,
       updateFileAtIndex,
     });
-    // axios
-    //   .post(`${apiURL}/request`, params, {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //   })
-    //   .then(() => {
-    //     setTimeout(() => {
-    //       pollJobStatus({
-    //         api_url: apiURL,
-    //         getParams: { job_id: selectedFile?.jobId, user_id: selectedFile?.userId, job_type: 'qa_generation' },
-    //         handleSuccess,
-    //         handleError,
-    //         handleTimeout,
-    //       });
-    //     }, 10000); // Need to delay the polling to give the server time to process the file
-    //   })
-    //   .catch((error) => {
-    //     console.error('error', error);
-    //     toast.error(`Error transforming ${filename}. Please try again.`);
-    //     updateFileAtIndex(selectedFileIndex, 'qaState', TransformState.READY);
-    //   });
   };
 
   const handleHTMLTransform = async () => {

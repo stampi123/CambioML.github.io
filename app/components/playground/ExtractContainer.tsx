@@ -111,17 +111,6 @@ const ExtractContainer = () => {
 
   const handleHTMLExtract = async () => {
     updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.EXTRACTING);
-    // const params = {
-    //   token: token,
-    //   client_id: clientId,
-    //   files: [
-    //     {
-    //       url: selectedFile?.file,
-    //       source_type: 'url',
-    //     },
-    //   ],
-    //   job_type: 'file_extraction',
-    // };
 
     if (selectedFileIndex === null || !selectedFile || typeof selectedFile.file !== 'string') {
       updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
@@ -147,37 +136,6 @@ const ExtractContainer = () => {
       handleTimeout,
       updateFileAtIndex,
     });
-    // axios
-    //   .post(`${apiURL}/request`, params, {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //   })
-    //   .then((response) => {
-    //     if (response.status === 200) {
-    //       toast.success(`${filename} submitted for extraction!`);
-    //       updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.EXTRACTING);
-    //       updateFileAtIndex(selectedFileIndex, 'jobId', response.data.jobId);
-    //       updateFileAtIndex(selectedFileIndex, 'userId', response.data.userId);
-    //       setTimeout(() => {
-    //         pollJobStatus({
-    //           api_url: apiURL,
-    //           getParams: { job_id: response.data.jobId, user_id: response.data.userId, job_type: 'file_extraction' },
-    //           handleSuccess,
-    //           handleError,
-    //           handleTimeout,
-    //         });
-    //       }, 5000); // Need to delay the polling to give the server time to process the file
-    //     } else {
-    //       toast.error(`Error uploading ${filename}. Please try again.`);
-    //       updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error('error', error);
-    //     toast.error(`Error uploading ${filename}. Please try again.`);
-    //     updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
-    //   });
   };
 
   const handleExtract = async () => {

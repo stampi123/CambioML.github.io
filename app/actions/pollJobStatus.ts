@@ -26,7 +26,6 @@ const pollJobStatus = async ({ api_url, handleSuccess, handleError, handleTimeou
     params: getParams,
     ...(token && { headers: { authorizationToken: token } }),
   };
-  console.log('pollJobStatus getConfig', getConfig);
   const timeoutDuration = 600000; // 10 minutes
   const pollInterval = 200; // 200 milliseconds
   const startTime = Date.now();
@@ -39,7 +38,6 @@ const pollJobStatus = async ({ api_url, handleSuccess, handleError, handleTimeou
       .get(jobStatusAPI, getConfig)
       .then((response) => {
         if (response.status === 200) {
-          console.log('pollJobStatus', response);
           handleSuccess(response);
           return;
         } else if (response.status === 202 || response.status === 403) {
