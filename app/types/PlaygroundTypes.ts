@@ -32,7 +32,7 @@ export enum CompareState {
 export interface PlaygroundFile {
   file: File | string;
   extractResult: string;
-  transformResult: TransformResult;
+  qaResult: QAResult;
   keyValueResult: string;
   jobId: string;
   userId: string;
@@ -59,6 +59,19 @@ export interface TransformResult {
   }[][];
   status: string;
 }
+
+export type QAResult = Array<
+  Array<{
+    output: Array<{
+      error: string;
+      response: Array<{
+        context: string;
+        question: string;
+        answer: string;
+      }>;
+    }>;
+  }>
+>;
 
 export interface OutputItem {
   error: string;

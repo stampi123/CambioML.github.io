@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 interface IParams {
   apiURL: string;
   jobType: string;
+  jobId?: string;
   token: string;
   clientId: string;
   selectedFileIndex: number;
@@ -26,21 +27,25 @@ interface IParams {
 const JOB_STATE: { [key: string]: string } = {
   file_extraction: 'extractState',
   info_extraction: 'keyValueState',
+  qa_generation: 'qaState',
 };
 
 const SUCCESS_STATE: { [key: string]: ExtractState | TransformState } = {
   file_extraction: ExtractState.EXTRACTING,
   info_extraction: TransformState.TRANSFORMING,
+  qa_generation: TransformState.TRANSFORMING,
 };
 
 const FAIL_STATE: { [key: string]: ExtractState | TransformState } = {
   file_extraction: ExtractState.READY,
   info_extraction: TransformState.READY,
+  qa_generation: TransformState.READY,
 };
 
 const SLEEP_DURATION: { [key: string]: number } = {
   file_extraction: 2000,
   info_extraction: 5000,
+  qa_generation: 5000,
 };
 
 export const runRequestJob = async ({
@@ -48,6 +53,7 @@ export const runRequestJob = async ({
   clientId,
   token,
   files,
+  jobId,
   jobType,
   selectedFileIndex,
   filename,
@@ -61,7 +67,9 @@ export const runRequestJob = async ({
     client_id: clientId,
     files,
     job_type: jobType,
+    ...(jobId && { job_id: jobId }),
   };
+  console.log('init job id', jobId);
   axios
     .post(`${apiURL}/request`, params, {
       headers: {

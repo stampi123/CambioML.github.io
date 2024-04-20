@@ -35,7 +35,7 @@ interface PlaygroundStore {
 
 const initialFileState = {
   extractResult: '',
-  transformResult: {},
+  qaResult: {},
   keyValueResult: JSON.stringify({ data1: 1, data2: 2 }, null, 2),
   jobId: '',
   userId: '',
