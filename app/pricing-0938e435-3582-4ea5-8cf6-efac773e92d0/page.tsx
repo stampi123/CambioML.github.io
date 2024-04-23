@@ -29,7 +29,7 @@ const PlaygroundPage = () => {
         />
         <PricingCard
           title="Enterprise"
-          subtitle="For businesses looking to scale with custom platform tools and APIs"
+          subtitle="For businesses looking to scale with the best data privacy and security features"
           price="$99k"
           period="year"
           features={[

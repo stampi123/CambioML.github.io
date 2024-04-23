@@ -2,7 +2,7 @@
 
 import { Check } from '@phosphor-icons/react';
 
-const descriptionStyle = 'text-md font-light text-neutral-500 text-center min-h-[50px]';
+const descriptionStyle = 'text-md font-light text-neutral-600 text-center min-h-[50px]';
 
 interface PricingCardProps {
   title: string;
