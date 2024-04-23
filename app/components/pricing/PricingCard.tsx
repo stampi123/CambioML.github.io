@@ -58,7 +58,7 @@ const PricingCard = ({
               </div>
             ))}
           </div>
-          {footer && <div className="flex items-center justify-center w-full py-4 italic">{footer}</div>}
+          {footer && <div className={`${descriptionStyle} italic`}>{footer}</div>}
         </div>
       </div>
     </div>
