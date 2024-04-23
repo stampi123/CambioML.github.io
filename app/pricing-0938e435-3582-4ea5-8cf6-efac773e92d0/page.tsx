@@ -5,7 +5,7 @@ const PlaygroundPage = () => {
   return (
     <div className="pb-10 w-full h-full flex flex-col justify-center items-center">
       <PageHero title={`Pricing`} description={'Find the right plan for you.'} short />
-      <div className="h-full w-full grid grid-cols-1 lg:grid-cols-3 gap-4 p-4 mt-10 max-w-[1200px]">
+      <div className="h-full w-full grid grid-cols-1 lg:grid-cols-3 gap-6 p-4 mt-10 max-w-screen-xl">
         <PricingCard
           title="Starter"
           subtitle="For individuals or teams looking to try out the platform"
@@ -34,6 +34,7 @@ const PlaygroundPage = () => {
           period="year"
           features={[
             'All Starter and Pro starter features',
+            'Host on your own private servers',
             'Dedicated Account Manager',
             'Custom Integrations and API Responses',
             'Personalized 1-1 team training',

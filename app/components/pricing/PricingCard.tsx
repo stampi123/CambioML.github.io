@@ -34,10 +34,10 @@ const PricingCard = ({
           className={`h-[300px] p-6 w-full ${color && 'bg-cambio-blue'}
           border-t-8
           ${outline && 'border-solid border-sky-200'}
-          ${color && 'border-solid border-sky-800'}
+          ${color && 'border-solid border-sky-800 rounded-b-xl'}
           rounded-t-xl`}
         >
-          <div className="text-xl font-semibold text-neutral-800 text-center">{title.toLocaleUpperCase()}</div>
+          <div className="text-xl font-semibold text-neutral-800 text-center pb-4">{title.toLocaleUpperCase()}</div>
           <div className={descriptionStyle}>{subtitle}</div>
           <div className="mt-5 text-center font-light flex flex-col items-center gap-5 text-neutral-500">
             <div className="flex justify-center items-end gap-2">
