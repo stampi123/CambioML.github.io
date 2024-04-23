@@ -52,7 +52,7 @@ const PricingCard = ({
         <div className="w-full flex flex-col justify-between px-4">
           <div className={`${!color && 'border-t-2'} flex flex-col gap-1 justify-start items-start  w-full py-4`}>
             {features.map((feature, index) => (
-              <div key={index} className="flex items-center gap-2 text-neutral-500">
+              <div key={index} className="flex items-center gap-2 text-neutral-600">
                 <Check size={16} weight="bold" className="shrink-0 text-green-500" />
                 {feature}
               </div>
