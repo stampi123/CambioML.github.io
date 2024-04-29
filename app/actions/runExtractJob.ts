@@ -1,13 +1,8 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import {
-  CompareState,
-  ExtractState,
-  PlaygroundFile,
-  PresignedResponse,
-  TransformState,
-} from '../types/PlaygroundTypes';
-import pollJobStatus, { GetParams } from './pollJobStatus';
+import { CompareState, ExtractState, PlaygroundFile, TransformState } from '../types/PlaygroundTypes';
+import pollJobStatus from './pollJobStatus';
 import toast from 'react-hot-toast';
+import { GetParams, PresignedResponse } from './apiInterface';
 
 interface IParams {
   api_url: string;
@@ -51,7 +46,7 @@ const SLEEP_DURATION: { [key: string]: number } = {
   info_extraction: 5000,
 };
 
-export const runJob = async ({
+export const runExtractJob = async ({
   api_url,
   fileData,
   filename,
@@ -73,11 +68,7 @@ export const runJob = async ({
   const getParams: GetParams = { job_id: fileData.jobId, user_id: fileData.userId, job_type: jobType };
 
   axios
-    .post(fileData.presignedUrl.url, postData, {
-      headers: {
-        authorizationToken: token,
-      },
-    })
+    .post(fileData.presignedUrl.url, postData)
     .then((response) => {
       if (response.status === 204) {
         toast.success(`${filename} uploaded!`);

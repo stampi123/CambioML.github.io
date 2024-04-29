@@ -1,6 +1,5 @@
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
-import config from '../playground/config';
 import { deleteAccessStorage, getAccessStorage, setAccessStorage } from '@/app/hooks/useAccessToken';
 import toast from 'react-hot-toast';
 import { useCallback, useEffect } from 'react';
@@ -8,6 +7,7 @@ import Button from '../Button';
 import { SignIn, UserCircle } from '@phosphor-icons/react';
 import PulsingIcon from '../PulsingIcon';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useProductionContext } from '../playground/ProductionContext';
 
 const ACCESS_TIME = 1; //Access token time in hours
 
@@ -19,10 +19,11 @@ interface LoginResponse {
 
 const LoginComponent = () => {
   const { user, isAuthenticated, isLoading, loginWithRedirect, getAccessTokenSilently, logout } = useAuth0();
+  const { auth0Enabled } = useProductionContext();
 
   const { loggedIn, setLoggedIn, setClientId, setToken } = usePlaygroundStore();
   useEffect(() => {
-    if (!config.AUTH0_ENABLED) {
+    if (!auth0Enabled) {
       const accessToken = getAccessStorage();
       if (accessToken) {
         setLoggedIn(true);
@@ -38,7 +39,7 @@ const LoginComponent = () => {
   }, [setLoggedIn, setClientId, setToken]);
 
   useEffect(() => {
-    if (!isLoading && config.AUTH0_ENABLED) {
+    if (!isLoading && auth0Enabled) {
       if (isAuthenticated) {
         getAccessToken();
         setLoggedIn(true);
@@ -90,7 +91,7 @@ const LoginComponent = () => {
 
   return (
     <div className="h-full w-full flex flex-col items-center justify-center gap-4">
-      {config.AUTH0_ENABLED ? (
+      {auth0Enabled ? (
         <>
           {isLoading ? (
             <PulsingIcon Icon={UserCircle} size={48} />

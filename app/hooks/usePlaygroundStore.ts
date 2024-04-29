@@ -1,12 +1,13 @@
 import { create } from 'zustand';
-import {
-  PresignedResponse,
-  PlaygroundFile,
-  PlaygroundTabs,
-  ExtractState,
-  TransformState,
-  CompareState,
-} from '../types/PlaygroundTypes';
+import { PlaygroundFile, PlaygroundTabs, ExtractState, TransformState, CompareState } from '../types/PlaygroundTypes';
+import { PresignedResponse } from '../actions/apiInterface';
+
+export interface AddFileParams {
+  files: File | File[];
+  fileId: string;
+  jobId: string;
+  userId: string;
+}
 
 interface PlaygroundStore {
   selectedFileIndex: number | null;
@@ -22,23 +23,21 @@ interface PlaygroundStore {
   setToken: (token: string) => void;
   setClientId: (clientId: string) => void;
   setLoggedIn: (loggedIn: boolean) => void;
-  addFiles: (files: File | File[]) => void;
+  addFiles: ({ files, fileId, jobId, userId }: AddFileParams) => void;
   addHTMLFile: (file: string) => void;
   addFilesFormData: (newResponse: PresignedResponse) => void;
   updateSelectedFile: (property: string, value: string) => void;
   updateFileAtIndex: (
     index: number | null,
     property: string,
-    value: string | ExtractState | TransformState | CompareState | File
+    value: string | ExtractState | TransformState | CompareState | File | string[]
   ) => void;
 }
 
 const initialFileState = {
-  extractResult: '',
+  extractResult: {},
   qaResult: {},
   keyValueResult: JSON.stringify({ data1: 1, data2: 2 }, null, 2),
-  jobId: '',
-  userId: '',
   s3_file_source: {},
   activeTab: PlaygroundTabs.EXTRACT,
   extractState: ExtractState.READY,
@@ -67,11 +66,14 @@ const usePlaygroundStore = create<PlaygroundStore>((set) => ({
     })) as PlaygroundFile[];
     set({ files: playgroundFiles });
   },
-  addFiles: (files) => {
+  addFiles: ({ files, fileId, jobId, userId }: AddFileParams) => {
     set((state) => {
       const filesToAdd = Array.isArray(files) ? files : [files];
       const playgroundFilesToAdd = filesToAdd.map((file) => ({
         file: file,
+        fileId: fileId,
+        jobId: jobId,
+        userId: userId,
         ...initialFileState,
       })) as PlaygroundFile[];
 

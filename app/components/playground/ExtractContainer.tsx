@@ -8,16 +8,17 @@ import { DownloadSimple, FileMagnifyingGlass, CloudArrowUp } from '@phosphor-ico
 import PulsingIcon from '../PulsingIcon';
 import UploadButton from './UploadButton';
 import { downloadFile } from '@/app/actions/downloadFile';
-import { runJob } from '@/app/actions/runJob';
-import ResultContainer from './ResultContainer';
-import config from '../playground/config';
-import { useProductionContext } from './ProductionContext';
+import { runExtractJob } from '@/app/actions/runExtractJob';
+import { runJob as runPreProdExtractJob } from '@/app/actions/preprod/runExtractJob';
 import { runRequestJob } from '@/app/actions/runRequestJob';
+import { runRequestJob as runPreProdRequestJob } from '@/app/actions/preprod/runRequestJob';
+import ResultContainer from './ResultContainer';
+import { useProductionContext } from './ProductionContext';
 
 const textStyles = 'text-xl font-semibold text-neutral-500';
 
 const ExtractContainer = () => {
-  const { apiURL } = useProductionContext();
+  const { isProduction, apiURL, auth0Enabled } = useProductionContext();
   const { selectedFileIndex, files, filesFormData, updateFileAtIndex, token, clientId } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [filename, setFilename] = useState<string>('');
@@ -38,7 +39,7 @@ const ExtractContainer = () => {
     if (selectedFile?.extractResult) {
       downloadFile({
         filename,
-        fileContent: selectedFile.extractResult,
+        fileContent: selectedFile.extractResult.join('\n\n'),
         fileType: 'text/plain',
         suffix: '_extracted.txt',
       });
@@ -46,16 +47,23 @@ const ExtractContainer = () => {
   }, [selectedFile, filename]);
 
   const handleSuccess = (response: AxiosResponse) => {
-    const result = response.data.file_content;
+    let result = response.data;
+    if (isProduction) {
+      result = response.data.file_content;
+    }
     if (result === undefined) {
       toast.error(`${filename}: Received undefined result. Please try again.`);
       updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
       return;
     }
+    if (typeof result === 'string') {
+      updateFileAtIndex(selectedFileIndex, 'extractResult', [result]);
+    } else {
+      updateFileAtIndex(selectedFileIndex, 'extractResult', result);
+    }
+
     updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.DONE_EXTRACTING);
     toast.success(`${filename} extracted!`);
-    updateFileAtIndex(selectedFileIndex, 'extractResult', result);
-    updateFileAtIndex(selectedFileIndex, 's3_file_source', response.data.file_source);
     return;
   };
 
@@ -93,19 +101,38 @@ const ExtractContainer = () => {
       return;
     }
     if (selectedFile && selectedFileIndex !== null) {
-      runJob({
-        api_url: apiURL,
-        fileData,
-        filename,
-        selectedFile,
-        selectedFileIndex,
-        jobType: 'file_extraction',
-        ...(config.AUTH0_ENABLED && { token }),
-        updateFileAtIndex,
-        handleSuccess,
-        handleError,
-        handleTimeout,
-      });
+      if (isProduction) {
+        runExtractJob({
+          api_url: apiURL,
+          fileData,
+          filename,
+          selectedFile,
+          selectedFileIndex,
+          jobType: 'file_extraction',
+          token,
+          ...(auth0Enabled && { token }),
+          updateFileAtIndex,
+          handleSuccess,
+          handleError,
+          handleTimeout,
+        });
+      } else {
+        runPreProdExtractJob({
+          api_url: apiURL,
+          fileData,
+          filename,
+          selectedFile,
+          selectedFileIndex,
+          token,
+          auth0Enabled,
+          queryType: 'job_result',
+          ...(auth0Enabled && { token }),
+          updateFileAtIndex,
+          handleSuccess,
+          handleError,
+          handleTimeout,
+        });
+      }
     }
   };
 
@@ -118,24 +145,39 @@ const ExtractContainer = () => {
       return;
     }
 
-    runRequestJob({
-      apiURL,
-      clientId,
-      token,
-      files: [
-        {
-          url: selectedFile?.file,
-          source_type: 'url',
-        },
-      ],
-      jobType: 'file_extraction',
-      selectedFileIndex,
-      filename,
-      handleError,
-      handleSuccess,
-      handleTimeout,
-      updateFileAtIndex,
-    });
+    if (isProduction) {
+      runRequestJob({
+        apiURL,
+        clientId,
+        token,
+        fileId: selectedFile.fileId,
+        jobType: 'file_extraction',
+        selectedFileIndex,
+        sourceType: 'url',
+        url: selectedFile.file,
+        filename,
+        handleError,
+        handleSuccess,
+        handleTimeout,
+        updateFileAtIndex,
+      });
+    } else {
+      runPreProdRequestJob({
+        apiURL,
+        clientId,
+        token,
+        fileId: selectedFile.fileId,
+        jobType: 'file_extraction',
+        selectedFileIndex,
+        sourceType: 'url',
+        url: selectedFile.file,
+        filename,
+        handleError,
+        handleSuccess,
+        handleTimeout,
+        updateFileAtIndex,
+      });
+    }
   };
 
   const handleExtract = async () => {
