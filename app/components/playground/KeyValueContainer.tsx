@@ -12,10 +12,11 @@ import ResultContainer from './ResultContainer';
 import KeyValueTable from './KeyValueTable';
 import { useProductionContext } from './ProductionContext';
 import { runRequestJob } from '@/app/actions/runRequestJob';
+import { runRequestJob as runPreProdRequestJob } from '@/app/actions/preprod/runRequestJob';
 
 const MIN_INPUT_LENGTH = 2;
 const KeyValueContainer = () => {
-  const { apiURL } = useProductionContext();
+  const { apiURL, isProduction } = useProductionContext();
   const { selectedFileIndex, files, filesFormData, updateFileAtIndex, token, clientId } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [filename, setFilename] = useState<string>('');
@@ -111,35 +112,51 @@ ${JSON.stringify(keys)}
 
 If a key and/or value is not found in the text, please still include the key with a value of 'NA'.
 `;
-    const s3_bucket = fileData.s3_bucket;
-    const s3_prefix = fileData.s3_prefix;
 
     if (selectedFileIndex === null) {
       toast.error(`Error extracting ${filename}. Please try again.`);
       updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.READY);
       return;
     }
-    runRequestJob({
-      apiURL,
-      clientId,
-      token,
-      files: [
-        {
-          s3_bucket,
-          s3_prefix,
-          source_type: 's3',
+    if (isProduction) {
+      runRequestJob({
+        apiURL,
+        clientId,
+        token,
+        sourceType: 's3',
+        fileId: fileData.fileId,
+        jobType: 'info_extraction',
+        jobParams: {
           user_prompt,
           use_textract: true,
         },
-      ],
-      jobType: 'info_extraction',
-      selectedFileIndex,
-      filename,
-      handleError,
-      handleSuccess,
-      handleTimeout,
-      updateFileAtIndex,
-    });
+        selectedFileIndex,
+        filename,
+        handleError,
+        handleSuccess,
+        handleTimeout,
+        updateFileAtIndex,
+      });
+    } else {
+      runPreProdRequestJob({
+        apiURL,
+        clientId,
+        token,
+        sourceType: 's3',
+        fileId: fileData.fileId,
+        jobType: 'info_extraction',
+        jobParams: {
+          user_prompt,
+          use_textract: true,
+        },
+        selectedFileIndex,
+        filename,
+        handleError,
+        handleSuccess,
+        handleTimeout,
+        updateFileAtIndex,
+      });
+    }
   };
 
   return (

@@ -12,10 +12,11 @@ import PulsingIcon from '../PulsingIcon';
 import InputBasic from '../inputs/InputBasic';
 import Button from '../Button';
 import { uploadFile } from '@/app/actions/uploadFile';
+import { uploadFile as preProdUploadFile } from '@/app/actions/preprod/uploadFile';
 import { useProductionContext } from '../playground/ProductionContext';
 
 const UploadModal = () => {
-  const { apiURL } = useProductionContext();
+  const { apiURL, isProduction, auth0Enabled } = useProductionContext();
   const uploadModal = useUploadModal();
   const [htmlInputValue, setHtmlInputValue] = useState('');
   const [htmlInputError, setHtmlInputError] = useState('');
@@ -48,7 +49,7 @@ const UploadModal = () => {
       addHTMLFile(htmlInputValue);
       setHtmlInputValue('');
       toast.success(`Added ${htmlInputValue}`);
-      if (selectedFileIndex === null) setSelectedFileIndex(0);
+      setSelectedFileIndex(files.length);
       handleClose();
     } else {
       toast.error('Invalid HTML URL');
@@ -76,7 +77,7 @@ const UploadModal = () => {
     }
     setFilesToUpload([starterFile]);
     uploadModal.setUploadModalState(UploadModalState.UPLOADING);
-    if (selectedFileIndex === null) setSelectedFileIndex(0);
+    setSelectedFileIndex(files.length);
   };
 
   const handleClose = useCallback(() => {
@@ -91,12 +92,12 @@ const UploadModal = () => {
     filesToUpload,
     token,
     clientId,
+    files,
     addFilesFormData,
     addFiles,
     addHTMLFile,
     setSelectedFileIndex,
     setFilesToUpload,
-    selectedFileIndex,
   } = usePlaygroundStore();
   const thisRef = useOutsideClickModal(() => {
     handleClose();
@@ -116,13 +117,34 @@ const UploadModal = () => {
 
   useEffect(() => {
     if (uploadModal.uploadModalState === UploadModalState.UPLOADING) {
-      const uploadPromises = filesToUpload.map((file) =>
-        uploadFile({ api_url: apiURL, file, token, clientId, jobType: 'file_extraction', addFiles, addFilesFormData })
-      );
+      const uploadPromises = filesToUpload.map((file) => {
+        if (isProduction) {
+          return uploadFile({
+            api_url: apiURL,
+            file,
+            token,
+            clientId,
+            jobType: 'file_extraction',
+            addFiles,
+            addFilesFormData,
+          });
+        } else {
+          console.log('PreProd upload');
+          return preProdUploadFile({
+            api_url: apiURL,
+            file,
+            token,
+            clientId,
+            addFiles,
+            addFilesFormData,
+            auth0Enabled,
+          });
+        }
+      });
 
       Promise.all(uploadPromises)
         .then(() => {
-          if (selectedFileIndex === null) setSelectedFileIndex(0);
+          setSelectedFileIndex(files.length);
           setFilesToUpload([]);
           uploadModal.setUploadModalState(UploadModalState.LOGIN);
           handleClose();

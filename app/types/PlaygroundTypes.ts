@@ -1,13 +1,4 @@
-export interface PresignedResponse {
-  presignedUrl: {
-    fields: Record<string, string>;
-    url: string;
-  };
-  s3_bucket: string;
-  s3_prefix: string;
-  jobId: string;
-  userId: string;
-}
+import { QAResult, QueryResult } from '../actions/apiInterface';
 
 export enum ExtractState {
   NO_DATA,
@@ -31,11 +22,12 @@ export enum CompareState {
 
 export interface PlaygroundFile {
   file: File | string;
-  extractResult: string;
+  extractResult: QueryResult;
   qaResult: QAResult;
   keyValueResult: string;
   jobId: string;
   userId: string;
+  fileId: string;
   s3_file_source: {
     s3_bucket: string;
     source_type: string;
@@ -59,19 +51,6 @@ export interface TransformResult {
   }[][];
   status: string;
 }
-
-export type QAResult = Array<
-  Array<{
-    output: Array<{
-      error: string;
-      response: Array<{
-        context: string;
-        question: string;
-        answer: string;
-      }>;
-    }>;
-  }>
->;
 
 export interface OutputItem {
   error: string;

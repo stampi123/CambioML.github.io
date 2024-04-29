@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { OutputItem, QAResult } from '../../types/PlaygroundTypes';
+import { OutputItem } from '../../types/PlaygroundTypes';
+import { QAResult } from '@/app/actions/apiInterface';
 
 interface QATableProps {
   qaResult: QAResult;

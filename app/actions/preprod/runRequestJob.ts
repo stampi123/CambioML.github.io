@@ -1,15 +1,15 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { ExtractState, TransformState } from '../types/PlaygroundTypes';
+import { ExtractState, TransformState } from '../../types/PlaygroundTypes';
 import pollJobStatus from './pollJobStatus';
 import toast from 'react-hot-toast';
-import { GetParams, RequestParams } from './apiInterface';
+import { QueryParams, RequestParams } from './apiInterface';
 
 interface IParams {
   apiURL: string;
   jobType: string;
-  token: string;
   clientId: string;
   fileId: string;
+  token: string;
   sourceType: string;
   selectedFileIndex: number;
   url?: string;
@@ -52,13 +52,13 @@ const SLEEP_DURATION: { [key: string]: number } = {
 export const runRequestJob = async ({
   apiURL,
   clientId,
-  token,
   fileId,
   jobParams,
   jobType,
   selectedFileIndex,
   sourceType,
   filename,
+  token,
   url,
   handleError,
   handleSuccess,
@@ -67,16 +67,16 @@ export const runRequestJob = async ({
 }: IParams) => {
   const params: RequestParams = {
     token,
-    client_id: clientId,
-    files: [{ source_type: sourceType, ...(fileId && { fileId }), ...(url && { url }) }],
-    job_type: jobType,
+    clientId,
+    files: [{ sourceType, ...(fileId && { fileId }), ...(url && { url }) }],
+    jobType,
     ...(jobParams && { jobParams }),
   };
-  console.log('Running prod request job', params);
   axios
     .post(`${apiURL}/request`, params, {
       headers: {
         'Content-Type': 'application/json',
+        authorizationToken: token,
       },
     })
     .then((response) => {
@@ -86,15 +86,17 @@ export const runRequestJob = async ({
         updateFileAtIndex(selectedFileIndex, JOB_STATE[jobType], SUCCESS_STATE[jobType]);
         console.log(`Transforming ${filename} | job_id: $${response.data.jobId}`);
 
-        const getParams: GetParams = {
-          user_id: response.data.userId,
-          job_id: response.data.jobId,
-          job_type: jobType,
+        const postParams: QueryParams = {
+          userId: response.data.userId,
+          fileId,
+          jobId: response.data.jobId,
+          queryType: 'job_result',
         };
         setTimeout(() => {
           pollJobStatus({
             api_url: apiURL,
-            getParams,
+            postParams,
+            token,
             handleSuccess,
             handleError,
             handleTimeout,

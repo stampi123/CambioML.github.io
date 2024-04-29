@@ -1,31 +1,34 @@
 import axios from 'axios';
-import { PresignedResponse } from './apiInterface';
 import toast from 'react-hot-toast';
-import { AddFileParams } from '../hooks/usePlaygroundStore';
+import { PresignedResponse, UploadParams } from './apiInterface';
+import { AddFileParams } from '../../hooks/usePlaygroundStore';
 
 interface IParams {
   api_url: string;
   file: File | undefined;
   token: string;
   clientId: string;
-  jobType: string;
+  auth0Enabled: boolean;
   addFilesFormData: (data: PresignedResponse) => void;
   addFiles: ({ files, fileId, jobId, userId }: AddFileParams) => void;
 }
 
-interface ConfigParams {
-  token: string;
-  client_id: string;
-  file_name: string;
-  job_type: string;
-}
-
 interface Config {
-  params: ConfigParams;
+  params: UploadParams;
   headers?: { authorizationToken: string };
 }
 
-export const uploadFile = async ({ api_url, file, token, clientId, jobType, addFiles, addFilesFormData }: IParams) => {
+export const uploadFile = async ({
+  api_url,
+  file,
+  token,
+  clientId,
+  addFiles,
+  addFilesFormData,
+  auth0Enabled,
+}: IParams) => {
+  console.log('Running preprod uploadFile');
+  console.log('Auth0 enabled: ', auth0Enabled);
   if (!file) {
     toast.error('No file selected');
     return;
@@ -34,18 +37,20 @@ export const uploadFile = async ({ api_url, file, token, clientId, jobType, addF
   const getConfig: Config = {
     params: {
       token: token,
-      client_id: clientId,
-      file_name: file_name,
-      job_type: jobType,
+      clientId: clientId,
+      fileName: file_name,
     },
+    ...(auth0Enabled && { headers: { authorizationToken: token } }),
   };
+
+  console.log(getConfig);
 
   return await axios
     .get<PresignedResponse>(api_url + '/upload', getConfig)
     .then((response) => {
       const data = response.data as PresignedResponse;
       addFilesFormData(data);
-      addFiles({ fileId: '', jobId: '', userId: '', files: file });
+      addFiles({ files: file, fileId: data.fileId, jobId: data.jobId, userId: data.userId });
     })
     .catch((error) => {
       toast.error(`Error uploading file: ${file.name}. Please try again.`);

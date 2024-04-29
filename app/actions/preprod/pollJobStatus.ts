@@ -1,29 +1,17 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-
-export interface GetParams {
-  job_id: string;
-  user_id: string;
-  job_type: string;
-}
-
-interface Config {
-  params: GetParams;
-  headers?: { authorizationToken: string };
-}
+import { QueryParams } from './apiInterface';
 
 interface IParams {
   api_url: string;
-  getParams: GetParams;
+  postParams: QueryParams;
+  token?: string;
   handleSuccess: (response: AxiosResponse) => void;
   handleError: (e: AxiosError) => void;
   handleTimeout: () => void;
 }
 
-const pollJobStatus = async ({ api_url, handleSuccess, handleError, handleTimeout, getParams }: IParams) => {
-  const jobStatusAPI: string = api_url + '/sync';
-  const getConfig: Config = {
-    params: getParams,
-  };
+const pollJobStatus = async ({ api_url, token, postParams, handleSuccess, handleError, handleTimeout }: IParams) => {
+  const jobStatusAPI: string = api_url + '/query';
   const timeoutDuration = 600000; // 10 minutes
   const pollInterval = 200; // 200 milliseconds
   const startTime = Date.now();
@@ -33,7 +21,12 @@ const pollJobStatus = async ({ api_url, handleSuccess, handleError, handleTimeou
       return;
     }
     axios
-      .get(jobStatusAPI, getConfig)
+      .post(jobStatusAPI, postParams, {
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { authorizationToken: token }),
+        },
+      })
       .then((response) => {
         if (response.status === 200) {
           handleSuccess(response);
@@ -45,10 +38,6 @@ const pollJobStatus = async ({ api_url, handleSuccess, handleError, handleTimeou
         }
       })
       .catch((e: AxiosError) => {
-        // if (e.message === 'Network Error') {
-        //   setTimeout(poll, pollInterval);
-        //   return;
-        // }
         handleError(e);
         return;
       });

@@ -11,7 +11,7 @@ import ComingSoonBanner from './ComingSoonBanner';
 import { uploadFile } from '@/app/actions/uploadFile';
 // import { getFileName } from '@/app/actions/downloadFile';
 import toast from 'react-hot-toast';
-import { runJob } from '@/app/actions/runJob';
+import { runExtractJob } from '@/app/actions/runExtractJob';
 import { AxiosError, AxiosResponse } from 'axios';
 import { useProductionContext } from './ProductionContext';
 
@@ -152,7 +152,7 @@ const CompareContainer = () => {
     }
     toast.success(`Files uploaded for comparison!`);
     if (selectedFile && selectedFileIndex !== null) {
-      await runJob({
+      await runExtractJob({
         api_url: apiURL,
         fileData,
         filename,
@@ -169,7 +169,7 @@ const CompareContainer = () => {
 
   return (
     <div className="w-full h-full pt-4">
-      {isProduction ? (
+      {isProduction || !isProduction ? (
         <ComingSoonBanner />
       ) : (
         <>
