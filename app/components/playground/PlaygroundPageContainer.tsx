@@ -15,6 +15,12 @@ const PlaygroundPageContainer = ({ production, auth0Enabled }: PlaygroundPageCon
     ? process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI
     : process.env.NEXT_PUBLIC_PRE_PROD_AUTH0_REDIRECT_URI;
 
+  if (!production) {
+    if (!process.env.NEXT_PUBLIC_PRE_PROD_AUTH0_REDIRECT_URI)
+      throw new Error('PRE_PROD_AUTH0_REDIRECT_URI is required for pre-production playground');
+    console.log('PRE_PROD_AUTH0_REDIRECT_URI:', process.env.NEXT_PUBLIC_PRE_PROD_AUTH0_REDIRECT_URI);
+  }
+
   return (
     <Auth0Provider
       domain={process.env.NEXT_PUBLIC_AUTH0_DOMAIN || ''}
