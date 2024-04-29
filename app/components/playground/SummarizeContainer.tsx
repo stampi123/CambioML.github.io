@@ -1,7 +1,6 @@
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { PlaygroundFile, TransformState } from '@/app/types/PlaygroundTypes';
 import { useEffect, useState } from 'react';
-import Markdown from 'react-markdown';
 import Button from '../Button';
 import { Article, DownloadSimple } from '@phosphor-icons/react';
 import PulsingIcon from '../PulsingIcon';
@@ -55,11 +54,7 @@ const SummarizeContainer = () => {
       )}
       {selectedFile?.summarizeState === TransformState.DONE_TRANSFORMING && (
         <div className="flex flex-col items-start w-full h-full gap-4">
-          <div className="overflow-auto relative w-full h-full bg-neutral-100 text-neutral-500 rounded-lg">
-            <Markdown className="markdown absolute p-4  whitespace-pre-wrap w-full h-full">
-              {selectedFile.extractResult}
-            </Markdown>
-          </div>
+          <ResultContainer extractResult={selectedFile.extractResult} />
           <div className={`w-full h-fit gap-4`}>
             <Button label="Download csv" onClick={handleDownload} small labelIcon={DownloadSimple} />
           </div>
