@@ -16,8 +16,6 @@ const PlaygroundPageContainer = ({ production, auth0Enabled }: PlaygroundPageCon
     ? process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI
     : process.env.NEXT_PUBLIC_PRE_PROD_AUTH0_REDIRECT_URI;
 
-  console.log('redirectUri', redirectUri);
-
   const { logout } = useAuth0();
   return (
     <Auth0Provider
