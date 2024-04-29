@@ -1,12 +1,19 @@
 import UploadButton from './UploadButton';
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
-import { FileDashed } from '@phosphor-icons/react';
+import { FileDashed, SignOut } from '@phosphor-icons/react';
 import FileItem from './FileItem';
+import { useProductionContext } from './ProductionContext';
+import Button from '../Button';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const FilesContainer = () => {
   const { files, loggedIn } = usePlaygroundStore();
+  const { auth0Enabled } = useProductionContext();
+  const { logout } = useAuth0();
   return (
-    <div className="h-full w-full  min-h-[400px] grid grid-rows-[50px_1fr_80px]">
+    <div
+      className={`h-full w-full  min-h-[400px] grid ${auth0Enabled ? 'grid-rows-[50px_1fr_80px_80px]' : 'grid-rows-[50px_1fr_80px]'}`}
+    >
       <div className="row-span-1 text-2xl font-semibold pb-10">Files</div>
       <div className="row-span-1 overflow-auto relative box-border">
         {files.length > 0 ? (
@@ -21,9 +28,13 @@ const FilesContainer = () => {
           </div>
         )}
       </div>
-      {files.length > 0 && (
-        <div className="row-span-2 h-full flex items-center justify-center pb-2">
-          <UploadButton small disabled={!loggedIn} />
+
+      <div className="row-span-1 h-full flex items-center justify-center pb-2">
+        {files.length > 0 && <UploadButton small disabled={!loggedIn} />}
+      </div>
+      {loggedIn && auth0Enabled && (
+        <div className="border-t-2 pt-4">
+          <Button label="Logout" onClick={() => logout()} small labelIcon={SignOut} />
         </div>
       )}
     </div>

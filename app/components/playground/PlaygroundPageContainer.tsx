@@ -4,7 +4,6 @@ import PlaygroundContainer from './PlaygroundContainer';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { ProductionProvider } from './ProductionContext';
 import UploadModal from '../modals/UploadModal';
-import { useAuth0 } from '@auth0/auth0-react';
 
 interface PlaygroundPageContainerProps {
   production: boolean;
@@ -16,7 +15,6 @@ const PlaygroundPageContainer = ({ production, auth0Enabled }: PlaygroundPageCon
     ? process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI
     : process.env.NEXT_PUBLIC_PRE_PROD_AUTH0_REDIRECT_URI;
 
-  const { logout } = useAuth0();
   return (
     <Auth0Provider
       domain={process.env.NEXT_PUBLIC_AUTH0_DOMAIN || ''}
@@ -37,7 +35,6 @@ const PlaygroundPageContainer = ({ production, auth0Enabled }: PlaygroundPageCon
           />
           <PlaygroundContainer />
         </div>
-        <button onClick={() => logout()}>Logout</button>
       </ProductionProvider>
     </Auth0Provider>
   );
