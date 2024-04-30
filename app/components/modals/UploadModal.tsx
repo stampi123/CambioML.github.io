@@ -49,7 +49,6 @@ const UploadModal = () => {
       addHTMLFile(htmlInputValue);
       setHtmlInputValue('');
       toast.success(`Added ${htmlInputValue}`);
-      setSelectedFileIndex(files.length);
       handleClose();
     } else {
       toast.error('Invalid HTML URL');
@@ -77,7 +76,6 @@ const UploadModal = () => {
     }
     setFilesToUpload([starterFile]);
     uploadModal.setUploadModalState(UploadModalState.UPLOADING);
-    setSelectedFileIndex(files.length);
   };
 
   const handleClose = useCallback(() => {
@@ -87,18 +85,8 @@ const UploadModal = () => {
     }, 300);
   }, [uploadModal]);
 
-  const {
-    loggedIn,
-    filesToUpload,
-    token,
-    clientId,
-    files,
-    addFilesFormData,
-    addFiles,
-    addHTMLFile,
-    setSelectedFileIndex,
-    setFilesToUpload,
-  } = usePlaygroundStore();
+  const { loggedIn, filesToUpload, token, clientId, addFilesFormData, addFiles, addHTMLFile, setFilesToUpload } =
+    usePlaygroundStore();
   const thisRef = useOutsideClickModal(() => {
     handleClose();
   });
@@ -144,7 +132,6 @@ const UploadModal = () => {
 
       Promise.all(uploadPromises)
         .then(() => {
-          setSelectedFileIndex(files.length);
           setFilesToUpload([]);
           uploadModal.setUploadModalState(UploadModalState.LOGIN);
           handleClose();
