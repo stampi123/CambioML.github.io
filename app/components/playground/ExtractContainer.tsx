@@ -4,7 +4,7 @@ import Button from '../Button';
 import { AxiosError, AxiosResponse } from 'axios';
 import toast from 'react-hot-toast';
 import { PlaygroundFile, ExtractState } from '@/app/types/PlaygroundTypes';
-import { DownloadSimple, FileMagnifyingGlass, CloudArrowUp } from '@phosphor-icons/react';
+import { DownloadSimple, FileMagnifyingGlass, CloudArrowUp, ArrowCounterClockwise } from '@phosphor-icons/react';
 import PulsingIcon from '../PulsingIcon';
 import UploadButton from './UploadButton';
 import { downloadFile } from '@/app/actions/downloadFile';
@@ -188,6 +188,11 @@ const ExtractContainer = () => {
     }
   };
 
+  const handleRetry = () => {
+    updateFileAtIndex(selectedFileIndex, 'extractResult', []);
+    handleExtract();
+  };
+
   return (
     <>
       {selectedFileIndex === null && (
@@ -221,9 +226,10 @@ const ExtractContainer = () => {
       {selectedFile?.extractState === ExtractState.DONE_EXTRACTING && (
         <div className="flex flex-col items-start w-full h-full gap-4 p-4">
           <ResultContainer extractResult={selectedFile.extractResult} />
-          <div className="w-full h-fit">
+          <div className="w-full h-fit flex gap-4">
+            {!isProduction && <Button label="Retry" onClick={handleRetry} small labelIcon={ArrowCounterClockwise} />}
             <Button
-              label="Download Extracted Text"
+              label="Download Text"
               onClick={handleDownload}
               small
               disabled={selectedFile?.extractState !== ExtractState.DONE_EXTRACTING}
