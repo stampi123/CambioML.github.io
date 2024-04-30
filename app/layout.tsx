@@ -6,9 +6,9 @@ import DemoModal from './components/modals/DemoModal';
 import ImageModal from './components/modals/ImageModal';
 import ToasterProvider from './providers/ToasterProvider';
 import { GoogleTagManager } from '@next/third-parties/google';
-// import UploadModal from './components/modals/UploadModal';
 import PlaygroundFeedbackModal from './components/modals/PlaygroundFeedbackModal';
 import InfoModal from './components/modals/InfoModal';
+import PricingContactModal from './components/modals/PricingContactModal';
 
 export const metadata = {
   title: 'cambioml',
@@ -30,6 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <DemoModal />
         <ImageModal />
         {/* <UploadModal /> */}
+        <PricingContactModal />
         <PlaygroundFeedbackModal />
         <InfoModal />
         <div className="pb-500 min-h-screen min-w-[650px]">{children}</div>
