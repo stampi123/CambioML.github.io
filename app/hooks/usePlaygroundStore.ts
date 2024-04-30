@@ -84,6 +84,9 @@ const usePlaygroundStore = create<PlaygroundStore>((set) => ({
             (playgroundFile.file instanceof File && existingFile.file.name !== playgroundFile.file.name)
         )
       );
+      if (uniqueFiles.length > 0) {
+        set({ selectedFileIndex: state.files.length });
+      }
 
       return {
         files: [...state.files, ...uniqueFiles],
