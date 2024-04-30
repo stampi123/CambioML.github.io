@@ -1,6 +1,8 @@
 'use client';
 
+import usePricingContactModal from '@/app/hooks/usePricingContactModal';
 import { Check } from '@phosphor-icons/react';
+import React from 'react';
 
 const descriptionStyle = 'text-md font-light text-neutral-600 text-center min-h-[50px]';
 
@@ -27,6 +29,7 @@ const PricingCard = ({
   color,
   footer,
 }: PricingCardProps) => {
+  const contactModal = usePricingContactModal();
   return (
     <div className="flex flex-col items-center justify-center w-full">
       <div
@@ -43,8 +46,19 @@ const PricingCard = ({
           <div className={descriptionStyle}>{subtitle}</div>
           <div className="mt-5 text-center font-light flex flex-col items-center gap-5 text-neutral-500">
             <div className="flex justify-center items-end gap-2">
-              <div className="text-6xl font-semibold text-neutral-800">{price}</div>
-              <div className="text-lg font-semibold text-neutral-800">{`per ${period}`}</div>
+              {price === 'contact-us' ? (
+                <button
+                  className="text-lg min-w-[200px] text-white bg-sky-800 p-4 rounded-lg cursore-pointer hover:bg-sky-900 hover:text-neutral-100"
+                  onClick={contactModal.onOpen}
+                >
+                  Contact us
+                </button>
+              ) : (
+                <>
+                  <div className="text-6xl font-semibold text-neutral-800">{price}</div>
+                  <div className="text-lg font-semibold text-neutral-800">{`per ${period}`}</div>
+                </>
+              )}
             </div>
             <div className={descriptionStyle}>{additionalPrice}</div>
           </div>

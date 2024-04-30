@@ -8,6 +8,7 @@ import Heading from '../Heading';
 import Input from '../inputs/Input';
 import { toast } from 'react-hot-toast';
 import emailjs from '@emailjs/browser';
+import TextArea from '../inputs/TextArea';
 
 const PlaygroundFeedbackModal = () => {
   const PlaygroundFeedbackModal = usePlaygroundFeedbackModal();
@@ -56,7 +57,7 @@ const PlaygroundFeedbackModal = () => {
       <Heading title="Playground Feedback" subtitle="" center />
       <Input id="name" label="Name" disabled={isLoading} register={register} errors={errors} required />
       <Input id="email" label="Email" disabled={isLoading} register={register} errors={errors} required />
-      <Input id="message" label="Message" disabled={isLoading} register={register} errors={errors} type="textarea" />
+      <TextArea id="message" label="Message" disabled={isLoading} register={register} errors={errors} />
     </div>
   );
 
