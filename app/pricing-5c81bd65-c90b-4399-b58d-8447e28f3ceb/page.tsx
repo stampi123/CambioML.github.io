@@ -20,7 +20,7 @@ const PlaygroundPage = () => {
           subtitle="For teams looking to automate time-draining tasks with advanced platform tools or APIs"
           price="$499"
           period="month"
-          additionalPrice="10,000 pages, then $0.50 per page"
+          additionalPrice="1,000 pages, then $0.50 per page"
           features={[
             'All Starter features',
             'Quality audit for the first 1000 pages available',
