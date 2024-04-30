@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import Button from '../Button';
 import PulsingIcon from '../PulsingIcon';
-import { DownloadSimple, GridNine } from '@phosphor-icons/react';
+import { ArrowCounterClockwise, DownloadSimple, GridNine } from '@phosphor-icons/react';
 import QATable from './QATable';
 import { downloadFile } from '@/app/actions/downloadFile';
 import ResultContainer from './ResultContainer';
@@ -175,6 +175,12 @@ const QAContainer = () => {
       }
     }
   };
+
+  const handleRetry = () => {
+    updateFileAtIndex(selectedFileIndex, 'qaResult', '');
+    handleTransform();
+  };
+
   return (
     <>
       {selectedFile?.qaState === TransformState.READY && (
@@ -197,7 +203,8 @@ const QAContainer = () => {
             <div className="flex flex-col items-start w-full h-full overflow-auto relative border-solid border-2 border-neutral-100 rounded-lg">
               <QATable qaResult={selectedFile?.qaResult} updateDisplayTable={updateDisplayTable} />
             </div>
-            <div className="w-full h-fit">
+            <div className="w-full h-fit flex gap-4">
+              <Button label="Retry" onClick={handleRetry} small labelIcon={ArrowCounterClockwise} />
               <Button
                 label="Download csv"
                 onClick={handleDownload}

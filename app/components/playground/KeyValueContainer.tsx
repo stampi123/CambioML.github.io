@@ -2,7 +2,7 @@ import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { PlaygroundFile, TransformState } from '@/app/types/PlaygroundTypes';
 import { useCallback, useEffect, useState } from 'react';
 import Button from '../Button';
-import { BracketsCurly, DownloadSimple, Plus } from '@phosphor-icons/react';
+import { ArrowCounterClockwise, BracketsCurly, DownloadSimple, Plus } from '@phosphor-icons/react';
 import PulsingIcon from '../PulsingIcon';
 import toast from 'react-hot-toast';
 import InputBasic from '../inputs/InputBasic';
@@ -159,6 +159,12 @@ If a key and/or value is not found in the text, please still include the key wit
     }
   };
 
+  const handleRetry = () => {
+    updateFileAtIndex(selectedFileIndex, 'keyValueResult', '');
+    setKeys([]);
+    updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.READY);
+  };
+
   return (
     <>
       {selectedFile?.keyValueState === TransformState.READY && (
@@ -206,7 +212,8 @@ If a key and/or value is not found in the text, please still include the key wit
           <div className="flex flex-col items-start w-full h-full overflow-auto relative border-solid border-2 border-neutral-100 rounded-lg">
             <KeyValueTable keyValues={JSON.parse(selectedFile?.keyValueResult)} />
           </div>
-          <div className={`w-full h-fit gap-4`}>
+          <div className={`w-full h-fit flex gap-4`}>
+            <Button label="Retry" onClick={handleRetry} small labelIcon={ArrowCounterClockwise} />
             <Button label="Download JSON" onClick={handleDownload} small labelIcon={DownloadSimple} />
           </div>
         </div>
