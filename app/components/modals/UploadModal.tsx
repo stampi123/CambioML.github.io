@@ -112,12 +112,10 @@ const UploadModal = () => {
             file,
             token,
             clientId,
-            jobType: 'file_extraction',
             addFiles,
             addFilesFormData,
           });
         } else {
-          console.log('PreProd upload');
           return preProdUploadFile({
             api_url: apiURL,
             file,
