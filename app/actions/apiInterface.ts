@@ -16,12 +16,6 @@ export interface PresignedResponse {
   userId: string;
 }
 
-export interface GetParams {
-  job_id: string;
-  user_id: string;
-  job_type: string;
-}
-
 export interface QueryParams {
   userId: string;
   fileId: string;
@@ -33,9 +27,9 @@ export type QueryResult = string[];
 
 export interface RequestParams {
   token: string;
-  client_id: string;
-  files: { source_type: string; fileId?: string; url?: string }[];
-  job_type: string;
+  clientId: string;
+  files: { sourceType: string; fileId?: string; url?: string }[];
+  jobType: string;
   jobParams?: { [key: string]: string | boolean };
 }
 

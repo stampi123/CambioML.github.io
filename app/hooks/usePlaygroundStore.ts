@@ -100,11 +100,15 @@ const usePlaygroundStore = create<PlaygroundStore>((set) => ({
         ...initialFileState,
       } as PlaygroundFile;
 
-      for (file in state.files) {
-        if (typeof file === 'string' && fileToAdd.file === file) {
-          [...state.files];
+      for (const thisFile of state.files) {
+        if (typeof thisFile.file === 'string' && thisFile.file === file) {
+          return {
+            files: [...state.files],
+          };
         }
       }
+
+      set({ selectedFileIndex: state.files.length });
 
       return {
         files: [...state.files, fileToAdd],
