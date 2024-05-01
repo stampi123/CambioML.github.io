@@ -11,8 +11,8 @@ import ComingSoonBanner from './ComingSoonBanner';
 import { uploadFile } from '@/app/actions/uploadFile';
 // import { getFileName } from '@/app/actions/downloadFile';
 import toast from 'react-hot-toast';
-import { runExtractJob } from '@/app/actions/runExtractJob';
-import { AxiosError, AxiosResponse } from 'axios';
+// import { runExtractJob } from '@/app/actions/runExtractJob';
+// import { AxiosError, AxiosResponse } from 'axios';
 import { useProductionContext } from './ProductionContext';
 
 const columnStyles = 'w-full flex flex-col items-center justify-center gap-4';
@@ -61,45 +61,45 @@ const CompareContainer = () => {
     updateFileAtIndex(selectedFileIndex, 'compareFile', compareFile);
   };
 
-  const handleSuccess = (response: AxiosResponse) => {
-    const result = response.data.file_content;
-    if (result === undefined) {
-      toast.error(`${filename}: Received undefined result. Please try again.`);
-      updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.READY);
-      return;
-    }
-    updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.DONE_COMPARING);
-    toast.success(`${filename} comparison generated!`);
-    console.log('Response', response.data);
-    updateFileAtIndex(selectedFileIndex, 'compareResult', result);
-    updateFileAtIndex(selectedFileIndex, 's3_file_source', response.data.file_source);
-    return;
-  };
+  // const handleSuccess = (response: AxiosResponse) => {
+  //   const result = response.data.file_content;
+  //   if (result === undefined) {
+  //     toast.error(`${filename}: Received undefined result. Please try again.`);
+  //     updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.READY);
+  //     return;
+  //   }
+  //   updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.DONE_COMPARING);
+  //   toast.success(`${filename} comparison generated!`);
+  //   console.log('Response', response.data);
+  //   updateFileAtIndex(selectedFileIndex, 'compareResult', result);
+  //   updateFileAtIndex(selectedFileIndex, 's3_file_source', response.data.file_source);
+  //   return;
+  // };
 
-  const handleError = (e: AxiosError) => {
-    if (e.response) {
-      if (e.response.status === 400) {
-        toast.error(`${filename}: Parameter is invalid. Please try again.`);
-        updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.READY);
-        return;
-      } else if (e.response.status === 404) {
-        toast.error(`${filename}: Job not found. Please try again.`);
-        updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.READY);
-        return;
-      } else if (e.response.status === 500) {
-        toast.error(`${filename}: Job has failed. Please try again.`);
-        updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.READY);
-        return;
-      }
-    }
-    toast.error(`Error extracting ${filename}. Please try again.`);
-    updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.READY);
-  };
+  // const handleError = (e: AxiosError) => {
+  //   if (e.response) {
+  //     if (e.response.status === 400) {
+  //       toast.error(`${filename}: Parameter is invalid. Please try again.`);
+  //       updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.READY);
+  //       return;
+  //     } else if (e.response.status === 404) {
+  //       toast.error(`${filename}: Job not found. Please try again.`);
+  //       updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.READY);
+  //       return;
+  //     } else if (e.response.status === 500) {
+  //       toast.error(`${filename}: Job has failed. Please try again.`);
+  //       updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.READY);
+  //       return;
+  //     }
+  //   }
+  //   toast.error(`Error extracting ${filename}. Please try again.`);
+  //   updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.READY);
+  // };
 
-  const handleTimeout = () => {
-    updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.READY);
-    toast.error(`Extract request for ${filename} timed out. Please try again.`);
-  };
+  // const handleTimeout = () => {
+  //   updateFileAtIndex(selectedFileIndex, 'compareState', CompareState.READY);
+  //   toast.error(`Extract request for ${filename} timed out. Please try again.`);
+  // };
 
   // const zipFiles = async () => {
   //   if (
@@ -140,7 +140,7 @@ const CompareContainer = () => {
       file: selectedFile?.file as File,
       token,
       clientId,
-      jobType: 'file_comparison',
+      // jobType: 'file_comparison',
       addFiles,
       addFilesFormData,
     });
@@ -151,25 +151,25 @@ const CompareContainer = () => {
       return;
     }
     toast.success(`Files uploaded for comparison!`);
-    if (selectedFile && selectedFileIndex !== null) {
-      await runExtractJob({
-        api_url: apiURL,
-        fileData,
-        filename,
-        selectedFile,
-        selectedFileIndex,
-        jobType: 'file_comparison',
-        updateFileAtIndex,
-        handleSuccess,
-        handleError,
-        handleTimeout,
-      });
-    }
+    // if (selectedFile && selectedFileIndex !== null) {
+    //   await runExtractJob({
+    //     api_url: apiURL,
+    //     fileData,
+    //     filename,
+    //     selectedFile,
+    //     selectedFileIndex,
+    //     jobType: 'file_comparison',
+    //     updateFileAtIndex,
+    //     handleSuccess,
+    //     handleError,
+    //     handleTimeout,
+    //   });
+    // }
   };
 
   return (
     <div className="w-full h-full pt-4">
-      {isProduction || !isProduction ? (
+      {isProduction ? (
         <ComingSoonBanner />
       ) : (
         <>

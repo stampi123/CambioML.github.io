@@ -47,10 +47,7 @@ const ExtractContainer = () => {
   }, [selectedFile, filename]);
 
   const handleSuccess = (response: AxiosResponse) => {
-    let result = response.data;
-    if (isProduction) {
-      result = response.data.file_content;
-    }
+    const result = response.data;
     if (result === undefined) {
       toast.error(`${filename}: Received undefined result. Please try again.`);
       updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
