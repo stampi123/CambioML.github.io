@@ -9,18 +9,18 @@ const PlaygroundPage = () => {
         <PricingCard
           title="Starter"
           subtitle="For individuals or teams looking to try out the platform"
-          price="$249*"
-          period="month"
-          features={['Auto-capture tables and transform to markdown', 'Monthly Pay as you go', 'No hidden fees']}
-          additionalPrice="1,000 pages, then $0.25 per page"
+          price="$299*"
+          period="API key"
+          features={['Auto-capture tables and transform to markdown', 'Yearly Pay as you go', 'No hidden fees']}
+          additionalPrice="Includes 10,000 pages, then $29 per 1000 pages. Expires in 1 year."
           footer="*First month money back guarantee"
         />
         <PricingCard
           title="Pro"
           subtitle="For teams looking to automate time-draining tasks with advanced platform tools or APIs"
-          price="$499"
-          period="month"
-          additionalPrice="1,000 pages, then $0.50 per page"
+          price="$599"
+          period="API key"
+          additionalPrice="Includes 10,000 pages, then $59 per 1000 pages. Expires in 1 year."
           features={[
             'All Starter features',
             'Quality audit for the first 1000 pages available',
