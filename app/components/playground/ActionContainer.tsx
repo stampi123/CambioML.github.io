@@ -6,6 +6,7 @@ import TransformContainer from './TransformContainer';
 import { useEffect, useState } from 'react';
 import { PlaygroundFile, PlaygroundTabs } from '@/app/types/PlaygroundTypes';
 import CompareContainer from './CompareContainer';
+import UploadButton from './UploadButton';
 
 const ActionContainer = () => {
   const { loggedIn, selectedFileIndex, files } = usePlaygroundStore();
@@ -25,11 +26,20 @@ const ActionContainer = () => {
         ))}
       </div>
       {loggedIn ? (
-        <div className="h-full border border-solid border-2 border-t-0 border-neutral-200 rounded-b-xl p-4 pt-0">
-          {(selectedFile?.activeTab === PlaygroundTabs.EXTRACT || selectedFileIndex === null) && <ExtractContainer />}
-          {selectedFile?.activeTab === PlaygroundTabs.TRANSFORM && <TransformContainer />}
-          {selectedFile?.activeTab === PlaygroundTabs.COMPARE && <CompareContainer />}
-        </div>
+        selectedFileIndex === null ? (
+          <div className="flex flex-col items-center justify-center h-full overflow-auto gap-4">
+            <div className="text-xl font-semibold text-neutral-500">Please upload a file.</div>
+            <div className="w-[300px]">
+              <UploadButton small />
+            </div>
+          </div>
+        ) : (
+          <div className="h-full border border-solid border-2 border-t-0 border-neutral-200 rounded-b-xl p-4 pt-0">
+            {(selectedFile?.activeTab === PlaygroundTabs.EXTRACT || selectedFileIndex === null) && <ExtractContainer />}
+            {selectedFile?.activeTab === PlaygroundTabs.TRANSFORM && <TransformContainer />}
+            {selectedFile?.activeTab === PlaygroundTabs.COMPARE && <CompareContainer />}
+          </div>
+        )
       ) : (
         <LoginComponent />
       )}

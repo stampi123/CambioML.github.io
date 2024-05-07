@@ -12,9 +12,8 @@ import { useProductionContext } from './ProductionContext';
 import { runUploadRequestJob as runPreProdUploadRequestJob } from '@/app/actions/preprod/runUploadRequestJob';
 import { runUploadRequestJob } from '@/app/actions/runUploadRequestJob';
 import * as XLSX from 'xlsx';
-import { extractMarkdownTables } from './ExtractContainer';
 
-const KeyValueContainer = () => {
+const TableExtractContainer = () => {
   const { apiURL, isProduction } = useProductionContext();
   const { selectedFileIndex, files, filesFormData, updateFileAtIndex, token, clientId } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
@@ -69,7 +68,7 @@ const KeyValueContainer = () => {
     toast.error(`Transform request for ${filename} timed out. Please try again.`);
   };
 
-  const handleKeyValueTransform = async () => {
+  const handleTableExtractTransform = async () => {
     updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.TRANSFORMING);
     const fileData = filesFormData.find((obj) => obj.presignedUrl.fields['x-amz-meta-filename'] === filename);
     if (!fileData) {
@@ -185,44 +184,41 @@ const KeyValueContainer = () => {
     <>
       {selectedFile && (
         <>
-          {extractMarkdownTables(selectedFile.extractResult.join('')).length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full overflow-auto gap-4">
-              <div className="text-xl font-semibold text-neutral-500">
-                No table detected. Please choose a file with a table.
+          {selectedFile?.keyValueState === TransformState.READY && (
+            <div className="flex flex-col items-center justify-center gap-4 h-full text-lg text-center">
+              {filename}
+              <div className="w-[200px]">
+                <Button label="Extract Table" onClick={handleTableExtractTransform} small labelIcon={Table} />
               </div>
             </div>
-          ) : (
-            <>
-              {selectedFile?.keyValueState === TransformState.READY && (
-                <div className="flex flex-col items-start w-full h-full gap-4">
-                  <ResultContainer extractResult={selectedFile.extractResult} />
-                  <Button label="Generate HTML Table" onClick={handleKeyValueTransform} small labelIcon={Table} />
-                </div>
-              )}
-              {selectedFile?.keyValueState === TransformState.TRANSFORMING && (
-                <div className="flex flex-col items-center justify-center h-full">
-                  <div className="text-xl font-semibold text-neutral-500">Generating HTML Table</div>
-                  <PulsingIcon Icon={Table} size={40} />
-                </div>
-              )}
-              {selectedFile?.keyValueState === TransformState.DONE_TRANSFORMING && (
-                <div className="flex flex-col items-start w-full h-full gap-4">
-                  <ResultContainer extractResult={selectedFile.keyValueResult} />
-                  <div className={`w-full h-fit flex gap-4`}>
-                    <Button label="Retry" onClick={handleRetry} small labelIcon={ArrowCounterClockwise} />
-                    <Button label="Download HTML" onClick={handleHtmlDownload} small labelIcon={DownloadSimple} />
-                    {extractHTMLTables(selectedFile.keyValueResult.join('')).length > 0 && (
-                      <Button
-                        label="Download Excel"
-                        onClick={handleHtmlXlsxDownload}
-                        small
-                        labelIcon={DownloadSimple}
-                      />
-                    )}
+          )}
+          {selectedFile?.keyValueState === TransformState.TRANSFORMING && (
+            <div className="flex flex-col items-center justify-center h-full">
+              <div className="text-xl font-semibold text-neutral-500">Generating HTML Table</div>
+              <PulsingIcon Icon={Table} size={40} />
+            </div>
+          )}
+          {selectedFile?.keyValueState === TransformState.DONE_TRANSFORMING && (
+            <div className="flex flex-col items-start w-full h-full gap-4">
+              {selectedFile.keyValueResult[0].length === 0 ? (
+                <div className="flex flex-col items-center justify-center h-full w-full overflow-auto">
+                  <div className="text-xl font-semibold text-neutral-500">
+                    No table detected in output. Retry or select another file
                   </div>
                 </div>
+              ) : (
+                <ResultContainer extractResult={selectedFile.keyValueResult} />
               )}
-            </>
+              <div className={`w-full h-fit flex gap-4`}>
+                <Button label="Retry" onClick={handleRetry} small labelIcon={ArrowCounterClockwise} />
+                {selectedFile.keyValueResult[0].length > 0 && (
+                  <Button label="Download HTML" onClick={handleHtmlDownload} small labelIcon={DownloadSimple} />
+                )}
+                {extractHTMLTables(selectedFile.keyValueResult.join('')).length > 0 && (
+                  <Button label="Download Excel" onClick={handleHtmlXlsxDownload} small labelIcon={DownloadSimple} />
+                )}
+              </div>
+            </div>
           )}
         </>
       )}
@@ -230,4 +226,4 @@ const KeyValueContainer = () => {
   );
 };
 
-export default KeyValueContainer;
+export default TableExtractContainer;
