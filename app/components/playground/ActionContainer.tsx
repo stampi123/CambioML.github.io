@@ -20,7 +20,7 @@ const ActionContainer = () => {
 
   return (
     <div className="w-full h-full min-h-[600px] md:h-[50vh] grid grid-rows-[50px_1fr]">
-      <div className={`w-full grid grid-cols-${Object.keys(PlaygroundTabs).length}`}>
+      <div className={`w-full grid grid-cols-3`}>
         {Object.values(PlaygroundTabs).map((tab) => (
           <PlaygroundTab key={tab} label={tab} />
         ))}
