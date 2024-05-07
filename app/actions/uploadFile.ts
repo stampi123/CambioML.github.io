@@ -32,8 +32,6 @@ export const uploadFile = async ({ api_url, file, token, clientId, addFiles, add
     headers: { authorizationToken: token },
   };
 
-  console.log(getConfig);
-
   return await axios
     .get<PresignedResponse>(api_url + '/upload', getConfig)
     .then((response) => {

@@ -14,6 +14,7 @@ import { runRequestJob } from '@/app/actions/runRequestJob';
 import { runRequestJob as runPreProdRequestJob } from '@/app/actions/preprod/runRequestJob';
 import ResultContainer from './ResultContainer';
 import { useProductionContext } from './ProductionContext';
+import * as XLSX from 'xlsx';
 
 const textStyles = 'text-xl font-semibold text-neutral-500';
 
@@ -189,6 +190,86 @@ const ExtractContainer = () => {
     handleExtract();
   };
 
+  const handleMarkdownCSVDownload = () => {
+    if (!selectedFile?.extractResult) {
+      return;
+    }
+    const markdownData = extractMarkdownTables(selectedFile.extractResult.join('\n\n'));
+    markdownData.forEach((markdown, index) => {
+      const rows = markdown.split('\n');
+      const nonEmptyRows = rows.filter((row) => row.trim() !== '');
+      const headers = nonEmptyRows[0]
+        .replace(/^\|/, '')
+        .replace(/\|$/, '')
+        .split('|')
+        .map((cell) => cell.trim());
+      const dataRows = nonEmptyRows.slice(2); // Exclude header rows
+
+      let csvContent = headers.join(',') + '\n';
+      csvContent += dataRows
+        .map((row) => {
+          const cells = row.split('|').map((cell) => cell.trim());
+          return cells
+            .slice(1, cells.length - 1)
+            .map((cell) => `"${cell.replace(/"/g, '""')}"`)
+            .join(',');
+        })
+        .join('\n');
+
+      downloadFile({
+        filename,
+        fileContent: csvContent,
+        fileType: 'text/csv',
+        suffix: `_extracted_table_${index}.csv`,
+      });
+    });
+  };
+
+  const extractMarkdownTables = (input: string): string[] => {
+    const tableRegex = /\|(.*\|.+\|[\s\S]*\|.+\|)/gm;
+    const match = input.match(tableRegex);
+
+    return match || [];
+  };
+
+  const s2ab = (s: string) => {
+    const buf = new ArrayBuffer(s.length);
+    const view = new Uint8Array(buf);
+    for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xff;
+    return buf;
+  };
+
+  const handleHtmlXlsxDownload = () => {
+    if (!selectedFile?.extractResult) {
+      return;
+    }
+    const htmlData = extractHTMLTables(selectedFile.extractResult.join('\n\n'));
+    htmlData.forEach((htmlTable, index) => {
+      const table = document.createElement('table');
+      table.innerHTML = htmlTable;
+
+      const ws = XLSX.utils.table_to_sheet(table);
+
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+      const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+
+      downloadFile({
+        filename,
+        fileContent: s2ab(wbout),
+        fileType: 'application/octet-stream',
+        suffix: `_extracted_table${index > 0 ? '_' + index : ''}.xlsx`,
+      });
+    });
+  };
+
+  const extractHTMLTables = (input: string): string[] => {
+    const tableRegex = /<table>[\s\S]*?<\/table>/gm;
+    const match = input.match(tableRegex);
+    return match || [];
+  };
+
   return (
     <>
       {selectedFileIndex === null && (
@@ -225,12 +306,18 @@ const ExtractContainer = () => {
           <div className="w-full h-fit flex gap-4">
             {!isProduction && <Button label="Retry" onClick={handleRetry} small labelIcon={ArrowCounterClockwise} />}
             <Button
-              label="Download Text"
+              label="Download Full Text"
               onClick={handleDownload}
               small
               disabled={selectedFile?.extractState !== ExtractState.DONE_EXTRACTING}
               labelIcon={DownloadSimple}
             />
+            {!isProduction && extractMarkdownTables(selectedFile.extractResult.join('\n\n')).length > 0 && (
+              <Button label="Download Table CSV" onClick={handleMarkdownCSVDownload} small labelIcon={DownloadSimple} />
+            )}
+            {!isProduction && extractHTMLTables(selectedFile.extractResult.join('\n\n')).length > 0 && (
+              <Button label="Download Table Excel" onClick={handleHtmlXlsxDownload} small labelIcon={DownloadSimple} />
+            )}{' '}
           </div>
         </div>
       )}
