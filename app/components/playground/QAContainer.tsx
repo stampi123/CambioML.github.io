@@ -198,7 +198,8 @@ const QAContainer = () => {
         </div>
       )}
       {selectedFile?.qaState === TransformState.DONE_TRANSFORMING &&
-        Object.keys(selectedFile?.qaResult || {}).length && (
+        Object.keys(selectedFile?.qaResult || {}).length &&
+        selectedFile?.qaResult !== null && (
           <div className="flex flex-col items-start w-full h-full gap-4">
             <div className="flex flex-col items-start w-full h-full overflow-auto relative border-solid border-2 border-neutral-100 rounded-lg">
               <QATable qaResult={selectedFile?.qaResult} updateDisplayTable={updateDisplayTable} />

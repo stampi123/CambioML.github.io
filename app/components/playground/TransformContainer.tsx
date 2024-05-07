@@ -28,7 +28,7 @@ const TransformContainer = () => {
           className={`${transformMethod === TransformMethod.KEY_VALUE ? selectedTabStyle : unselectedTabStyle} ${tabStyle}`}
           onClick={() => setTransformMethod(TransformMethod.KEY_VALUE)}
         >
-          Generate Key-Value Data
+          Generate Table HTML
         </div>
         <div
           className={`${transformMethod === TransformMethod.QA ? selectedTabStyle : unselectedTabStyle} ${tabStyle}`}
@@ -56,9 +56,7 @@ const TransformContainer = () => {
             {transformMethod === TransformMethod.SUMMARIZE && (
               <>{isProduction ? <ComingSoonBanner /> : <ComingSoonBanner />}</>
             )}
-            {transformMethod === TransformMethod.KEY_VALUE && (
-              <>{isProduction ? <ComingSoonBanner /> : <KeyValueContainer />}</>
-            )}
+            {transformMethod === TransformMethod.KEY_VALUE && <KeyValueContainer />}
           </>
         )}
       </div>

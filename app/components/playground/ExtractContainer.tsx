@@ -9,17 +9,23 @@ import PulsingIcon from '../PulsingIcon';
 import UploadButton from './UploadButton';
 import { downloadFile } from '@/app/actions/downloadFile';
 import { runExtractJob } from '@/app/actions/runExtractJob';
-import { runJob as runPreProdExtractJob } from '@/app/actions/preprod/runExtractJob';
+import { runExtractJob as runPreProdExtractJob } from '@/app/actions/preprod/runExtractJob';
 import { runRequestJob } from '@/app/actions/runRequestJob';
 import { runRequestJob as runPreProdRequestJob } from '@/app/actions/preprod/runRequestJob';
 import ResultContainer from './ResultContainer';
 import { useProductionContext } from './ProductionContext';
-import * as XLSX from 'xlsx';
 
 const textStyles = 'text-xl font-semibold text-neutral-500';
 
+export const extractMarkdownTables = (input: string): string[] => {
+  const tableRegex = /\|(.*\|.+\|[\s\S]*\|.+\|)/gm;
+  const match = input.match(tableRegex);
+
+  return match || [];
+};
+
 const ExtractContainer = () => {
-  const { isProduction, apiURL, auth0Enabled } = useProductionContext();
+  const { isProduction, apiURL } = useProductionContext();
   const { selectedFileIndex, files, filesFormData, updateFileAtIndex, token, clientId } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [filename, setFilename] = useState<string>('');
@@ -121,9 +127,7 @@ const ExtractContainer = () => {
           selectedFile,
           selectedFileIndex,
           token,
-          auth0Enabled,
           queryType: 'job_result',
-          ...(auth0Enabled && { token }),
           updateFileAtIndex,
           handleSuccess,
           handleError,
@@ -225,51 +229,6 @@ const ExtractContainer = () => {
     });
   };
 
-  const extractMarkdownTables = (input: string): string[] => {
-    const tableRegex = /\|(.*\|.+\|[\s\S]*\|.+\|)/gm;
-    const match = input.match(tableRegex);
-
-    return match || [];
-  };
-
-  const s2ab = (s: string) => {
-    const buf = new ArrayBuffer(s.length);
-    const view = new Uint8Array(buf);
-    for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xff;
-    return buf;
-  };
-
-  const handleHtmlXlsxDownload = () => {
-    if (!selectedFile?.extractResult) {
-      return;
-    }
-    const htmlData = extractHTMLTables(selectedFile.extractResult.join('\n\n'));
-    htmlData.forEach((htmlTable, index) => {
-      const table = document.createElement('table');
-      table.innerHTML = htmlTable;
-
-      const ws = XLSX.utils.table_to_sheet(table);
-
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-      const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
-
-      downloadFile({
-        filename,
-        fileContent: s2ab(wbout),
-        fileType: 'application/octet-stream',
-        suffix: `_extracted_table${index > 0 ? '_' + index : ''}.xlsx`,
-      });
-    });
-  };
-
-  const extractHTMLTables = (input: string): string[] => {
-    const tableRegex = /<table>[\s\S]*?<\/table>/gm;
-    const match = input.match(tableRegex);
-    return match || [];
-  };
-
   return (
     <>
       {selectedFileIndex === null && (
@@ -315,9 +274,6 @@ const ExtractContainer = () => {
             {!isProduction && extractMarkdownTables(selectedFile.extractResult.join('\n\n')).length > 0 && (
               <Button label="Download Table CSV" onClick={handleMarkdownCSVDownload} small labelIcon={DownloadSimple} />
             )}
-            {!isProduction && extractHTMLTables(selectedFile.extractResult.join('\n\n')).length > 0 && (
-              <Button label="Download Table Excel" onClick={handleHtmlXlsxDownload} small labelIcon={DownloadSimple} />
-            )}{' '}
           </div>
         </div>
       )}

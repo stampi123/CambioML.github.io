@@ -23,8 +23,8 @@ export enum CompareState {
 export interface PlaygroundFile {
   file: File | string;
   extractResult: QueryResult;
-  qaResult: QAResult;
-  keyValueResult: string;
+  qaResult: QAResult | null;
+  keyValueResult: string[];
   jobId: string;
   userId: string;
   fileId: string;
@@ -39,7 +39,7 @@ export interface PlaygroundFile {
   summarizeState: TransformState;
   keyValueState: TransformState;
   compareState: CompareState;
-  compareFile: File;
+  compareFile: File | null;
   compareResult: string;
 }
 

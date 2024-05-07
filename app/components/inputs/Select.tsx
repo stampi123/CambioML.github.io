@@ -27,8 +27,9 @@ const Select = ({ options, disabled = false, callback, optionLabel }: SelectProp
   };
 
   useEffect(() => {
-    if (selectedFileIndex !== null && files.length > 0 && files[selectedFileIndex].compareFile) {
+    if (selectedFileIndex !== null && files.length > 0 && files[selectedFileIndex].compareFile !== null) {
       const compareFile = files[selectedFileIndex].compareFile;
+      if (compareFile === null) return;
       setSelectedOption({ value: '0', label: compareFile.name });
     }
   }, [selectedFileIndex, files]);

@@ -35,16 +35,18 @@ interface PlaygroundStore {
 }
 
 const initialFileState = {
-  extractResult: {},
-  qaResult: {},
-  keyValueResult: JSON.stringify({ data1: 1, data2: 2 }, null, 2),
-  s3_file_source: {},
+  extractResult: [''],
+  qaResult: null,
+  keyValueResult: [''],
+  s3_file_source: { s3_bucket: '', source_type: '', s3_prefix: '' },
   activeTab: PlaygroundTabs.EXTRACT,
   extractState: ExtractState.READY,
   qaState: TransformState.READY,
   summarizeState: TransformState.READY,
   keyValueState: TransformState.READY,
   compareState: CompareState.READY,
+  compareFile: null,
+  compareResult: '',
 };
 
 const usePlaygroundStore = create<PlaygroundStore>((set) => ({
@@ -71,9 +73,9 @@ const usePlaygroundStore = create<PlaygroundStore>((set) => ({
       const filesToAdd = Array.isArray(files) ? files : [files];
       const playgroundFilesToAdd = filesToAdd.map((file) => ({
         file: file,
-        fileId: fileId,
-        jobId: jobId,
-        userId: userId,
+        fileId,
+        jobId,
+        userId,
         ...initialFileState,
       })) as PlaygroundFile[];
 

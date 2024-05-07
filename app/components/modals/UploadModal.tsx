@@ -16,7 +16,7 @@ import { uploadFile as preProdUploadFile } from '@/app/actions/preprod/uploadFil
 import { useProductionContext } from '../playground/ProductionContext';
 
 const UploadModal = () => {
-  const { apiURL, isProduction, auth0Enabled } = useProductionContext();
+  const { apiURL, isProduction } = useProductionContext();
   const uploadModal = useUploadModal();
   const [htmlInputValue, setHtmlInputValue] = useState('');
   const [htmlInputError, setHtmlInputError] = useState('');
@@ -123,7 +123,6 @@ const UploadModal = () => {
             clientId,
             addFiles,
             addFilesFormData,
-            auth0Enabled,
           });
         }
       });
