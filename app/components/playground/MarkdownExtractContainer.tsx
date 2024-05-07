@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import Button from '../Button';
 import { AxiosError, AxiosResponse } from 'axios';
 import toast from 'react-hot-toast';
-import { PlaygroundFile, ExtractState } from '@/app/types/PlaygroundTypes';
+import { PlaygroundFile, ExtractState, ExtractTab } from '@/app/types/PlaygroundTypes';
 import { DownloadSimple, CloudArrowUp, ArrowCounterClockwise, FileText } from '@phosphor-icons/react';
 import PulsingIcon from '../PulsingIcon';
 import { downloadFile } from '@/app/actions/downloadFile';
@@ -96,6 +96,9 @@ const MarkdownExtractContainer = () => {
   };
 
   const handleFileExtract = async () => {
+    if (selectedFile?.extractTab === ExtractTab.INITIAL_STATE) {
+      updateFileAtIndex(selectedFileIndex, 'extractTab', ExtractTab.FILE_EXTRACT);
+    }
     updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.UPLOADING);
     const fileData = filesFormData.find((obj) => obj.presignedUrl.fields['x-amz-meta-filename'] === filename);
     if (!fileData) {
@@ -234,7 +237,7 @@ const MarkdownExtractContainer = () => {
         <div className="flex flex-col items-center justify-center gap-4 h-full text-lg text-center">
           {filename}
           <div className="w-[200px]">
-            <Button label="Extract Content" onClick={handleExtract} small labelIcon={FileText} />
+            <Button label="Extract Plain Text" onClick={handleExtract} small labelIcon={FileText} />
           </div>
         </div>
       )}

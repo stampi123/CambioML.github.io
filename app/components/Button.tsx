@@ -1,6 +1,7 @@
 'use client';
 
 import { Icon } from '@phosphor-icons/react';
+import { IconType } from 'react-icons';
 
 interface ButtonProps {
   label: string;
@@ -9,7 +10,7 @@ interface ButtonProps {
   outline?: boolean;
   small?: boolean;
   icon?: Icon;
-  labelIcon?: Icon;
+  labelIcon?: Icon | IconType;
 }
 
 const Button = ({ label, onClick, disabled, outline, small, icon: Icon, labelIcon: LabelIcon }: ButtonProps) => {
@@ -51,6 +52,7 @@ const Button = ({ label, onClick, disabled, outline, small, icon: Icon, labelIco
           <LabelIcon
             size={24}
             className="
+            shrink-0
           "
           />
         )}

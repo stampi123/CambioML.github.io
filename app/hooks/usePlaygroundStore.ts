@@ -1,5 +1,12 @@
 import { create } from 'zustand';
-import { PlaygroundFile, PlaygroundTabs, ExtractState, TransformState, CompareState } from '../types/PlaygroundTypes';
+import {
+  PlaygroundFile,
+  PlaygroundTabs,
+  ExtractState,
+  TransformState,
+  CompareState,
+  ExtractTab,
+} from '../types/PlaygroundTypes';
 import { PresignedResponse } from '../actions/apiInterface';
 
 export interface AddFileParams {
@@ -30,20 +37,21 @@ interface PlaygroundStore {
   updateFileAtIndex: (
     index: number | null,
     property: string,
-    value: string | ExtractState | TransformState | CompareState | File | string[]
+    value: string | ExtractState | TransformState | CompareState | File | string[] | ExtractTab
   ) => void;
 }
 
 const initialFileState = {
   extractResult: [''],
   qaResult: null,
-  keyValueResult: [''],
+  tableExtractResult: [''],
   s3_file_source: { s3_bucket: '', source_type: '', s3_prefix: '' },
   activeTab: PlaygroundTabs.EXTRACT,
   extractState: ExtractState.READY,
+  extractTab: ExtractTab.INITIAL_STATE,
   qaState: TransformState.READY,
   summarizeState: TransformState.READY,
-  keyValueState: TransformState.READY,
+  tableExtractState: ExtractState.READY,
   compareState: CompareState.READY,
   compareFile: null,
   compareResult: '',
