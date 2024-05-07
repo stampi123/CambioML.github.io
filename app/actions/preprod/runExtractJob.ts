@@ -11,7 +11,6 @@ interface IParams {
   selectedFileIndex: number;
   selectedFile: PlaygroundFile;
   queryType: string;
-  auth0Enabled: boolean;
   token?: string;
   handleSuccess: (response: AxiosResponse) => void;
   handleError: (e: AxiosError) => void;
@@ -23,7 +22,7 @@ interface IParams {
   ) => void;
 }
 
-export const runJob = async ({
+export const runExtractJob = async ({
   api_url,
   fileData,
   filename,
@@ -31,7 +30,6 @@ export const runJob = async ({
   selectedFileIndex,
   queryType,
   token,
-  auth0Enabled,
   updateFileAtIndex,
   handleSuccess,
   handleError,
@@ -63,7 +61,7 @@ export const runJob = async ({
             handleSuccess,
             handleError,
             handleTimeout,
-            ...(auth0Enabled && { token }),
+            token,
           });
         }, 5000); // Need to delay the polling to give the server time to process the file
       } else {

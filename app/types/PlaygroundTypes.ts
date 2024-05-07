@@ -24,7 +24,7 @@ export interface PlaygroundFile {
   file: File | string;
   extractResult: QueryResult;
   qaResult: QAResult;
-  keyValueResult: string;
+  keyValueResult: string[];
   jobId: string;
   userId: string;
   fileId: string;
