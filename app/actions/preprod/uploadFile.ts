@@ -1,7 +1,7 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { PresignedResponse, UploadParams } from './apiInterface';
-import { AddFileParams } from '../hooks/usePlaygroundStore';
+import { AddFileParams } from '../../hooks/usePlaygroundStore';
 
 interface IParams {
   api_url: string;
