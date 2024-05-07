@@ -41,7 +41,7 @@ const KeyValueContainer = () => {
     }
     updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.DONE_TRANSFORMING);
     updateFileAtIndex(selectedFileIndex, 'keyValueResult', result);
-    toast.success(`Generated Key-Values from ${filename}!`);
+    toast.success(`Generated table(s) from ${filename}!`);
   };
 
   const handleError = (e: AxiosError) => {
