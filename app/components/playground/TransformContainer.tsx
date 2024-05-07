@@ -2,14 +2,12 @@ import { useState } from 'react';
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { ExtractState } from '@/app/types/PlaygroundTypes';
 import ComingSoonBanner from './ComingSoonBanner';
-import KeyValueContainer from './KeyValueContainer';
 import { useProductionContext } from './ProductionContext';
 import QAContainer from './QAContainer';
 
 enum TransformMethod {
   QA,
   SUMMARIZE,
-  KEY_VALUE,
 }
 
 const selectedTabStyle = 'text-neutral-800 border-b-4 border-neutral-800 font-semibold';
@@ -19,17 +17,11 @@ const tabStyle = 'p-2 text-center cursor-pointer border-solid border-b-2 hover:b
 const TransformContainer = () => {
   const { isProduction } = useProductionContext();
   const { files, selectedFileIndex } = usePlaygroundStore();
-  const [transformMethod, setTransformMethod] = useState<TransformMethod>(TransformMethod.KEY_VALUE);
+  const [transformMethod, setTransformMethod] = useState<TransformMethod>(TransformMethod.QA);
 
   return (
-    <div className="h-full w-full grid-row-1 grid grid-rows-[50px_1fr] gap-4">
-      <div className="w-full grid grid-cols-3 pt-2">
-        <div
-          className={`${transformMethod === TransformMethod.KEY_VALUE ? selectedTabStyle : unselectedTabStyle} ${tabStyle}`}
-          onClick={() => setTransformMethod(TransformMethod.KEY_VALUE)}
-        >
-          Generate Table HTML
-        </div>
+    <div className="h-full w-full grid grid-rows-[50px_1fr] gap-4">
+      <div className="w-full grid grid-cols-2 pt-2">
         <div
           className={`${transformMethod === TransformMethod.QA ? selectedTabStyle : unselectedTabStyle} ${tabStyle}`}
           onClick={() => setTransformMethod(TransformMethod.QA)}
@@ -44,19 +36,18 @@ const TransformContainer = () => {
         </div>
       </div>
       <div>
-        {selectedFileIndex !== null &&
-        files.length > 0 &&
-        files[selectedFileIndex].extractState !== ExtractState.DONE_EXTRACTING ? (
+        {isProduction ? (
+          <ComingSoonBanner />
+        ) : selectedFileIndex !== null &&
+          files.length > 0 &&
+          files[selectedFileIndex].extractState !== ExtractState.DONE_EXTRACTING ? (
           <div className="flex flex-col items-center justify-center h-full overflow-auto">
             <div className="text-xl font-semibold text-neutral-500">Please extract the data first.</div>
           </div>
         ) : (
           <>
-            {transformMethod === TransformMethod.QA && <>{isProduction ? <ComingSoonBanner /> : <QAContainer />}</>}
-            {transformMethod === TransformMethod.SUMMARIZE && (
-              <>{isProduction ? <ComingSoonBanner /> : <ComingSoonBanner />}</>
-            )}
-            {transformMethod === TransformMethod.KEY_VALUE && <KeyValueContainer />}
+            {transformMethod === TransformMethod.QA && !isProduction && <QAContainer />}
+            {transformMethod === TransformMethod.SUMMARIZE && !isProduction && <ComingSoonBanner />}
           </>
         )}
       </div>

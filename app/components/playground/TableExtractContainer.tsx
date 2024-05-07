@@ -1,5 +1,5 @@
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
-import { PlaygroundFile, TransformState } from '@/app/types/PlaygroundTypes';
+import { ExtractTab, PlaygroundFile, ExtractState } from '@/app/types/PlaygroundTypes';
 import { useEffect, useState } from 'react';
 import Button from '../Button';
 import { ArrowCounterClockwise, DownloadSimple, Table } from '@phosphor-icons/react';
@@ -12,9 +12,9 @@ import { useProductionContext } from './ProductionContext';
 import { runUploadRequestJob as runPreProdUploadRequestJob } from '@/app/actions/preprod/runUploadRequestJob';
 import { runUploadRequestJob } from '@/app/actions/runUploadRequestJob';
 import * as XLSX from 'xlsx';
-import { extractMarkdownTables } from './ExtractContainer';
+import { SiMicrosoftexcel } from 'react-icons/si';
 
-const KeyValueContainer = () => {
+const TableExtractContainer = () => {
   const { apiURL, isProduction } = useProductionContext();
   const { selectedFileIndex, files, filesFormData, updateFileAtIndex, token, clientId } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
@@ -36,11 +36,11 @@ const KeyValueContainer = () => {
     const result = response.data;
     if (result === undefined) {
       toast.error(`${filename}: Received undefined result. Please try again.`);
-      updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.READY);
+      updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.READY);
       return;
     }
-    updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.DONE_TRANSFORMING);
-    updateFileAtIndex(selectedFileIndex, 'keyValueResult', result);
+    updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.DONE_EXTRACTING);
+    updateFileAtIndex(selectedFileIndex, 'tableExtractResult', result);
     toast.success(`Generated table(s) from ${filename}!`);
   };
 
@@ -48,39 +48,42 @@ const KeyValueContainer = () => {
     if (e.response) {
       if (e.response.status === 400) {
         toast.error(`${filename}: Parameter is invalid. Please try again.`);
-        updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.READY);
+        updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.READY);
         return;
       } else if (e.response.status === 404) {
         toast.error(`${filename}: Job not found. Please try again.`);
-        updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.READY);
+        updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.READY);
         return;
       } else if (e.response.status === 500) {
         toast.error(`${filename}: Job has failed. Please try again.`);
-        updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.READY);
+        updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.READY);
         return;
       }
     }
     toast.error(`Error transforming ${filename}. Please try again.`);
-    updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.READY);
+    updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.READY);
   };
 
   const handleTimeout = () => {
-    updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.READY);
+    updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.READY);
     toast.error(`Transform request for ${filename} timed out. Please try again.`);
   };
 
-  const handleKeyValueTransform = async () => {
-    updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.TRANSFORMING);
+  const handleTableExtractTransform = async () => {
+    if (selectedFile?.extractTab === ExtractTab.INITIAL_STATE) {
+      updateFileAtIndex(selectedFileIndex, 'extractTab', ExtractTab.TABLE_EXTRACT);
+    }
+    updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.EXTRACTING);
     const fileData = filesFormData.find((obj) => obj.presignedUrl.fields['x-amz-meta-filename'] === filename);
     if (!fileData) {
-      updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.READY);
+      updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.READY);
       toast.error(`Error extracting ${filename}. Missing formData. Please try again.`);
       return;
     }
 
     if (selectedFileIndex === null || !selectedFile || !fileData) {
       toast.error(`Error extracting ${filename}. Please try again.`);
-      updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.READY);
+      updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.READY);
       return;
     }
     if (isProduction) {
@@ -127,12 +130,12 @@ const KeyValueContainer = () => {
   };
 
   const handleHtmlDownload = () => {
-    if (!selectedFile?.keyValueResult) {
+    if (!selectedFile?.tableExtractResult) {
       return;
     }
     downloadFile({
       filename,
-      fileContent: selectedFile.keyValueResult.join('\n\n'),
+      fileContent: selectedFile.tableExtractResult.join('\n\n'),
       fileType: 'text/html',
       suffix: '_extracted_table.html',
     });
@@ -146,10 +149,10 @@ const KeyValueContainer = () => {
   };
 
   const handleHtmlXlsxDownload = () => {
-    if (!selectedFile?.keyValueResult) {
+    if (!selectedFile?.tableExtractResult) {
       return;
     }
-    const htmlData = extractHTMLTables(selectedFile.keyValueResult.join('\n\n'));
+    const htmlData = extractHTMLTables(selectedFile.tableExtractResult.join('\n\n'));
     htmlData.forEach((htmlTable, index) => {
       const table = document.createElement('table');
       table.innerHTML = htmlTable;
@@ -170,6 +173,16 @@ const KeyValueContainer = () => {
     });
   };
 
+  const handleJsonDownload = () => {
+    if (!selectedFile?.tableExtractResult) {
+      return;
+    }
+    const htmlData = extractHTMLTables(selectedFile.tableExtractResult.join('\n\n'));
+    htmlData.forEach((htmlTable) => {
+      console.log(JSON.stringify(htmlTable, null, 2));
+    });
+  };
+
   const extractHTMLTables = (input: string): string[] => {
     const tableRegex = /<table>[\s\S]*?<\/table>/gm;
     const match = input.match(tableRegex);
@@ -177,52 +190,59 @@ const KeyValueContainer = () => {
   };
 
   const handleRetry = () => {
-    updateFileAtIndex(selectedFileIndex, 'keyValueResult', '');
-    updateFileAtIndex(selectedFileIndex, 'keyValueState', TransformState.READY);
+    updateFileAtIndex(selectedFileIndex, 'tableExtractResult', '');
+    updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.READY);
   };
 
   return (
     <>
       {selectedFile && (
         <>
-          {extractMarkdownTables(selectedFile.extractResult.join('')).length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full overflow-auto gap-4">
-              <div className="text-xl font-semibold text-neutral-500">
-                No table detected. Please choose a file with a table.
+          {selectedFile?.tableExtractState === ExtractState.READY && (
+            <div className="flex flex-col items-center justify-center gap-4 h-full text-lg text-center">
+              {filename}
+              <div className="w-[200px]">
+                <Button label="Extract Table" onClick={handleTableExtractTransform} small labelIcon={Table} />
               </div>
             </div>
-          ) : (
-            <>
-              {selectedFile?.keyValueState === TransformState.READY && (
-                <div className="flex flex-col items-start w-full h-full gap-4">
-                  <ResultContainer extractResult={selectedFile.extractResult} />
-                  <Button label="Generate HTML Table" onClick={handleKeyValueTransform} small labelIcon={Table} />
-                </div>
-              )}
-              {selectedFile?.keyValueState === TransformState.TRANSFORMING && (
-                <div className="flex flex-col items-center justify-center h-full">
-                  <div className="text-xl font-semibold text-neutral-500">Generating HTML Table</div>
-                  <PulsingIcon Icon={Table} size={40} />
-                </div>
-              )}
-              {selectedFile?.keyValueState === TransformState.DONE_TRANSFORMING && (
-                <div className="flex flex-col items-start w-full h-full gap-4">
-                  <ResultContainer extractResult={selectedFile.keyValueResult} />
-                  <div className={`w-full h-fit flex gap-4`}>
-                    <Button label="Retry" onClick={handleRetry} small labelIcon={ArrowCounterClockwise} />
-                    <Button label="Download HTML" onClick={handleHtmlDownload} small labelIcon={DownloadSimple} />
-                    {extractHTMLTables(selectedFile.keyValueResult.join('')).length > 0 && (
-                      <Button
-                        label="Download Excel"
-                        onClick={handleHtmlXlsxDownload}
-                        small
-                        labelIcon={DownloadSimple}
-                      />
-                    )}
+          )}
+          {selectedFile?.tableExtractState === ExtractState.EXTRACTING && (
+            <div className="flex flex-col items-center justify-center h-full">
+              <div className="text-xl font-semibold text-neutral-500">Generating HTML Table</div>
+              <PulsingIcon Icon={Table} size={40} />
+            </div>
+          )}
+          {selectedFile?.tableExtractState === ExtractState.DONE_EXTRACTING && (
+            <div className="flex flex-col items-start w-full h-full gap-4">
+              {selectedFile.tableExtractResult[0].length === 0 ? (
+                <div className="flex flex-col items-center justify-center h-full w-full overflow-auto">
+                  <div className="text-xl font-semibold text-neutral-500">
+                    No table detected in output. Retry or select another file
                   </div>
                 </div>
+              ) : (
+                <ResultContainer extractResult={selectedFile.tableExtractResult} />
               )}
-            </>
+              <div className={`w-full h-fit flex gap-4`}>
+                <Button label="Retry" onClick={handleRetry} small labelIcon={ArrowCounterClockwise} />
+                {selectedFile.tableExtractResult[0].length > 0 && (
+                  <Button label="Download HTML" onClick={handleHtmlDownload} small labelIcon={DownloadSimple} />
+                )}
+                {extractHTMLTables(selectedFile.tableExtractResult.join('')).length > 0 && (
+                  <>
+                    {!isProduction && (
+                      <Button label="Console Log JSON" onClick={handleJsonDownload} small labelIcon={DownloadSimple} />
+                    )}
+                    <Button
+                      label="Download Excel"
+                      onClick={handleHtmlXlsxDownload}
+                      small
+                      labelIcon={SiMicrosoftexcel}
+                    />
+                  </>
+                )}
+              </div>
+            </div>
           )}
         </>
       )}
@@ -230,4 +250,4 @@ const KeyValueContainer = () => {
   );
 };
 
-export default KeyValueContainer;
+export default TableExtractContainer;

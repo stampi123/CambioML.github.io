@@ -20,11 +20,17 @@ export enum CompareState {
   DONE_COMPARING,
 }
 
+export enum ExtractTab {
+  FILE_EXTRACT,
+  TABLE_EXTRACT,
+  INITIAL_STATE,
+}
+
 export interface PlaygroundFile {
   file: File | string;
   extractResult: QueryResult;
   qaResult: QAResult | null;
-  keyValueResult: string[];
+  tableExtractResult: string[];
   jobId: string;
   userId: string;
   fileId: string;
@@ -35,9 +41,10 @@ export interface PlaygroundFile {
   };
   activeTab: string;
   extractState: ExtractState;
+  tableExtractState: ExtractState;
+  extractTab: ExtractTab;
   qaState: TransformState;
   summarizeState: TransformState;
-  keyValueState: TransformState;
   compareState: CompareState;
   compareFile: File | null;
   compareResult: string;
