@@ -58,6 +58,15 @@ body,
   border: none;
 }
 
+td {
+  padding: 0.5rem;
+  border: 1px solid #111;;
+}
+
+thead {
+  background-color: #ddd;
+}
+
 .border-none td {
   border: 1px solid #ddd;
 }

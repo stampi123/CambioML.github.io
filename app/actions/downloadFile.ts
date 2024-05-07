@@ -1,6 +1,6 @@
 interface IParams {
   filename: string;
-  fileContent: string;
+  fileContent: string | ArrayBuffer;
   fileType: string;
   suffix: string;
 }
