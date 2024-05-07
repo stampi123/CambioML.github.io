@@ -123,7 +123,6 @@ const UploadModal = () => {
             clientId,
             addFiles,
             addFilesFormData,
-            auth0Enabled,
           });
         }
       });
