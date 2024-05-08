@@ -196,40 +196,80 @@ const MarkdownExtractContainer = () => {
     handleExtract();
   };
 
-  const handleMarkdownCSVDownload = () => {
+  const handleDownloadTableJson = () => {
     if (!selectedFile?.extractResult) {
       return;
     }
     const markdownData = extractMarkdownTables(selectedFile.extractResult.join('\n\n'));
-    markdownData.forEach((markdown, index) => {
-      const rows = markdown.split('\n');
-      const nonEmptyRows = rows.filter((row) => row.trim() !== '');
-      const headers = nonEmptyRows[0]
-        .replace(/^\|/, '')
-        .replace(/\|$/, '')
+    markdownData.forEach((markdownTable, index) => {
+      const lines = markdownTable.trim().split('\n');
+      const headers = lines[0]
         .split('|')
-        .map((cell) => cell.trim());
-      const dataRows = nonEmptyRows.slice(2); // Exclude header rows
+        .slice(1, -1)
+        .map((header) => header.trim());
+      const json: { [key: string]: { [key: string]: string } } = {};
 
-      let csvContent = headers.join(',') + '\n';
-      csvContent += dataRows
-        .map((row) => {
-          const cells = row.split('|').map((cell) => cell.trim());
-          return cells
-            .slice(1, cells.length - 1)
-            .map((cell) => `"${cell.replace(/"/g, '""')}"`)
-            .join(',');
-        })
-        .join('\n');
+      for (let i = 2; i < lines.length; i++) {
+        const row = lines[i]
+          .split('|')
+          .slice(1, -1)
+          .map((cell) => cell.trim());
+        const unitDescription = row[0];
 
+        for (let j = 1; j < headers.length; j++) {
+          let header = headers[j];
+          let count = 1;
+          while (json[header] && json[header][unitDescription] !== undefined) {
+            header = `${headers[j]}_${count}`;
+            count++;
+          }
+          if (!json[header]) json[header] = {};
+          json[header][unitDescription] = row[j];
+        }
+      }
       downloadFile({
         filename,
-        fileContent: csvContent,
-        fileType: 'text/csv',
-        suffix: `_extracted_table_${index}.csv`,
+        fileContent: JSON.stringify(json, null, 2),
+        fileType: 'application/json',
+        suffix: `_extracted_table${index > 0 ? '_' + index : ''}.json`,
       });
     });
   };
+
+  // const handleMarkdownCSVDownload = () => {
+  //   if (!selectedFile?.extractResult) {
+  //     return;
+  //   }
+  //   const markdownData = extractMarkdownTables(selectedFile.extractResult.join('\n\n'));
+  //   markdownData.forEach((markdown, index) => {
+  //     const rows = markdown.split('\n');
+  //     const nonEmptyRows = rows.filter((row) => row.trim() !== '');
+  //     const headers = nonEmptyRows[0]
+  //       .replace(/^\|/, '')
+  //       .replace(/\|$/, '')
+  //       .split('|')
+  //       .map((cell) => cell.trim());
+  //     const dataRows = nonEmptyRows.slice(2); // Exclude header rows
+
+  //     let csvContent = headers.join(',') + '\n';
+  //     csvContent += dataRows
+  //       .map((row) => {
+  //         const cells = row.split('|').map((cell) => cell.trim());
+  //         return cells
+  //           .slice(1, cells.length - 1)
+  //           .map((cell) => `"${cell.replace(/"/g, '""')}"`)
+  //           .join(',');
+  //       })
+  //       .join('\n');
+
+  //     downloadFile({
+  //       filename,
+  //       fileContent: csvContent,
+  //       fileType: 'text/csv',
+  //       suffix: `_extracted_table_${index}.csv`,
+  //     });
+  //   });
+  // };
 
   return (
     <>
@@ -266,7 +306,8 @@ const MarkdownExtractContainer = () => {
               labelIcon={DownloadSimple}
             />
             {!isProduction && extractMarkdownTables(selectedFile.extractResult.join('\n\n')).length > 0 && (
-              <Button label="Download Table CSV" onClick={handleMarkdownCSVDownload} small labelIcon={DownloadSimple} />
+              // <Button label="Download Table CSV" onClick={handleMarkdownCSVDownload} small labelIcon={DownloadSimple} />
+              <Button label="Download Table JSON" onClick={handleDownloadTableJson} small labelIcon={DownloadSimple} />
             )}
           </div>
         </div>
