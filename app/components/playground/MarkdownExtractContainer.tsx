@@ -305,7 +305,7 @@ const MarkdownExtractContainer = () => {
               disabled={selectedFile?.extractState !== ExtractState.DONE_EXTRACTING}
               labelIcon={DownloadSimple}
             />
-            {!isProduction && extractMarkdownTables(selectedFile.extractResult.join('\n\n')).length > 0 && (
+            {extractMarkdownTables(selectedFile.extractResult.join('\n\n')).length > 0 && (
               // <Button label="Download Table CSV" onClick={handleMarkdownCSVDownload} small labelIcon={DownloadSimple} />
               <Button label="Download Table JSON" onClick={handleDownloadTableJson} small labelIcon={DownloadSimple} />
             )}
