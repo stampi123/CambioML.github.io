@@ -21,7 +21,7 @@ const PlaygroundPage = () => {
           footer="*First month money back guarantee"
         />
         <PricingCard
-          title="Pro"
+          title="Business"
           subtitle="The license permits internal business use."
           price="$499"
           period="month billed annually"
@@ -36,7 +36,7 @@ const PlaygroundPage = () => {
           outline
         />
         <PricingCard
-          title="Enterprise"
+          title="Enterprise & Institutions"
           subtitle="For redistribution licenses, multiple API keys, priority support, or unlimited data. Please contact us."
           price="contact-us"
           period="year"
