@@ -22,7 +22,7 @@ const PlaygroundPage = () => {
         />
         <PricingCard
           title="Pro"
-          subtitle="For teams looking to automate time-draining tasks with advanced platform tools or APIs"
+          subtitle="The license permits internal business use."
           price="$499"
           period="month billed annually"
           additionalPrice="$599 per month billed monthly"
@@ -37,7 +37,7 @@ const PlaygroundPage = () => {
         />
         <PricingCard
           title="Enterprise"
-          subtitle="For businesses looking to scale with the best data privacy and security features"
+          subtitle="For redistribution licenses, multiple API keys, priority support, or unlimited data. Please contact us."
           price="contact-us"
           period="year"
           features={[
