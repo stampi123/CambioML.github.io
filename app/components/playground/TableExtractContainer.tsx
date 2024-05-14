@@ -153,23 +153,20 @@ const TableExtractContainer = () => {
       return;
     }
     const htmlData = extractHTMLTables(selectedFile.tableExtractResult.join('\n\n'));
+    const wb = XLSX.utils.book_new();
     htmlData.forEach((htmlTable, index) => {
       const table = document.createElement('table');
       table.innerHTML = htmlTable;
 
       const ws = XLSX.utils.table_to_sheet(table);
-
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-      const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
-
-      downloadFile({
-        filename,
-        fileContent: s2ab(wbout),
-        fileType: 'application/octet-stream',
-        suffix: `_extracted_table${index > 0 ? '_' + index : ''}.xlsx`,
-      });
+      XLSX.utils.book_append_sheet(wb, ws, `Table ${index + 1}`);
+    });
+    const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
+    downloadFile({
+      filename,
+      fileContent: s2ab(wbout),
+      fileType: 'application/octet-stream',
+      suffix: `_extracted_table.xlsx`,
     });
   };
 
