@@ -13,7 +13,7 @@ const PlaygroundPage = () => {
           period="month"
           features={[
             'Tickers: S&P 500',
-            '10K/10Q Financials: Available in 30min**',
+            '10K/10Q Financials**: Available in 30min***',
             '8K/6K Financials: Available in 30min',
           ]}
           license="Commercial Use. Terms apply."
@@ -21,12 +21,12 @@ const PlaygroundPage = () => {
         <PricingCard
           title="Business"
           subtitle="The license permits internal business use."
-          price="$999"
+          price="$999*"
           period="month"
           features={[
             'Tickers: S&P 500, Russell 3000',
             '8K/6K Financials: Available in 30min',
-            '10K/10Q Financials : Coming Soon',
+            '10K/10Q Financials: Coming Soon',
             '10K/10Q Segments and KPIs: Coming Soon',
             '8K/6K Segments and KPIs: Coming Soon',
             '20F/40F Financials: Coming Soon',
@@ -44,7 +44,7 @@ const PlaygroundPage = () => {
           color
         />
       </div>
-      <div className="mt-10 p-8 rounded-xl bg-neutral-100 w-full max-w-screen-xl h-fit">
+      <div className="mt-10 p-8 rounded-xl bg-neutral-100 w-[500px] lg:w-full lg:max-w-screen-xl h-fit">
         <ul>
           <li>*First month money back guarantee</li>
           <li>
