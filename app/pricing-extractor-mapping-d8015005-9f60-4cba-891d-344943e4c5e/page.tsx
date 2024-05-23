@@ -56,7 +56,7 @@ const plans: Plan[] = [
     name: 'Silver',
     price: '$15k/year, billed annually*',
     pages: 'Includes 500k pages per year, then $0.03 per page',
-    bgColor: 'bg-[#ecebff]',
+    bgColor: 'bg-[#bcc6cc]',
     features: {
       autoCapture: true,
       customSchemas: true,
