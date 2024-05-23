@@ -16,6 +16,8 @@ interface PricingCardProps {
   additionalPrice?: string;
   outline?: boolean;
   color?: boolean;
+  license?: string;
+  outlineColor?: string;
 }
 
 const PricingCard = ({
@@ -26,8 +28,10 @@ const PricingCard = ({
   additionalPrice,
   features,
   outline,
+  license,
   color,
   footer,
+  outlineColor,
 }: PricingCardProps) => {
   const contactModal = usePricingContactModal();
   return (
@@ -38,7 +42,7 @@ const PricingCard = ({
         <div
           className={`p-6 w-full ${color && 'bg-cambio-blue'}
           border-t-8
-          ${outline && 'border-solid border-sky-200'}
+          ${outline && `border-solid ${outlineColor || 'border-sky-200'}`}
           ${color && 'border-solid border-sky-800 rounded-b-xl'}
           rounded-t-xl`}
         >
@@ -60,7 +64,8 @@ const PricingCard = ({
                 </>
               )}
             </div>
-            <div className={descriptionStyle}>{additionalPrice}</div>
+            {additionalPrice && <div className={descriptionStyle}>{additionalPrice}</div>}
+            {license && <div className={descriptionStyle}>{license}</div>}
           </div>
         </div>
         <div className="w-full flex flex-col justify-between px-4">
