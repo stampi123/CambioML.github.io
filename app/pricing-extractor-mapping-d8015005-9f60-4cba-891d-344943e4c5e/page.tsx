@@ -71,7 +71,7 @@ const plans: Plan[] = [
     name: 'Gold',
     price: '$25k/year, billed annually*',
     pages: 'Includes 1 million pages per year, then $0.025 per page',
-    bgColor: 'bg-[#fde047]',
+    bgColor: 'bg-teal-600 text-white',
     features: {
       autoCapture: true,
       customSchemas: true,
@@ -165,7 +165,7 @@ const PricingPage = () => {
               })}
             </tr>
             <tr>
-              <td className={rowHeaderStyle}>Pages</td>
+              <td className={rowHeaderStyle}>Packages</td>
               {plans.map((plan, index) => {
                 if (plan.price !== 'contact-us') {
                   return (
