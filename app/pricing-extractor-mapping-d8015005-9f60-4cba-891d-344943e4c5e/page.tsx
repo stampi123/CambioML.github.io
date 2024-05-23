@@ -187,7 +187,7 @@ const PricingPage = () => {
               </td>
             </tr>
             <tr>
-              <td className={featureRowHeaderStyle}>Auto-capture tables and transform to markdown, csv or JSON</td>
+              <td className={featureRowHeaderStyle}>Auto-capture tables and transform to Markdown, CSV, or JSON</td>
               {plans.map((plan, index) => (
                 <td key={index} className={checkCellStyle}>
                   <div className={checkCellDivStyle}>
