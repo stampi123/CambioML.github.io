@@ -4,7 +4,7 @@ import { QueryParams } from './apiInterface';
 interface IParams {
   api_url: string;
   postParams: QueryParams;
-  token?: string;
+  token: string;
   handleSuccess: (response: AxiosResponse) => void;
   handleError: (e: AxiosError) => void;
   handleTimeout: () => void;
@@ -24,7 +24,8 @@ const pollJobStatus = async ({ api_url, token, postParams, handleSuccess, handle
       .post(jobStatusAPI, postParams, {
         headers: {
           'Content-Type': 'application/json',
-          ...(token && { authorizationToken: token }),
+          authorizationToken: token,
+          apiKey: '-',
         },
       })
       .then((response) => {

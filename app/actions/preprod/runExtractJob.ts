@@ -11,7 +11,7 @@ interface IParams {
   selectedFileIndex: number;
   selectedFile: PlaygroundFile;
   queryType: string;
-  token?: string;
+  token: string;
   handleSuccess: (response: AxiosResponse) => void;
   handleError: (e: AxiosError) => void;
   handleTimeout: () => void;

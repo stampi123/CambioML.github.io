@@ -77,6 +77,7 @@ export const runRequestJob = async ({
       headers: {
         'Content-Type': 'application/json',
         authorizationToken: token,
+        apiKey: '-',
       },
     })
     .then((response) => {
