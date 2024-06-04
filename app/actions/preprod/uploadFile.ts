@@ -14,7 +14,7 @@ interface IParams {
 
 interface Config {
   params: UploadParams;
-  headers?: { authorizationToken: string };
+  headers?: { authorizationToken: string; apiKey: string };
 }
 
 export const uploadFile = async ({ api_url, file, token, clientId, addFiles, addFilesFormData }: IParams) => {
@@ -29,7 +29,7 @@ export const uploadFile = async ({ api_url, file, token, clientId, addFiles, add
       clientId: clientId,
       fileName: file_name,
     },
-    headers: { authorizationToken: token },
+    headers: { authorizationToken: token, apiKey: '-' },
   };
 
   return await axios
