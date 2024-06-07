@@ -77,12 +77,16 @@ export const runRequestJob = async ({
       headers: {
         'Content-Type': 'application/json',
         authorizationToken: token,
+        apiKey: '-',
       },
     })
     .then((response) => {
       if (response.status === 200) {
+        console.log(response.data);
         toast.success(`${filename} submitted!`);
         updateFileAtIndex(selectedFileIndex, JOB_STATE[jobType], SUCCESS_STATE[jobType]);
+        console.log(`Transforming ${filename} | job_id: $${response.data.jobId}`);
+
         const postParams: QueryParams = {
           userId: response.data.userId,
           fileId,
