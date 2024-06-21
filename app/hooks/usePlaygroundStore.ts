@@ -6,6 +6,8 @@ import {
   TransformState,
   CompareState,
   ExtractTab,
+  MapTab,
+  ExtractedMDTable,
 } from '../types/PlaygroundTypes';
 import { PresignedResponse } from '../actions/apiInterface';
 
@@ -37,7 +39,18 @@ interface PlaygroundStore {
   updateFileAtIndex: (
     index: number | null,
     property: string,
-    value: string | ExtractState | TransformState | CompareState | File | string[] | ExtractTab
+    value:
+      | string
+      | ExtractState
+      | TransformState
+      | CompareState
+      | File
+      | string[]
+      | ExtractTab
+      | MapTab
+      | Set<number>
+      | { [key: string]: string }
+      | ExtractedMDTable[]
   ) => void;
 }
 
@@ -45,13 +58,19 @@ const initialFileState = {
   extractResult: [''],
   qaResult: null,
   tableExtractResult: [''],
+  tableMdExtractResult: [{ title: '', table: '' }],
+  keyMap: {},
+  extractedKV: {},
+  tableMapIndices: new Set(),
   s3_file_source: { s3_bucket: '', source_type: '', s3_prefix: '' },
   activeTab: PlaygroundTabs.EXTRACT,
   extractState: ExtractState.READY,
   extractTab: ExtractTab.INITIAL_STATE,
+  mapTab: MapTab.TABLE_SELECT,
   qaState: TransformState.READY,
   summarizeState: TransformState.READY,
   tableExtractState: ExtractState.READY,
+  tableMdExtractState: ExtractState.READY,
   compareState: CompareState.READY,
   compareFile: null,
   compareResult: '',

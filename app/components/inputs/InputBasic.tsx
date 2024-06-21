@@ -1,21 +1,35 @@
 'use client';
 
+import React, { useState } from 'react';
+
 interface InputBasicProps {
   label: string;
   value: string;
   onChange: (value: string) => void;
   error: string;
   disabled?: boolean;
+  labelDescription?: string;
 }
 
-const InputBasic = ({ label, value, onChange, error, disabled }: InputBasicProps) => {
+const InputBasic = ({ label, value, onChange, error, disabled, labelDescription }: InputBasicProps) => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+  };
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value);
   };
+
   return (
     <div className="w-full relative">
       <input
-        placeholder=" "
+        placeholder={`${isFocused ? labelDescription : ''}`}
         className={`
           peer
           w-full
@@ -32,6 +46,8 @@ const InputBasic = ({ label, value, onChange, error, disabled }: InputBasicProps
         onChange={handleChange}
         value={value}
         disabled={disabled}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
       />
       <label
         className={`

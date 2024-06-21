@@ -26,11 +26,32 @@ export enum ExtractTab {
   INITIAL_STATE,
 }
 
+export enum MapTab {
+  TABLE_SELECT,
+  MAP_SCHEMA,
+}
+
+export interface MapSchemaResult {
+  keyMap: { [key: string]: string };
+  extractedKeys: { [key: string]: string };
+}
+
+export interface ExtractedMDTable {
+  title: string;
+  table: string;
+  tableCsv: string[][];
+  tableData: { [key: string]: string };
+}
+
 export interface PlaygroundFile {
   file: File | string;
   extractResult: QueryResult;
   qaResult: QAResult | null;
-  tableExtractResult: string[];
+  tableExtractResult: [''];
+  tableMdExtractResult: ExtractedMDTable[];
+  keyMap: { [key: string]: string };
+  extractedKV: { [key: string]: string };
+  tableMapIndices: Set<number>;
   jobId: string;
   userId: string;
   fileId: string;
@@ -42,7 +63,9 @@ export interface PlaygroundFile {
   activeTab: string;
   extractState: ExtractState;
   tableExtractState: ExtractState;
+  tableMdExtractState: ExtractState;
   extractTab: ExtractTab;
+  mapTab: MapTab;
   qaState: TransformState;
   summarizeState: TransformState;
   compareState: CompareState;
@@ -76,6 +99,5 @@ interface S3FileSource {
 
 export const PlaygroundTabs = {
   EXTRACT: 'Extract',
-  TRANSFORM: 'Transform',
-  COMPARE: 'Compare',
+  MAP: 'Map',
 };

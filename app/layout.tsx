@@ -9,6 +9,7 @@ import { GoogleTagManager } from '@next/third-parties/google';
 import PlaygroundFeedbackModal from './components/modals/PlaygroundFeedbackModal';
 import InfoModal from './components/modals/InfoModal';
 import PricingContactModal from './components/modals/PricingContactModal';
+import ResultZoomModal from './components/modals/ResultZoomModal';
 
 export const metadata = {
   title: 'cambioml',
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <PricingContactModal />
         <PlaygroundFeedbackModal />
         <InfoModal />
+        <ResultZoomModal />
         <div className="pb-500 min-h-screen min-w-[650px]">{children}</div>
         <Footer />
       </body>
