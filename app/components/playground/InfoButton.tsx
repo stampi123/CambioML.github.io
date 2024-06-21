@@ -27,44 +27,16 @@ const extractContent = (
     >{`You can download the output as a text file, as well as then use the 'Transform' flow to transform your extracted data into a structured format.`}</div>
   </>
 );
-const transformContent = (
-  <>
-    <div className={h1Style}>Transform</div>
-    <div className={textStyle}>
-      {`With Uniflow, you can transform your raw, unstructured data into a structured format. In this Playground, you can use the built-in 'Summarize' and 'Question-Answer' models to transform your data.`}
-    </div>
-    <div className={h2Style}>Key-value Generation</div>
-    <div
-      className={textStyle}
-    >{`One option is to generate key-values from your file. You can input a query of certain data that you want, and Uniflow will return that data and it's values in a JSON dictionary.`}</div>
-    <div className={h2Style}>Generate Question-Answer Pairs (Coming Soon)</div>
-    <div
-      className={textStyle}
-    >{`Another option is to convert your text to Question-Answer pairs. Uniflow will take each paragraph in your file and generate a single question and answer based on that paragraph.`}</div>
-    <div className={h2Style}>Summarize (Coming Soon)</div>
-    <div
-      className={textStyle}
-    >{`Another option is to generate summaries from your file. Uniflow will take each paragraph in your file and generate a short summary based on that paragraph.`}</div>
-    <div className={h2Style}>Next Steps</div>
-    <div className={textStyle}>{`Once you've run the generation, you can download the data.`}</div>
-  </>
-);
 
-const compareContent = (
+const mapContent = (
   <>
-    <div className={h1Style}>Compare (Coming Soon)</div>
-    <div className={textStyle}>{`With Uniflow, you can run a flow to compare two papers.`}</div>
-    <div className={h2Style}>Input</div>
-    <div className={textStyle}>{`Two paper files.`}</div>
-    <div className={h2Style}>Output</div>
-    <div className={textStyle}>{`Comparison of each section of the paper (Abstract, Conclusion, etc.)`}</div>
+    <div className={h1Style}>Map (Coming Soon)</div>
   </>
 );
 
 const infoContent: { [key: string]: React.ReactElement } = {
   [PlaygroundTabs.EXTRACT]: extractContent,
-  [PlaygroundTabs.TRANSFORM]: transformContent,
-  [PlaygroundTabs.COMPARE]: compareContent,
+  [PlaygroundTabs.MAP]: mapContent,
 };
 
 const InfoButton = ({ infoType }: InfoButtonProps) => {
