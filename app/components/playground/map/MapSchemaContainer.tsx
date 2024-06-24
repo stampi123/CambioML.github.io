@@ -1,5 +1,5 @@
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
-import { MapTab, PlaygroundFile } from '@/app/types/PlaygroundTypes';
+import { ExtractState, MapTab, PlaygroundFile } from '@/app/types/PlaygroundTypes';
 import { useEffect, useState } from 'react';
 import { ArrowLeft, DownloadSimple, Plus, Robot } from '@phosphor-icons/react';
 import Button from '../../Button';
@@ -62,18 +62,22 @@ const MapSchemaContainer = () => {
         }
         extractedKT[thisKey] = extractedValue;
       }
-      const result = await runMappingRequest({ tableSchema: tableKeys, keysToMap: currentKeys });
-      setIsLoading(false);
-      for (const key in result) {
-        if (Object.hasOwn(currentMap, key)) {
-          currentMap[key] = result[key];
-        } else {
-          currentMap[key] = 'None';
+      try {
+        const result = await runMappingRequest({ tableSchema: tableKeys, keysToMap: currentKeys });
+        setIsLoading(false);
+        for (const key in result) {
+          if (Object.hasOwn(currentMap, key)) {
+            currentMap[key] = result[key];
+          } else {
+            currentMap[key] = 'None';
+          }
         }
+        updateFileAtIndex(selectedFileIndex, 'keyMap', currentMap);
+        updateFileAtIndex(selectedFileIndex, 'extractedKV', extractedKT);
+        toast.success(`Generated Schema Map for ${filename}`);
+      } catch (error) {
+        toast.error(`Error mapping schema for ${filename}. Please try again.`);
       }
-      updateFileAtIndex(selectedFileIndex, 'keyMap', currentMap);
-      updateFileAtIndex(selectedFileIndex, 'extractedKV', extractedKT);
-      toast.success(`Generated Schema Map for ${filename}`);
     }
   };
 
@@ -92,7 +96,10 @@ const MapSchemaContainer = () => {
       let newKeys: string[] = [];
 
       if (query.includes(',')) {
-        newKeys = query.split(',').map((s) => s.trim());
+        newKeys = query
+          .split(',')
+          .map((s) => s.trim())
+          .filter((s) => s.length > 0);
       } else {
         newKeys = [query];
       }
@@ -123,7 +130,8 @@ const MapSchemaContainer = () => {
 
   return (
     <>
-      {selectedFile?.tableMdExtractResult.length === 0 ||
+      {selectedFile?.tableMdExtractState !== ExtractState.DONE_EXTRACTING ||
+      selectedFile?.tableMdExtractResult.length === 0 ||
       selectedFile?.tableMdExtractResult[0]['table'] === '' ||
       selectedFile?.tableMapIndices.size === 0 ? (
         <div className="h-full w-full flex flex-col items-center justify-center gap-4">
@@ -147,13 +155,17 @@ const MapSchemaContainer = () => {
                 <>
                   {selectedFile &&
                     Object.keys(selectedFile?.keyMap || {}).map((key, i) => {
-                      const [extractedTable, extractedKey] = selectedFile?.keyMap[key].split('-') || ['', ''];
-                      const thisTableData = selectedFile?.tableMdExtractResult.filter(
-                        (tableData) => tableData['title'] === extractedTable
-                      )[0];
+                      let extractedTable = '';
+                      let extractedKey = '';
                       let extractedValue = '';
-                      if (thisTableData) {
-                        extractedValue = thisTableData['tableData'][extractedKey] || '';
+                      if (selectedFile?.keyMap[key]) {
+                        [extractedTable, extractedKey] = selectedFile?.keyMap[key].split('-') || ['', ''];
+                        const thisTableData = selectedFile?.tableMdExtractResult.filter(
+                          (tableData) => tableData['title'] === extractedTable
+                        )[0];
+                        if (thisTableData) {
+                          extractedValue = thisTableData['tableData'][extractedKey] || '';
+                        }
                       }
                       return (
                         <MapSchemaRow
@@ -169,7 +181,9 @@ const MapSchemaContainer = () => {
               )}
             </div>
           </div>
-          <div className="row-span-1 border-b-[1px] border-neutral-200 flex gap-2 h-fit pb-2">
+          <div
+            className={`row-span-1 h-full border-b-[1px] border-neutral-200 flex items-center justify-center gap-2 h-fit pb-2`}
+          >
             <div className={`w-full h-fit gap-4 grid grid-cols-[1fr_150px]`}>
               <InputBasic
                 label="Schema Keys"
@@ -177,6 +191,8 @@ const MapSchemaContainer = () => {
                 onChange={handleQueryChange}
                 error={inputError}
                 labelDescription="Enter a single key or multiple keys as comma-separated list"
+                highlight={Object.keys(selectedFile?.keyMap || {}).length === 0 && !query}
+                onEnter={handleAddKey}
               />
               <Button
                 label="Add Keys"

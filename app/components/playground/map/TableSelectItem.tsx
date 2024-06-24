@@ -49,7 +49,12 @@ const TableSelectItem = ({ tableName, tableIndex, tablePreviewIndex, setTablePre
         >
           {<Check size={20} className={tableSelected ? 'text-green-400' : 'text-white'} />}
         </div>
-        {tableName}
+        <div className="group relative w-max">
+          <div className="max-w-[150px] lg:max-w-[220px] truncate">{tableName}</div>
+          {/* <span className="max-w-[250px] pointer-events-none absolute -top-10 -left-5 w-max opacity-0 transition-opacity group-hover:opacity-100 bg-gray-600 text-neutral-100 truncate p-2 rounded-md">
+            {tableName}
+          </span> */}
+        </div>
       </div>
       <div
         onClick={() => setTablePreviewIndex(tableIndex)}

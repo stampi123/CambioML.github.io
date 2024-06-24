@@ -21,6 +21,9 @@ function parseApiResponse(response: string): { [key: string]: string } {
       trimmedResponse = trimmedResponse.slice(7, -3).trim();
     }
 
+    // Replace `None` with `null`
+    trimmedResponse = trimmedResponse.replace(/\bNone\b/g, 'null');
+
     // Try to parse the cleaned response as JSON
     const parsedResponse = JSON.parse(trimmedResponse);
 
@@ -36,9 +39,8 @@ function parseApiResponse(response: string): { [key: string]: string } {
     throw new Error('Invalid JSON response');
   }
 }
-export const runMappingRequest = async ({ tableSchema, keysToMap }: IParams) => {
-  console.log('[runMappingRequest]: ', tableSchema);
 
+export const runMappingRequest = async ({ tableSchema, keysToMap }: IParams) => {
   const prompt = `Here is a list of \`raw_schema\`:
     ${tableSchema}
     Your goal is to map each string in the \`raw_schema\` to a string the \`db_schema\` below:
@@ -46,7 +48,6 @@ export const runMappingRequest = async ({ tableSchema, keysToMap }: IParams) => 
     Return a dictionary with keys from the \`db_schema\` and values as the matched key from \`raw_schema\`.
     Make sure the mapping is 1 to 1 only.
     If no value is found, then return None. Return the dictionary in JSON ONLY, no other text. for example, DO NOT include`;
-  console.log('[runMappingRequest]: prompt: ', prompt);
   const params: OpenAI.Chat.ChatCompletionCreateParams = {
     messages: [
       { role: 'system', content: 'You are an expert in mapping schema from financial documents.' },

@@ -11,6 +11,7 @@ import { runExtractJob as runPreProdExtractJob } from '@/app/actions/preprod/run
 import { AxiosError, AxiosResponse } from 'axios';
 import TableSelectItem from './TableSelectItem';
 import PulsingIcon from '../../PulsingIcon';
+// import { PDFDocument } from 'pdf-lib';
 
 const selectButtonStyles =
   'w-full text-center cursor-pointer border-[1px] text-neutral-600 border-neutral-400 rounded-lg flex gap-2 justify-center items-center hover:bg-neutral-100 hover:border-2 hover:font-semibold';
@@ -21,6 +22,7 @@ const MapTableSelectContainer = () => {
   const [filename, setFilename] = useState<string>('');
   const { apiURL, isProduction } = useProductionContext();
   const [tablePreviewIndex, setTablePreviewIndex] = useState(0);
+  // const [pdfPages, setPdfPages] = useState<Blob[]>([]);
 
   const selectAllTables = (result: ExtractedMDTable[]) => {
     updateFileAtIndex(
@@ -63,6 +65,26 @@ const MapTableSelectContainer = () => {
 
     return tables;
   }
+
+  // const splitPDF = async (file: File) => {
+  //   if (file) {
+  //     const arrayBuffer = await file.arrayBuffer();
+  //     const pdfDoc = await PDFDocument.load(arrayBuffer);
+  //     const pageCount = pdfDoc.getPageCount();
+
+  //     const pages: Blob[] = [];
+  //     for (let i = 0; i < pageCount; i++) {
+  //       const newPdfDoc = await PDFDocument.create();
+  //       const [copiedPage] = await newPdfDoc.copyPages(pdfDoc, [i]);
+  //       newPdfDoc.addPage(copiedPage);
+  //       const pdfBytes = await newPdfDoc.save();
+  //       const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+  //       pages.push(blob);
+  //     }
+
+  //     setPdfPages(pages);
+  //   }
+  // };
 
   function markdownToCsv(tableStr: string): string[][] {
     const rows = tableStr.trim().split('\n');
@@ -131,8 +153,8 @@ const MapTableSelectContainer = () => {
     return markdownTables;
   };
 
-  const handleSuccess = (response: AxiosResponse) => {
-    console.log('handleSuccess', response.data);
+  const handleSuccess = (response: AxiosResponse, page?: number) => {
+    console.log(`handleSuccess page ${page}`, response.data);
     const result = response.data;
     if (result === undefined) {
       toast.error(`${filename}: Received undefined result. Please try again.`);
@@ -204,6 +226,10 @@ const MapTableSelectContainer = () => {
       toast.error(`Error extracting ${filename}. Please try again.`);
       return;
     }
+
+    // if (selectedFile?.file instanceof File) {
+    //   splitPDF(selectedFile.file);
+    // }
     if (selectedFile && selectedFileIndex !== null) {
       if (isProduction) {
         runExtractJob({
@@ -232,6 +258,7 @@ const MapTableSelectContainer = () => {
           handleSuccess,
           handleError,
           handleTimeout,
+          page: 0,
         });
       }
     }
@@ -253,7 +280,7 @@ const MapTableSelectContainer = () => {
     }
   }, [selectedFileIndex, files, updateFileAtIndex]);
   return (
-    <div className="h-full grid grid-cols-[280px_1fr] grid-rows-[1fr_50px] gap-4">
+    <div className="h-full grid grid-cols-[280px_1fr] lg:grid-cols-[350px_1fr] grid-rows-[1fr_50px] gap-4">
       <div className="h-full p-4 gap-2 grid grid-rows-[30px_25px_1fr_55px] border-[1px] border-solid rounded-xl">
         {selectedFile?.tableMdExtractState === ExtractState.DONE_EXTRACTING && (
           <>
@@ -313,7 +340,6 @@ const MapTableSelectContainer = () => {
           </div>
         )}
       </div>
-
       <div className="h-full">
         {selectedFile?.tableMdExtractState === ExtractState.READY && (
           <div className="flex flex-col items-center justify-center h-full border-[1px] border-neutral-200 rounded-xl text-neutral-300">
@@ -346,6 +372,11 @@ const MapTableSelectContainer = () => {
           }
         />
       </div>
+      {/* {pdfPages.map((page, index) => (
+        <a href={URL.createObjectURL(page)} download={`page-${index + 1}.pdf`} key={index}>
+          Download Page {index + 1}
+        </a>
+      ))} */}
     </div>
   );
 };
