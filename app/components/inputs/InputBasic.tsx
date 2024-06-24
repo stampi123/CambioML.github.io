@@ -9,9 +9,20 @@ interface InputBasicProps {
   error: string;
   disabled?: boolean;
   labelDescription?: string;
+  highlight?: boolean;
+  onEnter?: () => void;
 }
 
-const InputBasic = ({ label, value, onChange, error, disabled, labelDescription }: InputBasicProps) => {
+const InputBasic = ({
+  label,
+  value,
+  onChange,
+  error,
+  disabled,
+  labelDescription,
+  highlight,
+  onEnter,
+}: InputBasicProps) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleFocus = () => {
@@ -26,8 +37,14 @@ const InputBasic = ({ label, value, onChange, error, disabled, labelDescription 
     onChange(event.target.value);
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' && onEnter) {
+      onEnter();
+    }
+  };
+
   return (
-    <div className="w-full relative">
+    <div className={`w-full relative`}>
       <input
         placeholder={`${isFocused ? labelDescription : ''}`}
         className={`
@@ -42,12 +59,14 @@ const InputBasic = ({ label, value, onChange, error, disabled, labelDescription 
           outline-none
           transition
           ${error.length > 0 ? 'focus:border-rose-500' : 'focus:border-neutral-500'}
+          ${highlight && 'border-rose-500'}
         `}
         onChange={handleChange}
         value={value}
         disabled={disabled}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
       />
       <label
         className={`
