@@ -8,6 +8,7 @@ import InputBasic from '../../inputs/InputBasic';
 import toast from 'react-hot-toast';
 import KeySelectModal from '../../modals/KeySelectModal';
 import { runMappingRequest } from '@/app/actions/runMappingRequest';
+import { downloadFile } from '@/app/actions/downloadFile';
 
 const MIN_INPUT_LENGTH = 1;
 
@@ -36,47 +37,32 @@ const MapSchemaContainer = () => {
     if (selectedFile) {
       const allTables = selectedFile.tableMdExtractResult;
       const tablesToMap = allTables.filter((table, i) => selectedFile.tableMapIndices.has(i));
-      console.log('Mapping tables', tablesToMap);
 
       const currentMap = selectedFile.keyMap;
-      for (const key in currentMap) {
-        currentMap[key] = '';
-      }
+
       const tableKeys: string[] = [];
       for (const table of tablesToMap) {
-        for (const key in table['tableData']) {
-          tableKeys.push(`${table['title']}-${key}`);
-        }
+        tableKeys.push(...Object.keys(table['tableData']));
       }
       updateFileAtIndex(selectedFileIndex, 'keyMap', currentMap);
-      const currentKeys = Object.keys(currentMap);
-      const extractedKT: { [key: string]: string } = {};
-      for (const thisKey of tableKeys) {
-        const [extractedTable, extractedKey] = thisKey.split('-') || ['', ''];
-        const thisTableData = selectedFile?.tableMdExtractResult.filter(
-          (tableData) => tableData['title'] === extractedTable
-        )[0];
-        let extractedValue = '';
-        if (thisTableData) {
-          extractedValue = thisTableData['tableData'][extractedKey] || '';
-        }
-        extractedKT[thisKey] = extractedValue;
-      }
-      try {
-        const result = await runMappingRequest({ tableSchema: tableKeys, keysToMap: currentKeys });
-        setIsLoading(false);
-        for (const key in result) {
-          if (Object.hasOwn(currentMap, key)) {
-            currentMap[key] = result[key];
-          } else {
-            currentMap[key] = 'None';
+      const currentKeys = Object.keys(currentMap).filter((key) => currentMap[key] === '' || currentMap[key] === null);
+
+      if (currentKeys.length > 0) {
+        try {
+          const result = await runMappingRequest({ tableSchema: tableKeys, keysToMap: currentKeys });
+          setIsLoading(false);
+          for (const key in result) {
+            if (Object.hasOwn(currentMap, key)) {
+              currentMap[key] = result[key];
+            }
           }
+          updateFileAtIndex(selectedFileIndex, 'keyMap', currentMap);
+          toast.success(`Generated Schema Map for ${filename}`);
+        } catch (error) {
+          toast.error(`Error mapping schema for ${filename}. Please try again.`);
         }
-        updateFileAtIndex(selectedFileIndex, 'keyMap', currentMap);
-        updateFileAtIndex(selectedFileIndex, 'extractedKV', extractedKT);
-        toast.success(`Generated Schema Map for ${filename}`);
-      } catch (error) {
-        toast.error(`Error mapping schema for ${filename}. Please try again.`);
+      } else {
+        setIsLoading(false);
       }
     }
   };
@@ -128,6 +114,45 @@ const MapSchemaContainer = () => {
     updateFileAtIndex(selectedFileIndex, 'mapTab', MapTab.TABLE_SELECT);
   };
 
+  const handleDownloadTableJson = () => {
+    if (!selectedFile?.keyMap) {
+      return;
+    }
+    const tableDataJSON = [];
+
+    for (const table of selectedFile.tableMdExtractResult) {
+      for (const tableKey in table['tableData']) {
+        if (Object.values(selectedFile.keyMap).includes(tableKey)) {
+          const thisData: { [key: string]: string | string[] } = {};
+          let inputKey = '';
+          for (const key in selectedFile.keyMap) {
+            if (selectedFile.keyMap[key] === tableKey) {
+              inputKey = key;
+              break;
+            }
+          }
+          thisData['input_key'] = inputKey;
+          thisData['mapped_key'] = tableKey;
+          thisData['mapped_value'] = table['tableData'][tableKey];
+
+          tableDataJSON.push(thisData);
+        }
+      }
+    }
+    downloadFile({
+      filename,
+      fileContent: JSON.stringify(tableDataJSON, null, 2),
+      fileType: 'application/json',
+      suffix: `_extracted_table.json`,
+    });
+  };
+
+  const hasNonNullValue = (keyMap: { [key: string]: string | null }) => {
+    for (const key in keyMap) {
+      if (keyMap[key] !== '' && keyMap[key] !== null) return true;
+    }
+  };
+
   return (
     <>
       {selectedFile?.tableMdExtractState !== ExtractState.DONE_EXTRACTING ||
@@ -142,36 +167,39 @@ const MapSchemaContainer = () => {
         </div>
       ) : (
         <div className="h-full grid grid-cols-1 grid-rows-[35px_1fr_70px_70px] gap-4">
-          <div className="col-span-1 row-span-1 grid grid-cols-[2fr_2fr_3fr] gap-4">
+          <div className="col-span-1 row-span-1 grid grid-cols-[2fr_2fr_3fr] 2xl:grid-cols-[250px_250px_1fr] gap-4">
             <div className="text-md font-semibold">Input Key</div>
             <div className="text-md font-semibold">Mapped Key</div>
             <div className="text-md font-semibold">Mapped Value</div>
           </div>
           <div className="row-span-1 overflow-auto relative box-border">
-            <div className="w-full h-fit justify-center absolute grid grid-cols-[2fr_2fr_3fr] gap-4">
+            <div className="w-full h-fit justify-center absolute grid grid-cols-[2fr_2fr_3fr] 2xl:grid-cols-[250px_250px_1fr] gap-4">
               {Object.keys(selectedFile?.keyMap || {}).length === 0 ? (
                 <MapSchemaRow thisKey="" key={0} mappedKey="" mappedValue="" isLoading={isLoading} />
               ) : (
                 <>
                   {selectedFile &&
                     Object.keys(selectedFile?.keyMap || {}).map((key, i) => {
-                      let extractedTable = '';
-                      let extractedKey = '';
+                      const fullExtractedKey = selectedFile?.keyMap[key];
+                      let tableName = '';
+                      let colHeader = '';
                       let extractedValue = '';
                       if (selectedFile?.keyMap[key]) {
-                        [extractedTable, extractedKey] = selectedFile?.keyMap[key].split('-') || ['', ''];
+                        [tableName, colHeader] = fullExtractedKey.split('-') || ['', ''];
                         const thisTableData = selectedFile?.tableMdExtractResult.filter(
-                          (tableData) => tableData['title'] === extractedTable
+                          (tableData) => tableData['title'] === tableName
                         )[0];
-                        if (thisTableData) {
-                          extractedValue = thisTableData['tableData'][extractedKey] || '';
+                        if (thisTableData && thisTableData['tableData'][fullExtractedKey]) {
+                          extractedValue = JSON.stringify(thisTableData['tableData'][fullExtractedKey]);
                         }
+                      } else if (!isLoading && colHeader === '') {
+                        colHeader = 'None';
                       }
                       return (
                         <MapSchemaRow
                           thisKey={key}
                           key={i}
-                          mappedKey={extractedKey || ''}
+                          mappedKey={colHeader || ''}
                           mappedValue={extractedValue}
                           isLoading={isLoading}
                         />
@@ -212,11 +240,11 @@ const MapSchemaContainer = () => {
               disabled={(selectedFile && Object.keys(selectedFile?.keyMap).length === 0) || isLoading}
             />
             <Button
-              label="Download Map"
-              onClick={handleMapSchema}
+              label="Download Json"
+              onClick={handleDownloadTableJson}
               small
               labelIcon={DownloadSimple}
-              disabled={true || !isLoading}
+              disabled={!hasNonNullValue(selectedFile.keyMap) || isLoading}
             />
           </div>
           <KeySelectModal />

@@ -25,6 +25,9 @@ const font = Lato({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+      </head>
       <body className={font.className}>
         <ToasterProvider />
         <Navbar />

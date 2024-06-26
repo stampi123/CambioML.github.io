@@ -41,13 +41,17 @@ function parseApiResponse(response: string): { [key: string]: string } {
 }
 
 export const runMappingRequest = async ({ tableSchema, keysToMap }: IParams) => {
+  if (keysToMap.length === 0) {
+    throw new Error('The keysToMap array is empty. At least one key is required.');
+  }
   const prompt = `Here is a list of \`raw_schema\`:
-    ${tableSchema}
+    ${JSON.stringify(tableSchema)}
     Your goal is to map each string in the \`raw_schema\` to a string the \`db_schema\` below:
-    ${keysToMap}
+    ${JSON.stringify(keysToMap)}
     Return a dictionary with keys from the \`db_schema\` and values as the matched key from \`raw_schema\`.
     Make sure the mapping is 1 to 1 only.
     If no value is found, then return None. Return the dictionary in JSON ONLY, no other text. for example, DO NOT include`;
+
   const params: OpenAI.Chat.ChatCompletionCreateParams = {
     messages: [
       { role: 'system', content: 'You are an expert in mapping schema from financial documents.' },
@@ -56,6 +60,7 @@ export const runMappingRequest = async ({ tableSchema, keysToMap }: IParams) => 
     model: 'gpt-4o',
     max_tokens: 4096,
   };
+  console.log('[runMappingRequest]: IN : ', params);
   const chatCompletion: OpenAI.Chat.ChatCompletion = await openai.chat.completions.create(params);
   const rawResponse = chatCompletion.choices[0].message.content || '';
   console.log('[chatcompletion]:', chatCompletion.choices[0].message.content);

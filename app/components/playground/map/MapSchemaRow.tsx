@@ -25,6 +25,14 @@ const MapSchemaRow = ({ thisKey, mappedKey, mappedValue, isLoading }: MapSchemaR
     }
   };
 
+  const handleMappedDeleteClick = () => {
+    if (selectedFile) {
+      const currentKeys = selectedFile.keyMap;
+      currentKeys[thisKey] = '';
+      updateFileAtIndex(selectedFileIndex, 'keyMap', currentKeys);
+    }
+  };
+
   useEffect(() => {
     if (selectedFileIndex !== null && files.length > 0) {
       const thisFile = files[selectedFileIndex];
@@ -35,15 +43,29 @@ const MapSchemaRow = ({ thisKey, mappedKey, mappedValue, isLoading }: MapSchemaR
   const handleEditClick = () => {
     if (selectedFile) {
       keySelectModal.setInputKey(thisKey);
-      keySelectModal.setKeyValue(selectedFile?.extractedKV);
+      keySelectModal.setTableData(selectedFile?.tableMdExtractResult);
       keySelectModal.onOpen();
     }
   };
   return (
     <>
       <MapSchemaCell text={thisKey} handleIconClick={handleDeleteClick} icon={X} isLoading={isLoading} bold />
-      <MapSchemaCell text={mappedKey} handleIconClick={handleEditClick} icon={PencilSimple} isLoading={isLoading} />
-      <MapSchemaCell text={mappedValue} handleIconClick={handleEditClick} icon={PencilSimple} isLoading={isLoading} />
+      <MapSchemaCell
+        text={mappedKey}
+        handleIconClick={handleEditClick}
+        icon={PencilSimple}
+        secondIcon={X}
+        handleSecondIconClick={handleMappedDeleteClick}
+        isLoading={isLoading}
+      />
+      <MapSchemaCell
+        text={mappedValue}
+        handleIconClick={handleEditClick}
+        icon={PencilSimple}
+        secondIcon={X}
+        handleSecondIconClick={handleMappedDeleteClick}
+        isLoading={isLoading}
+      />
     </>
   );
 };

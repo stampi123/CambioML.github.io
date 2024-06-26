@@ -30,7 +30,29 @@ const extractContent = (
 
 const mapContent = (
   <>
-    <div className={h1Style}>Map (Coming Soon)</div>
+    <div className={h1Style}>Map</div>
+    <div className={textStyle}>
+      <div>With Uniflow, you can extract tables from your PDFs and extract specific keys from them.</div>
+    </div>
+    <div className={h2Style}>1. Select Tables</div>
+    <div
+      className={textStyle}
+    >{`Once you've selected a PDF with tables, first you need to extract those tables. After running the table extract, select the tables that you'd like to extract data from.
+
+    In this section, you'll also have the ability to preview the raw extracted data.`}</div>
+    <div className={h2Style}>2. Map Schema</div>
+    <div
+      className={textStyle}
+    >{`Once you've exracted and selected the tables, you can then add the keys that you want to extract. If you wish to remove the mapped key, click the (X) in the box. If you wish to remove an Input Key, you can click the (X) icon in its box.
+
+    Once you've added some keys, you can run the Map Schema function. After mapping, you can edit any of the mapped keys by clicking on the edit pencil icon.
+
+
+    Clicking 'Map Schema' again will only re-run the Input Keys without any Mapped Keys. If you wish to generate a new mapped key, you can remove the Mapped Key first by clicking X.`}</div>
+    <div className={h2Style}>Next Steps</div>
+    <div
+      className={textStyle}
+    >{`Once you're satisfied with the output, you can hit the Download JSON button to get a JSON copy of your keys. This will only be enabled if at least one Input Key has a non-empty Mapped Key.`}</div>
   </>
 );
 
