@@ -1,0 +1,173 @@
+import { PlaygroundFile } from '@/app/types/PlaygroundTypes';
+import MapSchemaCell from './MapSchemaCell';
+import { PencilSimple, X } from '@phosphor-icons/react';
+import { useEffect, useState } from 'react';
+import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
+import useKeySelectModal from '@/app/hooks/useKeySelectModal';
+
+interface MapSchemaTableProps {
+  keyMap: { [key: string]: string };
+  tableMappedData: string[][];
+  isLoading: boolean;
+}
+
+const MapSchemaTable = ({ keyMap, tableMappedData, isLoading }: MapSchemaTableProps) => {
+  const { selectedFileIndex, files, updateFileAtIndex } = usePlaygroundStore();
+  const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
+  const keySelectModal = useKeySelectModal();
+
+  const handleDeleteClick = (thisKey: string) => {
+    if (selectedFile) {
+      const currentKeys = selectedFile.keyMap;
+      delete currentKeys[thisKey];
+      updateFileAtIndex(selectedFileIndex, 'keyMap', currentKeys);
+      const currentTableData = selectedFile.tableMappedData;
+      const keyIndex = currentTableData[0].indexOf(thisKey);
+      const newMappedData = currentTableData.map((innerArray) => innerArray.filter((_, index) => index !== keyIndex));
+      updateFileAtIndex(selectedFileIndex, 'tableMappedData', newMappedData);
+    }
+  };
+  const handleMappedDeleteClick = (thisKey: string) => {
+    if (selectedFile) {
+      //   const thisKey = Object.entries(selectedFile.keyMap).find(([_, val]) => val === mappedKey)?.[0] || '';
+      const currentKeys = selectedFile.keyMap;
+      currentKeys[thisKey] = '';
+      const currentTableData = selectedFile.tableMappedData;
+      const keyIndex = currentTableData[0].indexOf(thisKey);
+      const newMappedData = currentTableData.map((innerArray) =>
+        innerArray.map((val, index) => {
+          if (index === keyIndex) return '';
+          return val;
+        })
+      );
+      updateFileAtIndex(selectedFileIndex, 'keyMap', currentKeys);
+      updateFileAtIndex(selectedFileIndex, 'tableMappedData', newMappedData);
+    }
+  };
+  const handleEditClick = (thisKey: string) => {
+    if (selectedFile) {
+      //   const thisKey = Object.entries(selectedFile.keyMap).find(([_, val]) => val === mappedKey)?.[0] || '';
+      keySelectModal.setInputKey(thisKey);
+      keySelectModal.setTableData(selectedFile?.tableMdExtractResult);
+      keySelectModal.onOpen();
+    }
+  };
+
+  useEffect(() => {
+    if (selectedFileIndex !== null && files.length > 0) {
+      const thisFile = files[selectedFileIndex];
+      setSelectedFile(thisFile);
+    }
+  }, [selectedFileIndex, files, updateFileAtIndex]);
+  const inputKeys = Object.keys(keyMap);
+  const mappedKeys = Object.values(keyMap);
+  return (
+    <div className="w-full h-full">
+      <table className="mapped-table">
+        <thead>
+          <tr>
+            <th>Input Key</th>
+            {Object.keys(keyMap).length > 0 ? (
+              inputKeys.map((inputKey, i) => (
+                <th key={`${inputKey}_${i}`}>
+                  <MapSchemaCell
+                    text={inputKey}
+                    handleIconClick={() => handleDeleteClick(inputKey)}
+                    icon={X}
+                    isLoading={isLoading}
+                    bold
+                  />
+                </th>
+              ))
+            ) : (
+              <th>
+                <MapSchemaCell
+                  text={''}
+                  handleIconClick={() => handleDeleteClick('')}
+                  icon={X}
+                  isLoading={isLoading}
+                  bold
+                />
+              </th>
+            )}
+          </tr>
+          <tr>
+            <th>Mapped Key</th>
+            {Object.keys(keyMap).length > 0 ? (
+              mappedKeys.map((mappedKey, i) => (
+                <th key={`${mappedKey}_${i}`}>
+                  <MapSchemaCell
+                    text={mappedKey || ''}
+                    handleIconClick={() => handleEditClick(inputKeys[i])}
+                    icon={PencilSimple}
+                    secondIcon={X}
+                    handleSecondIconClick={() => handleMappedDeleteClick(inputKeys[i])}
+                    isLoading={isLoading}
+                  />
+                </th>
+              ))
+            ) : (
+              <th>
+                <MapSchemaCell
+                  text={''}
+                  handleIconClick={() => handleDeleteClick('')}
+                  icon={X}
+                  isLoading={isLoading}
+                  bold
+                />
+              </th>
+            )}
+          </tr>
+        </thead>
+        <tbody>
+          {tableMappedData && tableMappedData.length > 0 ? (
+            tableMappedData.slice(1).map((tableRow, rowIndex) => (
+              <tr key={rowIndex}>
+                {rowIndex === 0 ? <th>Mapped Values</th> : <th></th>}
+                {tableRow.map((tableData, cellIndex) => (
+                  <td key={cellIndex}>
+                    <MapSchemaCell
+                      text={tableData || ''}
+                      handleIconClick={() => handleEditClick(inputKeys[cellIndex])}
+                      icon={PencilSimple}
+                      secondIcon={X}
+                      handleSecondIconClick={() => handleMappedDeleteClick(inputKeys[cellIndex])}
+                      isLoading={isLoading}
+                    />
+                  </td>
+                ))}
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <th>Mapped Values</th>
+              {Object.keys(keyMap).length > 0 ? (
+                inputKeys.map((inputKey) => (
+                  <td key={inputKey}>
+                    <MapSchemaCell
+                      text=""
+                      handleIconClick={() => handleEditClick('')}
+                      icon={PencilSimple}
+                      isLoading={isLoading}
+                    />
+                  </td>
+                ))
+              ) : (
+                <td>
+                  <MapSchemaCell
+                    text=""
+                    handleIconClick={() => handleEditClick('')}
+                    icon={PencilSimple}
+                    isLoading={isLoading}
+                  />
+                </td>
+              )}
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default MapSchemaTable;

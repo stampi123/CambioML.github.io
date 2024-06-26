@@ -51,6 +51,7 @@ interface PlaygroundStore {
       | Set<number>
       | { [key: string]: string }
       | ExtractedMDTable[]
+      | string[][]
   ) => void;
 }
 
