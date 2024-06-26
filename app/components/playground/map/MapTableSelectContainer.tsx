@@ -86,7 +86,6 @@ const MapTableSelectContainer = () => {
       tables.push({
         title,
         table: tableElement.outerHTML,
-        tableCsv: [], //convertHtmlTableToCsv(tableHtml),
         tableData: {}, //parseHtmlTable(tableHtml),
       });
     });
@@ -395,7 +394,7 @@ const MapTableSelectContainer = () => {
     }
   }, [selectedFileIndex, files, updateFileAtIndex]);
   return (
-    <div className="h-full grid grid-cols-[280px_1fr] lg:grid-cols-[350px_1fr] grid-rows-[1fr_50px] gap-4">
+    <div className="h-full grid grid-cols-2 xl:grid-cols-[350px_1fr] grid-rows-[1fr_50px] gap-4">
       <div className="h-full p-4 gap-2 grid grid-rows-[30px_25px_1fr_55px] border-[1px] border-solid rounded-xl">
         {selectedFile?.tableMdExtractState === ExtractState.DONE_EXTRACTING && (
           <>

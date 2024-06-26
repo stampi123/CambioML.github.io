@@ -39,7 +39,6 @@ export interface MapSchemaResult {
 export interface ExtractedMDTable {
   title: string;
   table: string;
-  tableCsv: string[][];
   tableData: { [key: string]: string[] };
 }
 
@@ -49,6 +48,7 @@ export interface PlaygroundFile {
   qaResult: QAResult | null;
   tableExtractResult: [''];
   tableMdExtractResult: ExtractedMDTable[];
+  tableMappedData: string[][];
   keyMap: { [key: string]: string };
   tableMapIndices: Set<number>;
   jobId: string;

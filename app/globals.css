@@ -54,6 +54,51 @@ th {
   background-color: #ccc;
 }
 
+.mapped-table th, .mapped-table td{
+  background-color: #ffffff;
+}
+.mapped-table {
+  /* border-collapse: collapse; Ensures no space between table cells */
+  border: 1pt solid #ddd; /* Example border style */
+  border-radius: 10px; /* Adjust the radius value as per your design */
+  /* overflow: hidden; */
+}
+
+.mapped-table th,
+.mapped-table td {
+  padding: 5px;
+  width: 250px;
+  min-width: 250px;
+  max-width: 250px;
+  height: 40px;
+  overflow: hidden; /* Ensure content is clipped within cells */
+}
+
+.mapped-table thead {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 2;
+}
+
+.mapped-table thead::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  border-bottom: 1px solid #ddd; /* Border style */
+}
+
+.mapped-table tr th:first-child {
+  position: sticky;
+  left: 0;
+  background-color: #f3f3f3;
+  z-index: 1;
+}
+
+
+
 .border-none td {
   border: 1px solid #ddd;
 }
