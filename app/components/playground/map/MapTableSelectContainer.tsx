@@ -6,23 +6,26 @@ import ResultContainer from '../ResultContainer';
 import { ArrowRight, ArrowsCounterClockwise, Check, CloudArrowUp, Table, X } from '@phosphor-icons/react';
 import Button from '../../Button';
 import { useProductionContext } from '../ProductionContext';
-import { runExtractJob } from '@/app/actions/runExtractJob';
-import { runExtractJob as runPreProdExtractJob } from '@/app/actions/preprod/runExtractJob';
+// import { runExtractJob } from '@/app/actions/runExtractJob';
+// import { runExtractJob as runPreProdExtractJob } from '@/app/actions/preprod/runExtractJob';
+import { runUploadRequestJob as runPreProdUploadRequestJob } from '@/app/actions/preprod/runUploadRequestJob';
+import { runUploadRequestJob } from '@/app/actions/runUploadRequestJob';
 import { AxiosError, AxiosResponse } from 'axios';
 import TableSelectItem from './TableSelectItem';
 import PulsingIcon from '../../PulsingIcon';
-// import { PDFDocument } from 'pdf-lib';
+// import DOMParser from 'domparser';
+
+// import { runPDFToMarkdown } from '@/app/actions/runPDFToMarkdown';
 
 const selectButtonStyles =
   'w-full text-center cursor-pointer border-[1px] text-neutral-600 border-neutral-400 rounded-lg flex gap-2 justify-center items-center hover:bg-neutral-100 hover:border-2 hover:font-semibold';
 
 const MapTableSelectContainer = () => {
-  const { selectedFileIndex, files, filesFormData, updateFileAtIndex, token } = usePlaygroundStore();
+  const { selectedFileIndex, files, filesFormData, updateFileAtIndex, token, clientId } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [filename, setFilename] = useState<string>('');
   const { apiURL, isProduction } = useProductionContext();
   const [tablePreviewIndex, setTablePreviewIndex] = useState(0);
-  // const [pdfPages, setPdfPages] = useState<Blob[]>([]);
 
   const selectAllTables = (result: ExtractedMDTable[]) => {
     updateFileAtIndex(
@@ -31,130 +34,181 @@ const MapTableSelectContainer = () => {
       new Set(result.map((_: ExtractedMDTable, index: number) => index))
     );
   };
-  function cleanTitle(text: string): string {
-    let newText = text.replace(/^#+/, '').replaceAll('*', '');
-    newText = newText.trim();
-    return newText;
+  function extractTitleFromTable(tableHtml: HTMLTableElement): string {
+    const firstCell = tableHtml.querySelector('tr td')?.textContent?.trim() || 'Table';
+    return firstCell;
   }
 
-  function extractMarkdownTable(markdown: string): ExtractedMDTable[] {
+  // function convertHtmlTableToCsv(tableHtml: string): string[] {
+  //   const csvRows: string[] = [];
+  //   const parser = new DOMParser();
+  //   const doc = parser.parseFromString(tableHtml, 'text/html');
+  //   const rows = doc.querySelectorAll('tr');
+
+  //   rows.forEach((row) => {
+  //     const cells = Array.from(row.querySelectorAll('th, td')).map((cell) => cell.textContent?.trim() || '');
+  //     csvRows.push(cells.join(','));
+  //   });
+
+  //   return csvRows;
+  // }
+
+  // function parseHtmlTable(tableHtml: string): any[] {
+  //   const tableData: any[] = [];
+  //   const parser = new DOMParser();
+  //   const doc = parser.parseFromString(tableHtml, 'text/html');
+  //   const rows = doc.querySelectorAll('tr');
+
+  //   rows.forEach((row) => {
+  //     const rowData: any = {};
+  //     const cells = Array.from(row.querySelectorAll('th, td'));
+
+  //     cells.forEach((cell, index) => {
+  //       rowData[`column${index + 1}`] = cell.textContent?.trim() || '';
+  //     });
+
+  //     tableData.push(rowData);
+  //   });
+
+  //   return tableData;
+  // }
+
+  function extractHtmlTable(html: string): ExtractedMDTable[] {
     const tables: ExtractedMDTable[] = [];
 
-    // Regex pattern to extract titles and tables
-    const tableRegex = /^(#+)?\s*(.*?)\s*\n\|(.+)\|\n((?:\|.*\|\n)+)?/gm;
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const tableElements = doc.querySelectorAll('table');
 
-    let match;
+    tableElements.forEach((tableElement) => {
+      const title = extractTitleFromTable(tableElement);
 
-    while ((match = tableRegex.exec(markdown)) !== null) {
-      let title = match[2] ? match[2].trim() : 'Table';
-      const header = (match[3] || '').trim();
-      const body = (match[4] || '').trim();
-
-      let tableMarkdown = `| ${header} |\n${body}`;
-      tableMarkdown = tableMarkdown.replaceAll('|:|', '|:-|');
-      const isTitlePartOfTable = title.includes('|');
-
-      if (isTitlePartOfTable) {
-        tableMarkdown = title + '\n' + tableMarkdown;
-        title = 'Table';
-      } else {
-        title = cleanTitle(title);
-      }
-      tables.push({ title, table: tableMarkdown, tableCsv: [], tableData: {} });
-    }
+      tables.push({
+        title,
+        table: tableElement.outerHTML,
+        tableCsv: [], //convertHtmlTableToCsv(tableHtml),
+        tableData: {}, //parseHtmlTable(tableHtml),
+      });
+    });
 
     return tables;
   }
 
-  // const splitPDF = async (file: File) => {
-  //   if (file) {
-  //     const arrayBuffer = await file.arrayBuffer();
-  //     const pdfDoc = await PDFDocument.load(arrayBuffer);
-  //     const pageCount = pdfDoc.getPageCount();
+  function mergeTables(firstTableHTML: string, secondTableHTML: string): string {
+    const parser = new DOMParser();
+    const firstDoc = parser.parseFromString(firstTableHTML, 'text/html');
+    const secondDoc = parser.parseFromString(secondTableHTML, 'text/html');
 
-  //     const pages: Blob[] = [];
-  //     for (let i = 0; i < pageCount; i++) {
-  //       const newPdfDoc = await PDFDocument.create();
-  //       const [copiedPage] = await newPdfDoc.copyPages(pdfDoc, [i]);
-  //       newPdfDoc.addPage(copiedPage);
-  //       const pdfBytes = await newPdfDoc.save();
-  //       const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-  //       pages.push(blob);
-  //     }
+    const firstTable = firstDoc.querySelector('table tbody');
+    const secondTableRows = secondDoc.querySelectorAll('table tbody tr');
 
-  //     setPdfPages(pages);
-  //   }
-  // };
-
-  function markdownToCsv(tableStr: string): string[][] {
-    const rows = tableStr.trim().split('\n');
-    const csvRows: string[][] = [];
-
-    for (const row of rows) {
-      if (row.startsWith('|') && row.endsWith('|')) {
-        const columns = row.split('|').slice(1, -1);
-        if (columns.every((col) => !col.trim() || col.trim().replace(/[-: ]/g, '') === '')) {
-          continue; // This is a formatting row, so skip it
-        }
-        const cleanedColumns = columns.map((col) => col.trim()).filter((col) => col);
-        if (cleanedColumns.length > 0) {
-          csvRows.push(cleanedColumns);
-        }
+    secondTableRows.forEach((row, index) => {
+      // Skip the header row (index 0)
+      if (index > 0) {
+        firstTable?.appendChild(row);
       }
-    }
+    });
 
-    return csvRows;
+    return firstDoc.body.innerHTML;
   }
+  function hasAtLeastNNonEmptyStrings(arr: string[], numStrings: number): boolean {
+    const nonEmptyStrings = arr.filter((str) => str.trim() !== '');
+    return nonEmptyStrings.length >= numStrings;
+  }
+  function countEmptyStrings(arr: string[]): number {
+    let emptyCount = 0;
+    arr.forEach((str) => {
+      if (str.trim() === '') emptyCount++;
+    });
+    return emptyCount;
+  }
+  function makeUnique(arr: string[]): string[] {
+    const countMap: Map<string, number> = new Map();
+
+    return arr.map((item) => {
+      if (countMap.has(item)) {
+        const count = countMap.get(item)! + 1;
+        const newItem = `${item}_${count}`;
+        countMap.set(item, count);
+        countMap.set(newItem, 0); // Initialize the count for the new item
+        return newItem;
+      } else {
+        countMap.set(item, 0);
+        return item;
+      }
+    });
+  }
+
+  const extractTableData = (htmlTable: string, tableTitle: string) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlTable, 'text/html');
+    const rows = doc.querySelectorAll('table tbody tr');
+    const tableRows: string[][] = [];
+    const tableData: { [key: string]: string[] } = {};
+    rows.forEach((row) => {
+      const cells = row.querySelectorAll('td');
+      const cellArray: string[] = [];
+      cells.forEach((cell) => {
+        const cellContent = cell.textContent?.trim() || '';
+        cellArray.push(cellContent);
+      });
+      if (hasAtLeastNNonEmptyStrings(cellArray, 2)) tableRows.push(cellArray);
+    });
+    if (tableRows[0].length === 2) {
+      tableRows.forEach((tableRow) => {
+        tableData[`${tableTitle}-${tableRow[0]}`] = [tableRow[1]];
+      });
+    } else {
+      let headers: string[] = [];
+      tableRows.forEach((tableRow) => {
+        if (headers.length === 0) {
+          if (countEmptyStrings(tableRow) < 3) {
+            headers = makeUnique(tableRow);
+            headers.forEach((header) => {
+              tableData[`${tableTitle}-${header}`] = [];
+            });
+          }
+        } else {
+          tableRow.forEach((cellData, i) => {
+            tableData[`${tableTitle}-${headers[i]}`].push(cellData);
+          });
+        }
+      });
+    }
+    return tableData;
+  };
 
   const processResult = (result: string[]) => {
     const initTables: ExtractedMDTable[] = [];
-    const markdownTables: ExtractedMDTable[] = [];
+    const htmlTables: ExtractedMDTable[] = [];
     for (const page of result) {
-      const extractedTables = extractMarkdownTable(page);
+      const extractedTables = extractHtmlTable(page);
       initTables.push(...extractedTables);
     }
     if (initTables.length > 0) {
       const firstTable = initTables.shift();
       if (firstTable !== undefined) {
-        markdownTables.push(firstTable);
+        htmlTables.push(firstTable);
       }
     }
     for (const table of initTables) {
-      if (table['title'] === markdownTables[markdownTables.length - 1]['title']) {
-        const index = table['table'].indexOf('\n', table['table'].indexOf('\n') + 1);
-        const tableBody = table['table'].substring(index + 1);
-        markdownTables[markdownTables.length - 1].table += `\n${tableBody}`;
+      if (table['title'] === htmlTables[htmlTables.length - 1]['title']) {
+        htmlTables[htmlTables.length - 1].table = mergeTables(
+          htmlTables[htmlTables.length - 1]['table'],
+          table['table']
+        );
       } else {
-        markdownTables.push(table);
+        htmlTables.push(table);
       }
     }
-    for (const table of markdownTables) {
-      table['tableCsv'] = markdownToCsv(table['table']);
-      if (table['tableCsv'][0].length > 2) {
-        for (const row of table['tableCsv'].slice(1)) {
-          for (let i = 1; i < row.length; i++) {
-            const colIdx = table['tableCsv'][0].length === row.length ? i : i - 1;
-            const colHeader = table['tableCsv'][0][colIdx];
-            const rowHeader = row[0];
-            const dataKey = `${colHeader}: ${rowHeader}`;
-            table['tableData'][dataKey] = row[i];
-          }
-        }
-      } else {
-        for (const row of table['tableCsv']) {
-          table['tableData'][row[0]] = row[1];
-        }
-      }
-      console.log(`---${table['title']}---`);
-      console.log('tableCSV', table['tableCsv']);
-      console.log('tableData', table['tableData']);
+    for (const table of htmlTables) {
+      table['tableData'] = extractTableData(table['table'], table['title']);
     }
 
-    return markdownTables;
+    return htmlTables;
   };
 
-  const handleSuccess = (response: AxiosResponse, page?: number) => {
-    console.log(`handleSuccess page ${page}`, response.data);
+  const handleSuccess = (response: AxiosResponse) => {
     const result = response.data;
     if (result === undefined) {
       toast.error(`${filename}: Received undefined result. Please try again.`);
@@ -163,9 +217,9 @@ const MapTableSelectContainer = () => {
     }
     updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.DONE_EXTRACTING);
     updateFileAtIndex(selectedFileIndex, 'extractTab', ExtractTab.TABLE_EXTRACT);
-    const markdownTables = processResult(result);
-    updateFileAtIndex(selectedFileIndex, 'tableMdExtractResult', markdownTables);
-    selectAllTables(markdownTables);
+    const htmlTables = processResult(result);
+    updateFileAtIndex(selectedFileIndex, 'tableMdExtractResult', htmlTables);
+    selectAllTables(htmlTables);
     toast.success(`Generated table(s) from ${filename}!`);
   };
 
@@ -198,7 +252,7 @@ const MapTableSelectContainer = () => {
   const handleRetry = () => {
     setTablePreviewIndex(0);
     updateFileAtIndex(selectedFileIndex, 'tableMdExtractResult', ['']);
-    handleFileExtract();
+    handleTableExtract();
   };
 
   const displayTable = () => {
@@ -208,61 +262,122 @@ const MapTableSelectContainer = () => {
       }
       if (selectedFile.tableMdExtractResult[tablePreviewIndex]['table'] !== '') {
         return [
-          `### ${selectedFile.tableMdExtractResult[tablePreviewIndex]['title']}\n${selectedFile.tableMdExtractResult[tablePreviewIndex]['table']}`,
+          `<h1><strong>${selectedFile.tableMdExtractResult[tablePreviewIndex]['title']}</strong></h1>\n${selectedFile.tableMdExtractResult[tablePreviewIndex]['table']}`,
         ];
       }
     }
     return [''];
   };
 
-  const handleFileExtract = async () => {
+  const handleTableExtract = async () => {
     if (selectedFile?.extractTab === ExtractTab.INITIAL_STATE) {
       updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractTab.FILE_EXTRACT);
     }
-    updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.UPLOADING);
+    updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.EXTRACTING);
+
     const fileData = filesFormData.find((obj) => obj.presignedUrl.fields['x-amz-meta-filename'] === filename);
     if (!fileData) {
       updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
-      toast.error(`Error extracting ${filename}. Please try again.`);
+      toast.error(`Error extracting ${filename}. Missing formData. Please try again.`);
       return;
     }
 
-    // if (selectedFile?.file instanceof File) {
-    //   splitPDF(selectedFile.file);
-    // }
-    if (selectedFile && selectedFileIndex !== null) {
-      if (isProduction) {
-        runExtractJob({
-          api_url: apiURL,
-          fileData,
-          filename,
-          selectedFile,
-          selectedFileIndex,
-          token,
-          queryType: 'job_result',
-          updateFileAtIndex,
-          handleSuccess,
-          handleError,
-          handleTimeout,
-        });
-      } else {
-        runPreProdExtractJob({
-          api_url: apiURL,
-          fileData,
-          filename,
-          selectedFile,
-          selectedFileIndex,
-          token,
-          queryType: 'job_result',
-          updateFileAtIndex,
-          handleSuccess,
-          handleError,
-          handleTimeout,
-          page: 0,
-        });
-      }
+    if (selectedFileIndex === null || !selectedFile || !fileData) {
+      toast.error(`Error extracting ${filename}. Please try again.`);
+      updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
+      return;
+    }
+    if (isProduction) {
+      runUploadRequestJob({
+        api_url: apiURL,
+        clientId,
+        token,
+        sourceType: 's3',
+        selectedFile,
+        fileData,
+        jobType: 'info_extraction',
+        jobParams: {
+          user_prompt: '',
+          use_textract: true,
+        },
+        selectedFileIndex,
+        filename,
+        handleError,
+        handleSuccess,
+        handleTimeout,
+        updateFileAtIndex,
+      });
+    } else {
+      runPreProdUploadRequestJob({
+        api_url: apiURL,
+        clientId,
+        token,
+        sourceType: 's3',
+        selectedFile,
+        fileData,
+        jobType: 'info_extraction',
+        jobParams: {
+          user_prompt: '',
+          use_textract: true,
+        },
+        selectedFileIndex,
+        filename,
+        handleError,
+        handleSuccess,
+        handleTimeout,
+        updateFileAtIndex,
+      });
     }
   };
+
+  // const handleTableExtractOLD = async () => {
+  //   if (selectedFile?.extractTab === ExtractTab.INITIAL_STATE) {
+  //     updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractTab.FILE_EXTRACT);
+  //   }
+  //   updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.UPLOADING);
+  //   const fileData = filesFormData.find((obj) => obj.presignedUrl.fields['x-amz-meta-filename'] === filename);
+  //   if (!fileData) {
+  //     updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
+  //     toast.error(`Error extracting ${filename}. Please try again.`);
+  //     return;
+  //   }
+
+  //   // if (selectedFile?.file instanceof File) {
+  //   //   splitPDF(selectedFile.file);
+  //   // }
+  //   if (selectedFile && selectedFileIndex !== null) {
+  //     if (isProduction) {
+  //       runExtractJob({
+  //         api_url: apiURL,
+  //         fileData,
+  //         filename,
+  //         selectedFile,
+  //         selectedFileIndex,
+  //         token,
+  //         queryType: 'job_result',
+  //         updateFileAtIndex,
+  //         handleSuccess,
+  //         handleError,
+  //         handleTimeout,
+  //       });
+  //     } else {
+  //       runPreProdExtractJob({
+  //         api_url: apiURL,
+  //         fileData,
+  //         filename,
+  //         selectedFile,
+  //         selectedFileIndex,
+  //         token,
+  //         queryType: 'job_result',
+  //         updateFileAtIndex,
+  //         handleSuccess,
+  //         handleError,
+  //         handleTimeout,
+  //         page: 0,
+  //       });
+  //     }
+  //   }
+  // };
 
   const handleContinueClick = () => {
     updateFileAtIndex(selectedFileIndex, 'mapTab', MapTab.MAP_SCHEMA);
@@ -326,7 +441,7 @@ const MapTableSelectContainer = () => {
         )}
         {selectedFile?.tableMdExtractState === ExtractState.READY && (
           <div className="row-span-4 flex flex-col items-center justify-center h-full">
-            <Button label="Extract Tables" onClick={handleFileExtract} small labelIcon={Table} />
+            <Button label="Extract Tables" onClick={handleTableExtract} small labelIcon={Table} />
           </div>
         )}
         {selectedFile?.tableMdExtractState === ExtractState.UPLOADING && (

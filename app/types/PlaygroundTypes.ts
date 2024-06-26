@@ -40,7 +40,7 @@ export interface ExtractedMDTable {
   title: string;
   table: string;
   tableCsv: string[][];
-  tableData: { [key: string]: string };
+  tableData: { [key: string]: string[] };
 }
 
 export interface PlaygroundFile {
@@ -50,7 +50,6 @@ export interface PlaygroundFile {
   tableExtractResult: [''];
   tableMdExtractResult: ExtractedMDTable[];
   keyMap: { [key: string]: string };
-  extractedKV: { [key: string]: string };
   tableMapIndices: Set<number>;
   jobId: string;
   userId: string;

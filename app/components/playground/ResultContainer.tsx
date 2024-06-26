@@ -19,11 +19,18 @@ const ResultContainer = ({ extractResult }: ResultContainerProps) => {
 
   const handleZoomClick = () => {
     resultZoomModal.setContent(
-      // <div className="w-full h-full pt-40">
-      <Markdown className="w-full h-full markdown p-4 whitespace-pre-wrap" remarkPlugins={[remarkGfm]}>
-        {`${extractResult.join('\n\n')}`}
-      </Markdown>
-      // </div>
+      <div className="overflow-auto relative w-full h-full">
+        {hasHtmlTags(extractResult.join('')) ? (
+          <div
+            className="p-4 p-4 absolute whitespace-pre-wrap"
+            dangerouslySetInnerHTML={{ __html: extractResult.join('') }}
+          />
+        ) : (
+          <Markdown className="markdown p-4 absolute whitespace-pre-wrap" remarkPlugins={[remarkGfm]}>
+            {`${extractResult.join('\n\n')}`}
+          </Markdown>
+        )}
+      </div>
     );
     resultZoomModal.onOpen();
   };

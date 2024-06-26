@@ -1,22 +1,23 @@
 import { create } from 'zustand';
+import { ExtractedMDTable } from '../types/PlaygroundTypes';
 
 interface KeySelectModalStore {
   isOpen: boolean;
-  keyValue: { [key: string]: string } | null;
+  tableData: ExtractedMDTable[] | null;
   inputKey: string;
   onOpen: () => void;
   onClose: () => void;
-  setKeyValue: (keyValue: { [key: string]: string }) => void;
+  setTableData: (tableData: ExtractedMDTable[]) => void;
   setInputKey: (inputKey: string) => void;
 }
 
 const useKeySelectModal = create<KeySelectModalStore>((set) => ({
   isOpen: false,
-  keyValue: null,
+  tableData: null,
   inputKey: '',
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
-  setKeyValue: (keyValue) => set({ keyValue }),
+  setTableData: (tableData) => set({ tableData }),
   setInputKey: (inputKey) => set({ inputKey }),
 }));
 

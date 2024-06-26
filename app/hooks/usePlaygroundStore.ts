@@ -60,7 +60,6 @@ const initialFileState = {
   tableExtractResult: [''],
   tableMdExtractResult: [{ title: '', table: '' }],
   keyMap: {},
-  extractedKV: {},
   tableMapIndices: new Set(),
   s3_file_source: { s3_bucket: '', source_type: '', s3_prefix: '' },
   activeTab: PlaygroundTabs.EXTRACT,
