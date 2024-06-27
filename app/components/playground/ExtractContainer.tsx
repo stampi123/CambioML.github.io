@@ -3,6 +3,7 @@ import TableExtractContainer from './TableExtractContainer';
 import MarkdownExtractContainer from './MarkdownExtractContainer';
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { ExtractTab, PlaygroundFile } from '@/app/types/PlaygroundTypes';
+import ComingSoonBanner from './ComingSoonBanner';
 
 const selectedTabStyle = 'text-neutral-800 border-b-4 border-neutral-800 font-semibold';
 const unselectedTabStyle = 'text-neutral-500 border-neutral-200';
@@ -36,16 +37,23 @@ const ExtractContainer = () => {
         </div>
       </div>
       <div>
-        {selectedFile?.extractTab === ExtractTab.INITIAL_STATE ? (
-          <div className="grid grid-cols-[1fr_60px_1fr] h-full w-full overflow-auto">
-            <MarkdownExtractContainer />
-            <div className="text-xl text-neutral-500 flex items-center justify-center">- OR -</div>
-            <TableExtractContainer />
-          </div>
+        {selectedFile?.file instanceof File &&
+        selectedFile?.file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ? (
+          <ComingSoonBanner text="Extract support for XLSX coming soon!" />
         ) : (
           <>
-            {selectedFile?.extractTab === ExtractTab.TABLE_EXTRACT && <TableExtractContainer />}
-            {selectedFile?.extractTab === ExtractTab.FILE_EXTRACT && <MarkdownExtractContainer />}
+            {selectedFile?.extractTab === ExtractTab.INITIAL_STATE ? (
+              <div className="grid grid-cols-[1fr_60px_1fr] h-full w-full overflow-auto">
+                <MarkdownExtractContainer />
+                <div className="text-xl text-neutral-500 flex items-center justify-center">- OR -</div>
+                <TableExtractContainer />
+              </div>
+            ) : (
+              <>
+                {selectedFile?.extractTab === ExtractTab.TABLE_EXTRACT && <TableExtractContainer />}
+                {selectedFile?.extractTab === ExtractTab.FILE_EXTRACT && <MarkdownExtractContainer />}
+              </>
+            )}
           </>
         )}
       </div>

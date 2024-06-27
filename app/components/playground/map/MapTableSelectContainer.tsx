@@ -207,6 +207,21 @@ const MapTableSelectContainer = () => {
     return htmlTables;
   };
 
+  function mergeTableData(tables: ExtractedMDTable[]): { [key: string]: string[] } {
+    const mergedData: { [key: string]: string[] } = {};
+
+    tables.forEach((table) => {
+      Object.keys(table.tableData).forEach((key) => {
+        if (!mergedData[key]) {
+          mergedData[key] = [];
+        }
+        mergedData[key] = mergedData[key].concat(table.tableData[key]);
+      });
+    });
+
+    return mergedData;
+  }
+
   const handleSuccess = (response: AxiosResponse) => {
     const result = response.data;
     if (result === undefined) {
@@ -217,7 +232,9 @@ const MapTableSelectContainer = () => {
     updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.DONE_EXTRACTING);
     updateFileAtIndex(selectedFileIndex, 'extractTab', ExtractTab.TABLE_EXTRACT);
     const htmlTables = processResult(result);
+    const tableMergedData = mergeTableData(htmlTables);
     updateFileAtIndex(selectedFileIndex, 'tableMdExtractResult', htmlTables);
+    updateFileAtIndex(selectedFileIndex, 'tableMergedData', tableMergedData);
     selectAllTables(htmlTables);
     toast.success(`Generated table(s) from ${filename}!`);
   };
@@ -328,55 +345,6 @@ const MapTableSelectContainer = () => {
       });
     }
   };
-
-  // const handleTableExtractOLD = async () => {
-  //   if (selectedFile?.extractTab === ExtractTab.INITIAL_STATE) {
-  //     updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractTab.FILE_EXTRACT);
-  //   }
-  //   updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.UPLOADING);
-  //   const fileData = filesFormData.find((obj) => obj.presignedUrl.fields['x-amz-meta-filename'] === filename);
-  //   if (!fileData) {
-  //     updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
-  //     toast.error(`Error extracting ${filename}. Please try again.`);
-  //     return;
-  //   }
-
-  //   // if (selectedFile?.file instanceof File) {
-  //   //   splitPDF(selectedFile.file);
-  //   // }
-  //   if (selectedFile && selectedFileIndex !== null) {
-  //     if (isProduction) {
-  //       runExtractJob({
-  //         api_url: apiURL,
-  //         fileData,
-  //         filename,
-  //         selectedFile,
-  //         selectedFileIndex,
-  //         token,
-  //         queryType: 'job_result',
-  //         updateFileAtIndex,
-  //         handleSuccess,
-  //         handleError,
-  //         handleTimeout,
-  //       });
-  //     } else {
-  //       runPreProdExtractJob({
-  //         api_url: apiURL,
-  //         fileData,
-  //         filename,
-  //         selectedFile,
-  //         selectedFileIndex,
-  //         token,
-  //         queryType: 'job_result',
-  //         updateFileAtIndex,
-  //         handleSuccess,
-  //         handleError,
-  //         handleTimeout,
-  //         page: 0,
-  //       });
-  //     }
-  //   }
-  // };
 
   const handleContinueClick = () => {
     updateFileAtIndex(selectedFileIndex, 'mapTab', MapTab.MAP_SCHEMA);

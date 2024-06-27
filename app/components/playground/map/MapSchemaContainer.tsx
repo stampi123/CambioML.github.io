@@ -1,5 +1,5 @@
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
-import { ExtractState, ExtractedMDTable, MapTab, PlaygroundFile } from '@/app/types/PlaygroundTypes';
+import { ExtractState, MapTab, PlaygroundFile } from '@/app/types/PlaygroundTypes';
 import { useEffect, useState } from 'react';
 import { ArrowLeft, DownloadSimple, Plus, Robot } from '@phosphor-icons/react';
 import Button from '../../Button';
@@ -33,21 +33,6 @@ const MapSchemaContainer = () => {
     }
   }, [selectedFileIndex, files, updateFileAtIndex]);
 
-  function mergeTableData(tables: ExtractedMDTable[]): { [key: string]: string[] } {
-    const mergedData: { [key: string]: string[] } = {};
-
-    tables.forEach((table) => {
-      Object.keys(table.tableData).forEach((key) => {
-        if (!mergedData[key]) {
-          mergedData[key] = [];
-        }
-        mergedData[key] = mergedData[key].concat(table.tableData[key]);
-      });
-    });
-
-    return mergedData;
-  }
-
   const handleMapSchema = async () => {
     setIsLoading(true);
     if (selectedFile) {
@@ -74,9 +59,9 @@ const MapSchemaContainer = () => {
           }
           updateFileAtIndex(selectedFileIndex, 'keyMap', currentMap);
           const inputKeys = Object.keys(currentMap);
-          const tableKeysData = mergeTableData(selectedFile.tableMdExtractResult);
+          const tableKeysData = selectedFile.tableMergedData;
           const tableColumns = [];
-          const tableMappedData: string[][] = [inputKeys];
+          const tableMappedDataRows: string[][] = [inputKeys];
           let maxColLength = -1;
           for (const inputKey of inputKeys) {
             const mappedKey = currentMap[inputKey];
@@ -94,10 +79,10 @@ const MapSchemaContainer = () => {
                 thisRow.push(col[i] || '');
               }
             });
-            tableMappedData.push(thisRow);
+            tableMappedDataRows.push(thisRow);
           }
 
-          updateFileAtIndex(selectedFileIndex, 'tableMappedData', tableMappedData);
+          updateFileAtIndex(selectedFileIndex, 'tableMappedDataRows', tableMappedDataRows);
 
           toast.success(`Generated Schema Map for ${filename}`);
         } catch (error) {
@@ -160,7 +145,7 @@ const MapSchemaContainer = () => {
     if (!selectedFile?.keyMap) {
       return;
     }
-    const tableData = selectedFile.tableMappedData;
+    const tableData = selectedFile.tableMappedDataRows;
     const header = ['id', ...tableData[0]];
     const dataWithID = tableData.slice(1).map((row, index) => [index, ...row]);
     const dataWithHeaderID = [header, ...dataWithID];
@@ -205,7 +190,7 @@ const MapSchemaContainer = () => {
               {selectedFile.keyMap && (
                 <MapSchemaTable
                   keyMap={selectedFile?.keyMap}
-                  tableMappedData={selectedFile.tableMappedData}
+                  tableMappedDataRows={selectedFile.tableMappedDataRows}
                   isLoading={isLoading}
                 />
               )}
