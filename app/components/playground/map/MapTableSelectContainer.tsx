@@ -6,16 +6,13 @@ import ResultContainer from '../ResultContainer';
 import { ArrowRight, ArrowsCounterClockwise, Check, CloudArrowUp, Table, X } from '@phosphor-icons/react';
 import Button from '../../Button';
 import { useProductionContext } from '../ProductionContext';
-// import { runExtractJob } from '@/app/actions/runExtractJob';
-// import { runExtractJob as runPreProdExtractJob } from '@/app/actions/preprod/runExtractJob';
 import { runUploadRequestJob as runPreProdUploadRequestJob } from '@/app/actions/preprod/runUploadRequestJob';
 import { runUploadRequestJob } from '@/app/actions/runUploadRequestJob';
 import { AxiosError, AxiosResponse } from 'axios';
 import TableSelectItem from './TableSelectItem';
 import PulsingIcon from '../../PulsingIcon';
-// import DOMParser from 'domparser';
-
-// import { runPDFToMarkdown } from '@/app/actions/runPDFToMarkdown';
+import { runExcelTableExtract } from '@/app/actions/runExcelTableExtract';
+// import { convertExcelToPdf } from '@/app/actions/convertXLSXtoPDF';
 
 const selectButtonStyles =
   'w-full text-center cursor-pointer border-[1px] text-neutral-600 border-neutral-400 rounded-lg flex gap-2 justify-center items-center hover:bg-neutral-100 hover:border-2 hover:font-semibold';
@@ -39,40 +36,6 @@ const MapTableSelectContainer = () => {
     return firstCell;
   }
 
-  // function convertHtmlTableToCsv(tableHtml: string): string[] {
-  //   const csvRows: string[] = [];
-  //   const parser = new DOMParser();
-  //   const doc = parser.parseFromString(tableHtml, 'text/html');
-  //   const rows = doc.querySelectorAll('tr');
-
-  //   rows.forEach((row) => {
-  //     const cells = Array.from(row.querySelectorAll('th, td')).map((cell) => cell.textContent?.trim() || '');
-  //     csvRows.push(cells.join(','));
-  //   });
-
-  //   return csvRows;
-  // }
-
-  // function parseHtmlTable(tableHtml: string): any[] {
-  //   const tableData: any[] = [];
-  //   const parser = new DOMParser();
-  //   const doc = parser.parseFromString(tableHtml, 'text/html');
-  //   const rows = doc.querySelectorAll('tr');
-
-  //   rows.forEach((row) => {
-  //     const rowData: any = {};
-  //     const cells = Array.from(row.querySelectorAll('th, td'));
-
-  //     cells.forEach((cell, index) => {
-  //       rowData[`column${index + 1}`] = cell.textContent?.trim() || '';
-  //     });
-
-  //     tableData.push(rowData);
-  //   });
-
-  //   return tableData;
-  // }
-
   function extractHtmlTable(html: string): ExtractedMDTable[] {
     const tables: ExtractedMDTable[] = [];
 
@@ -86,7 +49,7 @@ const MapTableSelectContainer = () => {
       tables.push({
         title,
         table: tableElement.outerHTML,
-        tableData: {}, //parseHtmlTable(tableHtml),
+        tableData: {},
       });
     });
 
@@ -102,7 +65,6 @@ const MapTableSelectContainer = () => {
     const secondTableRows = secondDoc.querySelectorAll('table tbody tr');
 
     secondTableRows.forEach((row, index) => {
-      // Skip the header row (index 0)
       if (index > 0) {
         firstTable?.appendChild(row);
       }
@@ -138,12 +100,13 @@ const MapTableSelectContainer = () => {
     });
   }
 
-  const extractTableData = (htmlTable: string, tableTitle: string) => {
+  const extractTableData = (htmlTable: string, tableTitle: string): { [key: string]: string[] } => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlTable, 'text/html');
     const rows = doc.querySelectorAll('table tbody tr');
     const tableRows: string[][] = [];
     const tableData: { [key: string]: string[] } = {};
+    if (rows === undefined || rows.length < 3) return {};
     rows.forEach((row) => {
       const cells = row.querySelectorAll('td');
       const cellArray: string[] = [];
@@ -169,7 +132,8 @@ const MapTableSelectContainer = () => {
           }
         } else {
           tableRow.forEach((cellData, i) => {
-            tableData[`${tableTitle}-${headers[i]}`].push(cellData);
+            const thisKey = tableTitle + '-' + headers[i];
+            tableData[thisKey] && tableData[thisKey].push(cellData);
           });
         }
       });
@@ -206,6 +170,19 @@ const MapTableSelectContainer = () => {
 
     return htmlTables;
   };
+  const processXLSXResult = (result: string[]) => {
+    const htmlTables: ExtractedMDTable[] = [];
+    for (const page of result) {
+      const extractedTables = extractHtmlTable(page);
+      htmlTables.push(...extractedTables);
+    }
+
+    for (const table of htmlTables) {
+      table['tableData'] = extractTableData(table['table'], table['title']);
+    }
+
+    return htmlTables;
+  };
 
   function mergeTableData(tables: ExtractedMDTable[]): { [key: string]: string[] } {
     const mergedData: { [key: string]: string[] } = {};
@@ -224,6 +201,7 @@ const MapTableSelectContainer = () => {
 
   const handleSuccess = (response: AxiosResponse) => {
     const result = response.data;
+
     if (result === undefined) {
       toast.error(`${filename}: Received undefined result. Please try again.`);
       updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
@@ -232,6 +210,21 @@ const MapTableSelectContainer = () => {
     updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.DONE_EXTRACTING);
     updateFileAtIndex(selectedFileIndex, 'extractTab', ExtractTab.TABLE_EXTRACT);
     const htmlTables = processResult(result);
+    const tableMergedData = mergeTableData(htmlTables);
+    updateFileAtIndex(selectedFileIndex, 'tableMdExtractResult', htmlTables);
+    updateFileAtIndex(selectedFileIndex, 'tableMergedData', tableMergedData);
+    selectAllTables(htmlTables);
+    toast.success(`Generated table(s) from ${filename}!`);
+  };
+  const handleXLSXSuccess = (result: string[]) => {
+    if (result === undefined) {
+      toast.error(`${filename}: Received undefined result. Please try again.`);
+      updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
+      return;
+    }
+    updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.DONE_EXTRACTING);
+    updateFileAtIndex(selectedFileIndex, 'extractTab', ExtractTab.TABLE_EXTRACT);
+    const htmlTables = processXLSXResult(result);
     const tableMergedData = mergeTableData(htmlTables);
     updateFileAtIndex(selectedFileIndex, 'tableMdExtractResult', htmlTables);
     updateFileAtIndex(selectedFileIndex, 'tableMergedData', tableMergedData);
@@ -290,59 +283,71 @@ const MapTableSelectContainer = () => {
       updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractTab.FILE_EXTRACT);
     }
     updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.EXTRACTING);
-
-    const fileData = filesFormData.find((obj) => obj.presignedUrl.fields['x-amz-meta-filename'] === filename);
-    if (!fileData) {
-      updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
-      toast.error(`Error extracting ${filename}. Missing formData. Please try again.`);
-      return;
-    }
-
-    if (selectedFileIndex === null || !selectedFile || !fileData) {
-      toast.error(`Error extracting ${filename}. Please try again.`);
-      updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
-      return;
-    }
-    if (isProduction) {
-      runUploadRequestJob({
-        api_url: apiURL,
-        clientId,
-        token,
-        sourceType: 's3',
-        selectedFile,
-        fileData,
-        jobType: 'info_extraction',
-        jobParams: {
-          user_prompt: '',
-          use_textract: true,
-        },
-        selectedFileIndex,
-        filename,
-        handleError,
-        handleSuccess,
-        handleTimeout,
-        updateFileAtIndex,
-      });
+    if (
+      selectedFile?.file instanceof File &&
+      selectedFile?.file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ) {
+      const result = await runExcelTableExtract({ excelFile: selectedFile.file });
+      console.log('runExcel result', result);
+      handleXLSXSuccess(result);
+      // convertExcelToPdf({ excelFile: selectedFile.file });
+      // setTimeout(() => {
+      //   updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
+      // }, 2000);
     } else {
-      runPreProdUploadRequestJob({
-        api_url: apiURL,
-        clientId,
-        token,
-        sourceType: 's3',
-        selectedFile,
-        fileData,
-        jobType: 'info_extraction',
-        jobParams: {
-          user_prompt: '',
-          use_textract: true,
-        },
-        selectedFileIndex,
-        filename,
-        handleError,
-        handleSuccess,
-        handleTimeout,
-        updateFileAtIndex,
-      });
+      const fileData = filesFormData.find((obj) => obj.presignedUrl.fields['x-amz-meta-filename'] === filename);
+      if (!fileData) {
+        updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
+        toast.error(`Error extracting ${filename}. Missing formData. Please try again.`);
+        return;
+      }
+
+      if (selectedFileIndex === null || !selectedFile || !fileData) {
+        toast.error(`Error extracting ${filename}. Please try again.`);
+        updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
+        return;
+      }
+      if (isProduction) {
+        runUploadRequestJob({
+          api_url: apiURL,
+          clientId,
+          token,
+          sourceType: 's3',
+          selectedFile,
+          fileData,
+          jobType: 'info_extraction',
+          jobParams: {
+            user_prompt: '',
+            use_textract: true,
+          },
+          selectedFileIndex,
+          filename,
+          handleError,
+          handleSuccess,
+          handleTimeout,
+          updateFileAtIndex,
+        });
+      } else {
+        runPreProdUploadRequestJob({
+          api_url: apiURL,
+          clientId,
+          token,
+          sourceType: 's3',
+          selectedFile,
+          fileData,
+          jobType: 'info_extraction',
+          jobParams: {
+            user_prompt: '',
+            use_textract: true,
+          },
+          selectedFileIndex,
+          filename,
+          handleError,
+          handleSuccess,
+          handleTimeout,
+          updateFileAtIndex,
+        });
+      }
     }
   };
 
@@ -454,11 +459,6 @@ const MapTableSelectContainer = () => {
           }
         />
       </div>
-      {/* {pdfPages.map((page, index) => (
-        <a href={URL.createObjectURL(page)} download={`page-${index + 1}.pdf`} key={index}>
-          Download Page {index + 1}
-        </a>
-      ))} */}
     </div>
   );
 };
