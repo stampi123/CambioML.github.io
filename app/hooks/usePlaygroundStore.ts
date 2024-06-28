@@ -52,6 +52,7 @@ interface PlaygroundStore {
       | { [key: string]: string }
       | ExtractedMDTable[]
       | string[][]
+      | { [key: string]: string[] }
   ) => void;
 }
 

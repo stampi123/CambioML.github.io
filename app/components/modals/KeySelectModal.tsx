@@ -3,23 +3,8 @@
 import useKeySelectModal from '@/app/hooks/useKeySelectModal';
 import SmallModal from './SmallModal';
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
-import { ExtractedMDTable, PlaygroundFile } from '@/app/types/PlaygroundTypes';
+import { PlaygroundFile } from '@/app/types/PlaygroundTypes';
 import { useEffect, useState } from 'react';
-
-function mergeTableData(tables: ExtractedMDTable[]): { [key: string]: string[] } {
-  const mergedData: { [key: string]: string[] } = {};
-
-  tables.forEach((table) => {
-    Object.keys(table.tableData).forEach((key) => {
-      if (!mergedData[key]) {
-        mergedData[key] = [];
-      }
-      mergedData[key] = mergedData[key].concat(table.tableData[key]);
-    });
-  });
-
-  return mergedData;
-}
 
 const KeySelectModal = () => {
   const KeySelectModal = useKeySelectModal();
@@ -31,12 +16,12 @@ const KeySelectModal = () => {
       const curKeyMap = files[selectedFileIndex].keyMap;
       curKeyMap[KeySelectModal.inputKey] = key;
       updateFileAtIndex(selectedFileIndex, 'keyMap', curKeyMap);
-      const tableKeysData = mergeTableData(selectedFile.tableMdExtractResult);
+      const tableKeysData = selectedFile.tableMergedData;
       const newCol = tableKeysData[key];
-      const tableMappedData: string[][] = selectedFile.tableMappedData;
-      const replaceIndex = tableMappedData[0].indexOf(KeySelectModal.inputKey);
+      const tableMappedDataRows: string[][] = selectedFile.tableMappedDataRows;
+      const replaceIndex = tableMappedDataRows[0].indexOf(KeySelectModal.inputKey);
       const newTableMappedData: string[][] = [];
-      tableMappedData.forEach((tableRow, i) => {
+      tableMappedDataRows.forEach((tableRow, i) => {
         if (i === 0) {
           newTableMappedData.push(tableRow);
         } else {
@@ -48,7 +33,7 @@ const KeySelectModal = () => {
           newTableMappedData.push(tableRow);
         }
       });
-      updateFileAtIndex(selectedFileIndex, 'tableMappedData', newTableMappedData);
+      updateFileAtIndex(selectedFileIndex, 'tableMappedDataRows', newTableMappedData);
       KeySelectModal.onClose();
     }
   };
@@ -59,6 +44,7 @@ const KeySelectModal = () => {
       setSelectedFile(thisFile);
     }
   }, [selectedFileIndex, files, updateFileAtIndex]);
+
   const bodyContent = (
     <div className="flex items-start justify-center w-full h-full md:h-[500px] overflow-y-auto p-0">
       <div className="h-fit w-full text-neutral-700 p-1 flex flex-col gap-2">

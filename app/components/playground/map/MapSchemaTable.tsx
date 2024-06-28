@@ -7,11 +7,11 @@ import useKeySelectModal from '@/app/hooks/useKeySelectModal';
 
 interface MapSchemaTableProps {
   keyMap: { [key: string]: string };
-  tableMappedData: string[][];
+  tableMappedDataRows: string[][];
   isLoading: boolean;
 }
 
-const MapSchemaTable = ({ keyMap, tableMappedData, isLoading }: MapSchemaTableProps) => {
+const MapSchemaTable = ({ keyMap, tableMappedDataRows, isLoading }: MapSchemaTableProps) => {
   const { selectedFileIndex, files, updateFileAtIndex } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const keySelectModal = useKeySelectModal();
@@ -21,10 +21,10 @@ const MapSchemaTable = ({ keyMap, tableMappedData, isLoading }: MapSchemaTablePr
       const currentKeys = selectedFile.keyMap;
       delete currentKeys[thisKey];
       updateFileAtIndex(selectedFileIndex, 'keyMap', currentKeys);
-      const currentTableData = selectedFile.tableMappedData;
+      const currentTableData = selectedFile.tableMappedDataRows;
       const keyIndex = currentTableData[0].indexOf(thisKey);
       const newMappedData = currentTableData.map((innerArray) => innerArray.filter((_, index) => index !== keyIndex));
-      updateFileAtIndex(selectedFileIndex, 'tableMappedData', newMappedData);
+      updateFileAtIndex(selectedFileIndex, 'tableMappedDataRows', newMappedData);
     }
   };
   const handleMappedDeleteClick = (thisKey: string) => {
@@ -32,7 +32,7 @@ const MapSchemaTable = ({ keyMap, tableMappedData, isLoading }: MapSchemaTablePr
       //   const thisKey = Object.entries(selectedFile.keyMap).find(([_, val]) => val === mappedKey)?.[0] || '';
       const currentKeys = selectedFile.keyMap;
       currentKeys[thisKey] = '';
-      const currentTableData = selectedFile.tableMappedData;
+      const currentTableData = selectedFile.tableMappedDataRows;
       const keyIndex = currentTableData[0].indexOf(thisKey);
       const newMappedData = currentTableData.map((innerArray) =>
         innerArray.map((val, index) => {
@@ -41,14 +41,15 @@ const MapSchemaTable = ({ keyMap, tableMappedData, isLoading }: MapSchemaTablePr
         })
       );
       updateFileAtIndex(selectedFileIndex, 'keyMap', currentKeys);
-      updateFileAtIndex(selectedFileIndex, 'tableMappedData', newMappedData);
+      updateFileAtIndex(selectedFileIndex, 'tableMappedDataRows', newMappedData);
     }
   };
   const handleEditClick = (thisKey: string) => {
     if (selectedFile) {
-      //   const thisKey = Object.entries(selectedFile.keyMap).find(([_, val]) => val === mappedKey)?.[0] || '';
+      const allTables = selectedFile.tableMdExtractResult;
+      const selectedTables = allTables.filter((table, i) => selectedFile.tableMapIndices.has(i));
       keySelectModal.setInputKey(thisKey);
-      keySelectModal.setTableData(selectedFile?.tableMdExtractResult);
+      keySelectModal.setTableData(selectedTables);
       keySelectModal.onOpen();
     }
   };
@@ -120,8 +121,8 @@ const MapSchemaTable = ({ keyMap, tableMappedData, isLoading }: MapSchemaTablePr
           </tr>
         </thead>
         <tbody>
-          {tableMappedData && tableMappedData.length > 0 ? (
-            tableMappedData.slice(1).map((tableRow, rowIndex) => (
+          {tableMappedDataRows && tableMappedDataRows.length > 0 ? (
+            tableMappedDataRows.slice(1).map((tableRow, rowIndex) => (
               <tr key={rowIndex}>
                 {rowIndex === 0 ? <th>Mapped Values</th> : <th></th>}
                 {tableRow.map((tableData, cellIndex) => (

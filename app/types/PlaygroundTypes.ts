@@ -48,7 +48,8 @@ export interface PlaygroundFile {
   qaResult: QAResult | null;
   tableExtractResult: [''];
   tableMdExtractResult: ExtractedMDTable[];
-  tableMappedData: string[][];
+  tableMappedDataRows: string[][];
+  tableMergedData: { [key: string]: string[] };
   keyMap: { [key: string]: string };
   tableMapIndices: Set<number>;
   jobId: string;
