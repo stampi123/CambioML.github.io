@@ -23,7 +23,7 @@ export const runExcelTableExtract = ({ excelFile }: IParams): Promise<string[]> 
             break;
           }
           const worksheet = workbook.Sheets[sheetName];
-          const sheetData: string[][] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+          const sheetData: string[][] = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: '', raw: false });
 
           //   console.log(sheetName);
           //   console.log('Sheet Data\n', JSON.stringify(sheetData));
