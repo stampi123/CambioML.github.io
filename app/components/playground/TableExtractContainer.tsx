@@ -212,14 +212,14 @@ const TableExtractContainer = () => {
           )}
           {selectedFile?.tableExtractState === ExtractState.DONE_EXTRACTING && (
             <div className="flex flex-col items-start w-full h-full gap-4">
-              {selectedFile.tableExtractResult[0].length === 0 ? (
+              {selectedFile.tableExtractResult.length > 0 ? (
+                <ResultContainer extractResult={selectedFile.tableExtractResult} />
+              ) : (
                 <div className="flex flex-col items-center justify-center h-full w-full overflow-auto">
                   <div className="text-xl font-semibold text-neutral-500">
                     No table detected in output. Retry or select another file
                   </div>
                 </div>
-              ) : (
-                <ResultContainer extractResult={selectedFile.tableExtractResult} />
               )}
               <div className={`w-full h-fit flex gap-4`}>
                 <Button label="Retry" onClick={handleRetry} small labelIcon={ArrowCounterClockwise} />
