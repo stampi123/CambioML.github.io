@@ -33,12 +33,13 @@ const TableExtractContainer = () => {
   }, [selectedFileIndex, files, updateFileAtIndex]);
 
   const handleSuccess = (response: AxiosResponse) => {
-    const result = response.data;
+    let result = response.data;
     if (result === undefined) {
       toast.error(`${filename}: Received undefined result. Please try again.`);
       updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.READY);
       return;
     }
+    result = result.filter((page: string) => page.length > 0);
     updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.DONE_EXTRACTING);
     updateFileAtIndex(selectedFileIndex, 'tableExtractResult', result);
     toast.success(`Generated table(s) from ${filename}!`);
