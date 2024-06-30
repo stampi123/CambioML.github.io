@@ -144,6 +144,7 @@ const MapTableSelectContainer = () => {
   const processResult = (result: string[]) => {
     const initTables: ExtractedMDTable[] = [];
     const htmlTables: ExtractedMDTable[] = [];
+    result = result.filter((page) => page.length > 0);
     for (const page of result) {
       const extractedTables = extractHtmlTable(page);
       initTables.push(...extractedTables);
