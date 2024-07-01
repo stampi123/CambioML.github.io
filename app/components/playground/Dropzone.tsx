@@ -9,15 +9,15 @@ const DropzoneContainerClass =
   'border-2 bg-gray-100 border-dashed border-gray-300 h-[50vh] rounded-md text-center cursor-pointer transition duration-300 ease-in-out flex flex-col items-center justify-center hover:border-neutral-500 w-full';
 
 const iconContainerClasses = 'flex items-center justify-center text-3xl mb-4';
-const allowedTypes = [
-  'application/pdf',
-  'text/html',
-  'text/plain',
-  'image/png',
-  'image/jpeg',
-  'image/jpg',
-  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-];
+const allowedTypes: { [key: string]: number } = {
+  'application/pdf': 10,
+  'text/html': 10,
+  'text/plain': 10,
+  'image/png': 10,
+  'image/jpeg': 10,
+  'image/jpg': 10,
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 5,
+};
 
 const Dropzone = () => {
   const uploadModal = useUploadModal();
@@ -27,13 +27,15 @@ const Dropzone = () => {
     async (acceptedFiles: File[]) => {
       for (const file of acceptedFiles) {
         if (file) {
-          if (!allowedTypes.includes(file.type)) {
+          if (!Object.keys(allowedTypes).includes(file.type)) {
             toast.error(`Error processing ${file.name}: File type is not supported.`);
             uploadModal.setUploadModalState(UploadModalState.ADD_FILES);
             return;
           }
-          if (file.size > 10 * 1024 * 1024) {
-            toast.error(`Error processing ${file.name}: Size exceeds the limit of 10 MB. Please try again.`);
+          if (file.size > allowedTypes[file.type] * 1024 * 1024) {
+            toast.error(
+              `Error processing ${file.name}: Size exceeds the ${allowedTypes[file.type]}MB limit. Please try again.`
+            );
             uploadModal.setUploadModalState(UploadModalState.ADD_FILES);
             return;
           }
@@ -56,7 +58,7 @@ const Dropzone = () => {
       </p>
       <p className="text-sm text-gray-500">PDF, TXT, HTML, XLSX, PNG, JPG, and JPEG files only</p>
       <p className="text-sm text-gray-500">Please do not upload any sensitive information.</p>
-      <p className="text-sm text-gray-500">Max 10 MB</p>
+      <p className="text-sm text-gray-500">Max size 5MB for XLSX, 10MB for all others.</p>
     </div>
   );
 };
