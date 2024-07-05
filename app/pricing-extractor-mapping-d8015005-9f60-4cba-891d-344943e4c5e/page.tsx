@@ -24,12 +24,12 @@ type Plan = {
 const plans: Plan[] = [
   {
     name: 'Starter',
-    price: '$499/year, billed annually*',
-    pages: 'Includes 10k pages per year, then $0.05 per page',
+    price: '$599/year, billed annually*',
+    pages: 'Includes 10k credits** per year, then $0.06 per credit',
     bgColor: 'bg-neutral-100',
     features: {
       autoCapture: true,
-      customSchemas: false,
+      customSchemas: true,
       clientOnboarding: false,
       customizationServices: false,
       customIntegrations: false,
@@ -39,8 +39,8 @@ const plans: Plan[] = [
   },
   {
     name: 'Pro',
-    price: '$4k/year, billed annually*',
-    pages: 'Includes 100k pages per year, then $0.04 per page',
+    price: '$5k/year, billed annually*',
+    pages: 'Includes 100k credits** per year, then $0.05 per credit',
     bgColor: 'bg-sky-200',
     features: {
       autoCapture: true,
@@ -54,8 +54,8 @@ const plans: Plan[] = [
   },
   {
     name: 'Silver',
-    price: '$15k/year, billed annually*',
-    pages: 'Includes 500k pages per year, then $0.03 per page',
+    price: '$20k/year, billed annually*',
+    pages: 'Includes 500k credits** per year, then $0.04 per credit',
     bgColor: 'bg-[#bcc6cc]',
     features: {
       autoCapture: true,
@@ -69,8 +69,8 @@ const plans: Plan[] = [
   },
   {
     name: 'Gold',
-    price: '$25k/year, billed annually*',
-    pages: 'Includes 1 million pages per year, then $0.025 per page',
+    price: '$30k/year, billed annually*',
+    pages: 'Includes 1 million credits** per year, then $0.03 per credit',
     bgColor: 'bg-teal-600 text-white',
     features: {
       autoCapture: true,
@@ -127,7 +127,7 @@ const PricingPage = () => {
   const contactModal = usePricingContactModal();
   return (
     <div className="x pb-10 w-full h-full flex flex-col justify-center items-center">
-      <PageHero title={`Pricing`} description={'Find the right plan for you.'} short />
+      <PageHero title={`API Pricing`} description={'Find the right plan for you.'} short />
       <div className="container mx-auto px-4 py-16">
         <table className="pricing-table min-w-full bg-white border border-gray-200">
           <thead className="text-2xl">
@@ -229,7 +229,7 @@ const PricingPage = () => {
               ))}
             </tr>
             <tr>
-              <td className={featureRowHeaderStyle}>Custom Model Training</td>
+              <td className={featureRowHeaderStyle}>Private Model Hosting (On-prem or Cloud)</td>
               {plans.map((plan, index) => (
                 <td key={index} className={checkCellStyle}>
                   <div className={checkCellDivStyle}>
@@ -239,7 +239,7 @@ const PricingPage = () => {
               ))}
             </tr>
             <tr>
-              <td className={featureRowHeaderStyle}>Custom Integrations and API Responses</td>
+              <td className={featureRowHeaderStyle}>Custom Model Training, Integrations and API Responses</td>
               {plans.map((plan, index) => (
                 <td key={index} className={checkCellStyle}>
                   <div className={checkCellDivStyle}>
@@ -265,6 +265,12 @@ const PricingPage = () => {
       <div className="h-[100px] p-8 rounded-xl w-screen-xl items-center justify-center">
         <ul>
           <li>*No hidden fees; 30 days money back guaranteed</li>
+        </ul>
+        <ul>
+          <li>
+            **1 credit can extract 1 page of PDF or image, or make a single API call to map data to your customized
+            schemas.
+          </li>
         </ul>
       </div>
     </div>
