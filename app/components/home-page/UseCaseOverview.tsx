@@ -17,7 +17,7 @@ const UseCaseOverview = () => {
     setTab(index);
   };
 
-  const selectedStyles = 'text-white bg-cambio-blue-0 shadow-md';
+  const selectedStyles = 'text-neutral-800 bg-cambio-blue shadow-md';
   const unselectedStyles =
     'text-neutral-500 bg-neutral-200 hover:bg-neutral-300 hover:shadow-md hover:text-neutral-700 transition-all duration-200 ease-in-out';
   const commonStyles = 'cursor-pointer text-2xl p-3 rounded-lg';

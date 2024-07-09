@@ -24,10 +24,10 @@ const socialLinks = [
 
 const Footer = () => {
   return (
-    <Container styles="h-[300px]" bgcolor="bg-cambio-blue-2">
-      <div className="py-10 h-full grid grid-cols-[2fr_50px_1fr_1fr_1fr_1fr] gap-2 md:gap-5 text-white">
+    <Container styles="h-[300px]" bgcolor="bg-cambio-blue">
+      <div className="py-10 h-full grid grid-cols-[2fr_50px_1fr_1fr_1fr_1fr_1fr] gap-2 md:gap-5 text-neutral-800">
         <div className="flex flex-col gap-3 md:gap-5">
-          <Logo small white />
+          <Logo small />
           <div className="font-semibold text-md">CambioML: ML Data Platform for Equity Research</div>
           <div className="flex gap-3">
             {socialLinks.map((socialLink) => (
@@ -56,6 +56,15 @@ const Footer = () => {
             {
               title: 'Finance',
               url: '/solutions/finance',
+            },
+          ]}
+        />
+        <FooterMenu
+          title="Playground"
+          links={[
+            {
+              title: 'Launch Playground',
+              url: '/playground',
             },
           ]}
         />

@@ -13,6 +13,8 @@ module.exports = {
         'cambio-blue-2': 'var(--cambio-blue-2)',
         'cambio-blue-3': 'var(--cambio-blue-3)',
         'cambio-blue-4': 'var(--cambio-blue-4)',
+        'cambio-red': 'var(--red)',
+        'cambio-blue': 'var(--cambio-blue)',
       },
     },
   },

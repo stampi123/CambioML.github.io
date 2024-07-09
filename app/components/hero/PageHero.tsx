@@ -11,12 +11,11 @@ interface PageHeroProps {
   short?: boolean;
 }
 
-const PageHero = ({ title, description, button, short }: PageHeroProps) => {
+const PageHero = ({ title, description, button, image, short }: PageHeroProps) => {
   return (
-    <div className="relative text-white w-full">
-      <div className="absolute inset-0 overflow-hidden bg-gradient-to-l from-cambio-blue-2 to-cambio-blue-3 text-white w-full h-full">
-        <div className="absolute inset-0 bg-[radial-gradient(#666_1px,transparent_1px)] [background-size:28px_28px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] z-0"></div>
-      </div>
+    <div
+      className={`w-full h-full overflow-hidden relative ${!image && 'bg-gradient-to-tr from-cambio-blue from-30% via-white to-cambio-blue to-70%'}`}
+    >
       <Container styles={`relative z-10 ${short ? 'h-[200px] mt-20' : 'h-[55vh] min-h-[650px]'} w-full`}>
         <div className="flex justify-center items-center h-full w-full">
           <div className="max-w-[800px] flex flex-col items-center justify-center gap-20 h-full">

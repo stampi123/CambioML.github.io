@@ -22,14 +22,13 @@ const ProductCard = ({ title, subtitle, outline, children, buttonText, buttonHan
   return (
     <div className="flex flex-col items-center justify-center w-full">
       <div
-        className={`flex flex-col items-center justify-between rounded-xl p-10 h-[550px] shadow-md
-        col-span-1 w-[500px] md:w-full ${outline ? 'border-solid border-2 border-neutral-100' : 'bg-cambio-blue-2'}
+        className={`flex flex-col items-center justify-between rounded-xl p-10 h-[550px] shadow-md hover:scale-[1.01] hover:shadow-lg transition-transform duration-300 scol-span-1 w-[500px] md:w-full ${outline ? 'border-solid border-2 border-neutral-100' : 'bg-cambio-blue'}
         `}
       >
         <div>
-          <Heading title={title} subtitle={subtitle} center white={!outline} />
+          <Heading title={title} subtitle={subtitle} center />
           <div
-            className={`mt-5 text-center text-lg font-light flex flex-col items-center justify-center gap-5 text-neutral-500 ${!outline && 'text-white'}`}
+            className={`mt-5 text-center text-lg font-light flex flex-col items-center justify-center gap-5 text-neutral-500 `}
           >
             {children}
           </div>

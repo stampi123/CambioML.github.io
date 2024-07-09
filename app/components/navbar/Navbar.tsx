@@ -17,6 +17,10 @@ const menuItems = [
     links: [],
   },
   {
+    label: 'Playground',
+    links: [],
+  },
+  {
     label: 'Company',
     links: ['About us'],
   },
@@ -36,7 +40,7 @@ const Navbar = () => {
 
   return (
     <div
-      className={`fixed  text-white w-full z-50 flex flex-col justify-center ${isScrolled ? 'bg-cambio-blue-2 shadow-sm border-b-[1px] border-cambio-blue-3 h-[75px]' : 'bg-transparent h-[100px]'} transition-all duration-300 ease-in-out`}
+      className={`fixed w-full z-50 flex flex-col justify-center ${isScrolled ? 'bg-white shadow-sm border-b-[1px] h-[75px]' : 'bg-transparent h-[100px]'} transition-all duration-300 ease-in-out`}
     >
       <div
         className="
@@ -54,7 +58,7 @@ const Navbar = () => {
                     md: gap-0
                     "
           >
-            <Logo white />
+            <Logo />
             <div className="hidden md:flex flex-row items-center gap-3">
               {menuItems.map((item, i) => (
                 <NavMenu key={item.label + i} label={item.label} links={item.links} />
