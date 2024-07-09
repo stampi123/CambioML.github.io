@@ -15,12 +15,12 @@ interface UseCaseTabProps {
 const UseCaseTab = ({ code, demo, benefits, image, alt, detailsPath }: UseCaseTabProps) => {
   const router = useRouter();
   return (
-    <div className="gap-5 p-4 w-full lg:w-[80vw] max-w-screen-xl h-full lg:h-[750px] grid grid-cols-1 lg:grid-cols-[3fr_2fr] lg:grid-rows-2 lg:grid-rows-[550px_100px] gap-[50px] lg:absolute lg:left-[50%] lg:translate-x-[-50%] border-solid border-neutral-200 border-2 shadow-md rounded-xl bg-white">
+    <div className="gap-5 p-4 w-full lg:w-[80vw] max-w-screen-xl h-full lg:h-[750px] grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 lg:grid-rows-[550px_100px] gap-[50px] lg:absolute lg:left-[50%] lg:translate-x-[-50%] border-solid border-neutral-200 border-2 shadow-md rounded-xl bg-white">
       <div className="w-full flex flex-col items-center justify-center py-4 rounded-lg">
         <FeatureImage image={image} alt={alt} />
       </div>
       <div className="h-full w-full flex items-center justify-center">
-        <div className="h-full w-full pt-16 flex flex-col items-center justify-start gap-20 pr-2">
+        <div className="h-full w-full pt-16 flex flex-col items-center justify-start gap-8 pr-2">
           <div className="text-neutral-800 text-3xl pb-10 flex flex-col gap-5">
             {benefits.map((benefit, index) => (
               <p key={index}>{benefit}</p>

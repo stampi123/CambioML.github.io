@@ -4,6 +4,7 @@ import py from 'react-syntax-highlighter/dist/esm/languages/hljs/python';
 import docco from 'react-syntax-highlighter/dist/esm/styles/hljs/docco';
 
 SyntaxHighlighter.registerLanguage('python', py);
+
 interface CodeBlockProps {
   language: string;
   code: string;
@@ -26,8 +27,8 @@ const CodeBlock = ({ language, code }: CodeBlockProps) => {
       >
         {isCopied ? 'Copied!' : 'Copy'}
       </button>
-      <div className="rounded-lg overflow-x-scroll w-full p-5 bg-[#f8f8ff]">
-        <SyntaxHighlighter language={language} style={docco} showLineNumbers>
+      <div className="rounded-lg w-full p-5 bg-[#f8f8ff]">
+        <SyntaxHighlighter language={language} style={docco} wrapLongLines={true} showLineNumbers>
           {code}
         </SyntaxHighlighter>
       </div>
