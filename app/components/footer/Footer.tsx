@@ -41,12 +41,16 @@ const Footer = () => {
           title="Libraries"
           links={[
             {
-              title: 'pykoi',
-              url: '/libraries/pykoi',
+              title: 'AnyParser',
+              url: '/libraries/any-parser',
             },
             {
               title: 'uniflow',
               url: '/libraries/uniflow',
+            },
+            {
+              title: 'pykoi',
+              url: '/libraries/pykoi',
             },
           ]}
         />

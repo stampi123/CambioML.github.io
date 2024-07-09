@@ -47,11 +47,11 @@ const UseCaseOverview = () => {
       <div className="lg:h-[800px] py-5 rounded-lg">
         {tab === TAB.ML && (
           <UseCaseTab
-            code={`from uniflow import ExtractPDFClient
+            code={`from any_parser import AnyParser
 
-client = ExtractPDFClient()
+op = AnyParser(example_apikey)
 
-output = client.run(data)`}
+content_result = op.extract(example_local_file)`}
             benefits={['Get your extracted data for RAG or LLM finetuning ready']}
             image="/images/graphics/cambio-flow-ml-20240708.png"
             alt="DATA rag chatbot demo"
@@ -60,11 +60,13 @@ output = client.run(data)`}
         )}
         {tab === TAB.DATA && (
           <UseCaseTab
-            code={`from uniflow import TransformQAGeneration
+            code={`from any_parser import AnyParser
 
-client = TransformQAGeneration()
+example_prompt = "Return table in a JSON format."
 
-output = client.run(data)`}
+op = AnyParser(example_apikey)
+
+qa_result = op.parse(example_local_file, example_prompt)`}
             benefits={['Get your extracted tables ready to load into your database']}
             image="/images/graphics/cambio-flow-data-20240708.png"
             alt="DATA rag chatbot demo"
