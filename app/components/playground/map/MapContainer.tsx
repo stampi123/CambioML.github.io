@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { MapTab, PlaygroundFile } from '@/app/types/PlaygroundTypes';
-import ComingSoonBanner from '../ComingSoonBanner';
-import { useProductionContext } from '../ProductionContext';
 import MapTableSelectContainer from './MapTableSelectContainer';
 import MapSchemaContainer from './MapSchemaContainer';
 
@@ -13,7 +11,6 @@ const tabStyle = 'p-2 text-center cursor-pointer border-solid border-b-2 hover:b
 const MapContainer = () => {
   const { selectedFileIndex, files, updateFileAtIndex } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
-  const { isProduction } = useProductionContext();
 
   useEffect(() => {
     if (selectedFileIndex !== null && files.length > 0) {
@@ -38,14 +35,10 @@ const MapContainer = () => {
           2. Map Schema
         </div>
       </div>
-      {isProduction ? (
-        <ComingSoonBanner />
-      ) : (
-        <div>
-          {selectedFile?.mapTab === MapTab.TABLE_SELECT && <MapTableSelectContainer />}
-          {selectedFile?.mapTab === MapTab.MAP_SCHEMA && <MapSchemaContainer />}
-        </div>
-      )}
+      <div>
+        {selectedFile?.mapTab === MapTab.TABLE_SELECT && <MapTableSelectContainer />}
+        {selectedFile?.mapTab === MapTab.MAP_SCHEMA && <MapSchemaContainer />}
+      </div>
     </div>
   );
 };
