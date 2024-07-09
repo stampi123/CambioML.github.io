@@ -2,15 +2,15 @@
 
 import PageHero from '@/app/components/hero/PageHero';
 import IconSection from '@/app/components/IconSection';
-import useDemoModal from '@/app/hooks/useDemoModal';
 import Feature from '@/app/components/feature/Feature';
 import DemoFeature from '@/app/components/feature/DemoFeature';
 import { ChartLineUp, Gauge, FolderLock } from '@phosphor-icons/react';
 import SolutionsList from '@/app/components/solutions/SolutionsList';
 import { solutions } from '@/app/blog/data';
+import { useRouter } from 'next/navigation';
 
 const FintechSolutionsPage = () => {
-  const demoModal = useDemoModal();
+  const router = useRouter();
   return (
     <div className="pb-10 w-full h-full flex flex-col justify-center items-center">
       <PageHero
@@ -18,7 +18,7 @@ const FintechSolutionsPage = () => {
         description={`Find mispriced equity faster.
         Explain your investment decisions with real data.
         Fully own and control your proprietary AI agent.`}
-        button={{ label: 'Book a Demo', onClick: demoModal.onOpen }}
+        button={{ label: 'Book a Demo', onClick: () => router.push('/book-demo') }}
       />
       <div className="flex flex-col gap-10 items-center justify-center py-20">
         <IconSection
@@ -42,8 +42,7 @@ const FintechSolutionsPage = () => {
         />
         <Feature title="Access to unknown insights from multi-source data" center>
           <DemoFeature
-            imageTitle="Your Corporate Laptop"
-            image="/images/graphics/cambio-flow-portfolio.png"
+            image="/images/graphics/cambio-flow-portfolio-20240708.png"
             alt="Cambio Flow Portfolio"
             text={`Reduce time spent on data cleaning by up to 90%
 

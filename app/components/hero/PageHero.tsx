@@ -2,7 +2,6 @@
 
 import Button from '../Button';
 import Container from '../Container';
-import Image from 'next/image';
 
 interface PageHeroProps {
   title: string;
@@ -12,30 +11,17 @@ interface PageHeroProps {
   short?: boolean;
 }
 
-const PageHero = ({ title, description, image, button, short }: PageHeroProps) => {
+const PageHero = ({ title, description, button, image, short }: PageHeroProps) => {
   return (
     <div
       className={`w-full h-full overflow-hidden relative ${!image && 'bg-gradient-to-tr from-cambio-blue from-30% via-white to-cambio-blue to-70%'}`}
     >
-      <Container styles={short ? 'h-[175px] mt-20' : 'h-[55vh] min-h-[650px]'}>
-        {image && (
-          <Image
-            src={image}
-            alt="PageHero"
-            layout="fill"
-            style={{
-              objectFit: 'cover',
-              zIndex: -1,
-              backgroundPosition: 'center',
-            }}
-            quality={100}
-          />
-        )}
-        <div className={`flex justify-center items-center h-full w-full`}>
+      <Container styles={`relative z-10 ${short ? 'h-[200px] mt-20' : 'h-[55vh] min-h-[650px]'} w-full`}>
+        <div className="flex justify-center items-center h-full w-full">
           <div className="max-w-[800px] flex flex-col items-center justify-center gap-20 h-full">
             <div>
-              <h1 className="text-6xl font-bold text-gray-900 mb-8 text-center whitespace-pre-line">{title}</h1>
-              {description && <p className="text-3xl text-gray-600 text-center whitespace-pre-line">{description}</p>}
+              <h1 className="text-6xl font-bold mb-8 text-center whitespace-pre-line">{title}</h1>
+              {description && <p className="text-3xl text-center whitespace-pre-line">{description}</p>}
             </div>
             {button && (
               <div className="w-[300px]">

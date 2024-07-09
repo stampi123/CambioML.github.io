@@ -71,7 +71,7 @@ const InfoButton = ({ infoType }: InfoButtonProps) => {
   return (
     <button
       onClick={handleInfoClick}
-      className="w-fit h-fit hover:text-cambio-red rounded-full text-neutral-700 p-1 font-bold transition duration-300"
+      className="w-fit h-fit hover:text-cambio-blue-0 rounded-full text-neutral-700 p-1 font-bold transition duration-300"
     >
       <Question size={18} weight="bold" />
     </button>

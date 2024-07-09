@@ -1,4 +1,4 @@
-import useDemoModal from '../hooks/useDemoModal';
+import { useRouter } from 'next/navigation';
 import Button from './Button';
 
 interface DemoButtonProps {
@@ -6,13 +6,13 @@ interface DemoButtonProps {
 }
 
 const DemoButton = ({ small }: DemoButtonProps) => {
-  const demoModal = useDemoModal();
+  const router = useRouter();
   return (
     <div className={small ? 'w-[200px]' : 'w-[300px]'}>
       <Button
         label="Book a Demo"
         onClick={() => {
-          demoModal.onOpen();
+          router.push('/book-demo');
         }}
         small={small}
       />

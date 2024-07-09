@@ -8,12 +8,12 @@ interface FeatureProps {
   description?: string;
   center?: boolean;
   children: React.ReactNode;
-  bgColor?: string;
+  alternate?: boolean;
 }
 
-const Feature = ({ title, description, center, children, bgColor }: FeatureProps) => {
+const Feature = ({ title, description, center, alternate, children }: FeatureProps) => {
   return (
-    <div className={`w-full h-full ${bgColor} py-10`}>
+    <div className={`w-full h-full py-10 ${alternate && 'bg-neutral-100'}`}>
       <Container styles="h-max">
         <div className="flex flex-col items-center gap-10 py-10 h-max w-full">
           <Heading title={title} subtitle={description} center={center} />

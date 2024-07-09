@@ -70,6 +70,7 @@ const NavMenu = ({ label, links }: NavMenuProps) => {
             right-0
             top-12
             text-sm
+            text-neutral-800
           "
           ref={ref}
         >

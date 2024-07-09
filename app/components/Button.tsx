@@ -27,13 +27,13 @@ const Button = ({ label, onClick, disabled, outline, small, icon: Icon, labelIco
         hover:text-white
         transition
         w-full
-        ${outline ? 'bg-inherit' : 'bg-cambio-blue'}
+        ${outline ? 'bg-white' : 'bg-cambio-blue'}
         ${outline ? 'border-cambio-blue' : 'border-neutral-800'}
-        ${outline ? 'text-black' : 'text-neutral-800'}
+        ${outline ? 'text-neutral-800' : 'text-neutral-800'}
         ${small ? 'py-3' : 'py-4'}
         ${small ? 'text-lg' : 'text-3xl'}
         ${small ? 'border-[1px]' : 'border-2'}
-        font-semibold
+        ${small && 'font-semibold'}
       `}
     >
       {Icon && (

@@ -22,7 +22,7 @@ const SimpleButton = ({ label, onClick, disabled, small, icon: Icon, labelIcon: 
         disabled:cursor-not-allowed
         rounded-xl
         bg-neutral-200
-        hover:bg-cambio-red
+        hover:bg-cambio-blue-0
         hover:text-white
         transition
         w-full

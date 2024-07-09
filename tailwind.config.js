@@ -8,6 +8,11 @@ module.exports = {
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       colors: {
+        'cambio-blue-0': 'var(--cambio-blue-0)',
+        'cambio-blue-1': 'var(--cambio-blue-1)',
+        'cambio-blue-2': 'var(--cambio-blue-2)',
+        'cambio-blue-3': 'var(--cambio-blue-3)',
+        'cambio-blue-4': 'var(--cambio-blue-4)',
         'cambio-red': 'var(--red)',
         'cambio-blue': 'var(--cambio-blue)',
       },
