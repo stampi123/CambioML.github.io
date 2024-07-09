@@ -37,8 +37,8 @@ const investors = [
 const AboutPage = () => {
   const router = useRouter();
   return (
-    <div className="pb-10">
-      <PageHero title="About us" />
+    <div className="pb-10 w-full h-full flex flex-col justify-center items-center ">
+      <PageHero title="About us" short />
       <Container styles="h-max" centerX center-y>
         <div className="pt-10 max-w-[800px]">
           <Section

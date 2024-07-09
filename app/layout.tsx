@@ -33,7 +33,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navbar />
         <DemoModal />
         <ImageModal />
-        {/* <UploadModal /> */}
         <PricingContactModal />
         <PlaygroundFeedbackModal />
         <InfoModal />

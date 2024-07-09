@@ -8,24 +8,31 @@ import { SiMicrosoftazure, SiGooglecloud } from 'react-icons/si';
 import UseCaseOverview from './components/home-page/UseCaseOverview';
 import Customers from './components/home-page/Customers';
 import Card from './components/Card';
-import { FileMagnifyingGlass, TrendDown, Gauge, Crosshair, Sparkle, LockKey } from '@phosphor-icons/react';
+import { FileMagnifyingGlass, LockKey, Lock, Table, Target, Robot } from '@phosphor-icons/react';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
   return (
     <>
       <Hero
-        title="ML Platform for Enterprise R&D"
-        subtitle="Extract research insights from your unstructured data"
-        typingWords={['Encrypted PDFs', 'Images and Markdowns', 'HTMLs or public URLs', 'papers and patents']}
+        title="Privacy-first AI agent for Information Retrieval"
+        subtitle="Transform your information assets into competitive advantage with the most state-of-the-art document retrieval AI"
+        typingWords={['PDF format', 'image resolution', 'PPT layout']}
+        typingStaticWords="Unmatched extraction accuracy on any"
         image="/images/hero.png"
         center
       />
       <div className="h-full w-full py-10">
-        <Feature title="Distill domain knowledge from your mixed unstructured data" center>
+        <Feature title="Extract key information with full confidence" center>
           <div className="h-[1000px] lg:h-[450px] grid grid-cols-1 lg:grid-cols-3 gap-10 py-10">
-            <Card text="Discover novel research insights from 10x more data" center cardIcon={FileMagnifyingGlass} />
-            <Card text="Reduce time spent cleaning unstructured data by up to 90%" center cardIcon={TrendDown} />
-            <Card text="Accelerate the discovery of revenue opportunities" center cardIcon={Gauge} />
+            <Card
+              text="Extract 10x more hidden insights from tables, charts, indexes, headers and footers."
+              center
+              cardIcon={FileMagnifyingGlass}
+            />
+            <Card text="Redact confidential information during the retrieval as needed." center cardIcon={Lock} />
+            <Card text="Output to JSON, CSV or Markdown. Ready for LLM as well as database." center cardIcon={Table} />
           </div>
         </Feature>
         <div className="w-full h-[200px] flex items-center justify-center">
@@ -41,33 +48,45 @@ export default function Home() {
             />
           </a>
         </div>
-        <Feature title="Open-source Libraries are Adopted by Researchers at" bgColor="bg-neutral-100" center>
+        <Feature title="Open-source Libraries are Adopted by Researchers at" alternate center>
           <Customers />
         </Feature>
-        <Feature title="Accurate, Explainable, and Secure" center>
+        <Feature title="Accurate, Automatic, and Secure" center>
           <div className="h-[1000px] lg:h-[450px] grid grid-cols-1 lg:grid-cols-3 gap-10 py-10">
             <Card
-              text="Accurately extract unstructured data from PDFs, HTMLs and Markdown"
+              text="Fully privacy preserved. Redact confidential information during the retrieval as needed."
               center
-              cardIcon={Crosshair}
+              cardIcon={LockKey}
             />
-            <Card text="Explain insights by domain-specific LLMs" center cardIcon={Sparkle} />
-            <Card text="Fully own and control your proprietary data" center cardIcon={LockKey} />
+            <Card
+              text="No hallucination. 90% less error rate than traditional OCR based model."
+              center
+              cardIcon={Target}
+            />
+            <Card text="No more manual data entry. Map to the schema as you need." center cardIcon={Robot} />
           </div>
         </Feature>
-        <Feature title="Extract domain-specific knowledge from your R&D data with ease" bgColor="bg-neutral-100" center>
+        <Feature title="Extract Insights from your Proprietary Data with Ease" alternate center>
           <UseCaseOverview />
         </Feature>
         <Feature title="Host your private LLMs anywhere in your control" description="" center>
           <div
-            className="w-full h-full
+            className="w-full min-w-[1200px] h-full
                             mt-10
                             grid
                             grid-cols-1
-                            md:grid-cols-2
+                            md:grid-cols-3
                             gap-8
                             "
           >
+            <ProductCard
+              title="Test Cambio API today"
+              outline
+              buttonText="Launch Playground"
+              buttonHandler={() => router.push('playground-3a284dca-393d-4d28-8a7a-bf202d475442')}
+            >
+              Extract and Map your files on our Playground.
+            </ProductCard>
             <ProductCard title="Deploy on the Cloud">
               <FaAws size={80} />
               <SiMicrosoftazure size={50} />

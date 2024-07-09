@@ -5,7 +5,11 @@
 :root {
   /* colors */
   --red: #ff5470;
-  --cambio-blue: #d2ecf9;
+  --cambio-blue-0: #00A6FB;
+  --cambio-blue-1:#0582CA;
+  --cambio-blue-2: #006494;
+  --cambio-blue-3:#003554;
+  --cambio-blue-4: #051923;
 }
 
 html,

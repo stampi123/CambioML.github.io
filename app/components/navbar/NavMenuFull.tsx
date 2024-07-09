@@ -67,7 +67,7 @@ const NavMenu = ({ menuItems, makeOnClick }: NavMenuProps) => {
                     <div
                       key={link + i}
                       onClick={makeOnClick(item.label, link, toggleOpen)}
-                      className="w-full h-[20px] flex justify-center text-2xl cursor-pointer hover:text-cambio-red"
+                      className="w-full h-[20px] flex justify-center text-2xl cursor-pointer hover:text-cambio-blue-0"
                     >
                       {link}
                     </div>

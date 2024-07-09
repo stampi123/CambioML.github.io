@@ -24,17 +24,17 @@ const socialLinks = [
 
 const Footer = () => {
   return (
-    <Container styles="h-[300px]" bgcolor="bg-cambio-blue">
-      <div className="py-10 h-full grid grid-cols-[2fr_50px_1fr_1fr_1fr] gap-2 md:gap-5">
+    <Container styles="h-[300px]" bgcolor="bg-cambio-blue-2">
+      <div className="py-10 h-full grid grid-cols-[2fr_50px_1fr_1fr_1fr_1fr] gap-2 md:gap-5 text-white">
         <div className="flex flex-col gap-3 md:gap-5">
-          <Logo small />
-          <div className="font-semibold text-md">CambioML: Private LLMs to Boost Enterprises</div>
+          <Logo small white />
+          <div className="font-semibold text-md">CambioML: ML Data Platform for Equity Research</div>
           <div className="flex gap-3">
             {socialLinks.map((socialLink) => (
               <SocialButton key={socialLink.url} image={socialLink.image} url={socialLink.url} />
             ))}
           </div>
-          <div className="text-sm text-neutral-500">© {new Date().getFullYear()} Cambio Corp </div>
+          <div className="text-sm">© {new Date().getFullYear()} Cambio Corp </div>
         </div>
         <div className="col-span-1"></div>
         <FooterMenu
@@ -57,10 +57,6 @@ const Footer = () => {
               title: 'Finance',
               url: '/solutions/finance',
             },
-            {
-              title: 'Research & Development',
-              url: '/solutions/research-&-development',
-            },
           ]}
         />
         <FooterMenu
@@ -69,6 +65,23 @@ const Footer = () => {
             {
               title: 'About us',
               url: '/company/about-us',
+            },
+          ]}
+        />
+        <FooterMenu
+          title="Resources"
+          links={[
+            {
+              title: 'Blog',
+              url: '/blog',
+            },
+            {
+              title: 'Privacy Policy',
+              url: '/legal/privacy-policy.pdf',
+            },
+            {
+              title: 'Terms of Service',
+              url: '/legal/terms-of-service.pdf',
             },
           ]}
         />

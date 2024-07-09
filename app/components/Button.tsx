@@ -23,17 +23,17 @@ const Button = ({ label, onClick, disabled, outline, small, icon: Icon, labelIco
         disabled:opacity-70
         disabled:cursor-not-allowed
         rounded-xl
-        hover:bg-cambio-red
+        hover:bg-cambio-blue-0
         hover:text-white
         transition
         w-full
-        ${outline ? 'bg-inherit' : 'bg-cambio-blue'}
+        ${outline ? 'bg-white' : 'bg-cambio-blue-1'}
         ${outline ? 'border-cambio-blue' : 'border-neutral-800'}
-        ${outline ? 'text-black' : 'text-neutral-800'}
+        ${outline ? 'text-neutral-800' : 'text-white'}
         ${small ? 'py-3' : 'py-4'}
         ${small ? 'text-lg' : 'text-3xl'}
         ${small ? 'border-[1px]' : 'border-2'}
-        font-semibold
+
       `}
     >
       {Icon && (

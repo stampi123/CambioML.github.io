@@ -6,9 +6,10 @@ import { imgPrefix } from '@/app/hooks/useImgPrefix';
 
 interface LogoProps {
   small?: boolean;
+  white?: boolean;
 }
 
-const Logo = ({ small }: LogoProps) => {
+const Logo = ({ small, white }: LogoProps) => {
   const router = useRouter();
 
   return (
@@ -17,7 +18,7 @@ const Logo = ({ small }: LogoProps) => {
       className="cursor-pointer"
       height={small ? '100' : '175'}
       width={small ? '100' : '175'}
-      src={imgPrefix + '/images/logo.png'}
+      src={imgPrefix + `${white ? '/images/logo-white.png' : '/images/logo.png'}`}
       onClick={() => router.push('/')}
     />
   );

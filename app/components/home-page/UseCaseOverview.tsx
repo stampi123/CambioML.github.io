@@ -5,7 +5,7 @@ import UseCaseTab from './UseCaseTab';
 
 enum TAB {
   ML,
-  RD,
+  DATA,
   PORTFOLIO,
 }
 
@@ -17,7 +17,7 @@ const UseCaseOverview = () => {
     setTab(index);
   };
 
-  const selectedStyles = 'text-white bg-cambio-red shadow-md';
+  const selectedStyles = 'text-white bg-cambio-blue-0 shadow-md';
   const unselectedStyles =
     'text-neutral-500 bg-neutral-200 hover:bg-neutral-300 hover:shadow-md hover:text-neutral-700 transition-all duration-200 ease-in-out';
   const commonStyles = 'cursor-pointer text-2xl p-3 rounded-lg';
@@ -29,13 +29,13 @@ const UseCaseOverview = () => {
           className={`${commonStyles} ${tab === TAB.ML ? selectedStyles : unselectedStyles}`}
           onClick={(e) => handleClick(e, TAB.ML)}
         >
-          ML Scientists
+          AI Engineer
         </div>
         <div
-          className={`${commonStyles} ${tab === TAB.RD ? selectedStyles : unselectedStyles}`}
-          onClick={(e) => handleClick(e, TAB.RD)}
+          className={`${commonStyles} ${tab === TAB.DATA ? selectedStyles : unselectedStyles}`}
+          onClick={(e) => handleClick(e, TAB.DATA)}
         >
-          R&D Engineers
+          Data Engineer
         </div>
         <div
           className={`${commonStyles} ${tab === TAB.PORTFOLIO ? selectedStyles : unselectedStyles}`}
@@ -52,43 +52,29 @@ const UseCaseOverview = () => {
 client = ExtractPDFClient()
 
 output = client.run(data)`}
-            benefits={[
-              'Get your training data ready for your private LLMs',
-              'Reduce time spent on data cleaning by up to 90%',
-              'Aggregate knowledge from multi-formats including PDFs and HTMLs',
-            ]}
-            image="/images/graphics/cambio-flow-ml.png"
-            imageTitle="Your Own GPUs"
-            alt="RD rag chatbot demo"
+            benefits={['Get your extracted data for RAG or LLM finetuning ready']}
+            image="/images/graphics/cambio-flow-ml-20240708.png"
+            alt="DATA rag chatbot demo"
+            detailsPath="/solutions/finance"
           />
         )}
-        {tab === TAB.RD && (
+        {tab === TAB.DATA && (
           <UseCaseTab
             code={`from uniflow import TransformQAGeneration
 
 client = TransformQAGeneration()
 
 output = client.run(data)`}
-            benefits={[
-              'Discover unknown research insights from 10x more data',
-              'Answer the research related questions from unstructured data',
-              'Accurately extract unstructured data from PDFs, HTMLs and Markdowns',
-            ]}
-            image="/images/graphics/cambio-flow-rd.png"
-            imageTitle="Your Own Data Center or Cloud"
-            alt="RD rag chatbot demo"
-            detailsPath="/solutions/research-&-development"
+            benefits={['Get your extracted tables ready to load into your database']}
+            image="/images/graphics/cambio-flow-data-20240708.png"
+            alt="DATA rag chatbot demo"
+            detailsPath="/solutions/finance"
           />
         )}
         {tab === TAB.PORTFOLIO && (
           <UseCaseTab
-            benefits={[
-              'Discover hidden investment signals from massive multi-format data',
-              'Accelerate the discovery of revenue opportunity',
-              'Accurately explain the signals by back-testing data',
-            ]}
-            image="/images/graphics/cambio-flow-portfolio.png"
-            imageTitle="Your Corporate Laptop"
+            benefits={['Get your data for RAG or LLM finetuning in few lines of code']}
+            image="/images/graphics/cambio-flow-portfolio-20240708.png"
             alt="PORTFOLIO Chat Comparisons"
             demo="/images/pykoi/pykoi-rag-chatbot-modify.gif"
             detailsPath="/solutions/finance"
