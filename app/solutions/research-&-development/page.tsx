@@ -22,7 +22,6 @@ const RDSolutionsPage = () => {
       <div className="flex flex-col gap-10 items-center justify-center py-20">
         <Feature title="Access unknown insights from multi-source data" center>
           <DemoFeature
-            imageTitle="Your Corporate Laptop"
             image="/images/graphics/cambio-flow-rd.png"
             alt="Cambio Flow R&D"
             text={`• Reduce time spent on data cleaning by up to 90%
