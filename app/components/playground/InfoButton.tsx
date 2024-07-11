@@ -12,7 +12,7 @@ const h2Style = 'text-xl font-semibold pt-4';
 
 const plainTextContent = (
   <>
-    <div className={h1Style}>Extract</div>
+    <div className={h1Style}>Extract Plain Text</div>
     <div className={textStyle}>
       <div>
         With AnyParser, you can extract the content from your raw, unstructured data, like PDFs, TXTs, and HTML files.
