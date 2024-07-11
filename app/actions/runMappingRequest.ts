@@ -1,7 +1,9 @@
 import OpenAI from 'openai';
 
+const MAX_RETRIES = 3;
+
 const openai = new OpenAI({
-  apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY || '', // This is the default and can be omitted
+  apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY || '',
   dangerouslyAllowBrowser: true,
 });
 
@@ -31,8 +33,6 @@ function parseApiResponse(response: string): { [key: string]: string } {
     throw new Error('Invalid JSON response');
   }
 }
-
-const MAX_RETRIES = 3;
 
 export const runMappingRequest = async ({ tableSchema, keysToMap }: IParams) => {
   if (keysToMap.length === 0) {
