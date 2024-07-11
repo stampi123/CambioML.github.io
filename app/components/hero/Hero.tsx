@@ -61,7 +61,7 @@ const Hero = ({ title, subtitle, typingWords, image, typingStaticWords, center }
               <Button
                 label="Test our Playground"
                 onClick={() => {
-                  router.push('/playground-3a284dca-393d-4d28-8a7a-bf202d475442');
+                  router.push('/playground');
                 }}
                 outline
               />
