@@ -8,7 +8,7 @@ const FilesContainer = () => {
   const { files, loggedIn } = usePlaygroundStore();
 
   return (
-    <div className="h-full w-full  min-h-[400px] grid grid-rows-[50px_1fr_80px_80px]">
+    <div className="h-full w-full  min-h-[400px] grid grid-rows-[50px_1fr_70px_70px]">
       <div className="row-span-1 text-2xl font-semibold pb-10">Files</div>
       <div className="row-span-1 overflow-auto relative box-border">
         {files.length > 0 ? (
@@ -24,7 +24,7 @@ const FilesContainer = () => {
         )}
       </div>
 
-      <div className="row-span-1 h-full flex items-center justify-center pb-2">
+      <div className="row-span-1 h-full flex items-center justify-center py-2">
         {files.length > 0 && <UploadButton small disabled={!loggedIn} />}
       </div>
       {loggedIn && (

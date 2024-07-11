@@ -266,7 +266,9 @@ const UploadModal = () => {
                     <span className="text-gray-500">OR</span>
                     <hr className="flex-1 border-t border-gray-300" />
                   </div>
-                  <Button label="Upload Starter File" onClick={handleStarterFile} labelIcon={FileArrowUp} small />
+                  <div className="w-full h-[65px]">
+                    <Button label="Upload Starter File" onClick={handleStarterFile} labelIcon={FileArrowUp} small />
+                  </div>
                 </div>
               )}
               {uploadModal.uploadModalState === UploadModalState.UPLOADING && (
