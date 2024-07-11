@@ -10,11 +10,17 @@ import PlaygroundFeedbackModal from './components/modals/PlaygroundFeedbackModal
 import InfoModal from './components/modals/InfoModal';
 import PricingContactModal from './components/modals/PricingContactModal';
 import ResultZoomModal from './components/modals/ResultZoomModal';
+import { PHProvider } from './providers';
+import dynamic from 'next/dynamic';
 
 export const metadata = {
   title: 'cambioml',
   description: 'Build faster with CambioML',
 };
+
+const PostHogPageView = dynamic(() => import('./PostHogPageView'), {
+  ssr: false,
+});
 
 const font = Lato({
   weight: ['400', '700'],
@@ -28,18 +34,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
       </head>
-      <body className={font.className}>
-        <ToasterProvider />
-        <Navbar />
-        <DemoModal />
-        <ImageModal />
-        <PricingContactModal />
-        <PlaygroundFeedbackModal />
-        <InfoModal />
-        <ResultZoomModal />
-        <div className="pb-500 min-h-screen min-w-[650px]">{children}</div>
-        <Footer />
-      </body>
+      <PHProvider>
+        <body className={font.className}>
+          <PostHogPageView />
+          <ToasterProvider />
+          <Navbar />
+          <DemoModal />
+          <ImageModal />
+          <PricingContactModal />
+          <PlaygroundFeedbackModal />
+          <InfoModal />
+          <ResultZoomModal />
+          <div className="pb-500 min-h-screen min-w-[650px]">{children}</div>
+          <Footer />
+        </body>
+      </PHProvider>
       <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ''} />
     </html>
   );

@@ -22,6 +22,7 @@ const MapSchemaTable = ({ keyMap, tableMappedDataRows, isLoading }: MapSchemaTab
       delete currentKeys[thisKey];
       updateFileAtIndex(selectedFileIndex, 'keyMap', currentKeys);
       const currentTableData = selectedFile.tableMappedDataRows;
+      if (selectedFile.tableMappedDataRows === undefined) return;
       const keyIndex = currentTableData[0].indexOf(thisKey);
       const newMappedData = currentTableData.map((innerArray) => innerArray.filter((_, index) => index !== keyIndex));
       updateFileAtIndex(selectedFileIndex, 'tableMappedDataRows', newMappedData);
@@ -68,7 +69,7 @@ const MapSchemaTable = ({ keyMap, tableMappedDataRows, isLoading }: MapSchemaTab
         <thead>
           <tr>
             <th>Input Key</th>
-            {Object.keys(keyMap).length > 0 ? (
+            {Object.keys(keyMap).length > 0 &&
               inputKeys.map((inputKey, i) => (
                 <th key={`${inputKey}_${i}`}>
                   <MapSchemaCell
@@ -79,22 +80,11 @@ const MapSchemaTable = ({ keyMap, tableMappedDataRows, isLoading }: MapSchemaTab
                     bold
                   />
                 </th>
-              ))
-            ) : (
-              <th>
-                <MapSchemaCell
-                  text={''}
-                  handleIconClick={() => handleDeleteClick('')}
-                  icon={X}
-                  isLoading={isLoading}
-                  bold
-                />
-              </th>
-            )}
+              ))}
           </tr>
           <tr>
             <th>Mapped Key</th>
-            {Object.keys(keyMap).length > 0 ? (
+            {Object.keys(keyMap).length > 0 &&
               mappedKeys.map((mappedKey, i) => (
                 <th key={`${mappedKey}_${i}`}>
                   <MapSchemaCell
@@ -106,22 +96,12 @@ const MapSchemaTable = ({ keyMap, tableMappedDataRows, isLoading }: MapSchemaTab
                     isLoading={isLoading}
                   />
                 </th>
-              ))
-            ) : (
-              <th>
-                <MapSchemaCell
-                  text={''}
-                  handleIconClick={() => handleDeleteClick('')}
-                  icon={X}
-                  isLoading={isLoading}
-                  bold
-                />
-              </th>
-            )}
+              ))}
           </tr>
         </thead>
         <tbody>
-          {tableMappedDataRows && tableMappedDataRows.length > 0 ? (
+          {tableMappedDataRows &&
+            tableMappedDataRows.length > 0 &&
             tableMappedDataRows.slice(1).map((tableRow, rowIndex) => (
               <tr key={rowIndex}>
                 {rowIndex === 0 ? <th>Mapped Values</th> : <th></th>}
@@ -138,33 +118,7 @@ const MapSchemaTable = ({ keyMap, tableMappedDataRows, isLoading }: MapSchemaTab
                   </td>
                 ))}
               </tr>
-            ))
-          ) : (
-            <tr>
-              <th>Mapped Values</th>
-              {Object.keys(keyMap).length > 0 ? (
-                inputKeys.map((inputKey) => (
-                  <td key={inputKey}>
-                    <MapSchemaCell
-                      text=""
-                      handleIconClick={() => handleEditClick('')}
-                      icon={PencilSimple}
-                      isLoading={isLoading}
-                    />
-                  </td>
-                ))
-              ) : (
-                <td>
-                  <MapSchemaCell
-                    text=""
-                    handleIconClick={() => handleEditClick('')}
-                    icon={PencilSimple}
-                    isLoading={isLoading}
-                  />
-                </td>
-              )}
-            </tr>
-          )}
+            ))}
         </tbody>
       </table>
     </div>

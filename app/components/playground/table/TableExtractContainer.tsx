@@ -1,14 +1,14 @@
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { ExtractTab, PlaygroundFile, ExtractState } from '@/app/types/PlaygroundTypes';
 import { useEffect, useState } from 'react';
-import Button from '../Button';
+import Button from '../../Button';
 import { ArrowCounterClockwise, DownloadSimple, Table } from '@phosphor-icons/react';
-import PulsingIcon from '../PulsingIcon';
+import PulsingIcon from '../../PulsingIcon';
 import toast from 'react-hot-toast';
 import { downloadFile } from '@/app/actions/downloadFile';
 import { AxiosError, AxiosResponse } from 'axios';
-import ResultContainer from './ResultContainer';
-import { useProductionContext } from './ProductionContext';
+import ResultContainer from '../ResultContainer';
+import { useProductionContext } from '../ProductionContext';
 import { runUploadRequestJob as runPreProdUploadRequestJob } from '@/app/actions/preprod/runUploadRequestJob';
 import { runUploadRequestJob } from '@/app/actions/runUploadRequestJob';
 import * as XLSX from 'xlsx';
@@ -189,7 +189,7 @@ const TableExtractContainer = () => {
 
   const handleRetry = () => {
     updateFileAtIndex(selectedFileIndex, 'tableExtractResult', '');
-    updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.READY);
+    handleTableExtractTransform();
   };
 
   return (

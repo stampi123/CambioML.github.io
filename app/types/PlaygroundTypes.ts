@@ -26,7 +26,8 @@ export enum ExtractTab {
   INITIAL_STATE,
 }
 
-export enum MapTab {
+export enum TableTab {
+  TABLE_EXTRACT,
   TABLE_SELECT,
   MAP_SCHEMA,
 }
@@ -65,7 +66,7 @@ export interface PlaygroundFile {
   tableExtractState: ExtractState;
   tableMdExtractState: ExtractState;
   extractTab: ExtractTab;
-  mapTab: MapTab;
+  tableTab: TableTab;
   qaState: TransformState;
   summarizeState: TransformState;
   compareState: CompareState;
@@ -98,6 +99,6 @@ interface S3FileSource {
 }
 
 export const PlaygroundTabs = {
-  EXTRACT: 'Extract',
-  MAP: 'Map',
+  PLAIN_TEXT: 'Plain Text',
+  TABLE: 'Table',
 };

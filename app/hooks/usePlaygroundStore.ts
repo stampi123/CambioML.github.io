@@ -6,7 +6,7 @@ import {
   TransformState,
   CompareState,
   ExtractTab,
-  MapTab,
+  TableTab,
   ExtractedMDTable,
 } from '../types/PlaygroundTypes';
 import { PresignedResponse } from '../actions/apiInterface';
@@ -47,7 +47,7 @@ interface PlaygroundStore {
       | File
       | string[]
       | ExtractTab
-      | MapTab
+      | TableTab
       | Set<number>
       | { [key: string]: string }
       | ExtractedMDTable[]
@@ -60,14 +60,14 @@ const initialFileState = {
   extractResult: [''],
   qaResult: null,
   tableExtractResult: [''],
-  tableMdExtractResult: [{ title: '', table: '' }],
+  tableMdExtractResult: [{ title: '', table: '', tableData: {} }],
   keyMap: {},
   tableMapIndices: new Set(),
   s3_file_source: { s3_bucket: '', source_type: '', s3_prefix: '' },
-  activeTab: PlaygroundTabs.EXTRACT,
+  activeTab: PlaygroundTabs.PLAIN_TEXT,
   extractState: ExtractState.READY,
   extractTab: ExtractTab.INITIAL_STATE,
-  mapTab: MapTab.TABLE_SELECT,
+  tableTab: TableTab.TABLE_EXTRACT,
   qaState: TransformState.READY,
   summarizeState: TransformState.READY,
   tableExtractState: ExtractState.READY,

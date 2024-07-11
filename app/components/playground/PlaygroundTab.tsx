@@ -3,6 +3,7 @@ import { PlaygroundFile } from '@/app/types/PlaygroundTypes';
 import { Icon } from '@phosphor-icons/react';
 import { useEffect, useState } from 'react';
 import InfoButton from './InfoButton';
+import { usePostHog } from 'posthog-js/react';
 
 interface PlaygroundTabProps {
   label: string;
@@ -15,9 +16,12 @@ const selectedStyle = 'text-neutral-800 border-2 border-b-0';
 const PlaygroundTab = ({ label, icon: Icon }: PlaygroundTabProps) => {
   const { selectedFileIndex, files, updateSelectedFile, loggedIn } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
+  const posthog = usePostHog();
   const handleClick = () => {
     if (loggedIn) {
       updateSelectedFile('activeTab', label);
+      const posthogLabel = `playground_main_tab_${label}`.toLocaleLowerCase();
+      posthog.capture(posthogLabel, { route: '/playground' });
     }
   };
 

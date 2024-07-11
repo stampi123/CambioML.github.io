@@ -4,10 +4,17 @@ import { FileDashed, SignOut } from '@phosphor-icons/react';
 import FileItem from './FileItem';
 import Button from '../Button';
 import { useAuth0 } from '@auth0/auth0-react';
+import { usePostHog } from 'posthog-js/react';
 
 const FilesContainer = () => {
   const { files, loggedIn } = usePlaygroundStore();
   const { logout } = useAuth0();
+  const posthog = usePostHog();
+
+  const handleAuth0Logout = () => {
+    posthog.capture('playground_logout', { route: '/playground' });
+    logout();
+  };
   return (
     <div className="h-full w-full  min-h-[400px] grid grid-rows-[50px_1fr_80px_80px]">
       <div className="row-span-1 text-2xl font-semibold pb-10">Files</div>
@@ -30,7 +37,7 @@ const FilesContainer = () => {
       </div>
       {loggedIn && (
         <div className="border-t-2 pt-4">
-          <Button label="Logout" onClick={() => logout()} small labelIcon={SignOut} />
+          <Button label="Logout" onClick={handleAuth0Logout} small labelIcon={SignOut} />
         </div>
       )}
     </div>

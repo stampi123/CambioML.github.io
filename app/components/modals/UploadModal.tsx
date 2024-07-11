@@ -14,12 +14,14 @@ import Button from '../Button';
 import { uploadFile } from '@/app/actions/uploadFile';
 import { uploadFile as preProdUploadFile } from '@/app/actions/preprod/uploadFile';
 import { useProductionContext } from '../playground/ProductionContext';
+import { usePostHog } from 'posthog-js/react';
 
 const UploadModal = () => {
   const { apiURL, isProduction } = useProductionContext();
   const uploadModal = useUploadModal();
   const [htmlInputValue, setHtmlInputValue] = useState('');
   const [htmlInputError, setHtmlInputError] = useState('');
+  const posthog = usePostHog();
 
   const handleHtmlInputChange = (value: string) => {
     if (validateUrl(value)) {
@@ -49,6 +51,8 @@ const UploadModal = () => {
       addHTMLFile(htmlInputValue);
       setHtmlInputValue('');
       toast.success(`Added ${htmlInputValue}`);
+      if (isProduction)
+        posthog.capture('playground.upload', { route: '/playground', file_type: 'text/html', module: 'upload' });
       handleClose();
     } else {
       toast.error('Invalid HTML URL');
@@ -75,6 +79,9 @@ const UploadModal = () => {
       return;
     }
     setFilesToUpload([starterFile]);
+    if (isProduction) {
+      posthog.capture('playground.upload.starter_file', { route: '/playground' });
+    }
     uploadModal.setUploadModalState(UploadModalState.UPLOADING);
   };
 
@@ -107,6 +114,7 @@ const UploadModal = () => {
     if (uploadModal.uploadModalState === UploadModalState.UPLOADING) {
       const uploadPromises = filesToUpload.map((file) => {
         if (isProduction) {
+          posthog.capture('playground.upload', { route: '/playground', file_type: file.type, module: 'upload' });
           return uploadFile({
             api_url: apiURL,
             file,

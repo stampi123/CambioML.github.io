@@ -1,5 +1,5 @@
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
-import { ExtractState, MapTab, PlaygroundFile } from '@/app/types/PlaygroundTypes';
+import { ExtractState, TableTab, PlaygroundFile } from '@/app/types/PlaygroundTypes';
 import { useEffect, useState } from 'react';
 import { ArrowLeft, DownloadSimple, Plus, Robot } from '@phosphor-icons/react';
 import Button from '../../Button';
@@ -65,7 +65,7 @@ const MapSchemaContainer = () => {
           let maxColLength = -1;
           for (const inputKey of inputKeys) {
             const mappedKey = currentMap[inputKey];
-            const mappedValues = tableKeysData[mappedKey] || [''];
+            const mappedValues = tableKeysData[mappedKey] || ['None'];
             maxColLength = Math.max(mappedValues.length, maxColLength);
             tableColumns.push(mappedValues);
           }
@@ -138,7 +138,7 @@ const MapSchemaContainer = () => {
   }, [selectedFileIndex, files, updateFileAtIndex]);
 
   const handleTableSelectClick = () => {
-    updateFileAtIndex(selectedFileIndex, 'mapTab', MapTab.TABLE_SELECT);
+    updateFileAtIndex(selectedFileIndex, 'tableTab', TableTab.TABLE_SELECT);
   };
 
   const handleDownloadTable = () => {
@@ -165,6 +165,24 @@ const MapSchemaContainer = () => {
     });
   };
 
+  const handleDownloadJson = () => {
+    const keyMap: { [key: string]: string } = selectedFile?.keyMap || {};
+    const mergedData: { [key: string]: string[] } = selectedFile?.tableMergedData || {};
+    const outputJson: { [key: string]: { mapped_key: string; mapped_values: string[] } } = {};
+    for (const key in keyMap) {
+      outputJson[key] = {
+        mapped_key: keyMap[key],
+        mapped_values: mergedData[keyMap[key]],
+      };
+    }
+    downloadFile({
+      filename,
+      fileContent: JSON.stringify(outputJson, null, 2),
+      fileType: 'application/json',
+      suffix: `_extracted_table.json`,
+    });
+  };
+
   const hasNonNullValue = (keyMap: { [key: string]: string | null }) => {
     for (const key in keyMap) {
       if (keyMap[key] !== '' && keyMap[key] !== null) return true;
@@ -184,7 +202,7 @@ const MapSchemaContainer = () => {
           </div>
         </div>
       ) : (
-        <div className="h-full grid grid-cols-1 grid-rows-[1fr_70px_70px] gap-4">
+        <div className="h-full grid grid-cols-1 grid-rows-[1fr_70px_50px] gap-4">
           <div className="row-span-1 overflow-auto relative box-border">
             <div className="w-full h-fit justify-center absolute">
               {selectedFile.keyMap && (
@@ -229,6 +247,13 @@ const MapSchemaContainer = () => {
             <Button
               label="Download CSV"
               onClick={handleDownloadTable}
+              small
+              labelIcon={DownloadSimple}
+              disabled={!hasNonNullValue(selectedFile.keyMap) || isLoading}
+            />
+            <Button
+              label="Download Json"
+              onClick={handleDownloadJson}
               small
               labelIcon={DownloadSimple}
               disabled={!hasNonNullValue(selectedFile.keyMap) || isLoading}
