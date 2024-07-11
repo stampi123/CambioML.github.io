@@ -141,6 +141,10 @@ const MapSchemaContainer = () => {
     updateFileAtIndex(selectedFileIndex, 'tableTab', TableTab.TABLE_SELECT);
   };
 
+  const handleTableExtractClick = () => {
+    updateFileAtIndex(selectedFileIndex, 'tableTab', TableTab.TABLE_EXTRACT);
+  };
+
   const handleDownloadTable = () => {
     if (!selectedFile?.keyMap) {
       return;
@@ -191,76 +195,87 @@ const MapSchemaContainer = () => {
 
   return (
     <>
-      {selectedFile?.tableMdExtractState !== ExtractState.DONE_EXTRACTING ||
-      selectedFile?.tableMdExtractResult.length === 0 ||
-      selectedFile?.tableMdExtractResult[0]['table'] === '' ||
-      selectedFile?.tableMapIndices.size === 0 ? (
+      {selectedFile?.tableExtractState !== ExtractState.DONE_EXTRACTING ? (
         <div className="h-full w-full flex flex-col items-center justify-center gap-4">
-          <div className="text-xl font-semibold text-neutral-800">No Tables Extracted/Selected</div>
+          <div className="text-xl font-semibold text-neutral-800">No Tables Extracted</div>
           <div className="w-[300px] gap-4">
-            <Button label="Go to Table Extract" onClick={handleTableSelectClick} small labelIcon={ArrowLeft} />
+            <Button label="Go to Table Extract" onClick={handleTableExtractClick} small labelIcon={ArrowLeft} />
           </div>
         </div>
       ) : (
-        <div className="h-full grid grid-cols-1 grid-rows-[1fr_70px_50px] gap-4">
-          <div className="row-span-1 overflow-auto relative box-border">
-            <div className="w-full h-fit justify-center absolute">
-              {selectedFile.keyMap && (
-                <MapSchemaTable
-                  keyMap={selectedFile?.keyMap}
-                  tableMappedDataRows={selectedFile.tableMappedDataRows}
-                  isLoading={isLoading}
+        <>
+          {selectedFile?.tableMdExtractState !== ExtractState.DONE_EXTRACTING ||
+          selectedFile?.tableMdExtractResult.length === 0 ||
+          selectedFile?.tableMdExtractResult[0]['table'] === '' ||
+          selectedFile?.tableMapIndices.size === 0 ? (
+            <div className="h-full w-full flex flex-col items-center justify-center gap-4">
+              <div className="text-xl font-semibold text-neutral-800">No Tables Selected</div>
+              <div className="w-[300px] gap-4">
+                <Button label="Go to Table Select" onClick={handleTableSelectClick} small labelIcon={ArrowLeft} />
+              </div>
+            </div>
+          ) : (
+            <div className="h-full grid grid-cols-1 grid-rows-[1fr_70px_50px] gap-4">
+              <div className="row-span-1 overflow-auto relative box-border">
+                <div className="w-full h-fit justify-center absolute">
+                  {selectedFile.keyMap && (
+                    <MapSchemaTable
+                      keyMap={selectedFile?.keyMap}
+                      tableMappedDataRows={selectedFile.tableMappedDataRows}
+                      isLoading={isLoading}
+                    />
+                  )}
+                </div>
+              </div>
+              <div
+                className={`row-span-1 h-full border-b-[1px] border-neutral-200 flex items-center justify-center gap-2 h-fit pb-2`}
+              >
+                <div className={`w-full h-fit gap-4 grid grid-cols-[1fr_150px]`}>
+                  <InputBasic
+                    label="Schema Keys"
+                    value={query}
+                    onChange={handleQueryChange}
+                    error={inputError}
+                    labelDescription="Enter a single key or multiple keys as comma-separated list"
+                    highlight={Object.keys(selectedFile?.keyMap || {}).length === 0 && !query}
+                    onEnter={handleAddKey}
+                  />
+                  <Button
+                    label="Add Keys"
+                    onClick={handleAddKey}
+                    small
+                    labelIcon={Plus}
+                    disabled={(query.length < MIN_INPUT_LENGTH && inputError !== '') || isLoading}
+                  />
+                </div>
+              </div>
+              <div className="row-span-1 flex gap-4">
+                <Button
+                  label="Map Schema"
+                  onClick={handleMapSchema}
+                  small
+                  labelIcon={Robot}
+                  disabled={(selectedFile && Object.keys(selectedFile?.keyMap).length === 0) || isLoading}
                 />
-              )}
+                <Button
+                  label="Download CSV"
+                  onClick={handleDownloadTable}
+                  small
+                  labelIcon={DownloadSimple}
+                  disabled={!hasNonNullValue(selectedFile.keyMap) || isLoading}
+                />
+                <Button
+                  label="Download Json"
+                  onClick={handleDownloadJson}
+                  small
+                  labelIcon={DownloadSimple}
+                  disabled={!hasNonNullValue(selectedFile.keyMap) || isLoading}
+                />
+              </div>
+              <KeySelectModal />
             </div>
-          </div>
-          <div
-            className={`row-span-1 h-full border-b-[1px] border-neutral-200 flex items-center justify-center gap-2 h-fit pb-2`}
-          >
-            <div className={`w-full h-fit gap-4 grid grid-cols-[1fr_150px]`}>
-              <InputBasic
-                label="Schema Keys"
-                value={query}
-                onChange={handleQueryChange}
-                error={inputError}
-                labelDescription="Enter a single key or multiple keys as comma-separated list"
-                highlight={Object.keys(selectedFile?.keyMap || {}).length === 0 && !query}
-                onEnter={handleAddKey}
-              />
-              <Button
-                label="Add Keys"
-                onClick={handleAddKey}
-                small
-                labelIcon={Plus}
-                disabled={(query.length < MIN_INPUT_LENGTH && inputError !== '') || isLoading}
-              />
-            </div>
-          </div>
-          <div className="row-span-1 flex gap-4">
-            <Button
-              label="Map Schema"
-              onClick={handleMapSchema}
-              small
-              labelIcon={Robot}
-              disabled={(selectedFile && Object.keys(selectedFile?.keyMap).length === 0) || isLoading}
-            />
-            <Button
-              label="Download CSV"
-              onClick={handleDownloadTable}
-              small
-              labelIcon={DownloadSimple}
-              disabled={!hasNonNullValue(selectedFile.keyMap) || isLoading}
-            />
-            <Button
-              label="Download Json"
-              onClick={handleDownloadJson}
-              small
-              labelIcon={DownloadSimple}
-              disabled={!hasNonNullValue(selectedFile.keyMap) || isLoading}
-            />
-          </div>
-          <KeySelectModal />
-        </div>
+          )}
+        </>
       )}
     </>
   );
