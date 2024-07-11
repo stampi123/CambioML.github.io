@@ -4,9 +4,9 @@ import React, { forwardRef } from 'react';
 
 interface MapSchemaCellProps {
   text: string;
-  handleIconClick: () => void;
+  handleIconClick?: () => void;
   handleSecondIconClick?: () => void;
-  icon: Icon | IconType;
+  icon?: Icon | IconType;
   secondIcon?: Icon | IconType;
   isLoading: boolean;
   bold?: boolean;
@@ -22,30 +22,28 @@ const MapSchemaCell = forwardRef<HTMLDivElement, MapSchemaCellProps>(
           <div ref={ref} className={`bg-neutral-200 animate-pulse ${inputStyles}`} />
         ) : (
           <>
-            {text.length === 0 ? (
-              <div ref={ref} className={`bg-neutral-100 ${inputStyles}`} />
-            ) : (
-              <div
-                ref={ref}
-                className={`flex justify-between items-center group ${text === 'None' && 'bg-neutral-100 text-neutral-500'} ${inputStyles}`}
-              >
-                <div className="overflow-auto whitespace-nowrap flex-1">{text}</div>
+            <div
+              ref={ref}
+              className={`flex justify-between items-center group ${(text === 'None' || text.length === 0) && 'bg-neutral-100 text-neutral-500'} ${inputStyles}`}
+            >
+              <div className="overflow-auto whitespace-nowrap flex-1">{`${text.length === 0 ? 'None' : text}`}</div>
+              {Icon && (
                 <button
                   onClick={handleIconClick}
                   className="ml-2 w-[25px] h-[25px] hidden group-hover:block hover:text-neutral-900 hover:bg-neutral-200 rounded-full text-neutral-700 p-1 font-bold transition duration-300"
                 >
                   <Icon size={18} weight="bold" />
                 </button>
-                {SecondIcon && (
-                  <button
-                    onClick={handleSecondIconClick}
-                    className="ml-2 w-[25px] h-[25px] hidden group-hover:block hover:text-neutral-900 hover:bg-neutral-200 rounded-full text-neutral-700 p-1 font-bold transition duration-300"
-                  >
-                    <SecondIcon size={18} weight="bold" />
-                  </button>
-                )}
-              </div>
-            )}
+              )}
+              {SecondIcon && (
+                <button
+                  onClick={handleSecondIconClick}
+                  className="ml-2 w-[25px] h-[25px] hidden group-hover:block hover:text-neutral-900 hover:bg-neutral-200 rounded-full text-neutral-700 p-1 font-bold transition duration-300"
+                >
+                  <SecondIcon size={18} weight="bold" />
+                </button>
+              )}
+            </div>
           </>
         )}
       </>

@@ -30,15 +30,14 @@ const MapSchemaTable = ({ keyMap, tableMappedDataRows, isLoading }: MapSchemaTab
   };
   const handleMappedDeleteClick = (thisKey: string) => {
     if (selectedFile) {
-      //   const thisKey = Object.entries(selectedFile.keyMap).find(([_, val]) => val === mappedKey)?.[0] || '';
       const currentKeys = selectedFile.keyMap;
       currentKeys[thisKey] = '';
       const currentTableData = selectedFile.tableMappedDataRows;
       const keyIndex = currentTableData[0].indexOf(thisKey);
-      const newMappedData = currentTableData.map((innerArray) =>
+      const newMappedData = currentTableData.map((innerArray, rowIndex) =>
         innerArray.map((val, index) => {
-          if (index === keyIndex) return '';
-          return val;
+          if (index !== keyIndex || rowIndex === 0) return val;
+          return '';
         })
       );
       updateFileAtIndex(selectedFileIndex, 'keyMap', currentKeys);
@@ -107,14 +106,7 @@ const MapSchemaTable = ({ keyMap, tableMappedDataRows, isLoading }: MapSchemaTab
                 {rowIndex === 0 ? <th>Mapped Values</th> : <th></th>}
                 {tableRow.map((tableData, cellIndex) => (
                   <td key={cellIndex}>
-                    <MapSchemaCell
-                      text={tableData || ''}
-                      handleIconClick={() => handleEditClick(inputKeys[cellIndex])}
-                      icon={PencilSimple}
-                      secondIcon={X}
-                      handleSecondIconClick={() => handleMappedDeleteClick(inputKeys[cellIndex])}
-                      isLoading={isLoading}
-                    />
+                    <MapSchemaCell text={tableData || ''} isLoading={isLoading} />
                   </td>
                 ))}
               </tr>
