@@ -5,7 +5,7 @@ import ExtractContainer from './ExtractContainer';
 import { useEffect, useState } from 'react';
 import { PlaygroundFile, PlaygroundTabs } from '@/app/types/PlaygroundTypes';
 import UploadButton from './UploadButton';
-import MapContainer from './map/MapContainer';
+import MapContainer from './table/MapContainer';
 
 const ActionContainer = () => {
   const { loggedIn, selectedFileIndex, files } = usePlaygroundStore();
@@ -34,8 +34,10 @@ const ActionContainer = () => {
           </div>
         ) : (
           <div className="h-full border border-solid border-2 border-t-0 border-neutral-200 rounded-b-xl p-4 pt-0">
-            {(selectedFile?.activeTab === PlaygroundTabs.EXTRACT || selectedFileIndex === null) && <ExtractContainer />}
-            {selectedFile?.activeTab === PlaygroundTabs.MAP && <MapContainer />}
+            {(selectedFile?.activeTab === PlaygroundTabs.PLAIN_TEXT || selectedFileIndex === null) && (
+              <ExtractContainer />
+            )}
+            {selectedFile?.activeTab === PlaygroundTabs.TABLE && <MapContainer />}
           </div>
         )
       ) : (

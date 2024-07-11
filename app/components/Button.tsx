@@ -27,6 +27,7 @@ const Button = ({ label, onClick, disabled, outline, small, icon: Icon, labelIco
         hover:text-white
         transition
         w-full
+        h-full
         ${outline ? 'bg-white' : 'bg-cambio-blue'}
         ${outline ? 'border-cambio-blue' : 'border-neutral-800'}
         ${outline ? 'text-neutral-800' : 'text-neutral-800'}

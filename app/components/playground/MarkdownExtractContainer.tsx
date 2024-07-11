@@ -13,6 +13,7 @@ import { runRequestJob } from '@/app/actions/runRequestJob';
 import { runRequestJob as runPreProdRequestJob } from '@/app/actions/preprod/runRequestJob';
 import ResultContainer from './ResultContainer';
 import { useProductionContext } from './ProductionContext';
+import { usePostHog } from 'posthog-js/react';
 
 const textStyles = 'text-xl font-semibold text-neutral-500';
 
@@ -28,6 +29,7 @@ const MarkdownExtractContainer = () => {
   const { selectedFileIndex, files, filesFormData, updateFileAtIndex, token, clientId } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [filename, setFilename] = useState<string>('');
+  const posthog = usePostHog();
 
   useEffect(() => {
     if (selectedFileIndex !== null && files.length > 0) {
@@ -53,17 +55,18 @@ const MarkdownExtractContainer = () => {
   }, [selectedFile, filename]);
 
   const handleSuccess = (response: AxiosResponse) => {
-    const result = response.data;
+    let result = response.data;
     if (result === undefined) {
       toast.error(`${filename}: Received undefined result. Please try again.`);
       updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
       return;
     }
     if (typeof result === 'string') {
-      updateFileAtIndex(selectedFileIndex, 'extractResult', [result]);
-    } else {
-      updateFileAtIndex(selectedFileIndex, 'extractResult', result);
+      result = [result];
     }
+    updateFileAtIndex(selectedFileIndex, 'extractResult', result);
+    if (isProduction)
+      posthog.capture('playground.extract.plain_text.success', { route: '/playground', pages: result.length });
 
     updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.DONE_EXTRACTING);
     toast.success(`${filename} extracted!`);
@@ -86,6 +89,7 @@ const MarkdownExtractContainer = () => {
         return;
       }
     }
+    if (isProduction) posthog.capture('playground.extract.plain_text.error', { route: '/playground' });
     toast.error(`Error extracting ${filename}. Please try again.`);
     updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
   };
@@ -96,6 +100,7 @@ const MarkdownExtractContainer = () => {
   };
 
   const handleFileExtract = async () => {
+    if (isProduction) posthog.capture('playground.extract.plain_text.button', { route: '/playground' });
     if (selectedFile?.extractTab === ExtractTab.INITIAL_STATE) {
       updateFileAtIndex(selectedFileIndex, 'extractTab', ExtractTab.FILE_EXTRACT);
     }
@@ -235,41 +240,6 @@ const MarkdownExtractContainer = () => {
       });
     });
   };
-
-  // const handleMarkdownCSVDownload = () => {
-  //   if (!selectedFile?.extractResult) {
-  //     return;
-  //   }
-  //   const markdownData = extractMarkdownTables(selectedFile.extractResult.join('\n\n'));
-  //   markdownData.forEach((markdown, index) => {
-  //     const rows = markdown.split('\n');
-  //     const nonEmptyRows = rows.filter((row) => row.trim() !== '');
-  //     const headers = nonEmptyRows[0]
-  //       .replace(/^\|/, '')
-  //       .replace(/\|$/, '')
-  //       .split('|')
-  //       .map((cell) => cell.trim());
-  //     const dataRows = nonEmptyRows.slice(2); // Exclude header rows
-
-  //     let csvContent = headers.join(',') + '\n';
-  //     csvContent += dataRows
-  //       .map((row) => {
-  //         const cells = row.split('|').map((cell) => cell.trim());
-  //         return cells
-  //           .slice(1, cells.length - 1)
-  //           .map((cell) => `"${cell.replace(/"/g, '""')}"`)
-  //           .join(',');
-  //       })
-  //       .join('\n');
-
-  //     downloadFile({
-  //       filename,
-  //       fileContent: csvContent,
-  //       fileType: 'text/csv',
-  //       suffix: `_extracted_table_${index}.csv`,
-  //     });
-  //   });
-  // };
 
   return (
     <>

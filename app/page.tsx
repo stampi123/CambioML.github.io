@@ -83,7 +83,7 @@ export default function Home() {
               title="Test Cambio API today"
               outline
               buttonText="Launch Playground"
-              buttonHandler={() => router.push('playground-3a284dca-393d-4d28-8a7a-bf202d475442')}
+              buttonHandler={() => router.push('playground')}
             >
               Extract and Map your files on our Playground.
             </ProductCard>

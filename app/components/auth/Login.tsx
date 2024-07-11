@@ -1,6 +1,5 @@
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
-import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
-import { deleteAccessStorage, getAccessStorage, setAccessStorage } from '@/app/hooks/useAccessToken';
+import { deleteAccessStorage, getAccessStorage } from '@/app/hooks/useAccessToken';
 import toast from 'react-hot-toast';
 import { useCallback, useEffect } from 'react';
 import Button from '../Button';
@@ -8,20 +7,14 @@ import { SignIn, UserCircle } from '@phosphor-icons/react';
 import PulsingIcon from '../PulsingIcon';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useProductionContext } from '../playground/ProductionContext';
-
-const ACCESS_TIME = 1; //Access token time in hours
-
-interface LoginResponse {
-  credential: string | undefined;
-  clientId: string;
-  select_by: string;
-}
+import { usePostHog } from 'posthog-js/react';
 
 const LoginComponent = () => {
-  const { user, isAuthenticated, isLoading, loginWithRedirect, getAccessTokenSilently, logout } = useAuth0();
+  const { isAuthenticated, isLoading, loginWithRedirect, getAccessTokenSilently, logout } = useAuth0();
   const { auth0Enabled } = useProductionContext();
-
+  const posthog = usePostHog();
   const { loggedIn, setLoggedIn, setClientId, setToken } = usePlaygroundStore();
+
   useEffect(() => {
     if (!auth0Enabled) {
       const accessToken = getAccessStorage();
@@ -44,22 +37,12 @@ const LoginComponent = () => {
         getAccessToken();
         setLoggedIn(true);
         setClientId(process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || '');
+        fetchUserProfile();
       } else if (loggedIn) {
         handleLogout();
       }
     }
-  }, [isAuthenticated]);
-
-  const handleLogin = (response: LoginResponse) => {
-    setLoggedIn(true);
-
-    if (typeof response.credential === 'string') {
-      setToken(response.credential);
-      setAccessStorage(response.credential, ACCESS_TIME, 'localStorage');
-    }
-
-    setClientId(response.clientId);
-  };
+  }, [isAuthenticated, isLoading, auth0Enabled, loggedIn]);
 
   const getAccessToken = useCallback(async () => {
     const domain = process.env.NEXT_PUBLIC_AUTH0_DOMAIN || '';
@@ -67,7 +50,7 @@ const LoginComponent = () => {
       const accessToken = await getAccessTokenSilently({
         authorizationParams: {
           audience: `https://${domain}/api/v2/`,
-          scope: 'read:current_user',
+          scope: 'openid profile email',
         },
       });
       setToken(accessToken);
@@ -78,7 +61,24 @@ const LoginComponent = () => {
       toast.error('Failed to get access token');
       handleLogout();
     }
-  }, [getAccessTokenSilently, setToken]);
+  }, [getAccessTokenSilently, setToken, setLoggedIn, setClientId]);
+
+  const fetchUserProfile = useCallback(async () => {
+    try {
+      const accessToken = await getAccessTokenSilently();
+      const response = await fetch(`https://${process.env.NEXT_PUBLIC_AUTH0_DOMAIN}/userinfo`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      const profile = await response.json();
+      if (profile.email) {
+        posthog.identify(profile.email);
+      }
+    } catch (e) {
+      console.log('Failed to fetch user profile', e);
+    }
+  }, [getAccessTokenSilently, posthog]);
 
   const handleLogout = () => {
     console.log('logging out');
@@ -89,47 +89,25 @@ const LoginComponent = () => {
     logout();
   };
 
+  const handleAuth0Login = () => {
+    posthog.capture('playground_login', { route: '/playground' });
+    loginWithRedirect({
+      authorizationParams: {
+        scope: 'openid profile email',
+      },
+    });
+  };
+
   return (
     <div className="h-full w-full flex flex-col items-center justify-center gap-4">
-      {auth0Enabled ? (
-        <>
-          {isLoading ? (
-            <PulsingIcon Icon={UserCircle} size={48} />
-          ) : (
-            <>
-              {isAuthenticated && user ? (
-                <>
-                  <div>
-                    <img src={user.picture} alt={user.name} />
-                    <h2>{user.name}</h2>
-                    <p>{user.email}</p>
-                  </div>
-                  <Button label="Logout" small onClick={() => logout()} />
-                </>
-              ) : (
-                <>
-                  <UserCircle size={80} className="text-neutral-700" />
-                  <div className="w-full max-w-[500px]">
-                    <Button label="Login" small onClick={() => loginWithRedirect()} labelIcon={SignIn} />
-                  </div>
-                </>
-              )}
-            </>
-          )}
-        </>
+      {isLoading ? (
+        <PulsingIcon Icon={UserCircle} size={48} />
       ) : (
         <>
-          <div>Please login to use the Playground.</div>
-          <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_OAUTH_GOOGLE_CLIENT_ID || ''}>
-            <GoogleLogin
-              onSuccess={(credentialResponse) => {
-                handleLogin(credentialResponse as LoginResponse);
-              }}
-              onError={() => {
-                toast.error('Log in failed. Please check your Google account.');
-              }}
-            />
-          </GoogleOAuthProvider>
+          <UserCircle size={80} className="text-neutral-700" />
+          <div className="w-full max-w-[500px]">
+            <Button label="Login" small onClick={handleAuth0Login} labelIcon={SignIn} />
+          </div>
         </>
       )}
     </div>

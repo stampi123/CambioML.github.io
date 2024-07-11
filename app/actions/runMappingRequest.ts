@@ -1,7 +1,9 @@
 import OpenAI from 'openai';
 
+const MAX_RETRIES = 3;
+
 const openai = new OpenAI({
-  apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY || '', // This is the default and can be omitted
+  apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY || '',
   dangerouslyAllowBrowser: true,
 });
 
@@ -12,30 +14,22 @@ interface IParams {
 
 function parseApiResponse(response: string): { [key: string]: string } {
   try {
-    // Trim the response to remove leading/trailing whitespace
     let trimmedResponse = response.trim();
 
-    // Check if the response starts and ends with ```json and ``` respectively
     if (trimmedResponse.startsWith('```json') && trimmedResponse.endsWith('```')) {
-      // Remove the markdown code block delimiters
       trimmedResponse = trimmedResponse.slice(7, -3).trim();
     }
 
-    // Replace `None` with `null`
     trimmedResponse = trimmedResponse.replace(/\bNone\b/g, 'null');
 
-    // Try to parse the cleaned response as JSON
     const parsedResponse = JSON.parse(trimmedResponse);
 
-    // Check if the parsed response is a stringified JSON
     if (typeof parsedResponse === 'string') {
       return JSON.parse(parsedResponse);
     }
 
-    // Return the parsed JSON object
     return parsedResponse;
   } catch (error) {
-    // Handle cases where response is not a valid JSON string
     throw new Error('Invalid JSON response');
   }
 }
@@ -44,27 +38,58 @@ export const runMappingRequest = async ({ tableSchema, keysToMap }: IParams) => 
   if (keysToMap.length === 0) {
     throw new Error('The keysToMap array is empty. At least one key is required.');
   }
-  const prompt = `Here is a list of \`raw_schema\`:
-    ${JSON.stringify(tableSchema)}
-    Your goal is to map each string in the \`raw_schema\` to a string the \`db_schema\` below:
-    ${JSON.stringify(keysToMap)}
+
+  const getMappingPrompt = (schema: string[], keys: string[]) => `
+    Here is a list of \`raw_schema\`:
+    ${JSON.stringify(schema)}
+    Your goal is to map each string in the \`raw_schema\` to a string in the \`db_schema\` below:
+    ${JSON.stringify(keys)}
     Return a dictionary with keys from the \`db_schema\` and values as the matched key from \`raw_schema\`.
     Make sure the mapping is 1 to 1 only.
-    If no value is found, then return None. Return the dictionary in JSON ONLY, no other text. for example, DO NOT include`;
+    If no value is found, then return None. Return the dictionary in JSON ONLY, no other text.`;
 
-  const params: OpenAI.Chat.ChatCompletionCreateParams = {
-    messages: [
-      { role: 'system', content: 'You are an expert in mapping schema from financial documents.' },
-      { role: 'user', content: prompt },
-    ],
-    model: 'gpt-4o',
-    max_tokens: 4096,
+  const fetchMapping = async (keys: string[]) => {
+    const prompt = getMappingPrompt(tableSchema, keys);
+    const params: OpenAI.Chat.ChatCompletionCreateParams = {
+      messages: [
+        { role: 'system', content: 'You are an expert in mapping schema from financial documents.' },
+        { role: 'user', content: prompt },
+      ],
+      model: 'gpt-4o',
+      max_tokens: 4096,
+    };
+    const chatCompletion: OpenAI.Chat.ChatCompletion = await openai.chat.completions.create(params);
+    const rawResponse = chatCompletion.choices[0].message.content || '';
+    const response = parseApiResponse(rawResponse);
+    return response;
   };
-  console.log('[runMappingRequest]: IN : ', params);
-  const chatCompletion: OpenAI.Chat.ChatCompletion = await openai.chat.completions.create(params);
-  const rawResponse = chatCompletion.choices[0].message.content || '';
-  console.log('[chatcompletion]:', chatCompletion.choices[0].message.content);
-  const response = parseApiResponse(rawResponse);
-  console.log('cleaned response:', response);
-  return response;
+
+  let retries = 0;
+  let keysToRetry = keysToMap;
+  const cumulativeResult: { [key: string]: string } = {};
+
+  while (retries < MAX_RETRIES && keysToRetry.length > 0) {
+    const mappingResult = await fetchMapping(keysToRetry);
+
+    Object.keys(mappingResult).forEach((key) => {
+      if (mappingResult[key] !== null) {
+        cumulativeResult[key] = mappingResult[key];
+      }
+    });
+
+    keysToRetry = Object.keys(mappingResult).filter((key) => mappingResult[key] === null);
+
+    if (keysToRetry.length === 0) {
+      return cumulativeResult;
+    }
+
+    retries++;
+    if (retries < MAX_RETRIES) {
+      console.log(`Retrying for keys: ${JSON.stringify(keysToRetry)} (Attempt ${retries + 1}/${MAX_RETRIES})`);
+    } else {
+      console.log(`Reached maximum retries (${MAX_RETRIES}).`);
+    }
+  }
+
+  return cumulativeResult;
 };

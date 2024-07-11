@@ -16,7 +16,7 @@ const allowedTypes: { [key: string]: number } = {
   'image/png': 10,
   'image/jpeg': 10,
   'image/jpg': 10,
-  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 5,
+  // 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 5,
 };
 
 const Dropzone = () => {
@@ -56,9 +56,9 @@ const Dropzone = () => {
       <p className="mt-2">
         {isDragActive ? 'Drop files here' : 'Drag and drop a single file here, or click to select a file'}
       </p>
-      <p className="text-sm text-gray-500">PDF, TXT, HTML, XLSX, PNG, JPG, and JPEG files only</p>
+      <p className="text-sm text-gray-500">PDF, TXT, HTML, PNG, JPG, and JPEG files only</p>
       <p className="text-sm text-gray-500">Please do not upload any sensitive information.</p>
-      <p className="text-sm text-gray-500">Max size 5MB for XLSX, 10MB for all others.</p>
+      <p className="text-sm text-gray-500">Max size 10MB</p>
     </div>
   );
 };
