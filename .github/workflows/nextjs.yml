@@ -96,6 +96,11 @@ jobs:
           NEXT_PUBLIC_AWS_SECRET_KEY: ${{ secrets.NEXT_PUBLIC_AWS_SECRET_KEY }}
           NEXT_PUBLIC_AWS_REGION: ${{ secrets.NEXT_PUBLIC_AWS_REGION }}
           NEXT_PUBLIC_CALENDLY_URL: ${{ secrets.NEXT_PUBLIC_CALENDLY_URL }}
+          NEXT_PUBLIC_LOGOUT_URL_PLAYGROUND: ${{ secrets.NEXT_PUBLIC_LOGOUT_URL_PLAYGROUND }}
+          NEXT_PUBLIC_LOGOUT_URL_ACCOUNT: ${{ secrets.NEXT_PUBLIC_LOGOUT_URL_ACCOUNT }}
+          NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }}
+          NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

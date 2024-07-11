@@ -4,7 +4,7 @@ import AccountPageContainer from './AccountPageContainer';
 import { Auth0Provider } from '@auth0/auth0-react';
 
 const AccountPage = () => {
-  const redirectUri = process.env.NEXT_PUBLIC_LOGOUT_URL_ACCOUNT || 'https://www.cambioml.com/account';
+  const redirectUri = process.env.NEXT_PUBLIC_LOGOUT_URL_ACCOUNT;
   return (
     <div>
       <Auth0Provider
