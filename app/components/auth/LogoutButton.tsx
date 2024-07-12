@@ -3,7 +3,7 @@ import Button from '../Button';
 import { SignOut } from '@phosphor-icons/react';
 // import useUserProfile from '@/app/hooks/useUserProfile';
 
-interface LogoutButtonProps {
+export interface LogoutButtonProps {
   logoutUrl: string;
 }
 

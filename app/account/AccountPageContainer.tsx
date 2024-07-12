@@ -3,7 +3,7 @@ import { Icon, Key, UserCircle } from '@phosphor-icons/react';
 import Container from '../components/Container';
 import Heading from '../components/Heading';
 import LoginButton from '../components/auth/LoginButton';
-import LogoutButton from '../components/auth/LogoutButton';
+import LogoutButton, { LogoutButtonProps } from '../components/auth/LogoutButton';
 import PageHero from '../components/hero/PageHero';
 import useUserProfile from '../hooks/useUserProfile';
 import Image from 'next/image';
@@ -21,6 +21,41 @@ const LoadingComponent = ({ icon: Icon }: LoadingComponentProps) => {
   );
 };
 
+interface ProfileContainerProps {
+  logoutButton?: React.FC<LogoutButtonProps>;
+  loginButton?: React.FC;
+  profilePic?: string;
+  phrase: string;
+  logoutUrl?: string;
+}
+
+const ProfileContainer = ({
+  logoutButton: LogoutButton,
+  loginButton: LoginButton,
+  profilePic,
+  phrase,
+  logoutUrl,
+}: ProfileContainerProps) => {
+  return (
+    <div className="w-full h-full flex flex-col items-center justify-between gap-8">
+      <div className="w-full flex flex-col items-center justify-center gap-4">
+        <Image
+          src={`${profilePic || imgPrefix + '/images/default-profile.png'}`}
+          alt="Profile Picture"
+          width={150}
+          height={150}
+          className="rounded-full"
+        />
+        <h1 className="text-xl text-neutral-800">{phrase}</h1>
+      </div>
+      <div className="w-full h-[50px] flex items-center justify-center">
+        {LogoutButton && <LogoutButton logoutUrl={logoutUrl || ''} />}
+        {LoginButton && <LoginButton />}
+      </div>
+    </div>
+  );
+};
+
 const AccountPageContainer = () => {
   const { profile, error, loading } = useUserProfile();
 
@@ -34,36 +69,26 @@ const AccountPageContainer = () => {
             <div className="w-full h-[275px] flex flex-col items-center justify-center">
               {loading && <LoadingComponent icon={UserCircle} />}
               {!loading && error && (
-                <>
-                  <div>Error loading user profile: {error}</div>
-                  Please try again.
-                  <LoginButton />
-                </>
+                <ProfileContainer
+                  loginButton={LoginButton}
+                  profilePic={imgPrefix + '/images/default-profile.png'}
+                  phrase={`Error loading user profile: ${error}`}
+                />
               )}
               {!loading && !error && !profile && (
-                <>
-                  <div className="text-2xl text-neutral-700">Please log in.</div>
-                  <LoginButton />
-                </>
+                <ProfileContainer
+                  loginButton={LoginButton}
+                  profilePic={imgPrefix + '/images/default-profile.png'}
+                  phrase="Please log in."
+                />
               )}
               {!loading && !error && profile && (
-                <div className="w-full h-full flex flex-col items-center justify-between gap-8">
-                  <div className="w-full flex flex-col items-center justify-center gap-4">
-                    <Image
-                      src={`${profile.picture || imgPrefix + '/images/default-profile.png'}`}
-                      alt="Profile Picture"
-                      width={150}
-                      height={150}
-                      className="rounded-full"
-                    />
-                    <h1>Welcome, {profile.name}!</h1>
-                  </div>
-                  <div className="w-full h-[50px] flex items-center justify-center">
-                    <LogoutButton
-                      logoutUrl={process.env.NEXT_PUBLIC_LOGOUT_URL_ACCOUNT || 'https://www.cambioml.com/account'}
-                    />
-                  </div>
-                </div>
+                <ProfileContainer
+                  logoutButton={LogoutButton}
+                  profilePic={profile.picture}
+                  phrase={`Welcome, ${profile.name}`}
+                  logoutUrl={process.env.NEXT_PUBLIC_LOGOUT_URL_ACCOUNT || 'https://www.cambioml.com/account'}
+                />
               )}
             </div>
           </div>

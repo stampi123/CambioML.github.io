@@ -10,6 +10,8 @@ import KeySelectModal from '../../modals/KeySelectModal';
 import { runMappingRequest } from '@/app/actions/runMappingRequest';
 import { downloadFile } from '@/app/actions/downloadFile';
 import MapSchemaTable from './MapSchemaTable';
+import { useProductionContext } from '../ProductionContext';
+import { usePostHog } from 'posthog-js/react';
 
 const MIN_INPUT_LENGTH = 1;
 
@@ -20,6 +22,8 @@ const MapSchemaContainer = () => {
   const [query, setQuery] = useState<string>('');
   const [inputError, setInputError] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { isProduction } = useProductionContext();
+  const posthog = usePostHog();
 
   useEffect(() => {
     if (selectedFileIndex !== null && files.length > 0) {
@@ -34,6 +38,13 @@ const MapSchemaContainer = () => {
   }, [selectedFileIndex, files, updateFileAtIndex]);
 
   const handleMapSchema = async () => {
+    if (isProduction)
+      posthog.capture('playground.table.map_schema.button_map_schema', {
+        route: '/playground',
+        module: 'table',
+        submodule: 'map_schema',
+        num_keys: Object.keys(selectedFile?.keyMap || {}).length,
+      });
     setIsLoading(true);
     if (selectedFile) {
       const allTables = selectedFile.tableMdExtractResult;
@@ -58,6 +69,17 @@ const MapSchemaContainer = () => {
             }
           }
           updateFileAtIndex(selectedFileIndex, 'keyMap', currentMap);
+          if (isProduction) {
+            const n_mapped_keys = Object.keys(currentMap).filter((key) => currentMap[key] !== '').length;
+            const n_null_keys = Object.keys(currentMap).length - n_mapped_keys;
+            posthog.capture('playground.table.map_schema.success', {
+              route: '/playground',
+              module: 'table',
+              submodule: 'map_schema',
+              num_mapped_keys: n_mapped_keys,
+              num_null_keys: n_null_keys,
+            });
+          }
           const inputKeys = Object.keys(currentMap);
           const tableKeysData = selectedFile.tableMergedData;
           const tableColumns = [];
@@ -87,6 +109,12 @@ const MapSchemaContainer = () => {
           toast.success(`Generated Schema Map for ${filename}`);
         } catch (error) {
           toast.error(`Error mapping schema for ${filename}. Please try again.`);
+          if (isProduction)
+            posthog.capture('playground.table.map_schema.error', {
+              route: '/playground',
+              module: 'table',
+              submodule: 'map_schema',
+            });
         }
       } else {
         setIsLoading(false);
@@ -104,6 +132,12 @@ const MapSchemaContainer = () => {
   };
 
   const handleAddKey = () => {
+    if (isProduction)
+      posthog.capture('playground.table.map_schema.add_key', {
+        route: '/playground',
+        module: 'table',
+        submodule: 'map_schema',
+      });
     if (selectedFile) {
       const currentMap = selectedFile.keyMap;
       let newKeys: string[] = [];
@@ -146,6 +180,12 @@ const MapSchemaContainer = () => {
   };
 
   const handleDownloadTable = () => {
+    if (isProduction)
+      posthog.capture('playground.table.map_schema.download_csv', {
+        route: '/playground',
+        module: 'table',
+        submodule: 'map_schema',
+      });
     if (!selectedFile?.keyMap) {
       return;
     }
@@ -170,6 +210,12 @@ const MapSchemaContainer = () => {
   };
 
   const handleDownloadJson = () => {
+    if (isProduction)
+      posthog.capture('playground.table.map_schema.download_json', {
+        route: '/playground',
+        module: 'table',
+        submodule: 'map_schema',
+      });
     const keyMap: { [key: string]: string } = selectedFile?.keyMap || {};
     const mergedData: { [key: string]: string[] } = selectedFile?.tableMergedData || {};
     const outputJson: { [key: string]: { mapped_key: string; mapped_values: string[] } } = {};

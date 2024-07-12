@@ -90,7 +90,7 @@ const LoginComponent = () => {
   };
 
   const handleAuth0Login = () => {
-    posthog.capture('playground_login', { route: '/playground' });
+    posthog.capture('playground.login.button', { route: '/playground' });
     loginWithRedirect({
       authorizationParams: {
         scope: 'openid profile email',

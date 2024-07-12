@@ -13,12 +13,14 @@ import { runUploadRequestJob as runPreProdUploadRequestJob } from '@/app/actions
 import { runUploadRequestJob } from '@/app/actions/runUploadRequestJob';
 import * as XLSX from 'xlsx';
 import { SiMicrosoftexcel } from 'react-icons/si';
+import { usePostHog } from 'posthog-js/react';
 
 const TableExtractContainer = () => {
   const { apiURL, isProduction } = useProductionContext();
   const { selectedFileIndex, files, filesFormData, updateFileAtIndex, token, clientId } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [filename, setFilename] = useState<string>('');
+  const posthog = usePostHog();
 
   useEffect(() => {
     if (selectedFileIndex !== null && files.length > 0) {
@@ -40,6 +42,14 @@ const TableExtractContainer = () => {
       return;
     }
     result = result.filter((page: string) => page.length > 0);
+    if (isProduction)
+      posthog.capture('playground.table.extract_table.success', {
+        route: '/playground',
+        module: 'table',
+        submodule: 'extract_table',
+        file_type: getFileType(),
+        num_pages: result.length,
+      });
     updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.DONE_EXTRACTING);
     updateFileAtIndex(selectedFileIndex, 'tableExtractResult', result);
     toast.success(`Generated table(s) from ${filename}!`);
@@ -61,6 +71,15 @@ const TableExtractContainer = () => {
         return;
       }
     }
+    if (isProduction)
+      posthog.capture('playground.table.extract_table.error', {
+        route: '/playground',
+        module: 'table',
+        submodule: 'extract_table',
+        file_type: getFileType(),
+        error_status: e.response?.status,
+        error_message: e.response?.data,
+      });
     toast.error(`Error transforming ${filename}. Please try again.`);
     updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.READY);
   };
@@ -71,6 +90,13 @@ const TableExtractContainer = () => {
   };
 
   const handleTableExtractTransform = async () => {
+    if (isProduction)
+      posthog.capture('playground.table.extract_table.button', {
+        route: '/playground',
+        module: 'table',
+        submodule: 'extract_table',
+        file_type: getFileType(),
+      });
     if (selectedFile?.extractTab === ExtractTab.INITIAL_STATE) {
       updateFileAtIndex(selectedFileIndex, 'extractTab', ExtractTab.TABLE_EXTRACT);
     }
@@ -134,6 +160,13 @@ const TableExtractContainer = () => {
     if (!selectedFile?.tableExtractResult) {
       return;
     }
+    if (isProduction)
+      posthog.capture('playground.table.extract_table.download_html', {
+        route: '/playground',
+        module: 'table',
+        submodule: 'extract_table',
+        file_type: getFileType(),
+      });
     downloadFile({
       filename,
       fileContent: selectedFile.tableExtractResult.join('\n\n'),
@@ -153,6 +186,13 @@ const TableExtractContainer = () => {
     if (!selectedFile?.tableExtractResult) {
       return;
     }
+    if (isProduction)
+      posthog.capture('playground.table.extract_table.download_xlsx', {
+        route: '/playground',
+        module: 'table',
+        submodule: 'extract_table',
+        file_type: getFileType(),
+      });
     const htmlData = extractHTMLTables(selectedFile.tableExtractResult.join('\n\n'));
     const wb = XLSX.utils.book_new();
     htmlData.forEach((htmlTable, index) => {
@@ -188,8 +228,23 @@ const TableExtractContainer = () => {
   };
 
   const handleRetry = () => {
+    if (isProduction)
+      posthog.capture('playground.table.extract_table.retry', {
+        route: '/playground',
+        module: 'table',
+        submodule: 'extract_table',
+        file_type: getFileType(),
+      });
     updateFileAtIndex(selectedFileIndex, 'tableExtractResult', '');
     handleTableExtractTransform();
+  };
+
+  const getFileType = (): string => {
+    let fileType = 'text/html';
+    if (selectedFile?.file instanceof File) {
+      fileType = selectedFile.file.type;
+    }
+    return fileType;
   };
 
   return (

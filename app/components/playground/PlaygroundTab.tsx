@@ -20,8 +20,9 @@ const PlaygroundTab = ({ label, icon: Icon }: PlaygroundTabProps) => {
   const handleClick = () => {
     if (loggedIn) {
       updateSelectedFile('activeTab', label);
-      const posthogLabel = `playground_main_tab_${label}`.toLocaleLowerCase();
-      posthog.capture(posthogLabel, { route: '/playground' });
+      const module = label.replace(' ', '_').toLocaleLowerCase();
+      const posthogLabel = `playground.${module}.tab`.toLocaleLowerCase();
+      posthog.capture(posthogLabel, { route: '/playground', module: module });
     }
   };
 

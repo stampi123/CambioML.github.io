@@ -2,6 +2,8 @@ import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { PlaygroundFile } from '@/app/types/PlaygroundTypes';
 import { Check, FileMagnifyingGlass } from '@phosphor-icons/react';
 import { useEffect, useState } from 'react';
+import { useProductionContext } from '../ProductionContext';
+import { usePostHog } from 'posthog-js/react';
 
 interface TableSelectItemProps {
   tableName: string;
@@ -15,7 +17,8 @@ const TableSelectItem = ({ tableName, tableIndex, tablePreviewIndex, setTablePre
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [tableSelected, setTableSelected] = useState(true);
   const [renderTrigger, setRenderTrigger] = useState(0);
-
+  const { isProduction } = useProductionContext();
+  const posthog = usePostHog();
   useEffect(() => {
     if (selectedFileIndex !== null && files.length > 0) {
       const thisFile = files[selectedFileIndex];
@@ -24,12 +27,28 @@ const TableSelectItem = ({ tableName, tableIndex, tablePreviewIndex, setTablePre
   }, [selectedFileIndex, files, updateFileAtIndex]);
 
   const handleCheckClick = () => {
+    if (isProduction)
+      posthog.capture('playground.table.select_table.individual_select', {
+        route: '/playground',
+        module: 'table',
+        submodule: 'select_table',
+      });
     if (tableSelected) {
       selectedFile?.tableMapIndices.delete(tableIndex);
     } else {
       selectedFile?.tableMapIndices.add(tableIndex);
     }
     setRenderTrigger((prev) => prev + 1); // Force re-render
+  };
+
+  const handleTablePreviewClick = () => {
+    if (isProduction)
+      posthog.capture('playground.table.select_table.table_preview', {
+        route: '/playground',
+        module: 'table',
+        submodule: 'select_table',
+      });
+    setTablePreviewIndex(tableIndex);
   };
 
   useEffect(() => {
@@ -57,7 +76,7 @@ const TableSelectItem = ({ tableName, tableIndex, tablePreviewIndex, setTablePre
         </div>
       </div>
       <div
-        onClick={() => setTablePreviewIndex(tableIndex)}
+        onClick={handleTablePreviewClick}
         className={`h-fit w-[40px] p-2 bg-white rounded-md flex justify-center align-center cursor-pointer gap-2 ${tablePreviewIndex === tableIndex ? 'text-neutral-800 font-semibold border-[1px] border-neutral-100 border-neutral-400' : 'text-neutral-300'}`}
       >
         <FileMagnifyingGlass size={20} />

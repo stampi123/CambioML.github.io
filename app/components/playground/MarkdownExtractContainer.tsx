@@ -43,8 +43,22 @@ const MarkdownExtractContainer = () => {
     }
   }, [selectedFileIndex, files]);
 
+  const getFileType = (): string => {
+    let fileType = 'text/html';
+    if (selectedFile?.file instanceof File) {
+      fileType = selectedFile.file.type;
+    }
+    return fileType;
+  };
+
   const handleDownload = useCallback(() => {
     if (selectedFile?.extractResult) {
+      if (isProduction)
+        posthog.capture('playground.plain_text.download_markdown', {
+          route: '/playground',
+          module: 'plain_text',
+          file_type: getFileType(),
+        });
       downloadFile({
         filename,
         fileContent: selectedFile.extractResult.join('\n\n'),
@@ -66,7 +80,12 @@ const MarkdownExtractContainer = () => {
     }
     updateFileAtIndex(selectedFileIndex, 'extractResult', result);
     if (isProduction)
-      posthog.capture('playground.extract.plain_text.success', { route: '/playground', pages: result.length });
+      posthog.capture('playground.plain_text.success', {
+        route: '/playground',
+        module: 'plain_text',
+        file_type: getFileType(),
+        num_pages: result.length,
+      });
 
     updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.DONE_EXTRACTING);
     toast.success(`${filename} extracted!`);
@@ -89,7 +108,14 @@ const MarkdownExtractContainer = () => {
         return;
       }
     }
-    if (isProduction) posthog.capture('playground.extract.plain_text.error', { route: '/playground' });
+    if (isProduction)
+      posthog.capture('playground.plain_text.error', {
+        route: '/playground',
+        module: 'plain_text',
+        file_type: getFileType(),
+        error_status: e.response?.status,
+        error_message: e.response?.data,
+      });
     toast.error(`Error extracting ${filename}. Please try again.`);
     updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
   };
@@ -100,7 +126,12 @@ const MarkdownExtractContainer = () => {
   };
 
   const handleFileExtract = async () => {
-    if (isProduction) posthog.capture('playground.extract.plain_text.button', { route: '/playground' });
+    if (isProduction)
+      posthog.capture('playground.plain_text.button', {
+        route: '/playground',
+        module: 'plain_text',
+        file_type: getFileType(),
+      });
     if (selectedFile?.extractTab === ExtractTab.INITIAL_STATE) {
       updateFileAtIndex(selectedFileIndex, 'extractTab', ExtractTab.FILE_EXTRACT);
     }
@@ -198,6 +229,12 @@ const MarkdownExtractContainer = () => {
 
   const handleRetry = () => {
     updateFileAtIndex(selectedFileIndex, 'extractResult', []);
+    if (isProduction)
+      posthog.capture('playground.plain_text.retry', {
+        route: '/playground',
+        module: 'plain_text',
+        file_type: getFileType(),
+      });
     handleExtract();
   };
 
@@ -205,6 +242,12 @@ const MarkdownExtractContainer = () => {
     if (!selectedFile?.extractResult) {
       return;
     }
+    if (isProduction)
+      posthog.capture('playground.plain_text.download_table_json', {
+        route: '/playground',
+        module: 'plain_text',
+        file_type: getFileType(),
+      });
     const markdownData = extractMarkdownTables(selectedFile.extractResult.join('\n\n'));
     markdownData.forEach((markdownTable, index) => {
       const lines = markdownTable.trim().split('\n');
