@@ -52,7 +52,7 @@ const UploadModal = () => {
       setHtmlInputValue('');
       toast.success(`Added ${htmlInputValue}`);
       if (isProduction)
-        posthog.capture('playground.upload.action', { route: '/playground', file_type: 'text/html', module: 'upload' });
+        posthog.capture('playground.upload.start', { route: '/playground', file_type: 'text/html', module: 'upload' });
       handleClose();
     } else {
       toast.error('Invalid HTML URL');
