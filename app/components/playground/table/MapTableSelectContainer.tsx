@@ -12,6 +12,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import TableSelectItem from './TableSelectItem';
 import PulsingIcon from '../../PulsingIcon';
 import { runExcelTableExtract } from '@/app/actions/runExcelTableExtract';
+import { usePostHog } from 'posthog-js/react';
 // import { convertExcelToPdf } from '@/app/actions/convertXLSXtoPDF';
 
 const selectButtonStyles =
@@ -23,8 +24,24 @@ const MapTableSelectContainer = () => {
   const [filename, setFilename] = useState<string>('');
   const { apiURL, isProduction } = useProductionContext();
   const [tablePreviewIndex, setTablePreviewIndex] = useState(0);
+  const posthog = usePostHog();
 
   const selectAllTables = (result: ExtractedMDTable[]) => {
+    if (result.length > 0) {
+      if (isProduction)
+        posthog.capture('playground.table.select_table.select_all_tables', {
+          route: '/playground',
+          module: 'table',
+          submodule: 'select_table',
+        });
+    } else {
+      if (isProduction)
+        posthog.capture('playground.table.select_table.deselect_all_tables', {
+          route: '/playground',
+          module: 'table',
+          submodule: 'select_table',
+        });
+    }
     updateFileAtIndex(
       selectedFileIndex,
       'tableMapIndices',
@@ -271,6 +288,12 @@ const MapTableSelectContainer = () => {
     updateFileAtIndex(selectedFileIndex, 'tableExtractResult', '');
     updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.READY);
     updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
+    if (isProduction)
+      posthog.capture('playground.table.select_table.button_retry_extract', {
+        route: '/playground',
+        module: 'table',
+        submodule: 'select_table',
+      });
   };
 
   const displayTable = () => {
@@ -356,6 +379,12 @@ const MapTableSelectContainer = () => {
   };
 
   const handleContinueClick = () => {
+    if (isProduction)
+      posthog.capture('playground.table.select_table.button_continue_to_map', {
+        route: '/playground',
+        module: 'table',
+        submodule: 'select_table',
+      });
     updateFileAtIndex(selectedFileIndex, 'tableTab', TableTab.MAP_SCHEMA);
   };
 

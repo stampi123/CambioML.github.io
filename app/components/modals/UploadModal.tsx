@@ -52,7 +52,7 @@ const UploadModal = () => {
       setHtmlInputValue('');
       toast.success(`Added ${htmlInputValue}`);
       if (isProduction)
-        posthog.capture('playground.upload', { route: '/playground', file_type: 'text/html', module: 'upload' });
+        posthog.capture('playground.upload.start', { route: '/playground', file_type: 'text/html', module: 'upload' });
       handleClose();
     } else {
       toast.error('Invalid HTML URL');
@@ -79,9 +79,6 @@ const UploadModal = () => {
       return;
     }
     setFilesToUpload([starterFile]);
-    if (isProduction) {
-      posthog.capture('playground.upload.starter_file', { route: '/playground' });
-    }
     uploadModal.setUploadModalState(UploadModalState.UPLOADING);
   };
 
@@ -114,7 +111,7 @@ const UploadModal = () => {
     if (uploadModal.uploadModalState === UploadModalState.UPLOADING) {
       const uploadPromises = filesToUpload.map((file) => {
         if (isProduction) {
-          posthog.capture('playground.upload', { route: '/playground', file_type: file.type, module: 'upload' });
+          posthog.capture('playground.upload.start', { route: '/playground', file_type: file.type, module: 'upload' });
           return uploadFile({
             api_url: apiURL,
             file,
@@ -138,12 +135,20 @@ const UploadModal = () => {
       Promise.all(uploadPromises)
         .then(() => {
           setFilesToUpload([]);
+          posthog.capture('playground.upload.success', {
+            route: '/playground',
+            module: 'upload',
+          });
           uploadModal.setUploadModalState(UploadModalState.LOGIN);
           handleClose();
           toast.success('File(s) uploaded successfully!');
         })
         .catch(() => {
           uploadModal.setUploadModalState(UploadModalState.ADD_FILES);
+          posthog.capture('playground.upload.error', {
+            route: '/playground',
+            module: 'upload',
+          });
           return;
         });
     }
