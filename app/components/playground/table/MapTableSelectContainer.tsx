@@ -416,7 +416,6 @@ const MapTableSelectContainer = () => {
       selectedFile.tableMdExtractResult.length === 1 &&
       isEmptyTableMdExtractResult(selectedFile.tableMdExtractResult[0])
     ) {
-      console.log('parsing selectedFile.tableExtractResult', selectedFile.tableExtractResult);
       handleSuccess(selectedFile.tableExtractResult);
     }
   }, [selectedFile]);
