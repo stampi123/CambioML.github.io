@@ -35,7 +35,6 @@ const useUserProfile = () => {
           throw new Error('Failed to fetch user profile');
         }
         const profileData: UserProfile = await response.json();
-        console.log('User Profile:', profileData);
         setProfile(profileData);
       } catch (error: unknown) {
         if (error instanceof Error) {

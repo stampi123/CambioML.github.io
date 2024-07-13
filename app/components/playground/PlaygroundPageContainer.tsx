@@ -29,8 +29,8 @@ const PlaygroundPageContainer = ({ production, auth0Enabled }: PlaygroundPageCon
         <div className="pb-10 w-full h-full flex flex-col justify-center items-center">
           <UploadModal />
           <PageHero
-            title={`${production ? '🛝 Playground' : '🚧 PreProd Playground'}`}
-            description={`Test Uniflow with your PDF*, TXT, HTML, and Image files**`}
+            title={`${production ? '🛝 AnyParser Playground' : '🚧 PreProd Playground'}`}
+            description={`Test with your PDF* and Image files**`}
             short
           />
           <PlaygroundContainer />

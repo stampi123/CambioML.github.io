@@ -11,11 +11,12 @@ const DropzoneContainerClass =
 const iconContainerClasses = 'flex items-center justify-center text-3xl mb-4';
 const allowedTypes: { [key: string]: number } = {
   'application/pdf': 10,
-  'text/html': 10,
-  'text/plain': 10,
+  // 'application/vnd.openxmlformats-officedocument.presentationml.presentation': 10,
   'image/png': 10,
   'image/jpeg': 10,
   'image/jpg': 10,
+  // 'text/html': 10,
+  // 'text/plain': 10,
   // 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 5,
 };
 
@@ -56,7 +57,7 @@ const Dropzone = () => {
       <p className="mt-2">
         {isDragActive ? 'Drop files here' : 'Drag and drop a single file here, or click to select a file'}
       </p>
-      <p className="text-sm text-gray-500">PDF, TXT, HTML, PNG, JPG, and JPEG files only</p>
+      <p className="text-sm text-gray-500">PDF, PNG, JPG, and JPEG files only</p>
       <p className="text-sm text-gray-500">Please do not upload any sensitive information.</p>
       <p className="text-sm text-gray-500">Max size 10MB</p>
     </div>
