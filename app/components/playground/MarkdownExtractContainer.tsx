@@ -238,52 +238,6 @@ const MarkdownExtractContainer = () => {
     handleExtract();
   };
 
-  const handleDownloadTableJson = () => {
-    if (!selectedFile?.extractResult) {
-      return;
-    }
-    if (isProduction)
-      posthog.capture('playground.plain_text.download_table_json', {
-        route: '/playground',
-        module: 'plain_text',
-        file_type: getFileType(),
-      });
-    const markdownData = extractMarkdownTables(selectedFile.extractResult.join('\n\n'));
-    markdownData.forEach((markdownTable, index) => {
-      const lines = markdownTable.trim().split('\n');
-      const headers = lines[0]
-        .split('|')
-        .slice(1, -1)
-        .map((header) => header.trim());
-      const json: { [key: string]: { [key: string]: string } } = {};
-
-      for (let i = 2; i < lines.length; i++) {
-        const row = lines[i]
-          .split('|')
-          .slice(1, -1)
-          .map((cell) => cell.trim());
-        const unitDescription = row[0];
-
-        for (let j = 1; j < headers.length; j++) {
-          let header = headers[j];
-          let count = 1;
-          while (json[header] && json[header][unitDescription] !== undefined) {
-            header = `${headers[j]}_${count}`;
-            count++;
-          }
-          if (!json[header]) json[header] = {};
-          json[header][unitDescription] = row[j];
-        }
-      }
-      downloadFile({
-        filename,
-        fileContent: JSON.stringify(json, null, 2),
-        fileType: 'application/json',
-        suffix: `_extracted_table${index > 0 ? '_' + index : ''}.json`,
-      });
-    });
-  };
-
   return (
     <>
       {selectedFile?.extractState === ExtractState.READY && (
@@ -318,10 +272,6 @@ const MarkdownExtractContainer = () => {
               disabled={selectedFile?.extractState !== ExtractState.DONE_EXTRACTING}
               labelIcon={DownloadSimple}
             />
-            {extractMarkdownTables(selectedFile.extractResult.join('\n\n')).length > 0 && (
-              // <Button label="Download Table CSV" onClick={handleMarkdownCSVDownload} small labelIcon={DownloadSimple} />
-              <Button label="Download Table JSON" onClick={handleDownloadTableJson} small labelIcon={DownloadSimple} />
-            )}
           </div>
         </div>
       )}

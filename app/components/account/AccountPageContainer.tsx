@@ -1,13 +1,19 @@
 'use client';
 import { Icon, Key, UserCircle } from '@phosphor-icons/react';
-import Container from '../components/Container';
-import Heading from '../components/Heading';
-import LoginButton from '../components/auth/LoginButton';
-import LogoutButton, { LogoutButtonProps } from '../components/auth/LogoutButton';
-import PageHero from '../components/hero/PageHero';
-import useUserProfile from '../hooks/useUserProfile';
+import Container from '../Container';
+import Heading from '../Heading';
+import LoginButton from '../auth/LoginButton';
+import LogoutButton, { LogoutButtonProps } from '../auth/LogoutButton';
+import PageHero from '../hero/PageHero';
+import useUserProfile from '../../hooks/useUserProfile';
 import Image from 'next/image';
-import { imgPrefix } from '../hooks/useImgPrefix';
+import { imgPrefix } from '../../hooks/useImgPrefix';
+import Button from '../Button';
+import useAccountStore, { ApiKey } from '@/app/hooks/useAccountStore';
+import getNewApiKey from '@/app/actions/account/getNewApiKey';
+import getApiKeysForUser from '@/app/actions/account/getApiKeysForUser';
+import { useEffect, useState } from 'react';
+import ApiKeyRow from './ApiKeyRow';
 
 interface LoadingComponentProps {
   icon: Icon;
@@ -27,6 +33,7 @@ interface ProfileContainerProps {
   profilePic?: string;
   phrase: string;
   logoutUrl?: string;
+  disabled?: boolean;
 }
 
 const ProfileContainer = ({
@@ -35,6 +42,7 @@ const ProfileContainer = ({
   profilePic,
   phrase,
   logoutUrl,
+  disabled,
 }: ProfileContainerProps) => {
   return (
     <div className="w-full h-full flex flex-col items-center justify-between gap-8">
@@ -49,7 +57,7 @@ const ProfileContainer = ({
         <h1 className="text-xl text-neutral-800">{phrase}</h1>
       </div>
       <div className="w-full h-[50px] flex items-center justify-center">
-        {LogoutButton && <LogoutButton logoutUrl={logoutUrl || ''} />}
+        {LogoutButton && <LogoutButton logoutUrl={logoutUrl || ''} disabled={disabled} />}
         {LoginButton && <LoginButton />}
       </div>
     </div>
@@ -58,6 +66,22 @@ const ProfileContainer = ({
 
 const AccountPageContainer = () => {
   const { profile, error, loading } = useUserProfile();
+  const { apiKeys, setApiKeys, addApiKey } = useAccountStore();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleGenerateAPIKey = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      const newKey: ApiKey = getNewApiKey();
+      addApiKey(newKey);
+      setIsLoading(false);
+    }, 2000);
+  };
+
+  useEffect(() => {
+    const apiKeys = getApiKeysForUser();
+    setApiKeys(apiKeys);
+  }, []);
 
   return (
     <div className="pb-10 w-full h-full flex flex-col justify-center items-center">
@@ -88,6 +112,7 @@ const AccountPageContainer = () => {
                   profilePic={profile.picture}
                   phrase={`Welcome, ${profile.name}`}
                   logoutUrl={process.env.NEXT_PUBLIC_LOGOUT_URL_ACCOUNT || 'https://www.cambioml.com/account'}
+                  disabled={isLoading}
                 />
               )}
             </div>
@@ -107,8 +132,24 @@ const AccountPageContainer = () => {
                 </div>
               )}
               {!loading && !error && profile && (
-                <div className="w-full h-full flex flex-col items-start justify-between gap-8">
+                <div className="w-full h-full flex flex-col items-start justify-start gap-8">
                   Generate and copy your API keys.
+                  <div className="w-full h-[50px]">
+                    <Button
+                      label={`${isLoading ? 'Generating...' : 'Generate New API Key'}`}
+                      onClick={handleGenerateAPIKey}
+                      small
+                      disabled={isLoading}
+                    />
+                  </div>
+                  <div className="w-full">
+                    <div className="text-xl font-semibold pb-4">Your Keys</div>
+                    <div className="flex flex-col gap-2 h-[350px] overflow-auto">
+                      {apiKeys.map((key, i) => (
+                        <ApiKeyRow key={i} apiKey={key} />
+                      ))}
+                    </div>
+                  </div>
                 </div>
               )}
             </div>

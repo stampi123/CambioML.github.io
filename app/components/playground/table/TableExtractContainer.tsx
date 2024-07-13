@@ -278,7 +278,7 @@ const TableExtractContainer = () => {
               )}
               <div className={`w-full h-fit flex gap-4`}>
                 <Button label="Retry" onClick={handleRetry} small labelIcon={ArrowCounterClockwise} />
-                {selectedFile.tableExtractResult[0].length > 0 && (
+                {selectedFile.tableExtractResult.length > 0 && selectedFile.tableExtractResult[0].length > 0 && (
                   <Button label="Download HTML" onClick={handleHtmlDownload} small labelIcon={DownloadSimple} />
                 )}
                 {extractHTMLTables(selectedFile.tableExtractResult.join('')).length > 0 && (

@@ -5,9 +5,10 @@ import { SignOut } from '@phosphor-icons/react';
 
 export interface LogoutButtonProps {
   logoutUrl: string;
+  disabled?: boolean;
 }
 
-const LogoutButton = ({ logoutUrl }: LogoutButtonProps) => {
+const LogoutButton = ({ logoutUrl, disabled }: LogoutButtonProps) => {
   const { logout } = useAuth0();
   // const { profile } = useUserProfile();
   // const domain = process.env.NEXT_PUBLIC_AUTH0_DOMAIN;
@@ -23,6 +24,7 @@ const LogoutButton = ({ logoutUrl }: LogoutButtonProps) => {
           })
         }
         small
+        disabled={disabled}
       />
     </div>
   );

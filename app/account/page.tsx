@@ -1,6 +1,6 @@
 'use client';
 
-import AccountPageContainer from './AccountPageContainer';
+import AccountPageContainer from '../components/account/AccountPageContainer';
 import { Auth0Provider } from '@auth0/auth0-react';
 
 const AccountPage = () => {
