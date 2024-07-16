@@ -241,7 +241,7 @@ const MapSchemaContainer = () => {
 
   return (
     <>
-      {selectedFile?.tableExtractState !== ExtractState.DONE_EXTRACTING ? (
+      {selectedFile?.instructionExtractState !== ExtractState.DONE_EXTRACTING ? (
         <div className="h-full w-full flex flex-col items-center justify-center gap-4">
           <div className="text-xl font-semibold text-neutral-800">No Tables Extracted</div>
           <div className="w-[300px] gap-4">

@@ -8,6 +8,7 @@ import {
   ExtractTab,
   TableTab,
   ExtractedMDTable,
+  ExtractSettings,
 } from '../types/PlaygroundTypes';
 import { PresignedResponse } from '../actions/apiInterface';
 
@@ -19,6 +20,7 @@ export interface AddFileParams {
 }
 
 interface PlaygroundStore {
+  extractSettings: ExtractSettings;
   selectedFileIndex: number | null;
   files: PlaygroundFile[];
   filesToUpload: File[];
@@ -54,6 +56,7 @@ interface PlaygroundStore {
       | string[][]
       | { [key: string]: string[] }
   ) => void;
+  toggleExtractSetting: (settingName: keyof ExtractSettings) => void;
 }
 
 const initialFileState = {
@@ -70,7 +73,7 @@ const initialFileState = {
   tableTab: TableTab.TABLE_EXTRACT,
   qaState: TransformState.READY,
   summarizeState: TransformState.READY,
-  tableExtractState: ExtractState.READY,
+  instructionExtractState: ExtractState.READY,
   tableMdExtractState: ExtractState.READY,
   compareState: CompareState.READY,
   compareFile: null,
@@ -78,6 +81,14 @@ const initialFileState = {
 };
 
 const usePlaygroundStore = create<PlaygroundStore>((set) => ({
+  extractSettings: {
+    removePII: false,
+    ignorePageNumbers: false,
+    ignoreChartsFigures: false,
+    ignoreFootnotes: false,
+    ignoreHeadersFooters: false,
+    ignoreTables: false,
+  },
   selectedFileIndex: null,
   files: [],
   filesToUpload: [],
@@ -177,6 +188,20 @@ const usePlaygroundStore = create<PlaygroundStore>((set) => ({
       ...state,
       filesFormData: [...state.filesFormData, formData],
     }));
+  },
+  toggleExtractSetting: (settingName: keyof ExtractSettings) => {
+    set((state) => {
+      // Check if the setting exists in extractSettings
+      if (state.extractSettings && settingName in state.extractSettings) {
+        // Toggle the boolean value of the setting
+        const newSettings = {
+          ...state.extractSettings,
+          [settingName]: !state.extractSettings[settingName],
+        };
+        return { extractSettings: newSettings };
+      }
+      return state; // Return current state if settingName is not found
+    });
   },
 }));
 

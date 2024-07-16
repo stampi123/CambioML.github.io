@@ -43,6 +43,15 @@ export interface ExtractedMDTable {
   tableData: { [key: string]: string[] };
 }
 
+export interface ExtractSettings {
+  removePII: boolean;
+  ignorePageNumbers: boolean;
+  ignoreFootnotes: boolean;
+  ignoreHeadersFooters: boolean;
+  ignoreTables: boolean;
+  ignoreChartsFigures: boolean;
+}
+
 export interface PlaygroundFile {
   file: File | string;
   extractResult: QueryResult;
@@ -63,7 +72,7 @@ export interface PlaygroundFile {
   };
   activeTab: string;
   extractState: ExtractState;
-  tableExtractState: ExtractState;
+  instructionExtractState: ExtractState;
   tableMdExtractState: ExtractState;
   extractTab: ExtractTab;
   tableTab: TableTab;

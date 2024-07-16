@@ -1,23 +1,26 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { CompareState, ExtractState, PlaygroundFile, TransformState } from '../../types/PlaygroundTypes';
 import toast from 'react-hot-toast';
-import { PresignedResponse } from './apiInterface';
+import { JobParams, PresignedResponse } from './apiInterface';
 import { runRequestJob } from './runRequestJob';
 
 const JOB_STATE: { [key: string]: string } = {
   file_extraction: 'extractState',
   info_extraction: 'keyValueState',
   qa_generation: 'qaState',
+  instruction_extraction: 'instructionExtractionState',
 };
 
 const SUCCESS_STATE: { [key: string]: ExtractState | TransformState } = {
   file_extraction: ExtractState.EXTRACTING,
+  instruction_extraction: ExtractState.EXTRACTING,
   info_extraction: TransformState.TRANSFORMING,
   qa_generation: TransformState.TRANSFORMING,
 };
 
 const FAIL_STATE: { [key: string]: ExtractState | TransformState } = {
   file_extraction: ExtractState.READY,
+  instruction_extraction: ExtractState.READY,
   info_extraction: TransformState.READY,
   qa_generation: TransformState.READY,
 };
@@ -28,7 +31,7 @@ interface IParams {
   fileData: PresignedResponse;
   filename: string;
   jobType: string;
-  jobParams?: { [key: string]: string | boolean };
+  jobParams?: JobParams;
   selectedFileIndex: number;
   selectedFile: PlaygroundFile;
   sourceType: string;

@@ -6,12 +6,9 @@ import ResultContainer from '../ResultContainer';
 import { ArrowLeft, ArrowRight, ArrowsCounterClockwise, Check, CloudArrowUp, Table, X } from '@phosphor-icons/react';
 import Button from '../../Button';
 import { useProductionContext } from '../ProductionContext';
-import { runUploadRequestJob as runPreProdUploadRequestJob } from '@/app/actions/preprod/runUploadRequestJob';
-import { runUploadRequestJob } from '@/app/actions/runUploadRequestJob';
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import TableSelectItem from './TableSelectItem';
 import PulsingIcon from '../../PulsingIcon';
-import { runExcelTableExtract } from '@/app/actions/runExcelTableExtract';
 import { usePostHog } from 'posthog-js/react';
 // import { convertExcelToPdf } from '@/app/actions/convertXLSXtoPDF';
 
@@ -19,10 +16,10 @@ const selectButtonStyles =
   'w-full text-center cursor-pointer border-[1px] text-neutral-600 border-neutral-400 rounded-lg flex gap-2 justify-center items-center hover:bg-neutral-100 hover:border-2 hover:font-semibold';
 
 const MapTableSelectContainer = () => {
-  const { selectedFileIndex, files, filesFormData, updateFileAtIndex, token, clientId } = usePlaygroundStore();
+  const { selectedFileIndex, files, updateFileAtIndex } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [filename, setFilename] = useState<string>('');
-  const { apiURL, isProduction } = useProductionContext();
+  const { isProduction } = useProductionContext();
   const [tablePreviewIndex, setTablePreviewIndex] = useState(0);
   const posthog = usePostHog();
 
@@ -188,19 +185,6 @@ const MapTableSelectContainer = () => {
 
     return htmlTables;
   };
-  const processXLSXResult = (result: string[]) => {
-    const htmlTables: ExtractedMDTable[] = [];
-    for (const page of result) {
-      const extractedTables = extractHtmlTable(page);
-      htmlTables.push(...extractedTables);
-    }
-
-    for (const table of htmlTables) {
-      table['tableData'] = extractTableData(table['table'], table['title']);
-    }
-
-    return htmlTables;
-  };
 
   function mergeTableData(tables: ExtractedMDTable[]): { [key: string]: string[] } {
     const mergedData: { [key: string]: string[] } = {};
@@ -239,54 +223,13 @@ const MapTableSelectContainer = () => {
     selectAllTables(htmlTables);
     toast.success(`Generated table(s) from ${filename}!`);
   };
-  const handleXLSXSuccess = (result: string[]) => {
-    if (result === undefined) {
-      toast.error(`${filename}: Received undefined result. Please try again.`);
-      updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
-      return;
-    }
-    updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.DONE_EXTRACTING);
-    updateFileAtIndex(selectedFileIndex, 'extractTab', ExtractTab.TABLE_EXTRACT);
-    const htmlTables = processXLSXResult(result);
-    const tableMergedData = mergeTableData(htmlTables);
-    updateFileAtIndex(selectedFileIndex, 'tableMdExtractResult', htmlTables);
-    updateFileAtIndex(selectedFileIndex, 'tableMergedData', tableMergedData);
-    selectAllTables(htmlTables);
-    toast.success(`Generated table(s) from ${filename}!`);
-  };
-
-  const handleError = (e: AxiosError) => {
-    if (e.response) {
-      if (e.response.status === 400) {
-        toast.error(`${filename}: Parameter is invalid. Please try again.`);
-        updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
-        return;
-      } else if (e.response.status === 404) {
-        toast.error(`${filename}: Job not found. Please try again.`);
-        updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
-        return;
-      } else if (e.response.status === 500) {
-        toast.error(`${filename}: Job has failed. Please try again.`);
-        updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
-        return;
-      }
-    }
-    toast.error(`Error transforming ${filename}. Please try again.`);
-    console.log('error', e);
-    updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
-  };
-
-  const handleTimeout = () => {
-    updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
-    toast.error(`Transform request for ${filename} timed out. Please try again.`);
-  };
 
   const handleRetry = () => {
     setTablePreviewIndex(0);
     updateFileAtIndex(selectedFileIndex, 'tableMdExtractResult', [{ title: '', table: '', tableData: {} }]);
     updateFileAtIndex(selectedFileIndex, 'tableTab', TableTab.TABLE_EXTRACT);
     updateFileAtIndex(selectedFileIndex, 'tableExtractResult', '');
-    updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.READY);
+    updateFileAtIndex(selectedFileIndex, 'instructionExtractState', ExtractState.READY);
     updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
     if (isProduction)
       posthog.capture('playground.table.select_table.button_retry_extract', {
@@ -308,74 +251,6 @@ const MapTableSelectContainer = () => {
       }
     }
     return [''];
-  };
-
-  const handleTableExtract = async () => {
-    if (selectedFile?.extractTab === ExtractTab.INITIAL_STATE) {
-      updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractTab.FILE_EXTRACT);
-    }
-    updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.EXTRACTING);
-    if (
-      selectedFile?.file instanceof File &&
-      selectedFile?.file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    ) {
-      const result = await runExcelTableExtract({ excelFile: selectedFile.file });
-      handleXLSXSuccess(result);
-    } else {
-      const fileData = filesFormData.find((obj) => obj.presignedUrl.fields['x-amz-meta-filename'] === filename);
-      if (!fileData) {
-        updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
-        toast.error(`Error extracting ${filename}. Missing formData. Please try again.`);
-        return;
-      }
-
-      if (selectedFileIndex === null || !selectedFile || !fileData) {
-        toast.error(`Error extracting ${filename}. Please try again.`);
-        updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
-        return;
-      }
-      if (isProduction) {
-        runUploadRequestJob({
-          api_url: apiURL,
-          clientId,
-          token,
-          sourceType: 's3',
-          selectedFile,
-          fileData,
-          jobType: 'info_extraction',
-          jobParams: {
-            user_prompt: '',
-            use_textract: true,
-          },
-          selectedFileIndex,
-          filename,
-          handleError,
-          handleSuccess,
-          handleTimeout,
-          updateFileAtIndex,
-        });
-      } else {
-        runPreProdUploadRequestJob({
-          api_url: apiURL,
-          clientId,
-          token,
-          sourceType: 's3',
-          selectedFile,
-          fileData,
-          jobType: 'info_extraction',
-          jobParams: {
-            user_prompt: '',
-            use_textract: true,
-          },
-          selectedFileIndex,
-          filename,
-          handleError,
-          handleSuccess,
-          handleTimeout,
-          updateFileAtIndex,
-        });
-      }
-    }
   };
 
   const handleContinueClick = () => {
@@ -412,7 +287,7 @@ const MapTableSelectContainer = () => {
 
   useEffect(() => {
     if (
-      selectedFile?.tableExtractState === ExtractState.DONE_EXTRACTING &&
+      selectedFile?.instructionExtractState === ExtractState.DONE_EXTRACTING &&
       selectedFile.tableMdExtractResult.length === 1 &&
       isEmptyTableMdExtractResult(selectedFile.tableMdExtractResult[0])
     ) {
@@ -421,7 +296,7 @@ const MapTableSelectContainer = () => {
   }, [selectedFile]);
   return (
     <>
-      {selectedFile?.tableExtractState === ExtractState.DONE_EXTRACTING ? (
+      {selectedFile?.instructionExtractState === ExtractState.DONE_EXTRACTING ? (
         <div className="h-full grid grid-cols-2 xl:grid-cols-[350px_1fr] grid-rows-[1fr_50px] gap-4">
           <div className="h-full p-4 gap-2 grid grid-rows-[30px_25px_1fr] border-[1px] border-solid rounded-xl">
             {selectedFile?.tableMdExtractState === ExtractState.DONE_EXTRACTING && (
@@ -462,11 +337,6 @@ const MapTableSelectContainer = () => {
                   </div>
                 )}
               </>
-            )}
-            {selectedFile?.tableMdExtractState === ExtractState.READY && (
-              <div className="row-span-4 flex flex-col items-center justify-center h-full">
-                <Button label="Extract Tables" onClick={handleTableExtract} small labelIcon={Table} />
-              </div>
             )}
             {selectedFile?.tableMdExtractState === ExtractState.UPLOADING && (
               <div className="row-span-4 flex flex-col items-center justify-center h-full">

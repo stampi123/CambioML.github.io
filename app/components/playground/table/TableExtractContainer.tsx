@@ -14,10 +14,12 @@ import { runUploadRequestJob } from '@/app/actions/runUploadRequestJob';
 import * as XLSX from 'xlsx';
 import { SiMicrosoftexcel } from 'react-icons/si';
 import { usePostHog } from 'posthog-js/react';
+import ExtractSettingsChecklist from '../ExtractSettingsChecklist';
 
 const TableExtractContainer = () => {
   const { apiURL, isProduction } = useProductionContext();
-  const { selectedFileIndex, files, filesFormData, updateFileAtIndex, token, clientId } = usePlaygroundStore();
+  const { selectedFileIndex, files, filesFormData, updateFileAtIndex, token, clientId, extractSettings } =
+    usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [filename, setFilename] = useState<string>('');
   const posthog = usePostHog();
@@ -38,7 +40,7 @@ const TableExtractContainer = () => {
     let result = response.data;
     if (result === undefined) {
       toast.error(`${filename}: Received undefined result. Please try again.`);
-      updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.READY);
+      updateFileAtIndex(selectedFileIndex, 'instructionExtractState', ExtractState.READY);
       return;
     }
     result = result.filter((page: string) => page.length > 0);
@@ -50,7 +52,7 @@ const TableExtractContainer = () => {
         file_type: getFileType(),
         num_pages: result.length,
       });
-    updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.DONE_EXTRACTING);
+    updateFileAtIndex(selectedFileIndex, 'instructionExtractState', ExtractState.DONE_EXTRACTING);
     updateFileAtIndex(selectedFileIndex, 'tableExtractResult', result);
     toast.success(`Generated table(s) from ${filename}!`);
   };
@@ -59,15 +61,15 @@ const TableExtractContainer = () => {
     if (e.response) {
       if (e.response.status === 400) {
         toast.error(`${filename}: Parameter is invalid. Please try again.`);
-        updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.READY);
+        updateFileAtIndex(selectedFileIndex, 'instructionExtractState', ExtractState.READY);
         return;
       } else if (e.response.status === 404) {
         toast.error(`${filename}: Job not found. Please try again.`);
-        updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.READY);
+        updateFileAtIndex(selectedFileIndex, 'instructionExtractState', ExtractState.READY);
         return;
       } else if (e.response.status === 500) {
         toast.error(`${filename}: Job has failed. Please try again.`);
-        updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.READY);
+        updateFileAtIndex(selectedFileIndex, 'instructionExtractState', ExtractState.READY);
         return;
       }
     }
@@ -81,11 +83,11 @@ const TableExtractContainer = () => {
         error_message: e.response?.data,
       });
     toast.error(`Error transforming ${filename}. Please try again.`);
-    updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.READY);
+    updateFileAtIndex(selectedFileIndex, 'instructionExtractState', ExtractState.READY);
   };
 
   const handleTimeout = () => {
-    updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.READY);
+    updateFileAtIndex(selectedFileIndex, 'instructionExtractState', ExtractState.READY);
     toast.error(`Transform request for ${filename} timed out. Please try again.`);
   };
 
@@ -100,19 +102,31 @@ const TableExtractContainer = () => {
     if (selectedFile?.extractTab === ExtractTab.INITIAL_STATE) {
       updateFileAtIndex(selectedFileIndex, 'extractTab', ExtractTab.TABLE_EXTRACT);
     }
-    updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.EXTRACTING);
+    updateFileAtIndex(selectedFileIndex, 'instructionExtractState', ExtractState.EXTRACTING);
     const fileData = filesFormData.find((obj) => obj.presignedUrl.fields['x-amz-meta-filename'] === filename);
     if (!fileData) {
-      updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.READY);
+      updateFileAtIndex(selectedFileIndex, 'instructionExtractState', ExtractState.READY);
       toast.error(`Error extracting ${filename}. Missing formData. Please try again.`);
       return;
     }
 
     if (selectedFileIndex === null || !selectedFile || !fileData) {
       toast.error(`Error extracting ${filename}. Please try again.`);
-      updateFileAtIndex(selectedFileIndex, 'tableExtractState', ExtractState.READY);
+      updateFileAtIndex(selectedFileIndex, 'instructionExtractState', ExtractState.READY);
       return;
     }
+    const jobParams = {
+      maskPiiFlag: extractSettings.removePII,
+      vqaProcessorArgs: {
+        vqaFiguresFlag: extractSettings.ignoreChartsFigures,
+        vqaChartsFlag: extractSettings.ignoreChartsFigures,
+        vqaTablesFlag: extractSettings.ignoreTables,
+        vqaFootnotesFlag: extractSettings.ignoreFootnotes,
+        vqaHeadersFlag: extractSettings.ignoreHeadersFooters,
+        vqaFootersFlag: extractSettings.ignoreHeadersFooters,
+        vqaPageNumsFlag: extractSettings.ignorePageNumbers,
+      },
+    };
     if (isProduction) {
       runUploadRequestJob({
         api_url: apiURL,
@@ -141,11 +155,8 @@ const TableExtractContainer = () => {
         sourceType: 's3',
         selectedFile,
         fileData,
-        jobType: 'info_extraction',
-        jobParams: {
-          user_prompt: '',
-          use_textract: true,
-        },
+        jobType: 'instruction_extraction',
+        jobParams,
         selectedFileIndex,
         filename,
         handleError,
@@ -236,7 +247,8 @@ const TableExtractContainer = () => {
         file_type: getFileType(),
       });
     updateFileAtIndex(selectedFileIndex, 'tableExtractResult', '');
-    handleTableExtractTransform();
+    updateFileAtIndex(selectedFileIndex, 'instructionExtractState', ExtractState.READY);
+    // handleTableExtractTransform();
   };
 
   const getFileType = (): string => {
@@ -251,21 +263,24 @@ const TableExtractContainer = () => {
     <>
       {selectedFile && (
         <>
-          {selectedFile?.tableExtractState === ExtractState.READY && (
-            <div className="flex flex-col items-center justify-center gap-4 h-full text-lg text-center">
-              {filename}
-              <div className="w-[200px]">
-                <Button label="Extract Table" onClick={handleTableExtractTransform} small labelIcon={Table} />
+          {selectedFile?.instructionExtractState === ExtractState.READY && (
+            <div className="relative flex flex-col justify-center items-center h-full text-lg text-center">
+              <div className=" absolute flex-grow flex flex-col items-center justify-center">
+                {filename}
+                <div className="w-[200px] mt-2">
+                  <Button label="Extract Table" onClick={handleTableExtractTransform} small labelIcon={Table} />
+                </div>
               </div>
+              {!isProduction && <ExtractSettingsChecklist removePIIOnly />}
             </div>
           )}
-          {selectedFile?.tableExtractState === ExtractState.EXTRACTING && (
+          {selectedFile?.instructionExtractState === ExtractState.EXTRACTING && (
             <div className="flex flex-col items-center justify-center h-full">
               <div className="text-xl font-semibold text-neutral-500">Generating HTML Table</div>
               <PulsingIcon Icon={Table} size={40} />
             </div>
           )}
-          {selectedFile?.tableExtractState === ExtractState.DONE_EXTRACTING && (
+          {selectedFile?.instructionExtractState === ExtractState.DONE_EXTRACTING && (
             <div className="flex flex-col items-start w-full h-full gap-4">
               {selectedFile.tableExtractResult.length > 0 ? (
                 <ResultContainer extractResult={selectedFile.tableExtractResult} />

@@ -65,17 +65,21 @@ const ProfileContainer = ({
 };
 
 const AccountPageContainer = () => {
-  const { profile, error, loading } = useUserProfile();
+  const { profile, error, loading, token } = useUserProfile();
   const { apiKeys, setApiKeys, addApiKey } = useAccountStore();
   const [isLoading, setIsLoading] = useState(false);
+  // const { token } = usePlaygroundStore();
 
-  const handleGenerateAPIKey = () => {
+  const handleGenerateAPIKey = async () => {
     setIsLoading(true);
-    setTimeout(() => {
-      const newKey: ApiKey = getNewApiKey();
+    try {
+      const newKey: ApiKey = await getNewApiKey({ clientId: profile?.sub || '', token: token || '' });
       addApiKey(newKey);
+    } catch {
+      // Do nothing
+    } finally {
       setIsLoading(false);
-    }, 2000);
+    }
   };
 
   useEffect(() => {
