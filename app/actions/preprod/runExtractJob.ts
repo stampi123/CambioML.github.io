@@ -20,7 +20,6 @@ interface IParams {
     property: string,
     value: string | ExtractState | TransformState | CompareState | File
   ) => void;
-  page?: number;
 }
 
 export const runExtractJob = async ({
@@ -35,7 +34,6 @@ export const runExtractJob = async ({
   handleSuccess,
   handleError,
   handleTimeout,
-  page,
 }: IParams) => {
   const postData = new FormData();
   Object.entries(fileData.presignedUrl.fields).forEach(([key, value]) => {
@@ -63,7 +61,6 @@ export const runExtractJob = async ({
             handleSuccess,
             handleError,
             handleTimeout,
-            page,
             token,
           });
         }, 5000); // Need to delay the polling to give the server time to process the file

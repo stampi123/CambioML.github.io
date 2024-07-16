@@ -8,12 +8,13 @@ import { DownloadSimple, CloudArrowUp, ArrowCounterClockwise, FileText } from '@
 import PulsingIcon from '../PulsingIcon';
 import { downloadFile } from '@/app/actions/downloadFile';
 import { runExtractJob } from '@/app/actions/runExtractJob';
-import { runExtractJob as runPreProdExtractJob } from '@/app/actions/preprod/runExtractJob';
+import { runUploadRequestJob as runPreProdUploadRequestJob } from '@/app/actions/preprod/runUploadRequestJob';
 import { runRequestJob } from '@/app/actions/runRequestJob';
 import { runRequestJob as runPreProdRequestJob } from '@/app/actions/preprod/runRequestJob';
 import ResultContainer from './ResultContainer';
 import { useProductionContext } from './ProductionContext';
 import { usePostHog } from 'posthog-js/react';
+import ExtractSettingsChecklist from './ExtractSettingsChecklist';
 
 const textStyles = 'text-xl font-semibold text-neutral-500';
 
@@ -26,7 +27,8 @@ export const extractMarkdownTables = (input: string): string[] => {
 
 const MarkdownExtractContainer = () => {
   const { isProduction, apiURL } = useProductionContext();
-  const { selectedFileIndex, files, filesFormData, updateFileAtIndex, token, clientId } = usePlaygroundStore();
+  const { selectedFileIndex, files, filesFormData, updateFileAtIndex, token, clientId, extractSettings } =
+    usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [filename, setFilename] = useState<string>('');
   const posthog = usePostHog();
@@ -86,7 +88,6 @@ const MarkdownExtractContainer = () => {
         file_type: getFileType(),
         num_pages: result.length,
       });
-
     updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.DONE_EXTRACTING);
     toast.success(`${filename} extracted!`);
     return;
@@ -143,6 +144,19 @@ const MarkdownExtractContainer = () => {
       return;
     }
     if (selectedFile && selectedFileIndex !== null) {
+      const jobParams = {
+        maskPiiFlag: extractSettings.removePII,
+        vqaProcessorArgs: {
+          vqaFiguresFlag: extractSettings.ignoreChartsFigures,
+          vqaChartsFlag: extractSettings.ignoreChartsFigures,
+          vqaTablesFlag: extractSettings.ignoreTables,
+          vqaFootnotesFlag: extractSettings.ignoreFootnotes,
+          vqaHeadersFlag: extractSettings.ignoreHeadersFooters,
+          vqaFootersFlag: extractSettings.ignoreHeadersFooters,
+          vqaPageNumsFlag: extractSettings.ignorePageNumbers,
+        },
+      };
+      if (!isProduction) console.log('[MarkdownExtract] jobParams:', jobParams);
       if (isProduction) {
         runExtractJob({
           api_url: apiURL,
@@ -158,18 +172,21 @@ const MarkdownExtractContainer = () => {
           handleTimeout,
         });
       } else {
-        runPreProdExtractJob({
+        runPreProdUploadRequestJob({
           api_url: apiURL,
-          fileData,
-          filename,
-          selectedFile,
-          selectedFileIndex,
+          clientId,
           token,
-          queryType: 'job_result',
-          updateFileAtIndex,
-          handleSuccess,
+          sourceType: 's3',
+          selectedFile,
+          fileData,
+          jobType: 'file_extraction',
+          jobParams,
+          selectedFileIndex,
+          filename,
           handleError,
+          handleSuccess,
           handleTimeout,
+          updateFileAtIndex,
         });
       }
     }
@@ -235,17 +252,20 @@ const MarkdownExtractContainer = () => {
         module: 'plain_text',
         file_type: getFileType(),
       });
-    handleExtract();
+    updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
   };
 
   return (
     <>
       {selectedFile?.extractState === ExtractState.READY && (
-        <div className="flex flex-col items-center justify-center gap-4 h-full text-lg text-center">
-          {filename}
-          <div className="w-[200px]">
-            <Button label="Extract Plain Text" onClick={handleExtract} small labelIcon={FileText} />
+        <div className="relative flex flex-col justify-center items-center h-full text-lg text-center">
+          <div className=" absolute flex-grow flex flex-col items-center justify-center">
+            {filename}
+            <div className="w-[200px] mt-2">
+              <Button label="Extract Plain Text" onClick={handleExtract} small labelIcon={FileText} />
+            </div>
           </div>
+          {!isProduction && <ExtractSettingsChecklist />}
         </div>
       )}
       {selectedFile?.extractState === ExtractState.UPLOADING && (

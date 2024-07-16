@@ -11,6 +11,7 @@ interface UserProfile {
 const useUserProfile = () => {
   const { getAccessTokenSilently, isAuthenticated, isLoading } = useAuth0();
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -26,6 +27,7 @@ const useUserProfile = () => {
             scope: 'openid profile email',
           },
         });
+        setToken(accessToken);
         const response = await fetch(`https://${process.env.NEXT_PUBLIC_AUTH0_DOMAIN}/userinfo`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -48,13 +50,7 @@ const useUserProfile = () => {
     fetchUserProfile();
   }, [getAccessTokenSilently, isAuthenticated]);
 
-  // useEffect(() => {
-  //   if (!isLoading && !isAuthenticated) {
-  //     loginWithRedirect();
-  //   }
-  // }, [isLoading, isAuthenticated, loginWithRedirect]);
-
-  return { profile, error, loading: isLoading || (isAuthenticated && !profile && !error) };
+  return { profile, error, loading: isLoading || (isAuthenticated && !profile && !error), token };
 };
 
 export default useUserProfile;
