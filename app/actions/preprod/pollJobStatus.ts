@@ -39,7 +39,6 @@ const pollJobStatus = async ({ api_url, token, postParams, handleSuccess, handle
         }
       })
       .catch((e: AxiosError) => {
-        console.error(e);
         handleError(e);
         return;
       });

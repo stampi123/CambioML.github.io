@@ -3,7 +3,7 @@ import PageHero from '@/app/components/hero/PageHero';
 import Container from '@/app/components/Container';
 
 const h1Styles = 'font-semibold text-3xl py-4';
-const pStyles = 'text-lg';
+const pStyles = 'text-lg pb-2';
 const h2Styles = 'font-semibold text-2xl py-2';
 
 const BookDemoPage = () => {
@@ -21,11 +21,14 @@ const BookDemoPage = () => {
         <div className={h2Styles}>Information Collection</div>
         <p className={pStyles}>
           Your documents are processed solely to deliver results and are not stored on our servers for model training.
+          We auto delete your each user session cached after 24 hours.
+        </p>
+        <p className={pStyles}>
           Essential data for user login, such as your email address (via Auth0), is collected for account creation and
           application setup. We use this information for:
-          <ul>
-            <li>- Notify you of important updates, including service and policy changes.</li>
-            <li>- Improve the user experience by addressing bugs and glitches.</li>
+          <ul className="list-disc pl-4">
+            <li className="italic">Notify you of important updates, including service and policy changes.</li>
+            <li className="italic">Improve the user experience by addressing bugs and glitches.</li>
           </ul>
         </p>
 
