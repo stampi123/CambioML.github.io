@@ -222,13 +222,61 @@ const TableExtractContainer = () => {
     });
   };
 
+  function htmlTableStringToJson(htmlString: string): Record<string, string[]> {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlString, 'text/html');
+    const table = doc.querySelector('table');
+
+    if (!table) {
+      throw new Error('No table found in the provided HTML string.');
+    }
+    const rows = Array.from(table.querySelectorAll('tr'));
+    const numCols = rows[0].children.length;
+    const result: Record<string, string[]> = {};
+
+    if (numCols === 2) {
+      rows.forEach((row) => {
+        const cells = row.children;
+        const header = cells[0].textContent?.trim() || '';
+        const value = cells[1].textContent?.trim() || '';
+        if (header && value) {
+          result[header] = [value];
+        }
+      });
+    } else {
+      const headers = Array.from(rows[0].children).map((cell) => cell.textContent?.trim() || '');
+      headers.forEach((header) => {
+        result[header] = [];
+      });
+
+      for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].children;
+        headers.forEach((header, index) => {
+          const cellValue = cells[index].textContent?.trim() || '';
+          if (cellValue) {
+            result[header].push(cellValue);
+          }
+        });
+      }
+    }
+
+    return result;
+  }
+
   const handleJsonDownload = () => {
     if (!selectedFile?.tableExtractResult) {
       return;
     }
+    const jsonResult: Record<string, string[]>[] = [];
     const htmlData = extractHTMLTables(selectedFile.tableExtractResult.join('\n\n'));
     htmlData.forEach((htmlTable) => {
-      console.log(JSON.stringify(htmlTable, null, 2));
+      jsonResult.push(htmlTableStringToJson(htmlTable));
+    });
+    downloadFile({
+      filename,
+      fileContent: JSON.stringify(jsonResult, null, 2),
+      fileType: 'application/json',
+      suffix: '_extracted_table.json',
     });
   };
 
@@ -299,7 +347,7 @@ const TableExtractContainer = () => {
                 {extractHTMLTables(selectedFile.tableExtractResult.join('')).length > 0 && (
                   <>
                     {!isProduction && (
-                      <Button label="Console Log JSON" onClick={handleJsonDownload} small labelIcon={DownloadSimple} />
+                      <Button label="Download JSON" onClick={handleJsonDownload} small labelIcon={DownloadSimple} />
                     )}
                     <Button
                       label="Download Excel"
