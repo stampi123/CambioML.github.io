@@ -55,7 +55,9 @@ const Dropzone = () => {
       <div className={iconContainerClasses}>{<CloudArrowUp size={32} />}</div>
       <input {...getInputProps()} className="hidden" />
       <p className="mt-2">
-        {isDragActive ? 'Drop files here' : 'Drag and drop a single file here, or click to select a file'}
+        {isDragActive
+          ? 'Drop files here'
+          : 'Drag and drop a single file here, paste a screenshot, or click to select a file'}
       </p>
       <p className="text-sm text-gray-500">PDF, PNG, JPG, and JPEG files only</p>
       <p className="text-sm text-gray-500">Please do not upload any sensitive information.</p>
