@@ -18,7 +18,7 @@ const MapSchemaTable = ({ keyMap, tableMappedDataRows, isLoading }: MapSchemaTab
 
   const handleDeleteClick = (thisKey: string) => {
     if (selectedFile) {
-      const currentKeys = selectedFile.keyMap;
+      const currentKeys = keyMap;
       delete currentKeys[thisKey];
       updateFileAtIndex(selectedFileIndex, 'keyMap', currentKeys);
       const currentTableData = selectedFile.tableMappedDataRows;
@@ -30,7 +30,7 @@ const MapSchemaTable = ({ keyMap, tableMappedDataRows, isLoading }: MapSchemaTab
   };
   const handleMappedDeleteClick = (thisKey: string) => {
     if (selectedFile) {
-      const currentKeys = selectedFile.keyMap;
+      const currentKeys = keyMap;
       currentKeys[thisKey] = '';
       const currentTableData = selectedFile.tableMappedDataRows;
       const keyIndex = currentTableData[0].indexOf(thisKey);

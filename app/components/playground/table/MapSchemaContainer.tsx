@@ -139,7 +139,7 @@ const MapSchemaContainer = () => {
         submodule: 'map_schema',
       });
     if (selectedFile) {
-      const currentMap = selectedFile.keyMap;
+      const currentMap = { ...selectedFile.keyMap };
       let newKeys: string[] = [];
 
       if (query.includes(',')) {
