@@ -15,6 +15,7 @@ import * as XLSX from 'xlsx';
 import { SiMicrosoftexcel } from 'react-icons/si';
 import { usePostHog } from 'posthog-js/react';
 import ExtractSettingsChecklist from '../ExtractSettingsChecklist';
+import { JobParams } from '@/app/actions/preprod/apiInterface';
 
 const TableExtractContainer = () => {
   const { apiURL, isProduction } = useProductionContext();
@@ -115,17 +116,17 @@ const TableExtractContainer = () => {
       updateFileAtIndex(selectedFileIndex, 'instructionExtractState', ExtractState.READY);
       return;
     }
-    const jobParams = {
+    const jobParams: JobParams = {
       maskPiiFlag: extractSettings.removePII,
-      vqaProcessorArgs: {
-        vqaFiguresFlag: extractSettings.ignoreChartsFigures,
-        vqaChartsFlag: extractSettings.ignoreChartsFigures,
-        vqaTablesFlag: extractSettings.ignoreTables,
-        vqaFootnotesFlag: extractSettings.ignoreFootnotes,
-        vqaHeadersFlag: extractSettings.ignoreHeadersFooters,
-        vqaFootersFlag: extractSettings.ignoreHeadersFooters,
-        vqaPageNumsFlag: extractSettings.ignorePageNumbers,
-      },
+      // vqaProcessorArgs: {
+      //   vqaFiguresFlag: extractSettings.includeChartsFigures,
+      //   vqaChartsFlag: extractSettings.includeChartsFigures,
+      //   vqaTablesFlag: extractSettings.includeTables,
+      //   vqaFootnotesFlag: extractSettings.includeFootnotes,
+      //   vqaHeadersFlag: extractSettings.includeHeadersFooters,
+      //   vqaFootersFlag: extractSettings.includeHeadersFooters,
+      //   vqaPageNumsFlag: extractSettings.includePageNumbers,
+      // },
     };
     if (isProduction) {
       runUploadRequestJob({
@@ -148,6 +149,7 @@ const TableExtractContainer = () => {
         updateFileAtIndex,
       });
     } else {
+      console.log('[TableExtractContainer] handleTableExtractTransform', jobParams);
       runPreProdUploadRequestJob({
         api_url: apiURL,
         clientId,
@@ -155,7 +157,7 @@ const TableExtractContainer = () => {
         sourceType: 's3',
         selectedFile,
         fileData,
-        jobType: 'instruction_extraction',
+        jobType: 'info_extraction',
         jobParams,
         selectedFileIndex,
         filename,

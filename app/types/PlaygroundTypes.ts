@@ -45,11 +45,11 @@ export interface ExtractedMDTable {
 
 export interface ExtractSettings {
   removePII: boolean;
-  ignorePageNumbers: boolean;
-  ignoreFootnotes: boolean;
-  ignoreHeadersFooters: boolean;
-  ignoreTables: boolean;
-  ignoreChartsFigures: boolean;
+  includePageNumbers: boolean;
+  includeFootnotes: boolean;
+  includeHeadersFooters: boolean;
+  includeTables: boolean;
+  includeChartsFigures: boolean;
 }
 
 export interface PlaygroundFile {

@@ -20,32 +20,32 @@ const ExtractSettingsChecklist = ({ removePIIOnly }: ExtractSettingsChecklistPro
           <div className="grid grid-cols-2 md:grid-cols-3">
             <CheckBox
               label="Page Numbers"
-              checked={extractSettings.ignorePageNumbers}
-              onChange={() => toggleExtractSetting('ignorePageNumbers')}
+              checked={!extractSettings.includePageNumbers}
+              onChange={() => toggleExtractSetting('includePageNumbers')}
               alternateColor
             />
             <CheckBox
               label="Footnotes"
-              checked={extractSettings.ignoreFootnotes}
-              onChange={() => toggleExtractSetting('ignoreFootnotes')}
+              checked={!extractSettings.includeFootnotes}
+              onChange={() => toggleExtractSetting('includeFootnotes')}
               alternateColor
             />
             <CheckBox
               label="Headers & Footers"
-              checked={extractSettings.ignoreHeadersFooters}
-              onChange={() => toggleExtractSetting('ignoreHeadersFooters')}
+              checked={!extractSettings.includeHeadersFooters}
+              onChange={() => toggleExtractSetting('includeHeadersFooters')}
               alternateColor
             />
             <CheckBox
               label="Tables"
-              checked={extractSettings.ignoreTables}
-              onChange={() => toggleExtractSetting('ignoreTables')}
+              checked={!extractSettings.includeTables}
+              onChange={() => toggleExtractSetting('includeTables')}
               alternateColor
             />
             <CheckBox
               label="Charts & Figures"
-              checked={extractSettings.ignoreChartsFigures}
-              onChange={() => toggleExtractSetting('ignoreChartsFigures')}
+              checked={!extractSettings.includeChartsFigures}
+              onChange={() => toggleExtractSetting('includeChartsFigures')}
               alternateColor
             />
           </div>
