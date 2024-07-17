@@ -8,10 +8,21 @@ interface ResultContainerProps {
   extractResult: QueryResult;
 }
 
-function hasHtmlTags(input: string): boolean {
-  const htmlTagsRegex = /<([a-z]+)([^<]+)*(?:>(.*)<\/\1>|\s+\/>)/; // Improved Regex
+function countHtmlTags(input: string): number {
+  const htmlTagsRegex = /<([a-z]+)([^<]*)>/gi;
+  let count = 0;
 
-  return htmlTagsRegex.test(input);
+  input.replace(htmlTagsRegex, () => {
+    count++;
+    return '';
+  });
+
+  return count;
+}
+
+function hasHtmlTags(input: string): boolean {
+  const tagCount = countHtmlTags(input);
+  return tagCount > 10;
 }
 
 const ResultContainer = ({ extractResult }: ResultContainerProps) => {

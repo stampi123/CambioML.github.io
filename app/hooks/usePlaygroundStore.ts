@@ -83,11 +83,11 @@ const initialFileState = {
 const usePlaygroundStore = create<PlaygroundStore>((set) => ({
   extractSettings: {
     removePII: true,
-    ignorePageNumbers: false,
-    ignoreChartsFigures: false,
-    ignoreFootnotes: false,
-    ignoreHeadersFooters: false,
-    ignoreTables: false,
+    includePageNumbers: true,
+    includeChartsFigures: true,
+    includeFootnotes: true,
+    includeHeadersFooters: true,
+    includeTables: true,
   },
   selectedFileIndex: null,
   files: [],

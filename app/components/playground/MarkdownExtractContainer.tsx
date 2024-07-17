@@ -15,6 +15,7 @@ import ResultContainer from './ResultContainer';
 import { useProductionContext } from './ProductionContext';
 import { usePostHog } from 'posthog-js/react';
 import ExtractSettingsChecklist from './ExtractSettingsChecklist';
+import { JobParams } from '@/app/actions/preprod/apiInterface';
 
 const textStyles = 'text-xl font-semibold text-neutral-500';
 
@@ -80,6 +81,7 @@ const MarkdownExtractContainer = () => {
     if (typeof result === 'string') {
       result = [result];
     }
+    if (!isProduction) console.log('[MarkdownExtract] result:', result);
     updateFileAtIndex(selectedFileIndex, 'extractResult', result);
     if (isProduction)
       posthog.capture('playground.plain_text.success', {
@@ -144,16 +146,16 @@ const MarkdownExtractContainer = () => {
       return;
     }
     if (selectedFile && selectedFileIndex !== null) {
-      const jobParams = {
+      const jobParams: JobParams = {
         maskPiiFlag: extractSettings.removePII,
         vqaProcessorArgs: {
-          vqaFiguresFlag: extractSettings.ignoreChartsFigures,
-          vqaChartsFlag: extractSettings.ignoreChartsFigures,
-          vqaTablesFlag: extractSettings.ignoreTables,
-          vqaFootnotesFlag: extractSettings.ignoreFootnotes,
-          vqaHeadersFlag: extractSettings.ignoreHeadersFooters,
-          vqaFootersFlag: extractSettings.ignoreHeadersFooters,
-          vqaPageNumsFlag: extractSettings.ignorePageNumbers,
+          vqaFiguresFlag: extractSettings.includeChartsFigures,
+          vqaChartsFlag: extractSettings.includeChartsFigures,
+          vqaTablesFlag: extractSettings.includeTables,
+          vqaFootnotesFlag: extractSettings.includeFootnotes,
+          vqaHeadersFlag: extractSettings.includeHeadersFooters,
+          vqaFootersFlag: extractSettings.includeHeadersFooters,
+          vqaPageNumsFlag: extractSettings.includePageNumbers,
         },
       };
       if (!isProduction) console.log('[MarkdownExtract] jobParams:', jobParams);
