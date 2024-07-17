@@ -6,15 +6,15 @@ import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import useKeySelectModal from '@/app/hooks/useKeySelectModal';
 
 interface MapSchemaTableProps {
+  keyMap: { [key: string]: string };
   tableMappedDataRows: string[][];
   isLoading: boolean;
 }
 
-const MapSchemaTable = ({ tableMappedDataRows, isLoading }: MapSchemaTableProps) => {
+const MapSchemaTable = ({ keyMap, tableMappedDataRows, isLoading }: MapSchemaTableProps) => {
   const { selectedFileIndex, files, updateFileAtIndex } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const keySelectModal = useKeySelectModal();
-  const [keyMap, setKeyMap] = useState<{ [key: string]: string }>({});
 
   const handleDeleteClick = (thisKey: string) => {
     if (selectedFile) {
@@ -30,7 +30,7 @@ const MapSchemaTable = ({ tableMappedDataRows, isLoading }: MapSchemaTableProps)
   };
   const handleMappedDeleteClick = (thisKey: string) => {
     if (selectedFile) {
-      const currentKeys = selectedFile.keyMap;
+      const currentKeys = keyMap;
       currentKeys[thisKey] = '';
       const currentTableData = selectedFile.tableMappedDataRows;
       const keyIndex = currentTableData[0].indexOf(thisKey);
@@ -58,8 +58,6 @@ const MapSchemaTable = ({ tableMappedDataRows, isLoading }: MapSchemaTableProps)
     if (selectedFileIndex !== null && files.length > 0) {
       const thisFile = files[selectedFileIndex];
       setSelectedFile(thisFile);
-      setKeyMap(thisFile.keyMap);
-      console.log('selectedFile', thisFile, thisFile.keyMap);
     }
   }, [selectedFileIndex, files, updateFileAtIndex]);
   const inputKeys = Object.keys(keyMap);
