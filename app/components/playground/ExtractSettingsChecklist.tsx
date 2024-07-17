@@ -11,15 +11,16 @@ const ExtractSettingsChecklist = ({ removePIIOnly }: ExtractSettingsChecklistPro
     <div
       className={`relative flex flex-col items-start justify-center gap-4 border-[1px] border-neutral-200 rounded-lg p-4 w-full ${removePIIOnly ? 'mt-[200px]' : 'mt-[350px]'} shadow-md max-w-[350px] md:max-w-[200px]`}
     >
-      <CheckBox
-        label="Remove P.I.I."
-        checked={extractSettings.removePII}
-        onChange={() => toggleExtractSetting('removePII')}
-      />
-      {!removePIIOnly && (
-        <>
-          <div className="font-semibold text-sm text-sky-400">Ignore outputting:</div>
-          <div className="grid grid-cols-2 md:grid-cols-1 gap-2">
+      <div className="font-semibold text-sm text-sky-500">Remove from output:</div>
+      <div className="grid grid-cols-2 md:grid-cols-1 gap-2">
+        <CheckBox
+          label="Personal Identifiable Information (PII)"
+          checked={extractSettings.removePII}
+          onChange={() => toggleExtractSetting('removePII')}
+          alternateColor
+        />
+        {!removePIIOnly && (
+          <>
             <CheckBox
               label="Page Numbers"
               checked={!extractSettings.includePageNumbers}
@@ -50,9 +51,9 @@ const ExtractSettingsChecklist = ({ removePIIOnly }: ExtractSettingsChecklistPro
               onChange={() => toggleExtractSetting('includeChartsFigures')}
               alternateColor
             />
-          </div>
-        </>
-      )}
+          </>
+        )}
+      </div>
     </div>
   );
 };
