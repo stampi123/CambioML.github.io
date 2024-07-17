@@ -82,7 +82,7 @@ const initialFileState = {
 
 const usePlaygroundStore = create<PlaygroundStore>((set) => ({
   extractSettings: {
-    removePII: false,
+    removePII: true,
     ignorePageNumbers: false,
     ignoreChartsFigures: false,
     ignoreFootnotes: false,
