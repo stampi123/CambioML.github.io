@@ -86,11 +86,8 @@ export const runRequestJob = async ({
     })
     .then((response) => {
       if (response.status === 200) {
-        console.log(response.data);
         toast.success(`${filename} submitted!`);
         updateFileAtIndex(selectedFileIndex, JOB_STATE[jobType], SUCCESS_STATE[jobType]);
-        console.log(`Transforming ${filename} | job_id: $${response.data.jobId}`);
-
         const postParams: QueryParams = {
           userId: response.data.userId,
           fileId,
@@ -107,7 +104,7 @@ export const runRequestJob = async ({
             handleTimeout,
             targetPages: jobParams?.targetPageNumbers,
           });
-        }, SLEEP_DURATION[jobType]); // Need to delay the polling to give the server time to process the file
+        }, SLEEP_DURATION[jobType]);
       } else {
         toast.error(`Error uploading ${filename}. Please try again.`);
         updateFileAtIndex(selectedFileIndex, JOB_STATE[jobType], FAIL_STATE[jobType]);
