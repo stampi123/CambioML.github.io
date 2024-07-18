@@ -14,7 +14,7 @@ import { usePostHog } from 'posthog-js/react';
 import ExtractSettingsChecklist from './ExtractSettingsChecklist';
 import { JobParams } from '@/app/actions/preprod/apiInterface';
 import { runUploadRequestJob } from '@/app/actions/runUploadRequestJob';
-// import useResultZoomModal from '@/app/hooks/useResultZoomModal';
+import useResultZoomModal from '@/app/hooks/useResultZoomModal';
 
 const textStyles = 'text-xl font-semibold text-neutral-500';
 
@@ -32,7 +32,7 @@ const MarkdownExtractContainer = () => {
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [filename, setFilename] = useState<string>('');
   const posthog = usePostHog();
-  // const resultZoomModal = useResultZoomModal();
+  const resultZoomModal = useResultZoomModal();
 
   useEffect(() => {
     if (selectedFileIndex !== null && files.length > 0) {
@@ -143,7 +143,7 @@ const MarkdownExtractContainer = () => {
 
   const handleExtract = async (targetPageNumbers?: number[]) => {
     if (isProduction)
-      posthog.capture('playground.plain_text.button', {
+      posthog.capture('playground.plain_text.start_extract', {
         route: '/playground',
         module: 'plain_text',
         file_type: getFileType(),
@@ -222,15 +222,15 @@ const MarkdownExtractContainer = () => {
     updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
   };
 
-  // const handlePageRetry = () => {
-  //   if (isProduction)
-  //     posthog.capture('playground.plain_text.page_retry', {
-  //       route: '/playground',
-  //       module: 'plain_text',
-  //       file_type: getFileType(),
-  //     });
-  //   handleExtract([resultZoomModal.page]);
-  // };
+  const handlePageRetry = () => {
+    if (isProduction)
+      posthog.capture('playground.plain_text.page_retry', {
+        route: '/playground',
+        module: 'plain_text',
+        file_type: getFileType(),
+      });
+    handleExtract([resultZoomModal.page]);
+  };
 
   return (
     <>
@@ -262,12 +262,14 @@ const MarkdownExtractContainer = () => {
           <ResultContainer extractResult={selectedFile.extractResult} />
           <div className="w-full h-fit flex gap-4">
             <Button label="Re-run Document" onClick={handleRetry} small labelIcon={ArrowCounterClockwise} />
-            {/* <Button
-              label={`Re-run Page ${resultZoomModal.page + 1}`}
-              onClick={handlePageRetry}
-              small
-              labelIcon={ArrowCounterClockwise}
-            /> */}
+            {!isProduction && (
+              <Button
+                label={`Re-run Page ${resultZoomModal.page + 1}`}
+                onClick={handlePageRetry}
+                small
+                labelIcon={ArrowCounterClockwise}
+              />
+            )}
             <Button
               label="Download Markdown"
               onClick={handleDownload}
