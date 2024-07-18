@@ -12,8 +12,10 @@ export default async function getApiKey({ clientId, token }: IParams): Promise<A
     userId: clientId,
   };
 
+  const apiKeyEndpoint = process.env.NEXT_PUBLIC_API_KEY_ENDPOINT || '';
+
   try {
-    const response = await axios.post('https://3ec4wj1s02.execute-api.us-west-2.amazonaws.com/v1/makekey', params, {
+    const response = await axios.post(`${apiKeyEndpoint}/makekey`, params, {
       headers: {
         'Content-Type': 'application/json',
         authorizationToken: token,
