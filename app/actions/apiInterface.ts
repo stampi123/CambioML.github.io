@@ -30,7 +30,27 @@ export interface RequestParams {
   clientId: string;
   files: { sourceType: string; fileId?: string; url?: string }[];
   jobType: string;
-  jobParams?: { [key: string]: string | boolean };
+  jobParams?: JobParams;
+}
+
+export interface JobParams {
+  targetPageNumbers?: number[];
+  maskPiiFlag: boolean;
+  lambdaProcessorArgs?: {
+    informationExtractionInstruction: string;
+    refineFlag: boolean;
+  };
+  vqaProcessorArgs?: {
+    vqaFiguresFlag?: boolean;
+    vqaChartsFlag?: boolean;
+    vqaTablesFlag?: boolean;
+    vqaFootnotesFlag?: boolean;
+    vqaHeadersFlag?: boolean;
+    vqaFootersFlag?: boolean;
+    vqaPageNumsFlag?: boolean;
+    vqaTableOnlyFlag?: boolean;
+    vqaChartOnlyFlag?: boolean;
+  };
 }
 
 export type QAResult = Array<

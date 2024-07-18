@@ -105,6 +105,7 @@ export const runRequestJob = async ({
             handleSuccess,
             handleError,
             handleTimeout,
+            targetPages: jobParams?.targetPageNumbers,
           });
         }, SLEEP_DURATION[jobType]); // Need to delay the polling to give the server time to process the file
       } else {

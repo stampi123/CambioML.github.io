@@ -118,15 +118,6 @@ const TableExtractContainer = () => {
     }
     const jobParams: JobParams = {
       maskPiiFlag: extractSettings.removePII,
-      // vqaProcessorArgs: {
-      //   vqaFiguresFlag: extractSettings.includeChartsFigures,
-      //   vqaChartsFlag: extractSettings.includeChartsFigures,
-      //   vqaTablesFlag: extractSettings.includeTables,
-      //   vqaFootnotesFlag: extractSettings.includeFootnotes,
-      //   vqaHeadersFlag: extractSettings.includeHeadersFooters,
-      //   vqaFootersFlag: extractSettings.includeHeadersFooters,
-      //   vqaPageNumsFlag: extractSettings.includePageNumbers,
-      // },
     };
     if (isProduction) {
       runUploadRequestJob({
@@ -137,10 +128,7 @@ const TableExtractContainer = () => {
         selectedFile,
         fileData,
         jobType: 'info_extraction',
-        jobParams: {
-          user_prompt: '',
-          use_textract: true,
-        },
+        jobParams,
         selectedFileIndex,
         filename,
         handleError,
@@ -314,14 +302,14 @@ const TableExtractContainer = () => {
       {selectedFile && (
         <>
           {selectedFile?.instructionExtractState === ExtractState.READY && (
-            <div className="relative flex flex-col justify-center items-center h-full text-lg text-center">
-              <div className=" absolute flex-grow flex flex-col items-center justify-center">
+            <div className="flex flex-col justify-end items-center h-full text-lg text-center gap-4">
+              <div className="flex flex-col items-center justify-center">
                 {filename}
                 <div className="w-[200px] mt-2">
                   <Button label="Extract Table" onClick={handleTableExtractTransform} small labelIcon={Table} />
                 </div>
               </div>
-              {!isProduction && <ExtractSettingsChecklist removePIIOnly />}
+              <ExtractSettingsChecklist removePIIOnly />
             </div>
           )}
           {selectedFile?.instructionExtractState === ExtractState.EXTRACTING && (

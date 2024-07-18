@@ -9,7 +9,7 @@ const ExtractSettingsChecklist = ({ removePIIOnly }: ExtractSettingsChecklistPro
   const { extractSettings, toggleExtractSetting } = usePlaygroundStore();
   return (
     <div
-      className={`relative flex flex-col items-start justify-center gap-4 border-[1px] border-neutral-200 rounded-lg p-4 w-full ${removePIIOnly ? 'mt-[200px]' : 'mt-[350px]'} shadow-md max-w-[350px] md:max-w-[200px]`}
+      className={`relative flex flex-col items-start justify-center gap-4 border-[1px] border-neutral-200 rounded-lg p-4 w-full shadow-md max-w-[350px] md:max-w-[200px] ${removePIIOnly && 'mb-[130px]'}`}
     >
       <div className="font-semibold text-sm text-neutral-800">Remove from output:</div>
       <div className="grid grid-cols-2 md:grid-cols-1 gap-2">
