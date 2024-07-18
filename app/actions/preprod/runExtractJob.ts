@@ -12,7 +12,7 @@ interface IParams {
   selectedFile: PlaygroundFile;
   queryType: string;
   token: string;
-  handleSuccess: (response: AxiosResponse, page?: number) => void;
+  handleSuccess: (response: AxiosResponse, page?: number[]) => void;
   handleError: (e: AxiosError) => void;
   handleTimeout: () => void;
   updateFileAtIndex: (
