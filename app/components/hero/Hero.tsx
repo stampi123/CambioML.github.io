@@ -43,12 +43,12 @@ const Hero = ({ title, subtitle, typingWords, image, typingStaticWords, center }
       <Container styles="relative z-10 h-[60vh] min-h-[600px]">
         <div className={`flex flex-col justify-center ${center && 'items-center'} h-full w-full text-neutral-800`}>
           <div className="max-w-[900px]">
-            <p className={`mt-3 text-2xl pb-5 ${center && 'text-center'}`}>
+            <p className={`mt-3 text-2xl pb-16 ${center && 'text-center'}`}>
               {typingStaticWords} {useTypingEffect(typingWords, 75, 50, 1000)}
               <span className="text-cambio-red">|</span>
             </p>
-            <h1 className={`text-6xl font-bold pt-4 pb-5 ${center && 'text-center'}`}>{title}</h1>
-            {subtitle && <div className={`mt-3 text-2xl font-semibold ${center && 'text-center'}`}>{subtitle}</div>}
+            <h1 className={`text-6xl font-bold pb-16 ${center && 'text-center'}`}>{title}</h1>
+            {subtitle && <div className={`text-2xl font-semibold ${center && 'text-center'}`}>{subtitle}</div>}
           </div>
           <div className="w-[700px] h-[175px] flex flex-col-reverse">
             <div className="w-full h-[75px] flex gap-8">
