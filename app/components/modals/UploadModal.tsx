@@ -1,7 +1,7 @@
 'use client';
 
 import { useUploadModal, UploadModalState } from '@/app/hooks/useUploadModal';
-import { X, CloudArrowUp, FileArrowUp } from '@phosphor-icons/react';
+import { X, CloudArrowUp, FileArrowUp, MonitorArrowUp } from '@phosphor-icons/react';
 import { useCallback, useEffect, useState } from 'react';
 import { useOutsideClickModal } from '@/app/hooks/useOutsideClickModal';
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
@@ -179,6 +179,15 @@ const UploadModal = () => {
               {uploadModal.uploadModalState === UploadModalState.ADD_FILES && (
                 <div className="w-full h-full flex flex-col justify-center items-center gap-4 ">
                   <Dropzone />
+                  <div className="w-full flex items-center gap-4">
+                    <hr className="flex-1 border-t border-gray-300" />
+                    <span className="text-gray-500">OR</span>
+                    <hr className="flex-1 border-t border-gray-300" />
+                  </div>
+                  <div className="w-full h-[20vh] min-h-[50px] border-2 bg-gray-100 border-dashed border-gray-300 hover:border-neutral-500 text-xl flex items-center justify-center gap-4 rounded-md">
+                    <MonitorArrowUp size={32} />
+                    Paste a screenshot
+                  </div>
                   <div className="w-full flex items-center gap-4">
                     <hr className="flex-1 border-t border-gray-300" />
                     <span className="text-gray-500">OR</span>
