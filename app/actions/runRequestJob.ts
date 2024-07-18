@@ -1,8 +1,8 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { ExtractState, TransformState } from '../types/PlaygroundTypes';
+import { ExtractState, TransformState } from '@/app/types/PlaygroundTypes';
 import pollJobStatus from './pollJobStatus';
 import toast from 'react-hot-toast';
-import { QueryParams, RequestParams } from './apiInterface';
+import { JobParams, QueryParams, RequestParams } from './apiInterface';
 
 interface IParams {
   apiURL: string;
@@ -13,7 +13,7 @@ interface IParams {
   sourceType: string;
   selectedFileIndex: number;
   url?: string;
-  jobParams?: { [key: string]: string | boolean };
+  jobParams?: JobParams;
   filename: string;
   handleSuccess: (response: AxiosResponse) => void;
   handleError: (e: AxiosError) => void;
@@ -28,17 +28,20 @@ interface IParams {
 const JOB_STATE: { [key: string]: string } = {
   file_extraction: 'extractState',
   info_extraction: 'keyValueState',
+  instruction_extraction: 'instructionExtractionState',
   qa_generation: 'qaState',
 };
 
 const SUCCESS_STATE: { [key: string]: ExtractState | TransformState } = {
   file_extraction: ExtractState.EXTRACTING,
+  instruction_extraction: ExtractState.EXTRACTING,
   info_extraction: TransformState.TRANSFORMING,
   qa_generation: TransformState.TRANSFORMING,
 };
 
 const FAIL_STATE: { [key: string]: ExtractState | TransformState } = {
   file_extraction: ExtractState.READY,
+  instruction_extraction: ExtractState.READY,
   info_extraction: TransformState.READY,
   qa_generation: TransformState.READY,
 };
@@ -46,6 +49,7 @@ const FAIL_STATE: { [key: string]: ExtractState | TransformState } = {
 const SLEEP_DURATION: { [key: string]: number } = {
   file_extraction: 5000,
   info_extraction: 5000,
+  instruction_extraction: 5000,
   qa_generation: 5000,
 };
 
@@ -82,6 +86,7 @@ export const runRequestJob = async ({
     })
     .then((response) => {
       if (response.status === 200) {
+        console.log(response.data);
         toast.success(`${filename} submitted!`);
         updateFileAtIndex(selectedFileIndex, JOB_STATE[jobType], SUCCESS_STATE[jobType]);
         console.log(`Transforming ${filename} | job_id: $${response.data.jobId}`);
@@ -100,6 +105,7 @@ export const runRequestJob = async ({
             handleSuccess,
             handleError,
             handleTimeout,
+            targetPages: jobParams?.targetPageNumbers,
           });
         }, SLEEP_DURATION[jobType]); // Need to delay the polling to give the server time to process the file
       } else {
