@@ -94,7 +94,7 @@ const TableExtractContainer = () => {
 
   const handleTableExtractTransform = async () => {
     if (isProduction)
-      posthog.capture('playground.table.extract_table.button', {
+      posthog.capture('playground.table.extract_table.start_extract', {
         route: '/playground',
         module: 'table',
         submodule: 'extract_table',
@@ -286,7 +286,6 @@ const TableExtractContainer = () => {
       });
     updateFileAtIndex(selectedFileIndex, 'tableExtractResult', '');
     updateFileAtIndex(selectedFileIndex, 'instructionExtractState', ExtractState.READY);
-    // handleTableExtractTransform();
   };
 
   const getFileType = (): string => {
