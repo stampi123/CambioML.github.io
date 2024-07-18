@@ -100,6 +100,7 @@ jobs:
           NEXT_PUBLIC_LOGOUT_URL_ACCOUNT: ${{ secrets.NEXT_PUBLIC_LOGOUT_URL_ACCOUNT }}
           NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }}
           NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
+          NEXT_PUBLIC_API_KEY_ENDPOINT: ${{ secrets.NEXT_PUBLIC_API_KEY_ENDPOINT }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

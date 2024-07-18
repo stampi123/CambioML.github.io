@@ -10,8 +10,9 @@ export default async function getApiKeysForUser({ clientId, token }: IParams): P
   const params = {
     userId: clientId,
   };
+  const apiKeyEndpoint = process.env.NEXT_PUBLIC_API_KEY_ENDPOINT || '';
   try {
-    const response = await axios.get('https://3ec4wj1s02.execute-api.us-west-2.amazonaws.com/v1/listkeys', {
+    const response = await axios.get(`${apiKeyEndpoint}/listkeys`, {
       headers: {
         'Content-Type': 'application/json',
         authorizationToken: token,
