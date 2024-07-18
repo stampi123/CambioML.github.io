@@ -9,11 +9,12 @@ import useUserProfile from '../../hooks/useUserProfile';
 import Image from 'next/image';
 import { imgPrefix } from '../../hooks/useImgPrefix';
 import Button from '../Button';
-import useAccountStore, { ApiKey } from '@/app/hooks/useAccountStore';
+import useAccountStore from '@/app/hooks/useAccountStore';
 import getNewApiKey from '@/app/actions/account/getNewApiKey';
 import getApiKeysForUser from '@/app/actions/account/getApiKeysForUser';
 import { useEffect, useState } from 'react';
 import ApiKeyRow from './ApiKeyRow';
+import toast from 'react-hot-toast';
 
 interface LoadingComponentProps {
   icon: Icon;
@@ -66,15 +67,15 @@ const ProfileContainer = ({
 
 const AccountPageContainer = () => {
   const { profile, error, loading, token } = useUserProfile();
-  const { apiKeys, setApiKeys, addApiKey } = useAccountStore();
+  const { apiKeys, setApiKeys } = useAccountStore();
   const [isLoading, setIsLoading] = useState(false);
-  // const { token } = usePlaygroundStore();
 
   const handleGenerateAPIKey = async () => {
     setIsLoading(true);
     try {
-      const newKey: ApiKey = await getNewApiKey({ clientId: profile?.sub || '', token: token || '' });
-      addApiKey(newKey);
+      if (!profile?.email || !token) return;
+      await getNewApiKey({ clientId: profile?.email, token: token });
+      fetchApiKeys();
     } catch {
       // Do nothing
     } finally {
@@ -82,10 +83,18 @@ const AccountPageContainer = () => {
     }
   };
 
+  const fetchApiKeys = async () => {
+    if (!profile?.email || !token) return;
+    try {
+      const apiKeys = await getApiKeysForUser({ clientId: profile?.email, token: token });
+      setApiKeys(apiKeys);
+    } catch (error) {
+      toast.error(`Error fetching API keys: ${error}`);
+    }
+  };
   useEffect(() => {
-    const apiKeys = getApiKeysForUser();
-    setApiKeys(apiKeys);
-  }, []);
+    fetchApiKeys();
+  }, [profile?.sub, token]); // Add dependencies here
 
   return (
     <div className="pb-10 w-full h-full flex flex-col justify-center items-center">
@@ -149,9 +158,12 @@ const AccountPageContainer = () => {
                   <div className="w-full">
                     <div className="text-xl font-semibold pb-4">Your Keys</div>
                     <div className="flex flex-col gap-2 h-[350px] overflow-auto">
-                      {apiKeys.map((key, i) => (
-                        <ApiKeyRow key={i} apiKey={key} />
-                      ))}
+                      {apiKeys.length === 0 && (
+                        <div className="w-full h-full bg-neutral-100 rounded-xl flex items-center justify-center">
+                          <Key size={48} />
+                        </div>
+                      )}
+                      {apiKeys.length > 0 && apiKeys.map((key, i) => <ApiKeyRow key={i} apiKey={key} />)}
                     </div>
                   </div>
                 </div>

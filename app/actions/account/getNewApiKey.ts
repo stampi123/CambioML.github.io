@@ -9,7 +9,7 @@ interface IParams {
 
 export default async function getApiKey({ clientId, token }: IParams): Promise<ApiKey> {
   const params = {
-    user_id: clientId,
+    userId: clientId,
   };
 
   try {
@@ -24,9 +24,7 @@ export default async function getApiKey({ clientId, token }: IParams): Promise<A
     if (response.status === 200) {
       console.log(response.data);
       return {
-        key: response.data.key,
-        type: 'GET_API_KEY',
-        createdAt: new Date().toISOString(),
+        key: response.data.apiKey,
       };
     } else {
       const errorMessage = 'Failed to get API key';
