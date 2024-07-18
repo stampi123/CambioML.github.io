@@ -12,10 +12,12 @@ import { useProductionContext } from '../ProductionContext';
 import { runUploadRequestJob as runPreProdUploadRequestJob } from '@/app/actions/preprod/runUploadRequestJob';
 import { runUploadRequestJob } from '@/app/actions/runUploadRequestJob';
 import * as XLSX from 'xlsx';
-import { SiMicrosoftexcel } from 'react-icons/si';
 import { usePostHog } from 'posthog-js/react';
 import ExtractSettingsChecklist from '../ExtractSettingsChecklist';
 import { JobParams } from '@/app/actions/preprod/apiInterface';
+import useResultZoomModal from '@/app/hooks/useResultZoomModal';
+import DropdownButton from '../../inputs/DropdownButton';
+import { SiMicrosoftexcel } from 'react-icons/si';
 
 const TableExtractContainer = () => {
   const { apiURL, isProduction } = useProductionContext();
@@ -24,6 +26,7 @@ const TableExtractContainer = () => {
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [filename, setFilename] = useState<string>('');
   const posthog = usePostHog();
+  const resultZoomModal = useResultZoomModal();
 
   useEffect(() => {
     if (selectedFileIndex !== null && files.length > 0) {
@@ -37,7 +40,7 @@ const TableExtractContainer = () => {
     }
   }, [selectedFileIndex, files, updateFileAtIndex]);
 
-  const handleSuccess = (response: AxiosResponse) => {
+  const handleSuccess = (response: AxiosResponse, targetPageNumbers?: number[]) => {
     let result = response.data;
     if (result === undefined) {
       toast.error(`${filename}: Received undefined result. Please try again.`);
@@ -53,6 +56,21 @@ const TableExtractContainer = () => {
         file_type: getFileType(),
         num_pages: result.length,
       });
+
+    if (!isProduction) console.log('[MarkdownExtract] result:', result);
+    if (targetPageNumbers) {
+      const currentResult = selectedFile?.tableExtractResult;
+      if (currentResult) {
+        const newResult = currentResult.map((resultItem, index) => {
+          if (targetPageNumbers.includes(index)) {
+            return result.shift();
+          } else {
+            return resultItem;
+          }
+        });
+        result = newResult;
+      }
+    }
     updateFileAtIndex(selectedFileIndex, 'instructionExtractState', ExtractState.DONE_EXTRACTING);
     updateFileAtIndex(selectedFileIndex, 'tableExtractResult', result);
     toast.success(`Generated table(s) from ${filename}!`);
@@ -92,7 +110,7 @@ const TableExtractContainer = () => {
     toast.error(`Transform request for ${filename} timed out. Please try again.`);
   };
 
-  const handleTableExtractTransform = async () => {
+  const handleTableExtractTransform = async (targetPageNumbers?: number[]) => {
     if (isProduction)
       posthog.capture('playground.table.extract_table.start_extract', {
         route: '/playground',
@@ -117,6 +135,7 @@ const TableExtractContainer = () => {
       return;
     }
     const jobParams: JobParams = {
+      targetPageNumbers,
       maskPiiFlag: extractSettings.removePII,
     };
     if (isProduction) {
@@ -288,6 +307,16 @@ const TableExtractContainer = () => {
     updateFileAtIndex(selectedFileIndex, 'instructionExtractState', ExtractState.READY);
   };
 
+  const handlePageRetry = () => {
+    if (isProduction)
+      posthog.capture('playground.table.extract_table.page_retry', {
+        route: '/playground',
+        module: 'plain_text',
+        file_type: getFileType(),
+      });
+    handleTableExtractTransform([resultZoomModal.page]);
+  };
+
   const getFileType = (): string => {
     let fileType = 'text/html';
     if (selectedFile?.file instanceof File) {
@@ -295,6 +324,29 @@ const TableExtractContainer = () => {
     }
     return fileType;
   };
+
+  const downloadOptions = [
+    { value: 'HTML Download', label: 'HTML', callback: handleHtmlDownload },
+    { value: 'JSON Download', label: 'JSON', callback: handleJsonDownload },
+    { value: 'Excel Download', label: 'Excel', callback: handleHtmlXlsxDownload },
+  ];
+  const filteredDownloadOptions = downloadOptions.filter((option) => {
+    if (!selectedFile?.tableExtractResult) return false;
+    if (option.value === 'Excel Download') {
+      return extractHTMLTables(selectedFile.tableExtractResult.join('')).length > 0;
+    }
+    if (option.value === 'JSON Download') {
+      return !isProduction && extractHTMLTables(selectedFile.tableExtractResult.join('')).length > 0;
+    }
+    if (
+      option.value === 'HTML Download' &&
+      selectedFile.tableExtractResult.length > 0 &&
+      selectedFile.tableExtractResult[0].length > 0
+    ) {
+      return true;
+    }
+    return false;
+  });
 
   return (
     <>
@@ -305,7 +357,7 @@ const TableExtractContainer = () => {
               <div className="flex flex-col items-center justify-center">
                 {filename}
                 <div className="w-[200px] mt-2">
-                  <Button label="Extract Table" onClick={handleTableExtractTransform} small labelIcon={Table} />
+                  <Button label="Extract Table" onClick={() => handleTableExtractTransform()} small labelIcon={Table} />
                 </div>
               </div>
               <ExtractSettingsChecklist removePIIOnly />
@@ -329,21 +381,41 @@ const TableExtractContainer = () => {
                 </div>
               )}
               <div className={`w-full h-fit flex gap-4`}>
-                <Button label="Retry" onClick={handleRetry} small labelIcon={ArrowCounterClockwise} />
-                {selectedFile.tableExtractResult.length > 0 && selectedFile.tableExtractResult[0].length > 0 && (
-                  <Button label="Download HTML" onClick={handleHtmlDownload} small labelIcon={DownloadSimple} />
+                <Button label="Re-run Document" onClick={handleRetry} small labelIcon={ArrowCounterClockwise} />
+                {!isProduction && selectedFile.tableExtractResult.length > 1 && (
+                  <Button
+                    label={`Re-run Page ${resultZoomModal.page + 1}`}
+                    onClick={handlePageRetry}
+                    small
+                    labelIcon={ArrowCounterClockwise}
+                  />
                 )}
-                {extractHTMLTables(selectedFile.tableExtractResult.join('')).length > 0 && (
+                {!isProduction && (
+                  <DropdownButton
+                    options={filteredDownloadOptions}
+                    optionLabel="Download"
+                    icon={DownloadSimple}
+                    disabled={selectedFile.instructionExtractState !== ExtractState.DONE_EXTRACTING}
+                  />
+                )}
+                {isProduction && (
                   <>
-                    {!isProduction && (
-                      <Button label="Download JSON" onClick={handleJsonDownload} small labelIcon={DownloadSimple} />
+                    {selectedFile.tableExtractResult.length > 0 && selectedFile.tableExtractResult[0].length > 0 && (
+                      <Button label="Download HTML" onClick={handleHtmlDownload} small labelIcon={DownloadSimple} />
                     )}
-                    <Button
-                      label="Download Excel"
-                      onClick={handleHtmlXlsxDownload}
-                      small
-                      labelIcon={SiMicrosoftexcel}
-                    />
+                    {extractHTMLTables(selectedFile.tableExtractResult.join('')).length > 0 && (
+                      <>
+                        {!isProduction && (
+                          <Button label="Download JSON" onClick={handleJsonDownload} small labelIcon={DownloadSimple} />
+                        )}
+                        <Button
+                          label="Download Excel"
+                          onClick={handleHtmlXlsxDownload}
+                          small
+                          labelIcon={SiMicrosoftexcel}
+                        />
+                      </>
+                    )}
                   </>
                 )}
               </div>
