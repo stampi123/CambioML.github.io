@@ -9,8 +9,8 @@ import { downloadFile } from '@/app/actions/downloadFile';
 import { AxiosError, AxiosResponse } from 'axios';
 import ResultContainer from '../ResultContainer';
 import { useProductionContext } from '../ProductionContext';
-import { runUploadRequestJob as runPreProdUploadRequestJob } from '@/app/actions/preprod/runUploadRequestJob';
-import { runUploadRequestJob } from '@/app/actions/runUploadRequestJob';
+import { runRequestJob as runPreProdRequestJob } from '@/app/actions/preprod/runRequestJob';
+import { runRequestJob } from '@/app/actions/runRequestJob';
 import * as XLSX from 'xlsx';
 import { usePostHog } from 'posthog-js/react';
 import ExtractSettingsChecklist from '../ExtractSettingsChecklist';
@@ -139,13 +139,12 @@ const TableExtractContainer = () => {
       maskPiiFlag: extractSettings.removePII,
     };
     if (isProduction) {
-      runUploadRequestJob({
-        api_url: apiURL,
+      runRequestJob({
+        apiURL: apiURL,
         clientId,
         token,
         sourceType: 's3',
-        selectedFile,
-        fileData,
+        fileId: fileData.fileId,
         jobType: 'info_extraction',
         jobParams,
         selectedFileIndex,
@@ -157,13 +156,12 @@ const TableExtractContainer = () => {
       });
     } else {
       console.log('[TableExtractContainer] handleTableExtractTransform', jobParams);
-      runPreProdUploadRequestJob({
-        api_url: apiURL,
+      runPreProdRequestJob({
+        apiURL: apiURL,
         clientId,
         token,
         sourceType: 's3',
-        selectedFile,
-        fileData,
+        fileId: fileData.fileId,
         jobType: 'info_extraction',
         jobParams,
         selectedFileIndex,

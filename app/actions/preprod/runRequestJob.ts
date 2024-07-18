@@ -76,6 +76,7 @@ export const runRequestJob = async ({
     jobType,
     ...(jobParams && { jobParams }),
   };
+  console.log('[runPreProdRequestJob] params: ', params);
   axios
     .post(`${apiURL}/request`, params, {
       headers: {

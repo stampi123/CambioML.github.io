@@ -1,7 +1,7 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { PresignedResponse, UploadParams } from './apiInterface';
-import { AddFileParams } from '../hooks/usePlaygroundStore';
+import { AddFileParams } from '@/app/hooks/usePlaygroundStore';
 
 interface IParams {
   api_url: string;
@@ -37,7 +37,24 @@ export const uploadFile = async ({ api_url, file, token, clientId, addFiles, add
     .then((response) => {
       const data = response.data as PresignedResponse;
       addFilesFormData(data);
+      const postData = new FormData();
       addFiles({ files: file, fileId: data.fileId, jobId: data.jobId, userId: data.userId });
+      Object.entries(data.presignedUrl.fields).forEach(([key, value]) => {
+        postData.append(key, value);
+      });
+      postData.append('file', file);
+      return axios
+        .post(data.presignedUrl.url, postData)
+        .then((response) => {
+          if (response.status !== 204) {
+            throw new Error(`Error uploading file: ${file.name}. Please try again.`);
+          }
+          return response;
+        })
+        .catch((error) => {
+          toast.error(`Error uploading file: ${file.name}. Please try again.`);
+          return error;
+        });
     })
     .catch((error) => {
       toast.error(`Error uploading file: ${file.name}. Please try again.`);

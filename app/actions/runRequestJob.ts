@@ -104,7 +104,7 @@ export const runRequestJob = async ({
             handleTimeout,
             targetPages: jobParams?.targetPageNumbers,
           });
-        }, SLEEP_DURATION[jobType]);
+        }, SLEEP_DURATION[jobType]); // Need to delay the polling to give the server time to process the file
       } else {
         toast.error(`Error uploading ${filename}. Please try again.`);
         updateFileAtIndex(selectedFileIndex, JOB_STATE[jobType], FAIL_STATE[jobType]);
