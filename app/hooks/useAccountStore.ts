@@ -2,8 +2,6 @@ import { create } from 'zustand';
 
 export interface ApiKey {
   key: string;
-  type: string;
-  createdAt: string;
 }
 
 interface AccountStore {
