@@ -7,13 +7,13 @@ import { PlaygroundFile, ExtractState, ExtractTab } from '@/app/types/Playground
 import { DownloadSimple, CloudArrowUp, ArrowCounterClockwise, FileText } from '@phosphor-icons/react';
 import PulsingIcon from '../PulsingIcon';
 import { downloadFile } from '@/app/actions/downloadFile';
-import { runUploadRequestJob as runPreProdUploadRequestJob } from '@/app/actions/preprod/runUploadRequestJob';
+import { runRequestJob as runPreProdRequestJob } from '@/app/actions/preprod/runRequestJob';
 import ResultContainer from './ResultContainer';
 import { useProductionContext } from './ProductionContext';
 import { usePostHog } from 'posthog-js/react';
 import ExtractSettingsChecklist from './ExtractSettingsChecklist';
 import { JobParams } from '@/app/actions/preprod/apiInterface';
-import { runUploadRequestJob } from '@/app/actions/runUploadRequestJob';
+import { runRequestJob } from '@/app/actions/runRequestJob';
 import useResultZoomModal from '@/app/hooks/useResultZoomModal';
 
 const textStyles = 'text-xl font-semibold text-neutral-500';
@@ -151,7 +151,7 @@ const MarkdownExtractContainer = () => {
     if (selectedFile?.extractTab === ExtractTab.INITIAL_STATE) {
       updateFileAtIndex(selectedFileIndex, 'extractTab', ExtractTab.FILE_EXTRACT);
     }
-    updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.UPLOADING);
+    updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.EXTRACTING);
     const fileData = filesFormData.find((obj) => obj.presignedUrl.fields['x-amz-meta-filename'] === filename);
     if (!fileData) {
       updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
@@ -174,13 +174,12 @@ const MarkdownExtractContainer = () => {
       };
       if (!isProduction) console.log('[MarkdownExtract] jobParams:', jobParams);
       if (isProduction) {
-        runUploadRequestJob({
-          api_url: apiURL,
+        runRequestJob({
+          apiURL,
+          fileId: fileData.fileId,
           clientId,
           token,
           sourceType: 's3',
-          selectedFile,
-          fileData,
           jobType: 'file_extraction',
           jobParams,
           selectedFileIndex,
@@ -191,13 +190,12 @@ const MarkdownExtractContainer = () => {
           updateFileAtIndex,
         });
       } else {
-        runPreProdUploadRequestJob({
-          api_url: apiURL,
+        runPreProdRequestJob({
+          apiURL,
+          fileId: fileData.fileId,
           clientId,
           token,
           sourceType: 's3',
-          selectedFile,
-          fileData,
           jobType: 'file_extraction',
           jobParams,
           selectedFileIndex,
