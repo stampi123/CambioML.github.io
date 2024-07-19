@@ -1,5 +1,7 @@
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
+import usePreviewModal from '@/app/hooks/usePreviewModal';
 import { PlaygroundFile } from '@/app/types/PlaygroundTypes';
+import { FileMagnifyingGlass } from '@phosphor-icons/react';
 import { useEffect, useState } from 'react';
 
 interface FileItemProps {
@@ -10,6 +12,7 @@ interface FileItemProps {
 const FileItem = ({ pgFile, index }: FileItemProps) => {
   const { selectedFileIndex, setSelectedFileIndex } = usePlaygroundStore();
   const [filename, setFilename] = useState<string>('');
+  const previewModal = usePreviewModal();
 
   useEffect(() => {
     if (pgFile.file instanceof File) {
@@ -23,14 +26,18 @@ const FileItem = ({ pgFile, index }: FileItemProps) => {
     setSelectedFileIndex(index);
   };
 
+  const handlePreviewClick = () => {
+    previewModal.setFile(pgFile.file as File);
+    previewModal.onOpen();
+  };
   return (
     <div
       className={`
                     w-full
                     h-[50px]
                     flex
-                    flex-col
-                    justify-center
+                    justify-between
+                    items-center
                     cursor-pointer
                     px-4
                     rounded-md
@@ -41,6 +48,12 @@ const FileItem = ({ pgFile, index }: FileItemProps) => {
       onClick={handleClick}
     >
       <div className="truncate">{filename}</div>
+      <div
+        className="flex items-center text-neutral-500 justify-center bg-white rounded-md w-[35px] h-[35px] hover:bg-neutral-100 hover:text-neutral-800 hover:border-2 shrink-0"
+        onClick={handlePreviewClick}
+      >
+        <FileMagnifyingGlass size={20} />
+      </div>
     </div>
   );
 };

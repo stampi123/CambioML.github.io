@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { useProductionContext } from './ProductionContext';
 import updateQuota from '@/app/actions/updateQuota';
+import PreviewModal from '../modals/PreviewModal';
 
 const playgroundWrapperStyles = 'border-solid border-[1px] border-neutral-gray p-6';
 
@@ -21,6 +22,7 @@ const PlaygroundContainer = () => {
 
   return (
     <Container styles="h-fit min-h-[600px] py-10">
+      <PreviewModal />
       <div className="w-[80vw] min-w-[600px] max-w-[2000px] flex flex-col gap-10">
         <div
           className="
