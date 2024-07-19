@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { ArrowsClockwise } from '@phosphor-icons/react';
 import { useProductionContext } from './ProductionContext';
 import updateQuota from '@/app/actions/updateQuota';
+import toast from 'react-hot-toast';
+import { AxiosError } from 'axios';
 
 const QUOTA_YELLOW_THRESHOLD = 50;
 const QUOTA_ORANGE_THRESHOLD = 25;
@@ -28,12 +30,59 @@ const QuotaDisplay = () => {
     return 'bg-red-500';
   };
 
+  const handleError = (e: AxiosError | Error) => {
+    console.error(e);
+    toast.error('Failed to get quota');
+  };
+
+  useEffect(() => {
+    const maxRetries = 10;
+    let attempts = 0;
+
+    const intervalId = setInterval(async () => {
+      if (totalQuota > 0 || attempts >= maxRetries) {
+        clearInterval(intervalId);
+        return;
+      }
+
+      if (!userId || !apiURL || !token) {
+        if (attempts < maxRetries) {
+          attempts++;
+        } else {
+          handleError(new Error('Max retries reached without valid inputs'));
+        }
+        return;
+      }
+
+      try {
+        await updateQuota({
+          api_url: apiURL,
+          userId,
+          token,
+          setTotalQuota,
+          setRemainingQuota,
+          handleError,
+        });
+      } catch {
+        if (attempts < maxRetries) {
+          attempts++;
+        } else {
+          handleError(new Error('Max retries reached due to updateQuota errors'));
+        }
+      }
+
+      attempts++;
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [userId, apiURL, token, totalQuota]);
+
   return (
     <div className="w-full flex flex-col items-center pt-2">
       <div className="w-full flex justify-between items-center mb-2">
         <span className="font-semibold text-lg">Quota</span>
         <div
-          className="flex items-center text-neutral-600 justify-center bg-white rounded-md w-[35px] h-[35px] hover:bg-neutral-100 hover:text-neutral-800 hover:border-2 shrink-0 cursor-pointer"
+          className="flex items-center text-neutral-600 justify-center bg-white rounded-md w-[30px] h-[30px] hover:bg-neutral-100 hover:text-neutral-800 hover:border-2 shrink-0 cursor-pointer"
           onClick={handleRefresh}
         >
           <ArrowsClockwise size={20} />
