@@ -15,6 +15,7 @@ import ExtractSettingsChecklist from './ExtractSettingsChecklist';
 import { JobParams } from '@/app/actions/preprod/apiInterface';
 import { runRequestJob } from '@/app/actions/runRequestJob';
 import useResultZoomModal from '@/app/hooks/useResultZoomModal';
+import QuotaLimitPage from './QuotaLimitPage';
 
 const textStyles = 'text-xl font-semibold text-neutral-500';
 
@@ -117,6 +118,10 @@ const MarkdownExtractContainer = () => {
       } else if (e.response.status === 404) {
         toast.error(`${filename}: Job not found. Please try again.`);
         updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
+        return;
+      } else if (e.response.status === 429) {
+        toast.error(`Extract page limit reached.`);
+        updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.LIMIT_REACHED);
         return;
       } else if (e.response.status === 500) {
         toast.error(`${filename}: Job has failed. Please try again.`);
@@ -278,6 +283,7 @@ const MarkdownExtractContainer = () => {
           </div>
         </div>
       )}
+      {selectedFile?.extractState === ExtractState.LIMIT_REACHED && <QuotaLimitPage />}
     </>
   );
 };

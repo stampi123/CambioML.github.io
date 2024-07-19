@@ -6,6 +6,7 @@ export enum ExtractState {
   UPLOADING,
   EXTRACTING,
   DONE_EXTRACTING,
+  LIMIT_REACHED,
 }
 
 export enum TransformState {
