@@ -11,9 +11,9 @@ const QuotaLimitPage = () => {
   return (
     <div className="flex flex-col items-center justify-center w-full h-full gap-4">
       <div className={textStyles}>Extract Page Limit Reached.</div>
-      <div className={textStyles}>Please contact to get more page quota.</div>
+      <div className={textStyles}>Please contact us to get more page quota.</div>
       <div className="w-[300px]">
-        <Button label="Contact info@cambioml.com" onClick={handleContactClick} small labelIcon={Envelope} />
+        <Button label="info@cambioml.com" onClick={handleContactClick} small labelIcon={Envelope} />
       </div>
     </div>
   );

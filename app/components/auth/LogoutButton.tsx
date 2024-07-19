@@ -10,11 +10,9 @@ export interface LogoutButtonProps {
 
 const LogoutButton = ({ logoutUrl, disabled }: LogoutButtonProps) => {
   const { logout } = useAuth0();
-  // const { profile } = useUserProfile();
-  // const domain = process.env.NEXT_PUBLIC_AUTH0_DOMAIN;
 
   return (
-    <div className="w-full h-full flex max-w-[500px]">
+    <div className="w-full h-full flex">
       <Button
         label="Logout"
         labelIcon={SignOut}

@@ -18,11 +18,23 @@ import { JobParams } from '@/app/actions/preprod/apiInterface';
 import useResultZoomModal from '@/app/hooks/useResultZoomModal';
 import DropdownButton from '../../inputs/DropdownButton';
 import QuotaLimitPage from '../QuotaLimitPage';
+import updateQuota from '@/app/actions/updateQuota';
 
 const TableExtractContainer = () => {
   const { apiURL, isProduction } = useProductionContext();
-  const { selectedFileIndex, files, filesFormData, updateFileAtIndex, token, clientId, extractSettings } =
-    usePlaygroundStore();
+  const {
+    selectedFileIndex,
+    files,
+    filesFormData,
+    updateFileAtIndex,
+    token,
+    clientId,
+    extractSettings,
+    userId,
+    setRemainingQuota,
+    setTotalQuota,
+    remainingQuota,
+  } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [filename, setFilename] = useState<string>('');
   const posthog = usePostHog();
@@ -73,6 +85,7 @@ const TableExtractContainer = () => {
     }
     updateFileAtIndex(selectedFileIndex, 'instructionExtractState', ExtractState.DONE_EXTRACTING);
     updateFileAtIndex(selectedFileIndex, 'tableExtractResult', result);
+    updateQuota({ api_url: apiURL, userId: userId, token, setTotalQuota, setRemainingQuota, handleError });
     toast.success(`Generated table(s) from ${filename}!`);
   };
 
@@ -349,60 +362,68 @@ const TableExtractContainer = () => {
     }
     return false;
   });
-
   return (
     <>
-      {selectedFile && (
-        <>
-          {selectedFile?.instructionExtractState === ExtractState.READY && (
-            <div className="flex flex-col justify-end items-center h-full text-lg text-center gap-4">
-              <div className="flex flex-col items-center justify-center">
-                {filename}
-                <div className="w-[200px] mt-2">
-                  <Button label="Extract Table" onClick={() => handleTableExtractTransform()} small labelIcon={Table} />
-                </div>
-              </div>
-              <ExtractSettingsChecklist removePIIOnly />
-            </div>
-          )}
-          {selectedFile?.instructionExtractState === ExtractState.EXTRACTING && (
-            <div className="flex flex-col items-center justify-center h-full">
-              <div className="text-xl font-semibold text-neutral-500">Generating HTML Table</div>
-              <PulsingIcon Icon={Table} size={40} />
-            </div>
-          )}
-          {selectedFile?.instructionExtractState === ExtractState.DONE_EXTRACTING && (
-            <div className="flex flex-col items-start w-full h-full gap-4">
-              {selectedFile.tableExtractResult.length > 0 ? (
-                <ResultContainer extractResult={selectedFile.tableExtractResult} />
-              ) : (
-                <div className="flex flex-col items-center justify-center h-full w-full overflow-auto">
-                  <div className="text-xl font-semibold text-neutral-500">
-                    No table detected in output. Retry or select another file
+      {selectedFile?.instructionExtractState === ExtractState.LIMIT_REACHED ||
+      (selectedFile?.instructionExtractState !== ExtractState.DONE_EXTRACTING && remainingQuota === 0) ? (
+        <QuotaLimitPage />
+      ) : (
+        selectedFile && (
+          <>
+            {selectedFile?.instructionExtractState === ExtractState.READY && (
+              <div className="flex flex-col justify-end items-center h-full text-lg text-center gap-4">
+                <div className="flex flex-col items-center justify-center">
+                  {filename}
+                  <div className="w-[200px] mt-2">
+                    <Button
+                      label="Extract Table"
+                      onClick={() => handleTableExtractTransform()}
+                      small
+                      labelIcon={Table}
+                    />
                   </div>
                 </div>
-              )}
-              <div className={`w-full h-fit flex gap-4`}>
-                <Button label="Re-run Document" onClick={handleRetry} small labelIcon={ArrowCounterClockwise} />
-                {!isProduction && selectedFile.tableExtractResult.length > 1 && (
-                  <Button
-                    label={`Re-run Page ${resultZoomModal.page + 1}`}
-                    onClick={handlePageRetry}
-                    small
-                    labelIcon={ArrowCounterClockwise}
-                  />
-                )}
-                <DropdownButton
-                  options={filteredDownloadOptions}
-                  optionLabel="Download"
-                  icon={DownloadSimple}
-                  disabled={selectedFile.instructionExtractState !== ExtractState.DONE_EXTRACTING}
-                />
+                <ExtractSettingsChecklist removePIIOnly />
               </div>
-            </div>
-          )}
-          {selectedFile?.instructionExtractState === ExtractState.LIMIT_REACHED && <QuotaLimitPage />}
-        </>
+            )}
+            {selectedFile?.instructionExtractState === ExtractState.EXTRACTING && (
+              <div className="flex flex-col items-center justify-center h-full">
+                <div className="text-xl font-semibold text-neutral-500">Generating HTML Table</div>
+                <PulsingIcon Icon={Table} size={40} />
+              </div>
+            )}
+            {selectedFile?.instructionExtractState === ExtractState.DONE_EXTRACTING && (
+              <div className="flex flex-col items-start w-full h-full gap-4">
+                {selectedFile.tableExtractResult.length > 0 ? (
+                  <ResultContainer extractResult={selectedFile.tableExtractResult} />
+                ) : (
+                  <div className="flex flex-col items-center justify-center h-full w-full overflow-auto">
+                    <div className="text-xl font-semibold text-neutral-500">
+                      No table detected in output. Retry or select another file
+                    </div>
+                  </div>
+                )}
+                <div className="w-full h-fit flex gap-4">
+                  <Button label="Re-run Document" onClick={handleRetry} small labelIcon={ArrowCounterClockwise} />
+                  {!isProduction && selectedFile.tableExtractResult.length > 1 && (
+                    <Button
+                      label={`Re-run Page ${resultZoomModal.page + 1}`}
+                      onClick={handlePageRetry}
+                      small
+                      labelIcon={ArrowCounterClockwise}
+                    />
+                  )}
+                  <DropdownButton
+                    options={filteredDownloadOptions}
+                    optionLabel="Download"
+                    icon={DownloadSimple}
+                    disabled={selectedFile.instructionExtractState !== ExtractState.DONE_EXTRACTING}
+                  />
+                </div>
+              </div>
+            )}
+          </>
+        )
       )}
     </>
   );
