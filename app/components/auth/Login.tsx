@@ -13,7 +13,7 @@ const LoginComponent = () => {
   const { isAuthenticated, isLoading, loginWithRedirect, getAccessTokenSilently, logout } = useAuth0();
   const { auth0Enabled } = useProductionContext();
   const posthog = usePostHog();
-  const { loggedIn, setLoggedIn, setClientId, setToken } = usePlaygroundStore();
+  const { loggedIn, setLoggedIn, setClientId, setToken, setUserId } = usePlaygroundStore();
 
   useEffect(() => {
     if (!auth0Enabled) {
@@ -72,6 +72,7 @@ const LoginComponent = () => {
         },
       });
       const profile = await response.json();
+      setUserId(profile.sub);
       if (profile.email) {
         posthog.identify(profile.email);
       }

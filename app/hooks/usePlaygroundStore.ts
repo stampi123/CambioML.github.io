@@ -26,13 +26,19 @@ interface PlaygroundStore {
   filesToUpload: File[];
   filesFormData: PresignedResponse[];
   token: string;
+  userId: string;
   clientId: string;
   loggedIn: boolean;
+  totalQuota: number;
+  remainingQuota: number;
+  setTotalQuota: (totalQuota: number) => void;
+  setRemainingQuota: (remainingQuota: number) => void;
   setSelectedFileIndex: (index: number) => void;
   setFiles: (files: File[]) => void;
   setFilesToUpload: (files: File[]) => void;
   setToken: (token: string) => void;
   setClientId: (clientId: string) => void;
+  setUserId: (userId: string) => void;
   setLoggedIn: (loggedIn: boolean) => void;
   addFiles: ({ files, fileId, jobId, userId }: AddFileParams) => void;
   addHTMLFile: (file: string) => void;
@@ -89,14 +95,26 @@ const usePlaygroundStore = create<PlaygroundStore>((set) => ({
     includeHeadersFooters: true,
     includeTables: true,
   },
+  totalQuota: 0,
+  remainingQuota: 0,
   selectedFileIndex: null,
   files: [],
   filesToUpload: [],
   filesFormData: [],
-  token: 'token',
-  clientId: 'client_id',
+  token: '',
+  clientId: '',
   loggedIn: false,
   activeTab: '',
+  userId: '',
+  setUserId: (userId) => {
+    set({ userId });
+  },
+  setTotalQuota: (totalQuota) => {
+    set({ totalQuota });
+  },
+  setRemainingQuota: (remainingQuota) => {
+    set({ remainingQuota });
+  },
   setSelectedFileIndex: (index) => {
     set({ selectedFileIndex: index });
   },

@@ -4,10 +4,21 @@ import Container from '../Container';
 import FilesContainer from './FilesContainer';
 import ActionContainer from './ActionContainer';
 import PlaygroundInfoBar from './PlaygroundInfoBar';
+import { useEffect } from 'react';
+import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
+import { useProductionContext } from './ProductionContext';
+import updateQuota from '@/app/actions/updateQuota';
 
 const playgroundWrapperStyles = 'border-solid border-[1px] border-neutral-gray p-6';
 
 const PlaygroundContainer = () => {
+  const { clientId, token, setRemainingQuota, setTotalQuota, userId } = usePlaygroundStore();
+  const { apiURL } = useProductionContext();
+  useEffect(() => {
+    if (!userId || !apiURL || !token) return;
+    updateQuota({ api_url: apiURL, userId, token, setTotalQuota, setRemainingQuota, handleError: () => {} });
+  }, [clientId, apiURL, token]);
+
   return (
     <Container styles="h-fit min-h-[600px] py-10">
       <div className="w-[80vw] min-w-[600px] max-w-[2000px] flex flex-col gap-10">

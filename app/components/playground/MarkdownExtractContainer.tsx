@@ -16,6 +16,7 @@ import { JobParams } from '@/app/actions/preprod/apiInterface';
 import { runRequestJob } from '@/app/actions/runRequestJob';
 import useResultZoomModal from '@/app/hooks/useResultZoomModal';
 import QuotaLimitPage from './QuotaLimitPage';
+import updateQuota from '@/app/actions/updateQuota';
 
 const textStyles = 'text-xl font-semibold text-neutral-500';
 
@@ -28,8 +29,19 @@ export const extractMarkdownTables = (input: string): string[] => {
 
 const MarkdownExtractContainer = () => {
   const { isProduction, apiURL } = useProductionContext();
-  const { selectedFileIndex, files, filesFormData, updateFileAtIndex, token, clientId, extractSettings } =
-    usePlaygroundStore();
+  const {
+    selectedFileIndex,
+    files,
+    filesFormData,
+    updateFileAtIndex,
+    token,
+    clientId,
+    extractSettings,
+    setTotalQuota,
+    setRemainingQuota,
+    remainingQuota,
+    userId,
+  } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [filename, setFilename] = useState<string>('');
   const posthog = usePostHog();
@@ -105,6 +117,7 @@ const MarkdownExtractContainer = () => {
         num_pages: result.length,
       });
     updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.DONE_EXTRACTING);
+    updateQuota({ api_url: apiURL, userId: userId, token, setTotalQuota, setRemainingQuota, handleError });
     toast.success(`${filename} extracted!`);
     return;
   };
@@ -237,53 +250,59 @@ const MarkdownExtractContainer = () => {
 
   return (
     <>
-      {selectedFile?.extractState === ExtractState.READY && (
-        <div className="flex flex-col h-full justify-end items-center text-lg text-center gap-4 pb-4">
-          <div className="flex flex-col items-center justify-center">
-            {filename}
-            <div className="w-[200px] mt-2">
-              <Button label="Extract Plain Text" onClick={() => handleExtract()} small labelIcon={FileText} />
+      {selectedFile?.extractState === ExtractState.LIMIT_REACHED ||
+      (selectedFile?.extractState !== ExtractState.DONE_EXTRACTING && remainingQuota === 0) ? (
+        <QuotaLimitPage />
+      ) : (
+        <>
+          {selectedFile?.extractState === ExtractState.READY && (
+            <div className="flex flex-col h-full justify-end items-center text-lg text-center gap-4 pb-4">
+              <div className="flex flex-col items-center justify-center">
+                {filename}
+                <div className="w-[200px] mt-2">
+                  <Button label="Extract Plain Text" onClick={() => handleExtract()} small labelIcon={FileText} />
+                </div>
+              </div>
+              <ExtractSettingsChecklist />
             </div>
-          </div>
-          <ExtractSettingsChecklist />
-        </div>
+          )}
+          {selectedFile?.extractState === ExtractState.UPLOADING && (
+            <div className="flex flex-col items-center justify-center h-full gap-2">
+              <div className={textStyles}>Uploading</div>
+              <PulsingIcon Icon={CloudArrowUp} size={40} />
+            </div>
+          )}
+          {selectedFile?.extractState === ExtractState.EXTRACTING && (
+            <div className="flex flex-col items-center justify-center h-full gap-2">
+              <div className={textStyles}>Extracting</div>
+              <PulsingIcon Icon={FileText} size={40} />
+            </div>
+          )}
+          {selectedFile?.extractState === ExtractState.DONE_EXTRACTING && (
+            <div className="flex flex-col items-start w-full h-full gap-4 p-4">
+              <ResultContainer extractResult={selectedFile.extractResult} />
+              <div className="w-full h-fit flex gap-4">
+                <Button label="Re-run Document" onClick={handleRetry} small labelIcon={ArrowCounterClockwise} />
+                {selectedFile.extractResult.length > 1 && (
+                  <Button
+                    label={`Re-run Page ${resultZoomModal.page + 1}`}
+                    onClick={handlePageRetry}
+                    small
+                    labelIcon={ArrowCounterClockwise}
+                  />
+                )}
+                <Button
+                  label="Download Markdown"
+                  onClick={handleDownload}
+                  small
+                  disabled={selectedFile?.extractState !== ExtractState.DONE_EXTRACTING}
+                  labelIcon={DownloadSimple}
+                />
+              </div>
+            </div>
+          )}
+        </>
       )}
-      {selectedFile?.extractState === ExtractState.UPLOADING && (
-        <div className="flex flex-col items-center justify-center h-full gap-2">
-          <div className={textStyles}>Uploading</div>
-          <PulsingIcon Icon={CloudArrowUp} size={40} />
-        </div>
-      )}
-      {selectedFile?.extractState === ExtractState.EXTRACTING && (
-        <div className="flex flex-col items-center justify-center h-full gap-2">
-          <div className={textStyles}>Extracting</div>
-          <PulsingIcon Icon={FileText} size={40} />
-        </div>
-      )}
-      {selectedFile?.extractState === ExtractState.DONE_EXTRACTING && (
-        <div className="flex flex-col items-start w-full h-full gap-4 p-4">
-          <ResultContainer extractResult={selectedFile.extractResult} />
-          <div className="w-full h-fit flex gap-4">
-            <Button label="Re-run Document" onClick={handleRetry} small labelIcon={ArrowCounterClockwise} />
-            {selectedFile.extractResult.length > 1 && (
-              <Button
-                label={`Re-run Page ${resultZoomModal.page + 1}`}
-                onClick={handlePageRetry}
-                small
-                labelIcon={ArrowCounterClockwise}
-              />
-            )}
-            <Button
-              label="Download Markdown"
-              onClick={handleDownload}
-              small
-              disabled={selectedFile?.extractState !== ExtractState.DONE_EXTRACTING}
-              labelIcon={DownloadSimple}
-            />
-          </div>
-        </div>
-      )}
-      {selectedFile?.extractState === ExtractState.LIMIT_REACHED && <QuotaLimitPage />}
     </>
   );
 };
