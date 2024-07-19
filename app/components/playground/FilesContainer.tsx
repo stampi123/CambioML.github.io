@@ -36,7 +36,7 @@ const FilesContainer = () => {
           </div>
           <div className="w-full flex flex-col items-center pt-2">
             <div className="w-full flex justify-between items-center mb-2">
-              <span className="font-semibold">Quota</span>
+              <span className="font-semibold text-lg">Quota</span>
             </div>
             <div className="w-full bg-neutral-300 rounded-full h-2.5 flex justify-end">
               <div
