@@ -17,7 +17,6 @@ import ExtractSettingsChecklist from '../ExtractSettingsChecklist';
 import { JobParams } from '@/app/actions/preprod/apiInterface';
 import useResultZoomModal from '@/app/hooks/useResultZoomModal';
 import DropdownButton from '../../inputs/DropdownButton';
-import { SiMicrosoftexcel } from 'react-icons/si';
 
 const TableExtractContainer = () => {
   const { apiURL, isProduction } = useProductionContext();
@@ -388,34 +387,12 @@ const TableExtractContainer = () => {
                     labelIcon={ArrowCounterClockwise}
                   />
                 )}
-                {!isProduction && (
-                  <DropdownButton
-                    options={filteredDownloadOptions}
-                    optionLabel="Download"
-                    icon={DownloadSimple}
-                    disabled={selectedFile.instructionExtractState !== ExtractState.DONE_EXTRACTING}
-                  />
-                )}
-                {isProduction && (
-                  <>
-                    {selectedFile.tableExtractResult.length > 0 && selectedFile.tableExtractResult[0].length > 0 && (
-                      <Button label="Download HTML" onClick={handleHtmlDownload} small labelIcon={DownloadSimple} />
-                    )}
-                    {extractHTMLTables(selectedFile.tableExtractResult.join('')).length > 0 && (
-                      <>
-                        {!isProduction && (
-                          <Button label="Download JSON" onClick={handleJsonDownload} small labelIcon={DownloadSimple} />
-                        )}
-                        <Button
-                          label="Download Excel"
-                          onClick={handleHtmlXlsxDownload}
-                          small
-                          labelIcon={SiMicrosoftexcel}
-                        />
-                      </>
-                    )}
-                  </>
-                )}
+                <DropdownButton
+                  options={filteredDownloadOptions}
+                  optionLabel="Download"
+                  icon={DownloadSimple}
+                  disabled={selectedFile.instructionExtractState !== ExtractState.DONE_EXTRACTING}
+                />
               </div>
             </div>
           )}
