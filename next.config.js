@@ -3,6 +3,10 @@ const nextConfig = {
   output: 'export',
   reactStrictMode: true,
   images: { unoptimized: true },
+  webpack: (config) => {
+    config.resolve.alias.canvas = false;
+    return config;
+  },
 };
 
 //prettier-ignore
