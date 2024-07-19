@@ -17,6 +17,7 @@ import ExtractSettingsChecklist from '../ExtractSettingsChecklist';
 import { JobParams } from '@/app/actions/preprod/apiInterface';
 import useResultZoomModal from '@/app/hooks/useResultZoomModal';
 import DropdownButton from '../../inputs/DropdownButton';
+import QuotaLimitPage from '../QuotaLimitPage';
 
 const TableExtractContainer = () => {
   const { apiURL, isProduction } = useProductionContext();
@@ -84,6 +85,10 @@ const TableExtractContainer = () => {
       } else if (e.response.status === 404) {
         toast.error(`${filename}: Job not found. Please try again.`);
         updateFileAtIndex(selectedFileIndex, 'instructionExtractState', ExtractState.READY);
+        return;
+      } else if (e.response.status === 429) {
+        toast.error(`Extract page limit reached.`);
+        updateFileAtIndex(selectedFileIndex, 'instructionExtractState', ExtractState.LIMIT_REACHED);
         return;
       } else if (e.response.status === 500) {
         toast.error(`${filename}: Job has failed. Please try again.`);
@@ -396,6 +401,7 @@ const TableExtractContainer = () => {
               </div>
             </div>
           )}
+          {selectedFile?.instructionExtractState === ExtractState.LIMIT_REACHED && <QuotaLimitPage />}
         </>
       )}
     </>
