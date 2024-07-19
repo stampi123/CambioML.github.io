@@ -110,5 +110,5 @@ interface S3FileSource {
 
 export const PlaygroundTabs = {
   PLAIN_TEXT: 'Plain Text',
-  TABLE: 'Table',
+  TABLE: 'Table Only',
 };
