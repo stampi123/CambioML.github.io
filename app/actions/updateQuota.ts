@@ -27,7 +27,6 @@ const updateQuota = async ({ api_url, token, userId, setRemainingQuota, setTotal
     })
     .then((response) => {
       if (response.status === 200) {
-        console.log('Quota response:', response.data);
         setRemainingQuota(response.data.remainingPage);
         setTotalQuota(response.data.totalPage);
       } else {
