@@ -260,7 +260,7 @@ const MarkdownExtractContainer = () => {
           <ResultContainer extractResult={selectedFile.extractResult} />
           <div className="w-full h-fit flex gap-4">
             <Button label="Re-run Document" onClick={handleRetry} small labelIcon={ArrowCounterClockwise} />
-            {!isProduction && selectedFile.extractResult.length > 1 && (
+            {selectedFile.extractResult.length > 1 && (
               <Button
                 label={`Re-run Page ${resultZoomModal.page + 1}`}
                 onClick={handlePageRetry}
