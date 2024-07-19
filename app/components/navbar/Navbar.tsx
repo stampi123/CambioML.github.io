@@ -6,6 +6,7 @@ import NavMenu from './NavMenu';
 import NavMenuFull from './NavMenuFull';
 import { useRouter } from 'next/navigation';
 import { useWindowScroll } from '@/app/hooks/useWindowScroll';
+import ProductHunt from './ProductHunt';
 
 const menuItems = [
   {
@@ -58,7 +59,10 @@ const Navbar = () => {
                     md: gap-0
                     "
           >
-            <Logo />
+            <div className="flex items-center gap-3">
+              <Logo />
+              <ProductHunt />
+            </div>
             <div className="hidden md:flex flex-row items-center gap-3">
               {menuItems.map((item, i) => (
                 <NavMenu key={item.label + i} label={item.label} links={item.links} />

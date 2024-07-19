@@ -28,7 +28,7 @@ const ProductCard = ({ title, subtitle, outline, children, buttonText, buttonHan
         <div>
           <Heading title={title} subtitle={subtitle} center />
           <div
-            className={`mt-5 text-center text-lg font-light flex flex-col items-center justify-center gap-5 text-neutral-500 `}
+            className={`mt-5 text-center text-2xl font-light flex flex-col items-center justify-center gap-5 text-neutral-500 `}
           >
             {children}
           </div>
@@ -39,7 +39,6 @@ const ProductCard = ({ title, subtitle, outline, children, buttonText, buttonHan
             onClick={buttonHandler || bookDemo}
             outline={outline}
             labelIcon={CaretRight}
-            small
           />
         </div>
       </div>

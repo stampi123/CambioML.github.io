@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <>
       <Hero
-        title="Privacy-first AI agent for Information Retrieval"
+        title="Accurate, Private and Configurable Document Retrieval LLM"
         subtitle="Transform your information assets into competitive advantage with the most state-of-the-art document retrieval AI"
         typingWords={['PDF format', 'image resolution', 'PPT layout']}
         typingStaticWords="Unmatched extraction accuracy on any"

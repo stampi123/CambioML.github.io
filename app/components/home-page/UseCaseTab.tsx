@@ -21,7 +21,7 @@ const UseCaseTab = ({ code, demo, benefits, image, alt, detailsPath }: UseCaseTa
       </div>
       <div className="h-full w-full flex items-center justify-center">
         <div className="h-full w-full pt-16 flex flex-col items-center justify-start gap-8 pr-2">
-          <div className="text-neutral-800 text-3xl pb-10 flex flex-col gap-5">
+          <div className="text-neutral-800 text-4xl pb-10 flex flex-col gap-5">
             {benefits.map((benefit, index) => (
               <p key={index}>{benefit}</p>
             ))}

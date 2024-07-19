@@ -30,7 +30,7 @@ const PlaygroundPageContainer = ({ production, auth0Enabled }: PlaygroundPageCon
           <UploadModal />
           <PageHero
             title={`${production ? '🛝 AnyParser Playground' : '🚧 PreProd Playground'}`}
-            description={`Test with your PDF* and Image files**`}
+            description={`Extract full insights from your PDF* and Image files**`}
             short
           />
           <PlaygroundContainer />
