@@ -7,6 +7,10 @@ import LogoutButton from '../auth/LogoutButton';
 const FilesContainer = () => {
   const { files, loggedIn, totalQuota, remainingQuota } = usePlaygroundStore();
 
+  const quotaPercent = (remainingQuota / totalQuota) * 100;
+  const QUOTA_YELLOW_THRESHOLD = 25;
+  const QUOTA_RED_THRESHOLD = 10;
+
   return (
     <div className="h-full w-full  min-h-[400px] grid grid-rows-[50px_1fr_70px_70px_70px]">
       <div className="row-span-1 text-2xl font-semibold pb-10">Files</div>
@@ -40,8 +44,8 @@ const FilesContainer = () => {
             </div>
             <div className="w-full bg-neutral-300 rounded-full h-2.5 flex justify-end">
               <div
-                className="bg-sky-500 h-2.5 rounded-full"
-                style={{ width: `${(remainingQuota / totalQuota) * 100}%` }}
+                className={`${quotaPercent > QUOTA_YELLOW_THRESHOLD && 'bg-green-500'} ${quotaPercent > QUOTA_RED_THRESHOLD && quotaPercent <= QUOTA_YELLOW_THRESHOLD && 'bg-yellow-500'}  ${quotaPercent <= QUOTA_RED_THRESHOLD && 'bg-red-500'}  h-2.5 rounded-full`}
+                style={{ width: `${quotaPercent}%` }}
               ></div>
             </div>
             <span className="text-xs mt-1">{`${remainingQuota}/${totalQuota} pages`}</span>
