@@ -5,6 +5,7 @@ import FilesContainer from './FilesContainer';
 import ActionContainer from './ActionContainer';
 import PlaygroundInfoBar from './PlaygroundInfoBar';
 import PreviewModal from '../modals/PreviewModal';
+import CompareModal from '../modals/CompareModal';
 
 const playgroundWrapperStyles = 'border-solid border-[1px] border-neutral-gray p-6';
 
@@ -12,6 +13,7 @@ const PlaygroundContainer = () => {
   return (
     <Container styles="h-fit min-h-[600px] py-10">
       <PreviewModal />
+      <CompareModal />
       <div className="w-[80vw] min-w-[600px] max-w-[2000px] flex flex-col gap-10">
         <div
           className="
