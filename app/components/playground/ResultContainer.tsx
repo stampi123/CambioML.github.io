@@ -1,8 +1,10 @@
 'use client';
 
 import { QueryResult } from '@/app/actions/apiInterface';
+import useCompareModal from '@/app/hooks/useCompareModal';
+import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import useResultZoomModal from '@/app/hooks/useResultZoomModal';
-import { CaretLeft, CaretRight, FrameCorners } from '@phosphor-icons/react';
+import { CaretLeft, CaretRight, Files, FrameCorners } from '@phosphor-icons/react';
 import { useEffect } from 'react';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -79,7 +81,9 @@ interface ResultContainerProps {
 }
 
 const ResultContainer = ({ extractResult }: ResultContainerProps) => {
+  const { files, selectedFileIndex } = usePlaygroundStore();
   const resultZoomModal = useResultZoomModal();
+  const compareModal = useCompareModal();
 
   const handleZoomClick = () => {
     resultZoomModal.setContent(
@@ -90,9 +94,49 @@ const ResultContainer = ({ extractResult }: ResultContainerProps) => {
     resultZoomModal.onOpen();
   };
 
+  const handleCompareClick = () => {
+    console.log('compare click');
+    compareModal.setContent(
+      <div className="w-full h-full">
+        {hasHtmlTags(extractResult.join('')) ? (
+          <div
+            className="p-4 whitespace-pre-wrap"
+            dangerouslySetInnerHTML={{
+              __html: extractResult
+                .map(
+                  (content, index) =>
+                    `<div>${content}</div>
+                <div style="font-weight: bold; position: relative; margin-top: 5px;">
+                    <span style="position: absolute; right: 0; bottom: 0;">Page ${index + 1}</span>
+                </div>
+                <hr style="margin-top: 10px; margin-bottom: 20px;">`
+                )
+                .join(''),
+            }}
+          />
+        ) : (
+          <Markdown className="markdown p-4 whitespace-pre-wrap" remarkPlugins={[remarkGfm]}>
+            {extractResult
+              .map((content, index) => {
+                return `${content}\n\n**Page ${index + 1}**\n\n---\n\n`;
+              })
+              .join('')}
+          </Markdown>
+        )}
+      </div>
+    );
+    compareModal.onOpen();
+  };
   useEffect(() => {
     resultZoomModal.setPage(0);
   }, [extractResult]);
+
+  useEffect(() => {
+    if (selectedFileIndex !== null && files[selectedFileIndex]) {
+      const thisFile = files[selectedFileIndex].file;
+      compareModal.setFile(thisFile as File);
+    }
+  }, [files, selectedFileIndex]);
 
   return (
     <div className="w-full h-full relative">
@@ -101,6 +145,12 @@ const ResultContainer = ({ extractResult }: ResultContainerProps) => {
         onClick={handleZoomClick}
       >
         <FrameCorners size={18} weight="bold" />
+      </div>
+      <div
+        className="absolute top-16 right-5 z-10 cursor-pointer p-2 rounded-full text-neutral-600 bg-white hover:text-neutral-800 hover:bg-neutral-100 font-semibold"
+        onClick={handleCompareClick}
+      >
+        <Files size={18} weight="bold" />
       </div>
       <ResultContent extractResult={extractResult} />
     </div>

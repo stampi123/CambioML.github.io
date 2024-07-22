@@ -20,6 +20,8 @@ import DropdownButton from '../../inputs/DropdownButton';
 import QuotaLimitPage from '../QuotaLimitPage';
 import updateQuota from '@/app/actions/updateQuota';
 
+const noPageContent = '<div>No table detected in output.</div>';
+
 const TableExtractContainer = () => {
   const { apiURL, isProduction } = useProductionContext();
   const {
@@ -53,13 +55,18 @@ const TableExtractContainer = () => {
   }, [selectedFileIndex, files, updateFileAtIndex]);
 
   const handleSuccess = (response: AxiosResponse, targetPageNumbers?: number[]) => {
+    console.log('[TableExtractContainer] handleSuccess:', response.data);
     let result = response.data;
     if (result === undefined) {
       toast.error(`${filename}: Received undefined result. Please try again.`);
       updateFileAtIndex(selectedFileIndex, 'instructionExtractState', ExtractState.READY);
       return;
     }
-    result = result.filter((page: string) => page.length > 0);
+    result = result.map((pageContent: string) => {
+      console.log('pageContent:', pageContent);
+      if (pageContent.length === 0) return noPageContent;
+      return pageContent;
+    });
     if (isProduction)
       posthog.capture('playground.table.extract_table.success', {
         route: '/playground',
