@@ -54,7 +54,7 @@ const FullscreenModal = ({ isOpen, onClose, title, body, footer }: FullscreenMod
       relative
       w-full
       min-w-[500px]
-      max-w-screen-3xl
+      max-w-screen-2xl
       my-6
       mx-auto
       h-full"

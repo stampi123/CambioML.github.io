@@ -55,7 +55,6 @@ const TableExtractContainer = () => {
   }, [selectedFileIndex, files, updateFileAtIndex]);
 
   const handleSuccess = (response: AxiosResponse, targetPageNumbers?: number[]) => {
-    console.log('[TableExtractContainer] handleSuccess:', response.data);
     let result = response.data;
     if (result === undefined) {
       toast.error(`${filename}: Received undefined result. Please try again.`);
@@ -63,7 +62,6 @@ const TableExtractContainer = () => {
       return;
     }
     result = result.map((pageContent: string) => {
-      console.log('pageContent:', pageContent);
       if (pageContent.length === 0) return noPageContent;
       return pageContent;
     });
@@ -347,6 +345,9 @@ const TableExtractContainer = () => {
     return fileType;
   };
 
+  const hasTables = (inputArr: string[]): boolean => {
+    return inputArr.filter((pageStr: string) => pageStr !== noPageContent).length > 0;
+  };
   const downloadOptions = [
     { value: 'HTML Download', label: 'HTML', callback: handleHtmlDownload },
     { value: 'JSON Download', label: 'JSON', callback: handleJsonDownload },
@@ -355,16 +356,12 @@ const TableExtractContainer = () => {
   const filteredDownloadOptions = downloadOptions.filter((option) => {
     if (!selectedFile?.tableExtractResult) return false;
     if (option.value === 'Excel Download') {
-      return extractHTMLTables(selectedFile.tableExtractResult.join('')).length > 0;
+      return hasTables(selectedFile.tableExtractResult);
     }
     if (option.value === 'JSON Download') {
-      return !isProduction && extractHTMLTables(selectedFile.tableExtractResult.join('')).length > 0;
+      return !isProduction && hasTables(selectedFile.tableExtractResult);
     }
-    if (
-      option.value === 'HTML Download' &&
-      selectedFile.tableExtractResult.length > 0 &&
-      selectedFile.tableExtractResult[0].length > 0
-    ) {
+    if (option.value === 'HTML Download' && hasTables(selectedFile.tableExtractResult)) {
       return true;
     }
     return false;
@@ -401,7 +398,7 @@ const TableExtractContainer = () => {
             )}
             {selectedFile?.instructionExtractState === ExtractState.DONE_EXTRACTING && (
               <div className="flex flex-col items-start w-full h-full gap-4">
-                {selectedFile.tableExtractResult.length > 0 ? (
+                {hasTables(selectedFile.tableExtractResult) ? (
                   <ResultContainer extractResult={selectedFile.tableExtractResult} />
                 ) : (
                   <div className="flex flex-col items-center justify-center h-full w-full overflow-auto">
@@ -424,7 +421,10 @@ const TableExtractContainer = () => {
                     options={filteredDownloadOptions}
                     optionLabel="Download"
                     icon={DownloadSimple}
-                    disabled={selectedFile.instructionExtractState !== ExtractState.DONE_EXTRACTING}
+                    disabled={
+                      selectedFile.instructionExtractState !== ExtractState.DONE_EXTRACTING ||
+                      !hasTables(selectedFile.tableExtractResult)
+                    }
                   />
                 </div>
               </div>

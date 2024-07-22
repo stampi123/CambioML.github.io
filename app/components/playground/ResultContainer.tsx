@@ -95,7 +95,6 @@ const ResultContainer = ({ extractResult }: ResultContainerProps) => {
   };
 
   const handleCompareClick = () => {
-    console.log('compare click');
     compareModal.setContent(
       <div className="w-full h-full">
         {hasHtmlTags(extractResult.join('')) ? (
