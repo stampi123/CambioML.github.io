@@ -1,19 +1,19 @@
 import React from 'react';
 import { Worker, Viewer } from '@react-pdf-viewer/core';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
-import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer';
+// import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer';
 import '@cyntler/react-doc-viewer/dist/index.css';
 import Image from 'next/image';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+import ComingSoonBanner from './playground/ComingSoonBanner';
 
 type DocumentViewerProps = {
   fileType: string;
   fileUrl: string;
-  fileName: string;
 };
 
-const DocumentViewer: React.FC<DocumentViewerProps> = ({ fileType, fileUrl, fileName }) => {
+const DocumentViewer: React.FC<DocumentViewerProps> = ({ fileType, fileUrl }) => {
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
   const renderContent = () => {
@@ -32,7 +32,8 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ fileType, fileUrl, file
     ) {
       return (
         <div className="h-full w-full border-[1px] rounded-lg">
-          <DocViewer documents={[{ uri: fileUrl, fileName: fileName }]} pluginRenderers={DocViewerRenderers} />
+          <ComingSoonBanner text="Preview for Office Files coming soon" />
+          {/* <DocViewer documents={[{ uri: fileUrl, fileName: fileName }]} pluginRenderers={DocViewerRenderers} /> */}
         </div>
       );
     } else if (fileType.startsWith('image/')) {
