@@ -4,25 +4,32 @@ import { useCallback } from 'react';
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { useUploadModal, UploadModalState } from '@/app/hooks/useUploadModal';
 import toast from 'react-hot-toast';
+import { useProductionContext } from './ProductionContext';
 
 const DropzoneContainerClass =
   'border-2 bg-gray-100 border-dashed border-gray-300 h-[40vh] min-h-[150px] rounded-md text-center cursor-pointer transition duration-300 ease-in-out flex flex-col items-center justify-center hover:border-neutral-500 w-full';
 
 const iconContainerClasses = 'flex items-center justify-center text-3xl mb-4';
-const allowedTypes: { [key: string]: number } = {
+let allowedTypes: { [key: string]: number } = {
   'application/pdf': 10,
-  // 'application/vnd.openxmlformats-officedocument.presentationml.presentation': 10,
   'image/png': 10,
   'image/jpeg': 10,
   'image/jpg': 10,
   // 'text/html': 10,
   // 'text/plain': 10,
-  // 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 5,
 };
 
 const Dropzone = () => {
   const uploadModal = useUploadModal();
   const { setFilesToUpload } = usePlaygroundStore();
+  const { isProduction } = useProductionContext();
+  if (!isProduction)
+    allowedTypes = {
+      ...allowedTypes,
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation': 10,
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 10,
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 10,
+    };
 
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {

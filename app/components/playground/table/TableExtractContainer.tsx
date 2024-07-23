@@ -74,7 +74,7 @@ const TableExtractContainer = () => {
         num_pages: result.length,
       });
 
-    if (!isProduction) console.log('[MarkdownExtract] result:', result);
+    if (!isProduction) console.log('[TableExtract] result:', result);
     if (targetPageNumbers) {
       const currentResult = selectedFile?.tableExtractResult;
       if (currentResult) {

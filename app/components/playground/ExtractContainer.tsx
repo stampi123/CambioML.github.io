@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import MarkdownExtractContainer from './MarkdownExtractContainer';
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { PlaygroundFile } from '@/app/types/PlaygroundTypes';
-import ComingSoonBanner from './ComingSoonBanner';
 
 const ExtractContainer = () => {
   const { selectedFileIndex, files, updateFileAtIndex } = usePlaygroundStore();
@@ -15,16 +14,7 @@ const ExtractContainer = () => {
     }
   }, [selectedFileIndex, files, updateFileAtIndex]);
 
-  return (
-    <div className="h-full w-full pt-4">
-      {selectedFile?.file instanceof File &&
-      selectedFile?.file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ? (
-        <ComingSoonBanner text="Extract support for XLSX coming soon!" />
-      ) : (
-        <MarkdownExtractContainer />
-      )}
-    </div>
-  );
+  return <div className="h-full w-full pt-4">{selectedFile?.file instanceof File && <MarkdownExtractContainer />}</div>;
 };
 
 export default ExtractContainer;
