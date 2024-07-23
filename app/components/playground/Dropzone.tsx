@@ -10,11 +10,16 @@ const DropzoneContainerClass =
   'border-2 bg-gray-100 border-dashed border-gray-300 h-[40vh] min-h-[150px] rounded-md text-center cursor-pointer transition duration-300 ease-in-out flex flex-col items-center justify-center hover:border-neutral-500 w-full';
 
 const iconContainerClasses = 'flex items-center justify-center text-3xl mb-4';
-let allowedTypes: { [key: string]: number } = {
-  'application/pdf': 10,
-  'image/png': 10,
-  'image/jpeg': 10,
-  'image/jpg': 10,
+
+type AllowedTypes = {
+  [key: string]: { limit: number; name: string };
+};
+
+let allowedTypes: AllowedTypes = {
+  'application/pdf': { limit: 10, name: 'PDF' },
+  'image/png': { limit: 10, name: 'PNG' },
+  'image/jpeg': { limit: 10, name: 'JPEG' },
+  'image/jpg': { limit: 10, name: 'JPG' },
   // 'text/html': 10,
   // 'text/plain': 10,
 };
@@ -26,10 +31,18 @@ const Dropzone = () => {
   if (!isProduction)
     allowedTypes = {
       ...allowedTypes,
-      'application/vnd.openxmlformats-officedocument.presentationml.presentation': 10,
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 10,
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 10,
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation': { limit: 10, name: 'PPT' },
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': { limit: 10, name: 'XLSX' },
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': { limit: 10, name: 'DOCX' },
     };
+
+  function generateAllowedTypesString(types: AllowedTypes) {
+    const typeNames = Object.values(types).map((type) => type.name);
+    const lastType = typeNames.pop();
+    return typeNames.length
+      ? `${typeNames.join(', ')}${typeNames.length > 1 ? ',' : ''} and ${lastType} files only`
+      : `${lastType} files only`;
+  }
 
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
@@ -40,7 +53,7 @@ const Dropzone = () => {
             uploadModal.setUploadModalState(UploadModalState.ADD_FILES);
             return;
           }
-          if (file.size > allowedTypes[file.type] * 1024 * 1024) {
+          if (file.size > allowedTypes[file.type].limit * 1024 * 1024) {
             toast.error(
               `Error processing ${file.name}: Size exceeds the ${allowedTypes[file.type]}MB limit. Please try again.`
             );
@@ -64,7 +77,7 @@ const Dropzone = () => {
       <p className="mt-2">
         {isDragActive ? 'Drop files here' : 'Drag and drop a single file here or click to select a file'}
       </p>
-      <p className="text-sm text-gray-500">PDF, PNG, JPG, and JPEG files only</p>
+      <p className="text-sm text-gray-500">{generateAllowedTypesString(allowedTypes)}</p>
       <p className="text-sm text-gray-500">Please do not upload any sensitive information.</p>
       <p className="text-sm text-gray-500">Max size 10MB</p>
     </div>

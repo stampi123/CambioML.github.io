@@ -13,7 +13,7 @@ const CompareModal = () => {
     bodyContent = (
       <div className="w-full h-[92vh] grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="h-full overflow-scroll">
-          <DocumentViewer fileType={file?.type} fileUrl={URL.createObjectURL(file)} fileName={file.name} />
+          <DocumentViewer fileType={file?.type} fileUrl={URL.createObjectURL(file)} />
         </div>
         <div className="overflow-auto relative w-full h-full">{content}</div>
       </div>
