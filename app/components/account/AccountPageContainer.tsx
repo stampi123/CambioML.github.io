@@ -72,8 +72,13 @@ const AccountPageContainer = () => {
   const { apiURL } = useProductionContext();
   const { apiKeys, setApiKeys } = useAccountStore();
   const [isLoading, setIsLoading] = useState(false);
+  const { isProduction } = useProductionContext();
   const router = useRouter();
   const STRIPE_ENABLED: boolean = false;
+
+  const logoutUrl = isProduction
+    ? process.env.NEXT_PUBLIC_LOGOUT_URL_ACCOUNT
+    : process.env.NEXT_PUBLIC_LOGOUT_URL_ACCOUNT_PRE_PROD;
 
   const handleGenerateAPIKey = async () => {
     setIsLoading(true);
@@ -133,7 +138,7 @@ const AccountPageContainer = () => {
                   logoutButton={LogoutButton}
                   profilePic={profile.picture}
                   phrase={`Welcome, ${profile.name}`}
-                  logoutUrl={process.env.NEXT_PUBLIC_LOGOUT_URL_ACCOUNT || 'https://www.cambioml.com/account'}
+                  logoutUrl={logoutUrl || 'https://www.cambioml.com/account'}
                   disabled={isLoading}
                 />
               )}
