@@ -5,17 +5,16 @@ import toast from 'react-hot-toast';
 interface IParams {
   userId: string;
   token: string;
+  apiURL: string;
 }
 
-export default async function getApiKey({ userId, token }: IParams): Promise<ApiKey> {
+export default async function getApiKey({ userId, token, apiURL }: IParams): Promise<ApiKey> {
   const params = {
     userId,
   };
 
-  const apiKeyEndpoint = process.env.NEXT_PUBLIC_API_KEY_ENDPOINT || '';
-
   try {
-    const response = await axios.post(`${apiKeyEndpoint}/makekey`, params, {
+    const response = await axios.post(`${apiURL}/makekey`, params, {
       headers: {
         'Content-Type': 'application/json',
         authorizationToken: token,
