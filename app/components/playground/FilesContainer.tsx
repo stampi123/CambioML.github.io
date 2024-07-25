@@ -4,9 +4,15 @@ import { FileDashed } from '@phosphor-icons/react';
 import FileItem from './FileItem';
 import LogoutButton from '../auth/LogoutButton';
 import QuotaDisplay from './QuotaDisplay';
+import { useProductionContext } from './ProductionContext';
 
 const FilesContainer = () => {
   const { files, loggedIn } = usePlaygroundStore();
+  const { isProduction } = useProductionContext();
+
+  const logoutUrl = isProduction
+    ? process.env.NEXT_PUBLIC_LOGOUT_URL_PLAYGROUND
+    : process.env.NEXT_PUBLIC_LOGOUT_URL_PLAYGROUND_PRE_PROD;
 
   return (
     <div className="h-full w-full  min-h-[400px] grid grid-rows-[50px_1fr_70px_70px_70px]">
@@ -31,9 +37,7 @@ const FilesContainer = () => {
       {loggedIn && (
         <>
           <div className="row-span-1 h-full border-y-2 py-2 w-full flex flex-col gap-2 items-center justify-center">
-            <LogoutButton
-              logoutUrl={process.env.NEXT_PUBLIC_LOGOUT_URL_PLAYGROUND || 'https://www.cambioml.com/playground'}
-            />
+            <LogoutButton logoutUrl={logoutUrl || 'https://www.cambioml.com/playground'} />
           </div>
           <QuotaDisplay />
         </>
