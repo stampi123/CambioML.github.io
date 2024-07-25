@@ -5,7 +5,7 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import { ProductionProvider } from '../components/playground/ProductionContext';
 
 const AccountPage = () => {
-  const redirectUri = process.env.NEXT_PUBLIC_LOGOUT_URL_ACCOUNT;
+  const redirectUri = process.env.NEXT_PUBLIC_LOGOUT_URL_ACCOUNT_PRE_PROD;
   return (
     <div>
       <Auth0Provider
