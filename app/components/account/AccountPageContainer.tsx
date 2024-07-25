@@ -1,5 +1,5 @@
 'use client';
-import { Icon, Key, UserCircle } from '@phosphor-icons/react';
+import { Confetti, Icon, Key, UserCircle } from '@phosphor-icons/react';
 import Container from '../Container';
 import Heading from '../Heading';
 import LoginButton from '../auth/LoginButton';
@@ -17,6 +17,8 @@ import ApiKeyRow from './ApiKeyRow';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { useProductionContext } from '../playground/ProductionContext';
+
+const MAX_API_KEYS = 5;
 
 interface LoadingComponentProps {
   icon: Icon;
@@ -161,23 +163,35 @@ const AccountPageContainer = () => {
               {!loading && !error && profile && (
                 <div className="w-full h-full flex flex-col items-start justify-start gap-8">
                   Generate and copy your API keys.
-                  <div className="w-full h-[50px]">
-                    <Button
-                      label={`${isLoading ? 'Generating...' : 'Generate New API Key'}`}
-                      onClick={handleGenerateAPIKey}
-                      small
-                      disabled={isLoading}
-                    />
-                  </div>
+                  {apiKeys.length >= MAX_API_KEYS ? (
+                    <div className="w-full h-[50px] flex items-center justify-center gap-4 text-lg bg-neutral-100 border-2 border-neutral-300 p-4 rounded-xl text-neutral-700">
+                      {`You've generated the maximum api keys`}
+                      <Confetti size={32} />
+                    </div>
+                  ) : (
+                    <div className="w-full h-[50px]">
+                      <Button
+                        label={`${isLoading ? 'Generating...' : 'Generate New API Key'}`}
+                        onClick={handleGenerateAPIKey}
+                        small
+                        disabled={isLoading || apiKeys.length >= MAX_API_KEYS}
+                        labelIcon={Key}
+                      />
+                    </div>
+                  )}
                   <div className="w-full">
                     <div className="text-xl font-semibold pb-4">Your Keys</div>
-                    <div className="flex flex-col gap-2 h-[150px] overflow-auto">
+                    <div className="flex flex-col gap-2 h-[300px] overflow-auto">
                       {apiKeys.length === 0 && (
-                        <div className="w-full h-full min-h-[150px] bg-neutral-100 rounded-xl flex items-center justify-center">
+                        <div className="w-full h-full min-h-[300px] bg-neutral-100 rounded-xl flex items-center justify-center">
                           <Key size={48} />
                         </div>
                       )}
-                      {apiKeys.length > 0 && apiKeys.map((key, i) => <ApiKeyRow key={i} apiKey={key} />)}
+                      {apiKeys.length > 0 &&
+                        apiKeys
+                          .slice()
+                          .reverse()
+                          .map((key, i) => <ApiKeyRow key={i} apiKey={key} />)}
                     </div>
                   </div>
                 </div>
