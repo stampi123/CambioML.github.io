@@ -36,9 +36,7 @@ export const uploadFile = async ({ api_url, file, token, clientId, addFiles, add
     .get<PresignedResponse>(api_url + '/upload', getConfig)
     .then((response) => {
       const data = response.data as PresignedResponse;
-      addFilesFormData(data);
       const postData = new FormData();
-      addFiles({ files: file, fileId: data.fileId, jobId: data.jobId, userId: data.userId });
       Object.entries(data.presignedUrl.fields).forEach(([key, value]) => {
         postData.append(key, value);
       });
@@ -49,6 +47,8 @@ export const uploadFile = async ({ api_url, file, token, clientId, addFiles, add
           if (response.status !== 204) {
             throw new Error(`Error uploading file: ${file.name}. Please try again.`);
           }
+          addFilesFormData(data);
+          addFiles({ files: file, fileId: data.fileId, jobId: data.jobId, userId: data.userId });
           return response;
         })
         .catch((error) => {

@@ -2,13 +2,13 @@ import { ApiKey } from '@/app/hooks/useAccountStore';
 import axios from 'axios';
 
 interface IParams {
-  clientId: string;
+  userId: string;
   token: string;
 }
 
-export default async function getApiKeysForUser({ clientId, token }: IParams): Promise<ApiKey[]> {
+export default async function getApiKeysForUser({ userId, token }: IParams): Promise<ApiKey[]> {
   const params = {
-    userId: clientId,
+    userId,
   };
   const apiKeyEndpoint = process.env.NEXT_PUBLIC_API_KEY_ENDPOINT || '';
   try {

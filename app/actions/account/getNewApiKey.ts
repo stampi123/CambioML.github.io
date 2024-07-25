@@ -3,13 +3,13 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 interface IParams {
-  clientId: string;
+  userId: string;
   token: string;
 }
 
-export default async function getApiKey({ clientId, token }: IParams): Promise<ApiKey> {
+export default async function getApiKey({ userId, token }: IParams): Promise<ApiKey> {
   const params = {
-    userId: clientId,
+    userId,
   };
 
   const apiKeyEndpoint = process.env.NEXT_PUBLIC_API_KEY_ENDPOINT || '';
@@ -24,7 +24,6 @@ export default async function getApiKey({ clientId, token }: IParams): Promise<A
     });
 
     if (response.status === 200) {
-      console.log(response.data);
       return {
         key: response.data.apiKey,
       };

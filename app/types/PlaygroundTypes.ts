@@ -112,3 +112,12 @@ export const PlaygroundTabs = {
   PLAIN_TEXT: 'Full Content',
   TABLE: 'Table Only',
 };
+
+export enum JobType {
+  FILE_EXTRACTION = 'file_extraction',
+  QA_GENERATION = 'qa_generation',
+  INFO_EXTRACTION = 'info_extraction',
+  INSTRUCTION_EXTRACTION = 'instruction_extraction',
+  FILE_COMPARISON = 'file_comparison',
+  SCHEMA_EXTRACTION = 'schema_extraction',
+}

@@ -5,6 +5,8 @@ import { useProductionContext } from './ProductionContext';
 import updateQuota from '@/app/actions/updateQuota';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
+import useAccountStore from '@/app/hooks/useAccountStore';
+import getNewApiKey from '@/app/actions/account/getNewApiKey';
 
 const QUOTA_YELLOW_THRESHOLD = 50;
 const QUOTA_ORANGE_THRESHOLD = 25;
@@ -12,10 +14,11 @@ const QUOTA_RED_THRESHOLD = 15;
 
 const QuotaDisplay = () => {
   const { totalQuota, remainingQuota, userId, token, setTotalQuota, setRemainingQuota } = usePlaygroundStore();
-  const { apiURL } = useProductionContext();
+  const { apiURL, isProduction } = useProductionContext();
   const [isLoading, setIsLoading] = useState(false);
-
+  const { apiKeys } = useAccountStore();
   const quotaPercent = (remainingQuota / totalQuota) * 100;
+  let madeApiKey = false;
 
   const handleRefresh = async () => {
     setIsLoading(true);
@@ -30,9 +33,18 @@ const QuotaDisplay = () => {
     return 'bg-red-500';
   };
 
-  const handleError = (e: AxiosError | Error) => {
+  const handleError = async (e: AxiosError | Error) => {
     console.error(e);
-    toast.error('Failed to get quota');
+    if (apiKeys.length === 0 && !madeApiKey && !isProduction) {
+      if (!userId || !token) {
+        console.log('No profile or token', userId, token);
+        return;
+      }
+      madeApiKey = true;
+      await getNewApiKey({ userId: userId, token: token });
+      if (!isProduction) toast.success('API key generated');
+      return;
+    }
   };
 
   useEffect(() => {
