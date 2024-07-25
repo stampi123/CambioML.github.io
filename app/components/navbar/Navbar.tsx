@@ -14,16 +14,16 @@ const menuItems = [
     links: ['Finance'],
   },
   {
-    label: 'Blog',
-    links: [],
-  },
-  {
     label: 'Playground',
     links: [],
   },
   {
     label: 'Company',
-    links: ['About us'],
+    links: ['About us', 'Blog'],
+  },
+  {
+    label: 'Account',
+    links: [],
   },
 ];
 

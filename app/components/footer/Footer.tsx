@@ -70,6 +70,10 @@ const Footer = () => {
               title: 'Launch Playground',
               url: '/playground',
             },
+            {
+              title: 'Account',
+              url: '/account',
+            },
           ]}
         />
         <FooterMenu
@@ -79,15 +83,15 @@ const Footer = () => {
               title: 'About us',
               url: '/company/about-us',
             },
+            {
+              title: 'Blog',
+              url: '/blog',
+            },
           ]}
         />
         <FooterMenu
           title="Resources"
           links={[
-            {
-              title: 'Blog',
-              url: '/blog',
-            },
             {
               title: 'Privacy Policy',
               url: '/legal/privacy-policy.pdf',

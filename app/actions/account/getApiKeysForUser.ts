@@ -23,7 +23,6 @@ export default async function getApiKeysForUser({ userId, token, apiURL }: IPara
     });
 
     if (response.status === 200) {
-      console.log(response.data);
       const apiKeys = response.data.apiKeys.map((thisKey: string) => ({
         key: thisKey,
       }));

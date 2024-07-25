@@ -165,7 +165,7 @@ const AccountPageContainer = () => {
                   Generate and copy your API keys.
                   {apiKeys.length >= MAX_API_KEYS ? (
                     <div className="w-full h-[50px] flex items-center justify-center gap-4 text-lg bg-neutral-100 border-2 border-neutral-300 p-4 rounded-xl text-neutral-700">
-                      {`You've generated the maximum api keys`}
+                      {`You've generated the maximum API keys`}
                       <Confetti size={32} />
                     </div>
                   ) : (
