@@ -14,7 +14,7 @@ const QUOTA_RED_THRESHOLD = 15;
 
 const QuotaDisplay = () => {
   const { totalQuota, remainingQuota, userId, token, setTotalQuota, setRemainingQuota } = usePlaygroundStore();
-  const { apiURL } = useProductionContext();
+  const { apiURL, isProduction } = useProductionContext();
   const [isLoading, setIsLoading] = useState(false);
   const { apiKeys } = useAccountStore();
   const quotaPercent = (remainingQuota / totalQuota) * 100;
@@ -35,14 +35,14 @@ const QuotaDisplay = () => {
 
   const handleError = async (e: AxiosError | Error) => {
     console.error(e);
-    if (apiKeys.length === 0 && !madeApiKey) {
+    if (apiKeys.length === 0 && !madeApiKey && !isProduction) {
       if (!userId || !token) {
         console.log('No profile or token', userId, token);
         return;
       }
       madeApiKey = true;
       await getNewApiKey({ userId: userId, token: token });
-      toast.success('API key generated');
+      if (!isProduction) toast.success('API key generated');
       return;
     }
   };
