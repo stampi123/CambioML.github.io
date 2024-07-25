@@ -4,15 +4,16 @@ import axios from 'axios';
 interface IParams {
   userId: string;
   token: string;
+  apiURL: string;
 }
 
-export default async function getApiKeysForUser({ userId, token }: IParams): Promise<ApiKey[]> {
+export default async function getApiKeysForUser({ userId, token, apiURL }: IParams): Promise<ApiKey[]> {
   const params = {
     userId,
   };
-  const apiKeyEndpoint = process.env.NEXT_PUBLIC_API_KEY_ENDPOINT || '';
+
   try {
-    const response = await axios.get(`${apiKeyEndpoint}/listkeys`, {
+    const response = await axios.get(`${apiURL}/listkeys`, {
       headers: {
         'Content-Type': 'application/json',
         authorizationToken: token,

@@ -41,7 +41,7 @@ const QuotaDisplay = () => {
         return;
       }
       madeApiKey = true;
-      await getNewApiKey({ userId: userId, token: token });
+      await getNewApiKey({ userId: userId, token: token, apiURL });
       if (!isProduction) toast.success('API key generated');
       return;
     }

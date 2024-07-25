@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react';
 import ApiKeyRow from './ApiKeyRow';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { useProductionContext } from '../playground/ProductionContext';
 
 interface LoadingComponentProps {
   icon: Icon;
@@ -68,6 +69,7 @@ const ProfileContainer = ({
 
 const AccountPageContainer = () => {
   const { profile, error, loading, token } = useUserProfile();
+  const { apiURL } = useProductionContext();
   const { apiKeys, setApiKeys } = useAccountStore();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -77,7 +79,7 @@ const AccountPageContainer = () => {
     setIsLoading(true);
     try {
       if (!profile?.sub || !token) return;
-      await getNewApiKey({ userId: profile?.sub, token: token });
+      await getNewApiKey({ userId: profile?.sub, token: token, apiURL });
       fetchApiKeys();
     } catch {
       // Do nothing
@@ -89,7 +91,7 @@ const AccountPageContainer = () => {
   const fetchApiKeys = async () => {
     if (!profile?.sub || !token) return;
     try {
-      const apiKeys = await getApiKeysForUser({ userId: profile?.sub, token: token });
+      const apiKeys = await getApiKeysForUser({ userId: profile?.sub, token: token, apiURL });
       setApiKeys(apiKeys);
     } catch (error) {
       toast.error(`Error fetching API keys: ${error}`);
