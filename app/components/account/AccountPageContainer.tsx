@@ -181,13 +181,17 @@ const AccountPageContainer = () => {
                   )}
                   <div className="w-full">
                     <div className="text-xl font-semibold pb-4">Your Keys</div>
-                    <div className="flex flex-col gap-2 h-[150px] overflow-auto">
+                    <div className="flex flex-col gap-2 h-[300px] overflow-auto">
                       {apiKeys.length === 0 && (
-                        <div className="w-full h-full min-h-[150px] bg-neutral-100 rounded-xl flex items-center justify-center">
+                        <div className="w-full h-full min-h-[300px] bg-neutral-100 rounded-xl flex items-center justify-center">
                           <Key size={48} />
                         </div>
                       )}
-                      {apiKeys.length > 0 && apiKeys.map((key, i) => <ApiKeyRow key={i} apiKey={key} />)}
+                      {apiKeys.length > 0 &&
+                        apiKeys
+                          .slice()
+                          .reverse()
+                          .map((key, i) => <ApiKeyRow key={i} apiKey={key} />)}
                     </div>
                   </div>
                 </div>
