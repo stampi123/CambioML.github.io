@@ -16,7 +16,7 @@ export const solutions: SolutionType[] = [
     description:
       'Having trouble with extracting information from real estate documents? In this post, we’ll show you how to use <strong>Uniflow</strong> to extract key-value data from real estate documents. This way, you can turn real estate documents directly into databases without tedious manual effort.',
     url: 'https://medium.com/@CambioML/from-documents-to-database-key-value-data-retrieval-from-real-estate-documents-380dd3ef38df',
-    image: 'images/solutions/real-estate.png',
+    image: '/images/solutions/real-estate.png',
     industries: [],
     blog: true,
     date: new Date('2024-03-15'),

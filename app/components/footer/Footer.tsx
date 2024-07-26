@@ -61,6 +61,10 @@ const Footer = () => {
               title: 'Finance',
               url: '/solutions/finance',
             },
+            {
+              title: 'Blog',
+              url: '/solutions/blog',
+            },
           ]}
         />
         <FooterMenu
@@ -84,10 +88,6 @@ const Footer = () => {
         <FooterMenu
           title="Resources"
           links={[
-            {
-              title: 'Blog',
-              url: '/blog',
-            },
             {
               title: 'Privacy Policy',
               url: '/legal/privacy-policy.pdf',
