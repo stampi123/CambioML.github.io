@@ -1,5 +1,5 @@
 'use client';
-import { Confetti, Icon, Key, UserCircle } from '@phosphor-icons/react';
+import { Confetti, GithubLogo, Icon, Key, UserCircle } from '@phosphor-icons/react';
 import Container from '../Container';
 import Heading from '../Heading';
 import LoginButton from '../auth/LoginButton';
@@ -18,7 +18,7 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { useProductionContext } from '../playground/ProductionContext';
 
-const MAX_API_KEYS = 5;
+const MAX_API_KEYS = 2;
 
 interface LoadingComponentProps {
   icon: Icon;
@@ -68,6 +68,11 @@ const ProfileContainer = ({
     </div>
   );
 };
+
+const paragraphStyles = 'text-md py-2';
+const linkStyles = 'underline cursor-pointer text-neutral-700 hover:text-neutral-900 font-semibold';
+const headingLinkStyle = `font-semibold text-lg py-1 ${linkStyles}`;
+const sectionHeadingStyle = `text-xl font-semibold pb-4`;
 
 const AccountPageContainer = () => {
   const { profile, error, loading, token } = useUserProfile();
@@ -147,7 +152,7 @@ const AccountPageContainer = () => {
             </div>
           </div>
           <div>
-            <Heading title="API Keys" />
+            <Heading title="AnyParser API Keys" />
             <div className="w-full h-fit min-h-[300px] flex flex-col items-center gap-8">
               {loading && <LoadingComponent icon={Key} />}
               {!loading && error && (
@@ -162,7 +167,12 @@ const AccountPageContainer = () => {
               )}
               {!loading && !error && profile && (
                 <div className="w-full h-full flex flex-col items-start justify-start gap-8">
-                  Generate and copy your API keys.
+                  <div>
+                    <h3 className={sectionHeadingStyle}>Generate and Copy your API keys.</h3>
+                    <p className="text-md">
+                      Each account can generate up to 2 free API keys and can extract 100 free lifetime pages.
+                    </p>
+                  </div>
                   {apiKeys.length >= MAX_API_KEYS ? (
                     <div className="w-full h-[50px] flex items-center justify-center gap-4 text-lg bg-neutral-100 border-2 border-neutral-300 p-4 rounded-xl text-neutral-700">
                       {`You've generated the maximum API keys`}
@@ -180,8 +190,7 @@ const AccountPageContainer = () => {
                     </div>
                   )}
                   <div className="w-full">
-                    <div className="text-xl font-semibold pb-4">Your Keys</div>
-                    <div className="flex flex-col gap-2 h-[300px] overflow-auto">
+                    <div className="flex flex-col gap-2 max-h-[300px] overflow-auto">
                       {apiKeys.length === 0 && (
                         <div className="w-full h-full min-h-[300px] bg-neutral-100 rounded-xl flex items-center justify-center">
                           <Key size={48} />
@@ -194,6 +203,42 @@ const AccountPageContainer = () => {
                           .map((key, i) => <ApiKeyRow key={i} apiKey={key} />)}
                     </div>
                   </div>
+                  <div>
+                    <h3 className={sectionHeadingStyle}>Getting Started with AnyParser</h3>
+                    <p>
+                      <a
+                        className={`${linkStyles} pr-2`}
+                        href="https://github.com/CambioML/any-parser"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        AnyParser
+                      </a>
+                      can extract text, numbers and symbols from PDF, images, etc. Check out each notebook below to run
+                      AnyParser within 10 lines of code!
+                    </p>
+                    <div className={headingLinkStyle}>Extract all text and layout from PDF into Markdown Format</div>
+                    <p className={paragraphStyles}>
+                      Are you an AI engineer who need to ACCURATELY extract both the text and its layout (e.g. table of
+                      content or markdown headers hierarchy) from a PDF. Check out this notebook demo (3-min read)!
+                    </p>
+                    <div className={headingLinkStyle}>Extract a Table from an Image into Markdown Format</div>
+                    <p className={paragraphStyles}>
+                      Are you a financial analyst who need to extract ACCURATE number from a table in an image or a PDF.
+                      Check out this notebook (3-min read)!{' '}
+                    </p>
+                    <div className={headingLinkStyle}>Extract a Table from PDF into Excel</div>{' '}
+                    <p>
+                      Do you want to extract a complicated table from a financial report (PDF) into Excel spread sheet?
+                      Check out this notebook (3-min read)!
+                    </p>
+                  </div>
+                  <Button
+                    label="Check out AnyParser Github"
+                    onClick={() => window.open('https://github.com/CambioML/any-parser', '_blank')}
+                    small
+                    labelIcon={GithubLogo}
+                  />
                 </div>
               )}
             </div>

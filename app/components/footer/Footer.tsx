@@ -61,6 +61,10 @@ const Footer = () => {
               title: 'Finance',
               url: '/solutions/finance',
             },
+            {
+              title: 'Blog',
+              url: '/solutions/blog',
+            },
           ]}
         />
         <FooterMenu
@@ -70,10 +74,6 @@ const Footer = () => {
               title: 'Launch Playground',
               url: '/playground',
             },
-            {
-              title: 'Account',
-              url: '/account',
-            },
           ]}
         />
         <FooterMenu
@@ -82,10 +82,6 @@ const Footer = () => {
             {
               title: 'About us',
               url: '/company/about-us',
-            },
-            {
-              title: 'Blog',
-              url: '/blog',
             },
           ]}
         />

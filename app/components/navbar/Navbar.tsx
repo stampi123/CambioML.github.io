@@ -11,7 +11,7 @@ import ProductHunt from './ProductHunt';
 const menuItems = [
   {
     label: 'Solutions',
-    links: ['Finance'],
+    links: ['Finance', 'Blog'],
   },
   {
     label: 'Playground',
@@ -19,11 +19,7 @@ const menuItems = [
   },
   {
     label: 'Company',
-    links: ['About us', 'Blog'],
-  },
-  {
-    label: 'Account',
-    links: [],
+    links: ['About us'],
   },
 ];
 
