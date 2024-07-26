@@ -217,20 +217,69 @@ const AccountPageContainer = () => {
                       can extract text, numbers and symbols from PDF, images, etc. Check out each notebook below to run
                       AnyParser within 10 lines of code!
                     </p>
-                    <div className={headingLinkStyle}>Extract all text and layout from PDF into Markdown Format</div>
+                    <div className={headingLinkStyle}>
+                      <a
+                        className={`${linkStyles} pr-2`}
+                        href="https://github.com/CambioML/any-parser/blob/main/examples/pdf_to_markdown.ipynb"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Extract all text and layout from PDF into Markdown Format
+                      </a>
+                    </div>
                     <p className={paragraphStyles}>
                       Are you an AI engineer who need to ACCURATELY extract both the text and its layout (e.g. table of
-                      content or markdown headers hierarchy) from a PDF. Check out this notebook demo (3-min read)!
+                      content or markdown headers hierarchy) from a PDF.
+                      <a
+                        className={`${linkStyles} pl-2`}
+                        href="https://github.com/CambioML/any-parser/blob/main/examples/pdf_to_markdown.ipynb"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Check out this notebook demo (3-min read)!
+                      </a>
                     </p>
-                    <div className={headingLinkStyle}>Extract a Table from an Image into Markdown Format</div>
+                    <div className={headingLinkStyle}>
+                      <a
+                        className={`${linkStyles} pr-2`}
+                        href="https://github.com/CambioML/any-parser/blob/main/examples/extract_table_from_image_to_markdown.ipynb"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Extract a Table from an Image into Markdown Format
+                      </a>
+                    </div>
                     <p className={paragraphStyles}>
                       Are you a financial analyst who need to extract ACCURATE number from a table in an image or a PDF.
-                      Check out this notebook (3-min read)!{' '}
+                      <a
+                        className={`${linkStyles} pl-2`}
+                        href="https://github.com/CambioML/any-parser/blob/main/examples/extract_table_from_image_to_markdown.ipynb"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Check out this notebook (3-min read)!
+                      </a>
                     </p>
-                    <div className={headingLinkStyle}>Extract a Table from PDF into Excel</div>{' '}
+                    <div className={headingLinkStyle}>
+                      <a
+                        className={`${linkStyles} pr-2`}
+                        href="https://github.com/CambioML/any-parser/blob/main/examples/pdf_to_html_to_excel.ipynb"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Extract a Table from PDF into Excel
+                      </a>
+                    </div>
                     <p>
                       Do you want to extract a complicated table from a financial report (PDF) into Excel spread sheet?
-                      Check out this notebook (3-min read)!
+                      <a
+                        className={`${linkStyles} pl-2`}
+                        href="https://github.com/CambioML/any-parser/blob/main/examples/pdf_to_html_to_excel.ipynb"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Check out this notebook (3-min read)!
+                      </a>
                     </p>
                   </div>
                   <Button
