@@ -20,8 +20,8 @@ let allowedTypes: AllowedTypes = {
   'image/png': { limit: 10, name: 'PNG' },
   'image/jpeg': { limit: 10, name: 'JPEG' },
   'image/jpg': { limit: 10, name: 'JPG' },
-  // 'text/html': 10,
-  // 'text/plain': 10,
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation': { limit: 10, name: 'PPT' },
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': { limit: 10, name: 'DOCX' },
 };
 
 const Dropzone = () => {
@@ -31,9 +31,7 @@ const Dropzone = () => {
   if (!isProduction)
     allowedTypes = {
       ...allowedTypes,
-      'application/vnd.openxmlformats-officedocument.presentationml.presentation': { limit: 10, name: 'PPT' },
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': { limit: 10, name: 'XLSX' },
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': { limit: 10, name: 'DOCX' },
     };
 
   function generateAllowedTypesString(types: AllowedTypes) {
