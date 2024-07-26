@@ -35,7 +35,7 @@ const QuotaDisplay = () => {
 
   const handleError = async (e: AxiosError | Error) => {
     console.error(e);
-    if (apiKeys.length === 0 && !madeApiKey && !isProduction) {
+    if (apiKeys.length === 0 && !madeApiKey) {
       if (!userId || !token) {
         console.log('No profile or token', userId, token);
         return;
