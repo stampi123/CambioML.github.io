@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
-const API_ENDPOINT = 'https://q6lrgxuv03.execute-api.us-west-2.amazonaws.com/prod/resend-verification-email';
+const API_ENDPOINT = `${process.env.NEXT_PUBLIC_API_VERIFICATION_EMAIL_URL}/resend-verification-email`;
 
 interface IParams {
   userId: string;

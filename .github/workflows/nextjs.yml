@@ -103,6 +103,7 @@ jobs:
           NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }}
           NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
           NEXT_PUBLIC_API_KEY_ENDPOINT: ${{ secrets.NEXT_PUBLIC_API_KEY_ENDPOINT }}
+          NEXT_PUBLIC_API_VERIFICATION_EMAIL_URL: ${{ secrets.NEXT_PUBLIC_API_VERIFICATION_EMAIL_URL }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
