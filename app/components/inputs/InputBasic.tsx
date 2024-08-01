@@ -46,7 +46,7 @@ const InputBasic = ({
   return (
     <div className={`w-full relative`}>
       <input
-        placeholder={`${isFocused ? labelDescription : ''}`}
+        placeholder={`${isFocused && labelDescription ? labelDescription : ''}`}
         className={`
           peer
           w-full

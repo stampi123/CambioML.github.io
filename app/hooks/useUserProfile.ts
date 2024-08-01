@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 interface UserProfile {
   name: string;
   email: string;
+  email_verified: boolean;
   sub: string;
   picture: string;
 }
