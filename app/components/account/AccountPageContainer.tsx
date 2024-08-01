@@ -17,6 +17,7 @@ import ApiKeyRow from './ApiKeyRow';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { useProductionContext } from '../playground/ProductionContext';
+import { resendVerificationEmail } from '../../actions/account/resendVerificationEmail';
 
 const MAX_API_KEYS = 2;
 
@@ -79,9 +80,11 @@ const AccountPageContainer = () => {
   const { apiURL } = useProductionContext();
   const { apiKeys, setApiKeys } = useAccountStore();
   const [isLoading, setIsLoading] = useState(false);
+  const [sendingVerification, setSendingVerification] = useState(false);
   const { isProduction } = useProductionContext();
   const router = useRouter();
   const STRIPE_ENABLED: boolean = false;
+  const [emailVerified, setEmailVerified] = useState(false);
 
   const logoutUrl = isProduction
     ? process.env.NEXT_PUBLIC_LOGOUT_URL_ACCOUNT
@@ -113,8 +116,34 @@ const AccountPageContainer = () => {
     fetchApiKeys();
   }, [profile?.sub, token]); // Add dependencies here
 
+  useEffect(() => {
+    if (profile) {
+      console.log('Profile:', profile);
+      setEmailVerified(profile.email_verified);
+    }
+  }, [profile]);
+
   const handleManageSubscriptions = () => {
     window.open('https://billing.stripe.com/p/login/test_00gcP05cxgSVfjWcMM', '_blank');
+  };
+
+  const handleResendVerificationEmail = async () => {
+    if (!profile) return;
+    setSendingVerification(true);
+    setIsLoading(true);
+
+    try {
+      await resendVerificationEmail({
+        userId: profile.sub,
+      });
+      toast.success('Verification email resent!');
+    } catch (error) {
+      console.error(error);
+      toast.error('Error resending verification email');
+    } finally {
+      setSendingVerification(false);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -165,7 +194,21 @@ const AccountPageContainer = () => {
                   <Key size={48} />
                 </div>
               )}
-              {!loading && !error && profile && (
+              {!loading && !error && profile && !emailVerified && (
+                <>
+                  <p className="text-md">Please verify your email in order to generate and copy your API keys. </p>
+                  <Button
+                    label={`${sendingVerification ? 'Sending verification email...' : 'Resend verification email'}`}
+                    onClick={handleResendVerificationEmail}
+                    disabled={isLoading}
+                    small
+                  />
+                  <div className="w-full h-full min-h-[300px] bg-neutral-100 rounded-xl flex items-center justify-center">
+                    <Key size={48} />
+                  </div>
+                </>
+              )}
+              {!loading && !error && profile && emailVerified && (
                 <div className="w-full h-full flex flex-col items-start justify-start gap-8">
                   <div>
                     <h3 className={sectionHeadingStyle}>Generate and Copy your API keys.</h3>
@@ -203,93 +246,93 @@ const AccountPageContainer = () => {
                           .map((key, i) => <ApiKeyRow key={i} apiKey={key} />)}
                     </div>
                   </div>
-                  <div>
-                    <h3 className={sectionHeadingStyle}>Getting Started with AnyParser</h3>
-                    <p>
-                      <a
-                        className={`${linkStyles} pr-2`}
-                        href="https://github.com/CambioML/any-parser"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        AnyParser
-                      </a>
-                      can extract text, numbers and symbols from PDF, images, etc. Check out each notebook below to run
-                      AnyParser within 10 lines of code!
-                    </p>
-                    <div className={headingLinkStyle}>
-                      <a
-                        className={`${linkStyles} pr-2`}
-                        href="https://github.com/CambioML/any-parser/blob/main/examples/pdf_to_markdown.ipynb"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Extract all text and layout from PDF into Markdown Format
-                      </a>
-                    </div>
-                    <p className={paragraphStyles}>
-                      Are you an AI engineer who need to ACCURATELY extract both the text and its layout (e.g. table of
-                      content or markdown headers hierarchy) from a PDF.
-                      <a
-                        className={`${linkStyles} pl-2`}
-                        href="https://github.com/CambioML/any-parser/blob/main/examples/pdf_to_markdown.ipynb"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Check out this notebook demo (3-min read)!
-                      </a>
-                    </p>
-                    <div className={headingLinkStyle}>
-                      <a
-                        className={`${linkStyles} pr-2`}
-                        href="https://github.com/CambioML/any-parser/blob/main/examples/extract_table_from_image_to_markdown.ipynb"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Extract a Table from an Image into Markdown Format
-                      </a>
-                    </div>
-                    <p className={paragraphStyles}>
-                      Are you a financial analyst who need to extract ACCURATE number from a table in an image or a PDF.
-                      <a
-                        className={`${linkStyles} pl-2`}
-                        href="https://github.com/CambioML/any-parser/blob/main/examples/extract_table_from_image_to_markdown.ipynb"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Check out this notebook (3-min read)!
-                      </a>
-                    </p>
-                    <div className={headingLinkStyle}>
-                      <a
-                        className={`${linkStyles} pr-2`}
-                        href="https://github.com/CambioML/any-parser/blob/main/examples/pdf_to_html_to_excel.ipynb"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Extract a Table from PDF into Excel
-                      </a>
-                    </div>
-                    <p>
-                      Do you want to extract a complicated table from a financial report (PDF) into Excel spread sheet?
-                      <a
-                        className={`${linkStyles} pl-2`}
-                        href="https://github.com/CambioML/any-parser/blob/main/examples/pdf_to_html_to_excel.ipynb"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Check out this notebook (3-min read)!
-                      </a>
-                    </p>
-                  </div>
-                  <Button
-                    label="Check out AnyParser Github"
-                    onClick={() => window.open('https://github.com/CambioML/any-parser', '_blank')}
-                    small
-                    labelIcon={GithubLogo}
-                  />
                 </div>
               )}
+              <div>
+                <h3 className={sectionHeadingStyle}>Getting Started with AnyParser</h3>
+                <p>
+                  <a
+                    className={`${linkStyles} pr-2`}
+                    href="https://github.com/CambioML/any-parser"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    AnyParser
+                  </a>
+                  can extract text, numbers and symbols from PDF, images, etc. Check out each notebook below to run
+                  AnyParser within 10 lines of code!
+                </p>
+                <div className={headingLinkStyle}>
+                  <a
+                    className={`${linkStyles} pr-2`}
+                    href="https://github.com/CambioML/any-parser/blob/main/examples/pdf_to_markdown.ipynb"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Extract all text and layout from PDF into Markdown Format
+                  </a>
+                </div>
+                <p className={paragraphStyles}>
+                  Are you an AI engineer who need to ACCURATELY extract both the text and its layout (e.g. table of
+                  content or markdown headers hierarchy) from a PDF.
+                  <a
+                    className={`${linkStyles} pl-2`}
+                    href="https://github.com/CambioML/any-parser/blob/main/examples/pdf_to_markdown.ipynb"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Check out this notebook demo (3-min read)!
+                  </a>
+                </p>
+                <div className={headingLinkStyle}>
+                  <a
+                    className={`${linkStyles} pr-2`}
+                    href="https://github.com/CambioML/any-parser/blob/main/examples/extract_table_from_image_to_markdown.ipynb"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Extract a Table from an Image into Markdown Format
+                  </a>
+                </div>
+                <p className={paragraphStyles}>
+                  Are you a financial analyst who need to extract ACCURATE number from a table in an image or a PDF.
+                  <a
+                    className={`${linkStyles} pl-2`}
+                    href="https://github.com/CambioML/any-parser/blob/main/examples/extract_table_from_image_to_markdown.ipynb"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Check out this notebook (3-min read)!
+                  </a>
+                </p>
+                <div className={headingLinkStyle}>
+                  <a
+                    className={`${linkStyles} pr-2`}
+                    href="https://github.com/CambioML/any-parser/blob/main/examples/pdf_to_html_to_excel.ipynb"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Extract a Table from PDF into Excel
+                  </a>
+                </div>
+                <p>
+                  Do you want to extract a complicated table from a financial report (PDF) into Excel spread sheet?
+                  <a
+                    className={`${linkStyles} pl-2`}
+                    href="https://github.com/CambioML/any-parser/blob/main/examples/pdf_to_html_to_excel.ipynb"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Check out this notebook (3-min read)!
+                  </a>
+                </p>
+              </div>
+              <Button
+                label="Check out AnyParser Github"
+                onClick={() => window.open('https://github.com/CambioML/any-parser', '_blank')}
+                small
+                labelIcon={GithubLogo}
+              />
             </div>
           </div>
           {STRIPE_ENABLED && (
