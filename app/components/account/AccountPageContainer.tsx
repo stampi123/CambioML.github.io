@@ -118,7 +118,6 @@ const AccountPageContainer = () => {
 
   useEffect(() => {
     if (profile) {
-      console.log('Profile:', profile);
       setEmailVerified(profile.email_verified);
     }
   }, [profile]);
