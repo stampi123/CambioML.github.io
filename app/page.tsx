@@ -32,7 +32,11 @@ export default function Home() {
               cardIcon={FileMagnifyingGlass}
             />
             <Card text="Redact confidential information during the retrieval as needed." center cardIcon={Lock} />
-            <Card text="Output to JSON, CSV or Markdown. Ready for LLM as well as database." center cardIcon={Table} />
+            <Card
+              text="Supported inputs include PDF, PPT, Word or Images; Output to JSON, CSV or Markdown"
+              center
+              cardIcon={Table}
+            />
           </div>
         </Feature>
         <div className="w-full h-[200px] flex items-center justify-center">
