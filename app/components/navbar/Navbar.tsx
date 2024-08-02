@@ -59,12 +59,12 @@ const Navbar = () => {
               <Logo />
               <ProductHunt />
             </div>
-            <div className="hidden md:flex flex-row items-center gap-3">
+            <div className="hidden lg:flex flex-row items-center gap-3">
               {menuItems.map((item, i) => (
                 <NavMenu key={item.label + i} label={item.label} links={item.links} />
               ))}
             </div>
-            <div className="md:hidden">
+            <div className="lg:hidden">
               <NavMenuFull menuItems={menuItems} makeOnClick={makeOnClick} />
             </div>
           </div>
