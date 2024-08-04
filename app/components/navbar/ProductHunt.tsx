@@ -2,7 +2,7 @@ import React from 'react';
 
 const ProductHunt = () => {
   return (
-    <div className="shrink-0">
+    <div className="min-w-[100px]">
       <a
         href="https://www.producthunt.com/posts/anyparser?embed=true&utm_source=badge-top-post-topic-badge&utm_medium=badge&utm_souce=badge-anyparser"
         target="_blank"

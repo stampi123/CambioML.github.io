@@ -214,6 +214,10 @@ const AccountPageContainer = () => {
                     <p className="text-md">
                       Each account can generate up to 2 free API keys and can extract 100 free lifetime pages.
                     </p>
+                    <div className="w-full bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mt-2 mb-4">
+                      <p className="font-semibold">Note</p>
+                      <p>Free API keys are limited to 10 extracted pages per API call.</p>
+                    </div>
                   </div>
                   {apiKeys.length >= MAX_API_KEYS ? (
                     <div className="w-full h-[50px] flex items-center justify-center gap-4 text-lg bg-neutral-100 border-2 border-neutral-300 p-4 rounded-xl text-neutral-700">
@@ -298,27 +302,6 @@ const AccountPageContainer = () => {
                   <a
                     className={`${linkStyles} pl-2`}
                     href="https://github.com/CambioML/any-parser/blob/main/examples/extract_table_from_image_to_markdown.ipynb"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Check out this notebook (3-min read)!
-                  </a>
-                </p>
-                <div className={headingLinkStyle}>
-                  <a
-                    className={`${linkStyles} pr-2`}
-                    href="https://github.com/CambioML/any-parser/blob/main/examples/pdf_to_html_to_excel.ipynb"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Extract a Table from PDF into Excel
-                  </a>
-                </div>
-                <p>
-                  Do you want to extract a complicated table from a financial report (PDF) into Excel spread sheet?
-                  <a
-                    className={`${linkStyles} pl-2`}
-                    href="https://github.com/CambioML/any-parser/blob/main/examples/pdf_to_html_to_excel.ipynb"
                     target="_blank"
                     rel="noreferrer"
                   >

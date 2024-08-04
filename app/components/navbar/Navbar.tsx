@@ -21,6 +21,7 @@ const menuItems = [
     label: 'Company',
     links: ['About us'],
   },
+  { label: 'Account', links: [] },
 ];
 
 const Navbar = () => {
