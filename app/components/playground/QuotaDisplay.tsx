@@ -12,8 +12,12 @@ const QUOTA_YELLOW_THRESHOLD = 50;
 const QUOTA_ORANGE_THRESHOLD = 25;
 const QUOTA_RED_THRESHOLD = 15;
 
-const QuotaDisplay = () => {
-  const { totalQuota, remainingQuota, userId, token, setTotalQuota, setRemainingQuota } = usePlaygroundStore();
+interface QuotaDisplayProps {
+  userId: string;
+}
+
+const QuotaDisplay = ({ userId }: QuotaDisplayProps) => {
+  const { totalQuota, remainingQuota, token, setTotalQuota, setRemainingQuota } = usePlaygroundStore();
   const { apiURL, isProduction } = useProductionContext();
   const [isLoading, setIsLoading] = useState(false);
   const { apiKeys } = useAccountStore();

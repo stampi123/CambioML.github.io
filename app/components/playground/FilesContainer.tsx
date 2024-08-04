@@ -7,7 +7,7 @@ import QuotaDisplay from './QuotaDisplay';
 import { useProductionContext } from './ProductionContext';
 
 const FilesContainer = () => {
-  const { files, loggedIn } = usePlaygroundStore();
+  const { files, loggedIn, userId } = usePlaygroundStore();
   const { isProduction } = useProductionContext();
 
   const logoutUrl = isProduction
@@ -39,7 +39,7 @@ const FilesContainer = () => {
           <div className="row-span-1 h-full border-y-2 py-2 w-full flex flex-col gap-2 items-center justify-center">
             <LogoutButton logoutUrl={logoutUrl || 'https://www.cambioml.com/playground'} />
           </div>
-          <QuotaDisplay />
+          <QuotaDisplay userId={userId} />
         </>
       )}
     </div>

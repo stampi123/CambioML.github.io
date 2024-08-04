@@ -242,11 +242,16 @@ const AccountPageContainer = () => {
                           <Key size={48} />
                         </div>
                       )}
-                      {apiKeys.length > 0 &&
-                        apiKeys
-                          .slice()
-                          .reverse()
-                          .map((key, i) => <ApiKeyRow key={i} apiKey={key} />)}
+                      {apiKeys.length > 0 && (
+                        <>
+                          {apiKeys
+                            .slice()
+                            .reverse()
+                            .map((key, i) => (
+                              <ApiKeyRow key={i} apiKey={key} />
+                            ))}
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>

@@ -50,7 +50,7 @@ const NavMenu = ({ menuItems, makeOnClick }: NavMenuProps) => {
                 shadow-md
                 w-[100vw]
                 h-[50vh]
-                md:hidden
+                lg:hidden
                 bg-cambio-blue
                 left-0
                 top-[83px]
