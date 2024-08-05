@@ -26,7 +26,7 @@ const PlaygroundPageContainer = ({ production, auth0Enabled }: PlaygroundPageCon
       }}
     >
       <ProductionProvider initialValue={production} initialAuth0Enabled={auth0Enabled}>
-        <div className="pb-10 w-full h-full flex flex-col justify-center items-center">
+        <div className="pb-10 w-full h-fit flex flex-col justify-center items-center">
           <UploadModal />
           <PageHero
             title={`${production ? '🛝 AnyParser Playground' : '🚧 PreProd Playground'}`}

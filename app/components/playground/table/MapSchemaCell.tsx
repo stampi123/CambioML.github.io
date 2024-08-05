@@ -14,7 +14,7 @@ interface MapSchemaCellProps {
 
 const MapSchemaCell = forwardRef<HTMLDivElement, MapSchemaCellProps>(
   ({ text, handleIconClick, icon: Icon, isLoading, bold, handleSecondIconClick, secondIcon: SecondIcon }, ref) => {
-    const inputStyles = `p-2 rounded-xl h-[40px] overflow-hidden ${bold ? 'font-semibold border-[2px] border-neutral-400' : 'border-[1px] border-neutral-300'}`;
+    const inputStyles = `p-2 rounded-xl h-[48px] overflow-hidden ${bold ? 'font-semibold border-[2px] border-neutral-400' : 'border-[1px] border-neutral-300'}`;
 
     return (
       <>
@@ -26,7 +26,7 @@ const MapSchemaCell = forwardRef<HTMLDivElement, MapSchemaCellProps>(
               ref={ref}
               className={`flex justify-between items-center group ${(text === 'None' || text.length === 0) && 'bg-neutral-100 text-neutral-500'} ${inputStyles}`}
             >
-              <div className="overflow-auto whitespace-nowrap flex-1">{`${text.length === 0 ? 'None' : text}`}</div>
+              <div className="overflow-auto whitespace-nowrap flex-1 pr-4 py-2 slim-scrollbar">{`${text.length === 0 ? 'None' : text}`}</div>
               {Icon && (
                 <button
                   onClick={handleIconClick}
