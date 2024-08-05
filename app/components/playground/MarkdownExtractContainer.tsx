@@ -256,7 +256,7 @@ const MarkdownExtractContainer = () => {
       ) : (
         <>
           {selectedFile?.extractState === ExtractState.READY && (
-            <div className="flex flex-col h-full justify-end items-center text-lg text-center gap-4 pb-4">
+            <div className="flex flex-col h-full justify-start items-center text-lg text-center gap-4 pt-[calc(20vh-120px)] lg:pt-[calc(30vh-120px)]">
               <div className="flex flex-col items-center justify-center">
                 {filename}
                 <div className="w-[200px] mt-2">

@@ -9,10 +9,10 @@ const ExtractSettingsChecklist = ({ removePIIOnly }: ExtractSettingsChecklistPro
   const { extractSettings, toggleExtractSetting } = usePlaygroundStore();
   return (
     <div
-      className={`relative flex flex-col items-start justify-center gap-4 border-[1px] border-neutral-200 rounded-lg p-4 w-full shadow-md max-w-[350px] md:max-w-[200px] ${removePIIOnly && 'mb-[130px]'}`}
+      className={`relative flex flex-col items-start justify-center gap-4 border-[1px] border-neutral-200 rounded-lg p-4 w-full shadow-md max-w-[350px] lg:max-w-[200px] ${removePIIOnly && 'mb-[130px]'}`}
     >
       <div className="font-semibold text-sm text-neutral-800">Remove from output:</div>
-      <div className="grid grid-cols-2 md:grid-cols-1 gap-2">
+      <div className="grid grid-cols-2 lg:grid-cols-1 gap-2">
         <CheckBox
           label="Personal Identifiable Information (PII)"
           checked={extractSettings.removePII}

@@ -7,7 +7,7 @@ const PlaygroundInfoBar = () => {
   const playgroundFeedbackModal = usePlaygroundFeedbackModal();
   const router = useRouter();
   return (
-    <div className="w-full h-fit p-4 rounded-xl bg-neutral-100 text-neutral-700 grid grid-cols-[1fr_150px] gap-4">
+    <div className="w-full h-fit p-4 rounded-xl bg-white text-neutral-700 grid grid-cols-[1fr_150px] gap-4">
       <div className="flex items-center gap-2">
         <Info size={32} className="shrink-0" />
         <div className="flex flex-col gap-0">
