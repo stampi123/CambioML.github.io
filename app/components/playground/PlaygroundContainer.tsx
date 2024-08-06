@@ -9,7 +9,7 @@ import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 
 const PlaygroundContainer = () => {
   const { fileCollapsed } = usePlaygroundStore();
-  const playgroundWrapperStyles = `border-solid border-[1px] border-neutral-gray ${fileCollapsed ? 'p-2' : 'p-6'}`;
+  const playgroundWrapperStyles = `border-solid border-[1px] border-neutral-gray }`;
 
   return (
     <>
@@ -29,10 +29,12 @@ const PlaygroundContainer = () => {
             ${fileCollapsed ? 'lg:grid-cols-[100px_1fr]' : 'lg:grid-cols-[325px_1fr]'}
           `}
         >
-          <div className={`${playgroundWrapperStyles}  bg-neutral-100 pr-0`}>
+          <div
+            className={`${playgroundWrapperStyles}  bg-neutral-100 ${fileCollapsed ? 'p-2' : 'p-6 pl-10'} pr-0 `}
+          >
             <FilesContainer />
           </div>
-          <div className={`${playgroundWrapperStyles} border-l-[1px] border-b-[1px]`}>
+          <div className={`${playgroundWrapperStyles} border-l-[1px] border-b-[1px] p-6 pr-10`}>
             <ActionContainer />
           </div>
         </div>
