@@ -216,14 +216,15 @@ const MapSchemaContainer = () => {
         module: 'table',
         submodule: 'map_schema',
       });
-    const keyMap: { [key: string]: string } = selectedFile?.keyMap || {};
-    const mergedData: { [key: string]: string[] } = selectedFile?.tableMergedData || {};
-    const outputJson: { [key: string]: { mapped_key: string; mapped_values: string[] } } = {};
-    for (const key in keyMap) {
-      outputJson[key] = {
-        mapped_key: keyMap[key],
-        mapped_values: mergedData[keyMap[key]],
-      };
+    if (!selectedFile) return;
+    const outputJson = [];
+    for (let i = 1; i < selectedFile.tableMappedDataRows.length; i++) {
+      const row = selectedFile.tableMappedDataRows[i];
+      const obj: { [key: string]: string } = {};
+      for (let j = 0; j < row.length; j++) {
+        obj[selectedFile.tableMappedDataRows[0][j]] = row[j];
+      }
+      outputJson.push(obj);
     }
     downloadFile({
       filename,

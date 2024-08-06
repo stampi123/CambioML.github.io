@@ -29,13 +29,13 @@ const ResultContent = ({ extractResult }: ResultContentProps) => {
   return (
     <>
       <div
-        className="absolute top-1/2 right-5 z-10 cursor-pointer p-2 rounded-full text-neutral-600 bg-white hover:text-neutral-800 hover:bg-neutral-100 font-semibold"
+        className="absolute top-1/2 right-5 z-10 cursor-pointer p-2 rounded-full text-neutral-600 bg-neutral-100 hover:text-neutral-800 hover:bg-neutral-200 font-semibold"
         onClick={handleNextPageClick}
       >
         <CaretRight size={18} weight="bold" />
       </div>
       <div
-        className="absolute top-1/2 left-5 z-10 cursor-pointer p-2 rounded-full text-neutral-600 bg-white hover:text-neutral-800 hover:bg-neutral-100 font-semibold"
+        className="absolute top-1/2 left-5 z-10 cursor-pointer p-2 rounded-full text-neutral-600 bg-neutral-100 hover:text-neutral-800 hover:bg-neutral-200 font-semibold"
         onClick={handlePrevPageClick}
       >
         <CaretLeft size={18} weight="bold" />
@@ -140,16 +140,16 @@ const ResultContainer = ({ extractResult }: ResultContainerProps) => {
   return (
     <div className="w-full h-full relative">
       <div
-        className="absolute top-5 right-5 z-10 cursor-pointer p-2 rounded-full text-neutral-600 bg-white hover:text-neutral-800 hover:bg-neutral-100 font-semibold"
+        className="absolute top-5 right-5 z-10 cursor-pointer px-4 py-2 rounded-full text-neutral-600 bg-neutral-100 hover:text-neutral-800   hover:bg-neutral-200 font-semibold flex items-center gap-1"
         onClick={handleZoomClick}
       >
-        <FrameCorners size={18} weight="bold" />
+        Expand <FrameCorners size={18} weight="bold" />
       </div>
       <div
-        className="absolute top-16 right-5 z-10 cursor-pointer p-2 rounded-full text-neutral-600 bg-white hover:text-neutral-800 hover:bg-neutral-100 font-semibold"
+        className="absolute top-5 right-[134px] z-10 cursor-pointer p-2 rounded-full text-neutral-600 bg-neutral-100 hover:text-neutral-800 hover:bg-neutral-200 font-semibold flex items-center gap-1"
         onClick={handleCompareClick}
       >
-        <Files size={18} weight="bold" />
+        Compare <Files size={18} weight="bold" />
       </div>
       <ResultContent extractResult={extractResult} />
     </div>

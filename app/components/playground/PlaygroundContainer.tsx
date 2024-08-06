@@ -1,43 +1,44 @@
 'use client';
 
-import Container from '../Container';
 import FilesContainer from './FilesContainer';
 import ActionContainer from './ActionContainer';
 import PlaygroundInfoBar from './PlaygroundInfoBar';
 import PreviewModal from '../modals/PreviewModal';
 import CompareModal from '../modals/CompareModal';
-
-const playgroundWrapperStyles = 'border-solid border-[1px] border-neutral-gray p-6';
+import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 
 const PlaygroundContainer = () => {
+  const { fileCollapsed } = usePlaygroundStore();
+  const playgroundWrapperStyles = `border-solid border-[1px] border-neutral-gray }`;
+
   return (
-    <Container styles="h-fit min-h-[600px] py-10">
+    <>
       <PreviewModal />
       <CompareModal />
-      <div className="w-[80vw] min-w-[600px] max-w-[2000px] flex flex-col gap-10">
+      <div className="w-full min-w-[600px] max-w-[2520px] flex flex-col gap-0 h-fit lg:h-fit">
         <div
-          className="
-          w-full
-          h-full
-          grid
-          grid-cols-1
-          lg:grid-cols-[300px_1fr]
-          rounded-2xl
-          shadow-lg
-        "
+          className={`
+            w-full
+            lg:h-[80vh]
+            grid
+            grid-rows-[550px_1fr]
+            lg:grid-rows-1
+            grid-cols-1
+            transition-all
+            duration-300
+            ${fileCollapsed ? 'lg:grid-cols-[100px_1fr]' : 'lg:grid-cols-[325px_1fr]'}
+          `}
         >
-          <div className={`${playgroundWrapperStyles} rounded-t-2xl lg:rounded-r-none lg:rounded-l-2xl bg-neutral-100`}>
+          <div className={`${playgroundWrapperStyles}  bg-neutral-100 ${fileCollapsed ? 'p-2' : 'p-6 pl-10'} pr-0 `}>
             <FilesContainer />
           </div>
-          <div
-            className={`${playgroundWrapperStyles} rounded-b-2xl lg:rounded-l-none lg:rounded-r-2xl border-t-0 lg:border-l-0 lg:border-t-[1px]`}
-          >
+          <div className={`${playgroundWrapperStyles} border-l-[1px] border-b-[1px] p-6 pr-10`}>
             <ActionContainer />
           </div>
         </div>
         <PlaygroundInfoBar />
       </div>
-    </Container>
+    </>
   );
 };
 

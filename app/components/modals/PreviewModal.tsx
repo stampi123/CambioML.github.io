@@ -11,6 +11,7 @@ const PreviewModal = () => {
 
   const content = (
     <div className="w-full h-[80vh] min-h-[600px] overflow-scroll">
+      <div className="text-2xl font-semibold text-neutral-800 pb-4">{file.name}</div>
       <DocumentViewer fileType={file?.type} fileUrl={URL.createObjectURL(file)} />
     </div>
   );

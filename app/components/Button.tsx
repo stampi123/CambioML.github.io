@@ -48,7 +48,7 @@ const Button = ({ label, onClick, disabled, outline, small, icon: Icon, labelIco
         />
       )}
       <div className="flex items-center justify-center gap-2">
-        <span>{label} </span>
+        {label && <span>{label} </span>}
         {LabelIcon && (
           <LabelIcon
             size={24}

@@ -22,6 +22,7 @@ export interface AddFileParams {
 interface PlaygroundStore {
   extractSettings: ExtractSettings;
   selectedFileIndex: number | null;
+  fileCollapsed: boolean;
   files: PlaygroundFile[];
   filesToUpload: File[];
   filesFormData: PresignedResponse[];
@@ -31,6 +32,7 @@ interface PlaygroundStore {
   loggedIn: boolean;
   totalQuota: number;
   remainingQuota: number;
+  setFileCollapsed: (collapsed: boolean) => void;
   setTotalQuota: (totalQuota: number) => void;
   setRemainingQuota: (remainingQuota: number) => void;
   setSelectedFileIndex: (index: number) => void;
@@ -106,6 +108,10 @@ const usePlaygroundStore = create<PlaygroundStore>((set) => ({
   loggedIn: false,
   activeTab: '',
   userId: '',
+  fileCollapsed: false,
+  setFileCollapsed: (collapsed) => {
+    set({ fileCollapsed: collapsed });
+  },
   setUserId: (userId) => {
     set({ userId });
   },

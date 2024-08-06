@@ -375,7 +375,7 @@ const TableExtractContainer = () => {
         selectedFile && (
           <>
             {selectedFile?.instructionExtractState === ExtractState.READY && (
-              <div className="flex flex-col justify-end items-center h-full text-lg text-center gap-4">
+              <div className="flex flex-col justify-start items-center h-full text-lg text-center gap-4 pt-[calc(20vh-120px)] lg:pt-[calc(30vh-120px)]">
                 <div className="flex flex-col items-center justify-center">
                   {filename}
                   <div className="w-[200px] mt-2">

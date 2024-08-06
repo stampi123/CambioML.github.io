@@ -154,6 +154,30 @@ th {
   @apply visible z-50;
 }
 
+/* WebKit-based browsers */
+.slim-scrollbar::-webkit-scrollbar {
+  height: 8px;
+}
+
+.slim-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.slim-scrollbar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.slim-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Firefox */
+.slim-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
 
 
 

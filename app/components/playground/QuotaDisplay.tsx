@@ -12,8 +12,12 @@ const QUOTA_YELLOW_THRESHOLD = 50;
 const QUOTA_ORANGE_THRESHOLD = 25;
 const QUOTA_RED_THRESHOLD = 15;
 
-const QuotaDisplay = () => {
-  const { totalQuota, remainingQuota, userId, token, setTotalQuota, setRemainingQuota } = usePlaygroundStore();
+interface QuotaDisplayProps {
+  userId: string;
+}
+
+const QuotaDisplay = ({ userId }: QuotaDisplayProps) => {
+  const { totalQuota, remainingQuota, token, setTotalQuota, setRemainingQuota, fileCollapsed } = usePlaygroundStore();
   const { apiURL, isProduction } = useProductionContext();
   const [isLoading, setIsLoading] = useState(false);
   const { apiKeys } = useAccountStore();
@@ -92,7 +96,7 @@ const QuotaDisplay = () => {
   return (
     <div className="w-full flex flex-col items-center pt-2">
       <div className="w-full flex justify-between items-center mb-2">
-        <span className="font-semibold text-lg">Quota</span>
+        <span className={`font-semibold ${fileCollapsed ? 'inline lg:hidden' : 'inline'} text-lg`}>Quota</span>
         <div
           className="flex items-center text-neutral-600 justify-center bg-white rounded-md w-[30px] h-[30px] hover:bg-neutral-100 hover:text-neutral-800 hover:border-2 shrink-0 cursor-pointer"
           onClick={handleRefresh}

@@ -74,6 +74,10 @@ const Footer = () => {
               title: 'Launch Playground',
               url: '/playground',
             },
+            {
+              title: 'Account',
+              url: '/account',
+            },
           ]}
         />
         <FooterMenu

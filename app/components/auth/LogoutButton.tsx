@@ -6,15 +6,16 @@ import { SignOut } from '@phosphor-icons/react';
 export interface LogoutButtonProps {
   logoutUrl: string;
   disabled?: boolean;
+  collapsed?: boolean;
 }
 
-const LogoutButton = ({ logoutUrl, disabled }: LogoutButtonProps) => {
+const LogoutButton = ({ logoutUrl, disabled, collapsed }: LogoutButtonProps) => {
   const { logout } = useAuth0();
 
   return (
     <div className="w-full h-full flex">
       <Button
-        label="Logout"
+        label={!collapsed ? 'Logout' : ''}
         labelIcon={SignOut}
         onClick={() =>
           logout({
