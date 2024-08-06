@@ -67,35 +67,34 @@ const MapSchemaTable = ({ keyMap, tableMappedDataRows, isLoading }: MapSchemaTab
       <table className="mapped-table">
         <thead>
           <tr>
-            <th>Input Key</th>
-            {Object.keys(keyMap).length > 0 &&
-              inputKeys.map((inputKey, i) => (
-                <th key={`${inputKey}_${i}`}>
-                  <MapSchemaCell
-                    text={inputKey}
-                    handleIconClick={() => handleDeleteClick(inputKey)}
-                    icon={X}
-                    isLoading={isLoading}
-                    bold
-                  />
-                </th>
-              ))}
+            <th className="w-auto">Input Key</th>
+            {inputKeys.map((inputKey, i) => (
+              <th key={`${inputKey}_${i}`} className="w-auto">
+                {' '}
+                <MapSchemaCell
+                  text={inputKey}
+                  handleIconClick={() => handleDeleteClick(inputKey)}
+                  icon={X}
+                  isLoading={isLoading}
+                  bold
+                />
+              </th>
+            ))}
           </tr>
           <tr>
-            <th>Mapped Key</th>
-            {Object.keys(keyMap).length > 0 &&
-              mappedKeys.map((mappedKey, i) => (
-                <th key={`${mappedKey}_${i}`}>
-                  <MapSchemaCell
-                    text={mappedKey || ''}
-                    handleIconClick={() => handleEditClick(inputKeys[i])}
-                    icon={PencilSimple}
-                    secondIcon={X}
-                    handleSecondIconClick={() => handleMappedDeleteClick(inputKeys[i])}
-                    isLoading={isLoading}
-                  />
-                </th>
-              ))}
+            <th className="w-auto">Mapped Key</th>
+            {mappedKeys.map((mappedKey, i) => (
+              <th key={`${mappedKey}_${i}`} className="w-auto">
+                <MapSchemaCell
+                  text={mappedKey || ''}
+                  handleIconClick={() => handleEditClick(inputKeys[i])}
+                  icon={PencilSimple}
+                  secondIcon={X}
+                  handleSecondIconClick={() => handleMappedDeleteClick(inputKeys[i])}
+                  isLoading={isLoading}
+                />
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
@@ -103,9 +102,9 @@ const MapSchemaTable = ({ keyMap, tableMappedDataRows, isLoading }: MapSchemaTab
             tableMappedDataRows.length > 0 &&
             tableMappedDataRows.slice(1).map((tableRow, rowIndex) => (
               <tr key={rowIndex}>
-                {rowIndex === 0 ? <th>Mapped Values</th> : <th></th>}
+                {rowIndex === 0 ? <th className="w-auto">Mapped Values</th> : <th className="w-auto"></th>}
                 {tableRow.map((tableData, cellIndex) => (
-                  <td key={cellIndex}>
+                  <td key={cellIndex} className="w-auto">
                     <MapSchemaCell text={tableData || ''} isLoading={isLoading} />
                   </td>
                 ))}
