@@ -55,15 +55,15 @@ const Hero = ({ title, subtitle, typingWords, image, typingStaticWords, center }
           <div className="w-[700px] h-[175px] flex flex-col-reverse">
             <div className="w-full h-[75px] flex gap-8">
               <Button
-                label="Book a Demo"
+                label="Try it for Free"
                 onClick={() => {
-                  router.push('/book-demo');
+                  router.push('/playground');
                 }}
               />
               <Button
-                label="Test our Playground"
+                label="Live Benchmarking Demo"
                 onClick={() => {
-                  router.push('/playground');
+                  router.push('/book-demo');
                 }}
                 outline
               />

@@ -14,7 +14,7 @@ const FintechSolutionsPage = () => {
   return (
     <div className="pb-10 w-full h-full flex flex-col justify-center items-center">
       <PageHero
-        title="Your Customized AI Assistant to Beat Wall Street"
+        title="Your Customized AI Assistant to Discover Insights"
         description={`Find mispriced equity faster.
         Explain your investment decisions with real data.
         Fully own and control your proprietary AI agent.`}

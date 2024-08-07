@@ -33,9 +33,9 @@ const UseCaseTab = ({ code, demo, benefits, image, alt, detailsPath }: UseCaseTa
       <div className="flex gap-10 w-full items-center justify-center col-span-1 lg:col-span-2">
         <div className="w-[250px]">
           <Button
-            label="Book a Demo"
+            label="Try it for Free"
             onClick={() => {
-              router.push('/book-demo');
+              router.push('/playground');
             }}
           />
         </div>
