@@ -18,7 +18,12 @@ export default function Home() {
       <Hero
         title="Vision LLM for Document Parsing"
         subtitle="80% of OCR users are tired of maintaining glue code. Free up your time with our hands-free document LLM, offering unmatched accuracy and complete privacy."
-        typingWords={['removing private information (P.I.I.)', 'keeping footnotes, headers and footers', 'converting charts to tables', 'describing figures']}
+        typingWords={[
+          'removing private information (P.I.I.)',
+          'keeping footnotes, headers and footers',
+          'converting charts to tables',
+          'describing figures',
+        ]}
         typingStaticWords="Parsing PDFs, PPTs, Word, and images with configurable options such as "
         image="/images/hero.png"
         center
