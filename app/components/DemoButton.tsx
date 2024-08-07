@@ -10,9 +10,9 @@ const DemoButton = ({ small }: DemoButtonProps) => {
   return (
     <div className={small ? 'w-[200px]' : 'w-[300px]'}>
       <Button
-        label="Book a Demo"
+        label="Try it for Free"
         onClick={() => {
-          router.push('/book-demo');
+          router.push('/playground');
         }}
         small={small}
       />

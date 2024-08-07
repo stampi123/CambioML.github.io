@@ -16,10 +16,15 @@ export default function Home() {
   return (
     <>
       <Hero
-        title="Accurate, Private and Configurable Document Retrieval LLM"
-        subtitle="Transform your information assets into competitive advantage with the most state-of-the-art document retrieval AI"
-        typingWords={['PDF format', 'image resolution', 'PPT layout']}
-        typingStaticWords="Unmatched extraction accuracy on any"
+        title="Vision LLM for Document Parsing"
+        subtitle="80% of OCR users are tired of maintaining glue code. Free up your time with our hands-free document LLM, offering unmatched accuracy and complete privacy."
+        typingWords={[
+          'removing private information (P.I.I.)',
+          'keeping footnotes, headers and footers',
+          'converting charts to tables',
+          'describing figures',
+        ]}
+        typingStaticWords="Parsing PDFs, PPTs, Word, and images with configurable options such as "
         image="/images/hero.png"
         center
       />
@@ -86,8 +91,8 @@ export default function Home() {
             <ProductCard
               title="Test Cambio API today"
               outline
-              buttonText="Launch Playground"
-              buttonHandler={() => router.push('playground')}
+              buttonText="Try it for Free"
+              buttonHandler={() => router.push('account')}
             >
               Extract and Map your files on our Playground.
             </ProductCard>

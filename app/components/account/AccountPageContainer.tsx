@@ -211,9 +211,6 @@ const AccountPageContainer = () => {
                 <div className="w-full h-full flex flex-col items-start justify-start gap-8">
                   <div>
                     <h3 className={sectionHeadingStyle}>Generate and Copy your API keys.</h3>
-                    <p className="text-md">
-                      Each account can generate up to 2 free API keys and can extract 100 free lifetime pages.
-                    </p>
                     <div className="w-full bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mt-2 mb-4">
                       <p className="font-semibold">Note</p>
                       <p>Free API keys are limited to 10 extracted pages per API call.</p>
@@ -256,8 +253,18 @@ const AccountPageContainer = () => {
                   </div>
                 </div>
               )}
+              <Button
+                label="Check out AnyParser Github"
+                onClick={() => window.open('https://github.com/CambioML/any-parser', '_blank')}
+                small
+                labelIcon={GithubLogo}
+              />
               <div>
                 <h3 className={sectionHeadingStyle}>Getting Started with AnyParser</h3>
+                <div className="w-full bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mt-2 mb-4">
+                  <p className="font-semibold">Limited time!</p>
+                  <p>Each account can can extract 100 free pages with up to 2 API keys!</p>
+                </div>
                 <p>
                   <a
                     className={`${linkStyles} pr-2`}
