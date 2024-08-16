@@ -1,8 +1,8 @@
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
-import { ExtractTab, PlaygroundFile, ExtractState } from '@/app/types/PlaygroundTypes';
+import { ExtractTab, PlaygroundFile, ExtractState, TableTab } from '@/app/types/PlaygroundTypes';
 import { useEffect, useState } from 'react';
 import Button from '../../Button';
-import { ArrowCounterClockwise, DownloadSimple, Table } from '@phosphor-icons/react';
+import { ArrowCounterClockwise, ArrowRight, DownloadSimple, Table } from '@phosphor-icons/react';
 import PulsingIcon from '../../PulsingIcon';
 import toast from 'react-hot-toast';
 import { downloadFile } from '@/app/actions/downloadFile';
@@ -425,6 +425,14 @@ const TableExtractContainer = () => {
                       selectedFile.instructionExtractState !== ExtractState.DONE_EXTRACTING ||
                       !hasTables(selectedFile.tableExtractResult)
                     }
+                  />
+                  <Button
+                    label={`Select Tables`}
+                    onClick={() => updateFileAtIndex(selectedFileIndex, 'tableTab', TableTab.TABLE_SELECT)}
+                    small
+                    labelIcon={ArrowRight}
+                    disabled={!hasTables(selectedFile.tableExtractResult)}
+                    outline
                   />
                 </div>
               </div>
