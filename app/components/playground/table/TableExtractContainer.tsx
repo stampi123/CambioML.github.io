@@ -1,8 +1,8 @@
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
-import { ExtractTab, PlaygroundFile, ExtractState } from '@/app/types/PlaygroundTypes';
+import { ExtractTab, PlaygroundFile, ExtractState, TableTab } from '@/app/types/PlaygroundTypes';
 import { useEffect, useState } from 'react';
 import Button from '../../Button';
-import { ArrowCounterClockwise, DownloadSimple, Table } from '@phosphor-icons/react';
+import { ArrowCounterClockwise, ArrowRight, DownloadSimple, Table } from '@phosphor-icons/react';
 import PulsingIcon from '../../PulsingIcon';
 import toast from 'react-hot-toast';
 import { downloadFile } from '@/app/actions/downloadFile';
@@ -251,7 +251,7 @@ const TableExtractContainer = () => {
     });
   };
 
-  function htmlTableStringToJson(htmlString: string): Record<string, string[]> {
+  function htmlTableStringToJson(htmlString: string): Record<string, string>[] {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, 'text/html');
     const table = doc.querySelector('table');
@@ -259,34 +259,21 @@ const TableExtractContainer = () => {
     if (!table) {
       throw new Error('No table found in the provided HTML string.');
     }
+
     const rows = Array.from(table.querySelectorAll('tr'));
-    const numCols = rows[0].children.length;
-    const result: Record<string, string[]> = {};
+    const headers = Array.from(rows[0].children).map((cell) => cell.textContent?.trim() || '');
+    const result: Record<string, string>[] = [];
 
-    if (numCols === 2) {
-      rows.forEach((row) => {
-        const cells = row.children;
-        const header = cells[0].textContent?.trim() || '';
-        const value = cells[1].textContent?.trim() || '';
-        if (header && value) {
-          result[header] = [value];
-        }
-      });
-    } else {
-      const headers = Array.from(rows[0].children).map((cell) => cell.textContent?.trim() || '');
-      headers.forEach((header) => {
-        result[header] = [];
+    for (let i = 1; i < rows.length; i++) {
+      const cells = rows[i].children;
+      const rowObject: Record<string, string> = {};
+
+      headers.forEach((header, index) => {
+        const cellValue = cells[index]?.textContent?.trim() || '';
+        rowObject[header] = cellValue;
       });
 
-      for (let i = 1; i < rows.length; i++) {
-        const cells = rows[i].children;
-        headers.forEach((header, index) => {
-          const cellValue = cells[index].textContent?.trim() || '';
-          if (cellValue) {
-            result[header].push(cellValue);
-          }
-        });
-      }
+      result.push(rowObject);
     }
 
     return result;
@@ -296,7 +283,7 @@ const TableExtractContainer = () => {
     if (!selectedFile?.tableExtractResult) {
       return;
     }
-    const jsonResult: Record<string, string[]>[] = [];
+    const jsonResult: Record<string, string>[][] = [];
     const htmlData = extractHTMLTables(selectedFile.tableExtractResult.join('\n\n'));
     htmlData.forEach((htmlTable) => {
       jsonResult.push(htmlTableStringToJson(htmlTable));
@@ -359,10 +346,7 @@ const TableExtractContainer = () => {
       return hasTables(selectedFile.tableExtractResult);
     }
     if (option.value === 'JSON Download') {
-      return !isProduction && hasTables(selectedFile.tableExtractResult);
-    }
-    if (option.value === 'HTML Download' && hasTables(selectedFile.tableExtractResult)) {
-      return true;
+      return hasTables(selectedFile.tableExtractResult);
     }
     return false;
   });
@@ -425,6 +409,14 @@ const TableExtractContainer = () => {
                       selectedFile.instructionExtractState !== ExtractState.DONE_EXTRACTING ||
                       !hasTables(selectedFile.tableExtractResult)
                     }
+                  />
+                  <Button
+                    label={`Select Tables`}
+                    onClick={() => updateFileAtIndex(selectedFileIndex, 'tableTab', TableTab.TABLE_SELECT)}
+                    small
+                    labelIcon={ArrowRight}
+                    disabled={!hasTables(selectedFile.tableExtractResult)}
+                    outline
                   />
                 </div>
               </div>
