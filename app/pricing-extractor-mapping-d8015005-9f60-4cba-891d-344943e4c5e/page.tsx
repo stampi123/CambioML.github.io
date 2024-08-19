@@ -39,7 +39,7 @@ const plans: Plan[] = [
   },
   {
     name: 'Pro',
-    price: '$5k/year, billed annually*',
+    price: '$5k/year, billed annually',
     pages: 'Includes 100k credits** per year, then $0.05 per credit',
     bgColor: 'bg-sky-200',
     features: {
@@ -54,8 +54,8 @@ const plans: Plan[] = [
   },
   {
     name: 'Silver',
-    price: '$20k/year, billed annually*',
-    pages: 'Includes 500k credits** per year, then $0.04 per credit',
+    price: '$27k/year, billed annually',
+    pages: 'Includes 600k credits** per year, then $0.045 per credit',
     bgColor: 'bg-[#bcc6cc]',
     features: {
       autoCapture: true,
@@ -69,8 +69,8 @@ const plans: Plan[] = [
   },
   {
     name: 'Gold',
-    price: '$30k/year, billed annually*',
-    pages: 'Includes 1 million credits** per year, then $0.03 per credit',
+    price: '$40k/year, billed annually',
+    pages: 'Includes 1 million credits** per year, then $0.04 per credit',
     bgColor: 'bg-teal-600 text-white',
     features: {
       autoCapture: true,
