@@ -12,13 +12,15 @@ const KDDPage = () => {
       publishedOn="August 29, 2024"
     >
       <BlogParagraph>
-        At the KDD 2024 conference, <BlogLink text="Rachel Hu" url="https://www.google.com" />, Co-founder and CEO of
-        CambioML, presented a comprehensive tutorial on optimizing Large Language Models (LLMs) for domain-specific
-        applications, alongside <BlogLink text="José Cassio dos Santos Junior" url="https://www.google.com" /> (AWS),
-        Richard Song (Epsilla), and Yunfei Bai (AWS). The session provided in-depth insights into two critical
-        techniques: Retrieval Augmented Generation (RAG) and LLM Fine-Tuning. These methods are essential for improving
-        the performance of LLMs in specialized fields, allowing developers to create more effective and accurate models
-        tailored to specific tasks.
+        At the KDD 2024 conference, <BlogLink text="Rachel Hu" url="https://www.linkedin.com/in/rachelsonghu/" />,
+        Co-founder and CEO of CambioML, presented a comprehensive tutorial on optimizing Large Language Models (LLMs)
+        for domain-specific applications, alongside co-presenters
+        <BlogLink text="José Cassio dos Santos Junior" url="https://www.linkedin.com/in/jcassiojr/" /> (AWS),
+        <BlogLink text="Richard Song" url="https://www.linkedin.com/in/renchu-richard-song-a4099247/" /> (Epsilla), and{' '}
+        <BlogLink text="Yunfei Bai" url="https://www.linkedin.com/in/yunfei-felix-bai-909b861/" /> (AWS). The session
+        provided in-depth insights into two critical techniques: Retrieval Augmented Generation (RAG) and LLM
+        Fine-Tuning. These methods are essential for improving the performance of LLMs in specialized fields, allowing
+        developers to create more effective and accurate models tailored to specific tasks.
       </BlogParagraph>
 
       <BlogSectionTitle title="Understanding RAG: Expanding LLM Capabilities" />
