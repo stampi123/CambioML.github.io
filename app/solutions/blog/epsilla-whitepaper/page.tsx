@@ -1,5 +1,6 @@
 import Blog from '@/app/components/blog/Blog';
 import BlogImage from '@/app/components/blog/BlogImage';
+import BlogList from '@/app/components/blog/BlogListItem';
 import BlogParagraph from '@/app/components/blog/BlogParagraph';
 import BlogSectionTitle from '@/app/components/blog/BlogSectionTitle';
 
@@ -57,17 +58,22 @@ const KDDPage = () => {
         superiority in handling complex data extraction tasks.
       </BlogParagraph>
       <BlogSectionTitle title="Common Use Cases and Key Benefits" />
-      <ul className="list-disc list-inside mb-6">
-        <li className="mb-2">
-          Accuracy: High precision in converting both structured and unstructured data into usable formats.
-        </li>
-        <li className="mb-2">
-          Privacy: The ability to deploy the system within a customer’s data center ensures full data security.
-        </li>
-        <li className="mb-2">
-          Scalability: Rapid processing of large volumes of documents, enabling faster decision-making.
-        </li>
-      </ul>
+      <BlogList
+        items={[
+          {
+            label: 'Accuracy',
+            content: 'High precision in converting both structured and unstructured data into usable formats.',
+          },
+          {
+            label: 'Privacy',
+            content: 'The ability to deploy the system within a customer’s data center ensures full data security.',
+          },
+          {
+            label: 'Scalability',
+            content: 'Rapid processing of large volumes of documents, enabling faster decision-making
+          }
+        ]}
+      />
       <BlogSectionTitle title="Conclusion: A New Era in Knowledge Retrieval" />
       <BlogParagraph>
         The introduction of AnyParser and Epsilla marks a significant advancement in knowledge retrieval technology. By

@@ -1,5 +1,6 @@
 import Blog from '@/app/components/blog/Blog';
 import BlogLink from '@/app/components/blog/BlogLink';
+import BlogList from '@/app/components/blog/BlogListItem';
 import BlogParagraph from '@/app/components/blog/BlogParagraph';
 import BlogSectionTitle from '@/app/components/blog/BlogSectionTitle';
 
@@ -53,24 +54,25 @@ const KDDPage = () => {
         advanced techniques to optimize RAG and Fine-Tuned LLM architectures. The labs covered a variety of topics,
         including:
       </BlogParagraph>
-      <ul className="list-disc list-inside mb-6 text-lg">
-        <li>
-          <strong>Advanced RAG Techniques:</strong> Multi-phase optimization strategies were demonstrated to enhance the
-          accuracy and relevance of RAG outputs. This included pre-retrieval, retrieval, and post-retrieval
-          optimization, as well as the innovative use of knowledge graphs and multi-document analysis for more nuanced
-          reasoning.
-        </li>
-        <li>
-          <strong>Fine-Tuning LLMs:</strong> Participants engaged in fine-tuning a small LLM using domain-specific
-          datasets. The lab highlighted the continuous fine-tuning process, integrating both human and AI feedback to
-          achieve superior performance in specialized tasks.
-        </li>
-        <li>
-          <strong>Benchmarking and Evaluation:</strong> The final lab focused on comparing the performance of RAG,
-          Fine-Tuning, and their combined approach across various tasks. This included a detailed ROI analysis to help
-          developers choose the most cost-effective and efficient method for their specific needs.
-        </li>
-      </ul>
+      <BlogList
+        items={[
+          {
+            label: 'Advanced RAG Techniques',
+            content:
+              'Multi-phase optimization strategies were demonstrated to enhance the accuracy and relevance of RAG outputs. This included pre-retrieval, retrieval, and post-retrieval optimization, as well as the innovative use of knowledge graphs and multi-document analysis for more nuanced reasoning.',
+          },
+          {
+            label: 'Fine-Tuning LLMs',
+            content:
+              'Participants engaged in fine-tuning a small LLM using domain-specific datasets. The lab highlighted the continuous fine-tuning process, integrating both human and AI feedback to achieve superior performance in specialized tasks.',
+          },
+          {
+            label: 'Benchmarking and Evaluation',
+            content:
+              'The final lab focused on comparing the performance of RAG, Fine-Tuning, and their combined approach across various tasks. This included a detailed ROI analysis to help developers choose the most cost-effective and efficient method for their specific needs.',
+          },
+        ]}
+      />
       <BlogSectionTitle title="Best Practices for Domain-Specific LLM Development" />
       <BlogParagraph>
         The tutorial concluded with a set of best practices for implementing RAG and Fine-Tuning in real-world
