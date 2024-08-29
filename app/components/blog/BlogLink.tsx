@@ -5,9 +5,17 @@ interface BlogLinkProps {
 
 const BlogLink = ({ text, url }: BlogLinkProps) => {
   return (
-    <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700 underline">
-      {text}
-    </a>
+    <>
+      &nbsp;
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-neutral-500 hover:text-neutral-800 underline"
+      >
+        {text}
+      </a>
+    </>
   );
 };
 
