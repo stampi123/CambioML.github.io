@@ -1,5 +1,6 @@
 import Blog from '@/app/components/blog/Blog';
 import BlogImage from '@/app/components/blog/BlogImage';
+import BlogLink from '@/app/components/blog/BlogLink';
 import BlogList from '@/app/components/blog/BlogListItem';
 import BlogParagraph from '@/app/components/blog/BlogParagraph';
 import BlogSectionTitle from '@/app/components/blog/BlogSectionTitle';
@@ -81,6 +82,10 @@ const KDDPage = () => {
         improves accuracy and efficiency but also offers the flexibility and privacy that modern enterprises demand. As
         technology continues to evolve, the applications and benefits of this system are vast and promising, making it a
         game-changer for industries that depend on precise data extraction.
+      </BlogParagraph>
+      <BlogParagraph>
+        For the full detailed whitepaper, please check out
+        <BlogLink text="this link" url="https://www.cambioml.com/research/AnyParser_Epsilla_Whitepaper.pdf" />.
       </BlogParagraph>
     </Blog>
   );
