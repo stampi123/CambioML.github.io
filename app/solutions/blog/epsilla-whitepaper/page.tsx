@@ -70,8 +70,8 @@ const KDDPage = () => {
           },
           {
             label: 'Scalability',
-            content: 'Rapid processing of large volumes of documents, enabling faster decision-making
-          }
+            content: 'Rapid processing of large volumes of documents, enabling faster decision-making',
+          },
         ]}
       />
       <BlogSectionTitle title="Conclusion: A New Era in Knowledge Retrieval" />
