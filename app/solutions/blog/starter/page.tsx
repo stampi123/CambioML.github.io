@@ -8,6 +8,8 @@ import BlogSectionTitle from '@/app/components/blog/BlogSectionTitle';
 const Page = () => {
   return (
     <Blog title="Example Blog" writtenBy="Jojo Ortiz, COO @ CambioML" publishedOn="August 29, 2024">
+      <BlogSectionTitle title="BlogSectionTitle" />
+      <BlogParagraph>You can add section titles to your blog post using the BlogSectionTitle component.</BlogParagraph>
       <BlogSectionTitle title="BlogParagraph" />
       <BlogParagraph>
         This is a blog paragraph. Create a new one every time you want to add a new paragraph to your blog post.
