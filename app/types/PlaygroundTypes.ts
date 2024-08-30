@@ -54,7 +54,7 @@ export interface ExtractSettings {
 }
 
 export interface PlaygroundFile {
-  file: File;
+  file: File | string;
   extractResult: QueryResult;
   qaResult: QAResult | null;
   tableExtractResult: [''];

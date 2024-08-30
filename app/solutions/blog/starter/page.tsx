@@ -19,7 +19,11 @@ const Page = () => {
         You can add <BlogLink url="https://cambioml.com" text="links" /> to your blog post using a BlogLink component.
       </BlogParagraph>
       <BlogSectionTitle title="BlogImage" />
-      <BlogImage src="kdd-2024-rachel.jpeg" alt="Rachel Hu presenting at KDD" />
+      <BlogImage
+        src="kdd-2024-rachel.jpeg"
+        alt="Rachel Hu presenting at KDD"
+        subtitle="Rachel Hu presents at KDD 2024"
+      />
       <BlogParagraph>
         You can add images to your blog post using the BlogImage component. Make sure to include the image in the &nbsp;
         <code>public/images/solutions</code>&nbsp;directory and reference it using the <code>src</code> prop. You also
