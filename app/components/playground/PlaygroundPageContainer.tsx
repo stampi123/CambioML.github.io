@@ -7,10 +7,9 @@ import UploadModal from '../modals/UploadModal';
 
 interface PlaygroundPageContainerProps {
   production: boolean;
-  auth0Enabled: boolean;
 }
 
-const PlaygroundPageContainer = ({ production, auth0Enabled }: PlaygroundPageContainerProps) => {
+const PlaygroundPageContainer = ({ production }: PlaygroundPageContainerProps) => {
   const redirectUri = production
     ? process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI
     : process.env.NEXT_PUBLIC_PRE_PROD_AUTH0_REDIRECT_URI;
@@ -25,7 +24,7 @@ const PlaygroundPageContainer = ({ production, auth0Enabled }: PlaygroundPageCon
         scope: 'read:current_user update:current_user_metadata',
       }}
     >
-      <ProductionProvider initialValue={production} initialAuth0Enabled={auth0Enabled}>
+      <ProductionProvider initialValue={production}>
         <div className="pb-10 w-full h-fit flex flex-col justify-center items-center">
           <UploadModal />
           <PageHero
