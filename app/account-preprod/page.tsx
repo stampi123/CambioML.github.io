@@ -17,7 +17,7 @@ const AccountPage = () => {
           scope: 'read:current_user update:current_user_metadata',
         }}
       >
-        <ProductionProvider initialValue={false} initialAuth0Enabled={false}>
+        <ProductionProvider initialValue={false}>
           <AccountPageContainer />
         </ProductionProvider>
       </Auth0Provider>

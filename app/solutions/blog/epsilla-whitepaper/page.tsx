@@ -12,6 +12,11 @@ const KDDPage = () => {
       writtenBy="Jojo Ortiz, COO @ CambioML"
       publishedOn="August 29, 2024"
     >
+      <BlogImage
+        src="anyparser-epsilla-whitepaper-eval-metrics.png"
+        alt="AnyParser and Epsilla evaluation metrics from Ragas"
+        subtitle="Evaluation Metrics from Ragas"
+      />
       <BlogParagraph>
         In today&apos;s data-driven landscape, industries like financial services rely heavily on precise and efficient
         information extraction from documents, especially those containing both unstructured text and structured data
@@ -47,7 +52,7 @@ const KDDPage = () => {
       </BlogParagraph>
       <BlogSectionTitle title="Experiment & Evaluation: Real-World Impact" />
       <BlogImage
-        imagePath="/images/solutions/anyparser-epsilla-whitepaper-eval-metrics.png"
+        src="anyparser-epsilla-whitepaper-eval-metrics.png"
         alt="AnyParser and Epsilla evaluation metrics from Ragas"
         subtitle="Evaluation Metrics from Ragas"
       />

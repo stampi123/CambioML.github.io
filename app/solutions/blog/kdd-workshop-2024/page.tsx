@@ -1,4 +1,5 @@
 import Blog from '@/app/components/blog/Blog';
+import BlogImage from '@/app/components/blog/BlogImage';
 import BlogLink from '@/app/components/blog/BlogLink';
 import BlogList from '@/app/components/blog/BlogListItem';
 import BlogParagraph from '@/app/components/blog/BlogParagraph';
@@ -6,18 +7,19 @@ import BlogSectionTitle from '@/app/components/blog/BlogSectionTitle';
 
 const KDDPage = () => {
   return (
-    <Blog
-      title="KDD 2024: Optimizing LLMs with RAG and Fine-Tuning"
-      writtenBy="Jojo Ortiz, COO @ CambioML"
-      publishedOn="August 29, 2024"
-    >
+    <Blog title="KDD 2024: Talk with Amazon" writtenBy="Jojo Ortiz, COO @ CambioML" publishedOn="August 29, 2024">
+      <BlogImage
+        src="kdd-2024-cover.jpeg"
+        alt="KDD 2024 Conference"
+        subtitle="Rachel Hu presenting at the KDD 2024 conference"
+      />
       <BlogParagraph>
         At the KDD 2024 conference, <BlogLink text="Rachel Hu" url="https://www.linkedin.com/in/rachelsonghu/" />,
         Co-founder and CEO of CambioML, presented a comprehensive tutorial on optimizing Large Language Models (LLMs)
         for domain-specific applications, alongside co-presenters
-        <BlogLink text="José Cassio dos Santos Junior" url="https://www.linkedin.com/in/jcassiojr/" /> (AWS),
+        <BlogLink text="José Cassio dos Santos Junior" url="https://www.linkedin.com/in/jcassiojr/" /> (Amazon),
         <BlogLink text="Richard Song" url="https://www.linkedin.com/in/renchu-richard-song-a4099247/" /> (Epsilla), and{' '}
-        <BlogLink text="Yunfei Bai" url="https://www.linkedin.com/in/yunfei-felix-bai-909b861/" /> (AWS). The session
+        <BlogLink text="Yunfei Bai" url="https://www.linkedin.com/in/yunfei-felix-bai-909b861/" /> (Amazon). The session
         provided in-depth insights into two critical techniques: Retrieval Augmented Generation (RAG) and LLM
         Fine-Tuning. These methods are essential for improving the performance of LLMs in specialized fields, allowing
         developers to create more effective and accurate models tailored to specific tasks.
@@ -40,6 +42,8 @@ const KDDPage = () => {
         where general-purpose models fall short. Fine-Tuning can transform an LLM into a highly specialized tool,
         capable of performing complex, domain-specific tasks with precision.
       </BlogParagraph>
+
+      <BlogImage src="kdd-2024-rachel.jpeg" alt="Rachel Hu presenting at KDD" />
 
       <BlogSectionTitle title="Combining RAG and Fine-Tuning for Optimal Results" />
       <BlogParagraph>
@@ -75,6 +79,7 @@ const KDDPage = () => {
           },
         ]}
       />
+      <BlogImage src="kdd-2024-labs.jpg" alt="KDD 2024 Labs" />
       <BlogSectionTitle title="Best Practices for Domain-Specific LLM Development" />
       <BlogParagraph>
         The tutorial concluded with a set of best practices for implementing RAG and Fine-Tuning in real-world
@@ -85,7 +90,12 @@ const KDDPage = () => {
       </BlogParagraph>
       <BlogParagraph>
         For a more detailed overview of the tutorial&apos;s content and hands-on labs, please refer to&nbsp;
-        <BlogLink url="https://dl.acm.org/doi/pdf/10.1145/3637528.3671445" text="this paper" />.
+        <BlogLink url="https://dl.acm.org/doi/pdf/10.1145/3637528.3671445" text="this paper" /> and
+        <BlogLink
+          url="https://docs.google.com/presentation/d/18PJctnI-KbABE1El_AifjN_7eoHatuaoN8-2q57xpSw/edit#slide=id.g2f5cc21ff85_5_1096"
+          text="this presentation"
+        />
+        .
       </BlogParagraph>
     </Blog>
   );

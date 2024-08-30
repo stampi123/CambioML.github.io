@@ -1,38 +1,19 @@
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
-import { deleteAccessStorage, getAccessStorage } from '@/app/hooks/useAccessToken';
 import toast from 'react-hot-toast';
 import { useCallback, useEffect } from 'react';
 import Button from '../Button';
 import { SignIn, UserCircle } from '@phosphor-icons/react';
 import PulsingIcon from '../PulsingIcon';
 import { useAuth0 } from '@auth0/auth0-react';
-import { useProductionContext } from '../playground/ProductionContext';
 import { usePostHog } from 'posthog-js/react';
 
 const LoginComponent = () => {
   const { isAuthenticated, isLoading, loginWithRedirect, getAccessTokenSilently, logout } = useAuth0();
-  const { auth0Enabled } = useProductionContext();
   const posthog = usePostHog();
   const { loggedIn, setLoggedIn, setClientId, setToken, setUserId } = usePlaygroundStore();
 
   useEffect(() => {
-    if (!auth0Enabled) {
-      const accessToken = getAccessStorage();
-      if (accessToken) {
-        setLoggedIn(true);
-        setClientId(process.env.NEXT_PUBLIC_OAUTH_GOOGLE_CLIENT_ID || '');
-        setToken(accessToken);
-      } else {
-        setLoggedIn(false);
-        setClientId('');
-        setToken('');
-        deleteAccessStorage();
-      }
-    }
-  }, [setLoggedIn, setClientId, setToken]);
-
-  useEffect(() => {
-    if (!isLoading && auth0Enabled) {
+    if (!isLoading) {
       if (isAuthenticated) {
         getAccessToken();
         setLoggedIn(true);
@@ -42,7 +23,7 @@ const LoginComponent = () => {
         handleLogout();
       }
     }
-  }, [isAuthenticated, isLoading, auth0Enabled, loggedIn]);
+  }, [isAuthenticated, isLoading, loggedIn]);
 
   const getAccessToken = useCallback(async () => {
     const domain = process.env.NEXT_PUBLIC_AUTH0_DOMAIN || '';
