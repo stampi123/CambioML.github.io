@@ -11,6 +11,39 @@ export interface SolutionType {
 
 export const solutions: SolutionType[] = [
   {
+    title: "AnyParser: The Secret Weapon Behind JobRight.ai's Resume Extraction",
+    subtitle: '',
+    description:
+      'Struggling to find the perfect candidates through piles of resumes? In this post, we’ll reveal how <strong>JobRight.ai</strong> turned the tables with <strong>AnyParser</strong>, the ultimate resume parser that effortlessly extracts and processes candidate information. Discover how this game-changing tool transformed <strong>JobRight.ai</strong> into the top AI job marketplace, creating career matches faster and more accurately than ever before.',
+    url: '/solutions/blog/jobright-resumes',
+    image: '/images/solutions/jobright-resumes-metrics.png',
+    industries: [],
+    blog: true,
+    date: new Date('2024-08-30'),
+  },
+  {
+    title: 'KDD 2024: Talk with Amazon',
+    subtitle: '',
+    description:
+      'Want to optimize Large Language Models (LLMs) for specific tasks? At KDD 2024, Rachel Hu, CEO of CambioML, and experts from Amazon and Epsilla revealed how <strong>Retrieval Augmented Generation (RAG)</strong> and <strong>LLM Fine-Tuning</strong> can enhance LLM performance for specialized applications. Explore advanced techniques and practical labs that demonstrate how to build accurate, domain-specific models. Learn best practices for making your LLMs more versatile and precise. ',
+    url: '/solutions/blog/kdd-workshop-2024',
+    image: '/images/solutions/kdd-2024-cover.jpeg',
+    industries: [],
+    blog: true,
+    date: new Date('2024-08-29'),
+  },
+  {
+    title: 'Doubling Accuracy in Knowledge Retrieval from Charts and Tables',
+    subtitle: '',
+    description:
+      'In precision-critical industries like finance, traditional OCR models fall short. Enter <strong>AnyParser</strong> and <strong>Epsilla</strong>, a cutting-edge system by CambioML and Epsilla. By integrating advanced vision language models with Retrieval-Augmented Generation (RAG) techniques, this solution offers superior accuracy and recall, revolutionizing data extraction from complex documents. Discover how <strong>AnyParser</strong> and <strong>Epsilla</strong> are redefining knowledge retrieval for businesses.',
+    url: '/solutions/blog/epsilla-whitepaper',
+    image: '/images/solutions/anyparser-epsilla-whitepaper-eval-metrics.png',
+    industries: [],
+    blog: true,
+    date: new Date('2024-08-28'),
+  },
+  {
     title: 'From Documents to Database',
     subtitle: 'Key-Value Data Retrieval from Real Estate Documents',
     description:
