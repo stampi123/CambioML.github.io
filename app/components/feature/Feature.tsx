@@ -14,7 +14,7 @@ interface FeatureProps {
 const Feature = ({ title, description, center, alternate, children }: FeatureProps) => {
   return (
     <div className={`w-full h-full py-10 ${alternate && 'bg-neutral-100'}`}>
-      <Container styles="h-max">
+      <Container styles="h-max w-full">
         <div className="flex flex-col items-center gap-10 py-10 h-max w-full">
           <Heading title={title} subtitle={description} center={center} />
           <div className="flex flex-col items-center justify-center h-max w-full max-w-[1000px]">{children}</div>
