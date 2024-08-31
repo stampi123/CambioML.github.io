@@ -22,7 +22,7 @@ const ProductCard = ({ title, subtitle, outline, children, buttonText, buttonHan
   return (
     <div className="flex flex-col items-center justify-center w-full">
       <div
-        className={`flex flex-col items-center justify-between rounded-xl p-10 h-[550px] shadow-md hover:scale-[1.01] hover:shadow-lg transition-transform duration-300 scol-span-1 w-[500px] md:w-full ${outline ? 'border-solid border-2 border-neutral-100' : 'bg-cambio-blue'}
+        className={`flex flex-col items-center justify-between rounded-xl p-10 h-[550px] shadow-md hover:scale-[1.01] hover:shadow-lg transition-transform duration-300 scol-span-1 w-[500px] md:w-full ${outline ? 'border-solid border-2 border-neutral-100 bg-white' : 'bg-cambio-blue'}
         `}
       >
         <div>

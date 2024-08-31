@@ -23,29 +23,33 @@ const SolutionsCard = ({ title, subtitle, description, url, image }: SolutionsCa
         col-span-1
         cursor-pointer
         group
-        h-fit
+        h-full
+        w-full
+        max-w-[800px]
+        lg:w-full
+        lg:max-w-[1200px]
         relative
         "
       >
         <div id={createId(title)} className="absolute -top-28" />
-        <div className="grid grid-cols-1 md:grid-cols-2 w-full h-fit md:h-[400px] border-solid border-2 rounded-3xl xl:rounded-4xl hover:shadow-md">
+        <div className="grid grid-cols-1 lg:grid-cols-2 w-full h-fit lg:h-[400px] border-solid border-2 rounded-3xl xl:rounded-4xl hover:shadow-md">
           <div
             className="
                     aspect-square
                     w-full
                     h-[400px]
-                    md:h-full
+                    lg:h-full
                     relative
                     overflow-hidden
                     rounded-[inherit]
                     rounded-b-none
-                    md:rounded-r-none
-                    md:rounded-l-[inherit]
+                    lg:rounded-r-none
+                    lg:rounded-l-[inherit]
                     border-solid
                     border-b-2
                     border-neutral-200
-                    md:border-r-2
-                    md:border-b-0
+                    lg:border-r-2
+                    lg:border-b-0
                     "
           >
             <Image
@@ -61,7 +65,7 @@ const SolutionsCard = ({ title, subtitle, description, url, image }: SolutionsCa
                             "
             />
           </div>
-          <div className="flex flex-col md:justify-center p-5 h-[300px] md:h-full gap-5">
+          <div className="flex flex-col lg:justify-center p-5 h-[300px] lg:h-full gap-5 bg-white rounded-b-3xl lg:rounded-l-none lg:rounded-3xl">
             <div className="flex flex-col gap-2">
               <div className="font-semibold text-xl">{title.toUpperCase()}</div>
               {subtitle && <div className="text-xl italic">{subtitle}</div>}

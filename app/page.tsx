@@ -10,6 +10,7 @@ import Customers from './components/home-page/Customers';
 import Card from './components/Card';
 import { FileMagnifyingGlass, LockKey, Lock, Table, Target, Robot } from '@phosphor-icons/react';
 import { useRouter } from 'next/navigation';
+import SolutionsCarousel from './components/solutions/SolutionsCarousel';
 
 export default function Home() {
   const router = useRouter();
@@ -28,7 +29,7 @@ export default function Home() {
         image="/images/hero.png"
         center
       />
-      <div className="h-full w-full py-10">
+      <div className="h-full w-full pt-10">
         <Feature title="Extract key information with full confidence" center>
           <div className="h-[1000px] lg:h-[450px] grid grid-cols-1 lg:grid-cols-3 gap-10 py-10">
             <Card
@@ -75,10 +76,13 @@ export default function Home() {
             <Card text="No more manual data entry. Map to the schema as you need." center cardIcon={Robot} />
           </div>
         </Feature>
-        <Feature title="Extract Insights from your Proprietary Data with Ease" alternate center>
+        <Feature title="Use Cases" center alternate>
+          <SolutionsCarousel sortNewest />
+        </Feature>
+        <Feature title="Extract Insights from your Proprietary Data with Ease" center>
           <UseCaseOverview />
         </Feature>
-        <Feature title="Host your private LLMs anywhere in your control" description="" center>
+        <Feature title="Host your private LLMs anywhere in your control" description="" center alternate>
           <div
             className="w-full min-w-[1200px] h-full
                             mt-10
