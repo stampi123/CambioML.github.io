@@ -10,8 +10,8 @@ import ProductHunt from './ProductHunt';
 
 const menuItems = [
   {
-    label: 'Solutions',
-    links: ['Finance', 'Blog'],
+    label: 'Blog',
+    links: [],
   },
   {
     label: 'Playground',
