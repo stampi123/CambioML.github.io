@@ -57,7 +57,7 @@ export default function Home() {
             />
           </a>
         </div>
-        <Feature title="Open-source Libraries are Adopted by Researchers at" alternate center>
+        <Feature title="Adopted by Researchers and Engineers at" alternate center>
           <Customers />
         </Feature>
         <Feature title="Accurate, Automatic, and Secure" center>
