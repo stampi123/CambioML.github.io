@@ -57,7 +57,7 @@ const Hero = ({ title, subtitle, typingWords, image, typingStaticWords, center }
               <Button
                 label="Try it for Free"
                 onClick={() => {
-                  router.push('/playground');
+                  router.push('/sandbox');
                 }}
               />
               <Button

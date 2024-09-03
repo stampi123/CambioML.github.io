@@ -14,7 +14,7 @@ const menuItems = [
     links: [],
   },
   {
-    label: 'Playground',
+    label: 'Sandbox',
     links: [],
   },
   {

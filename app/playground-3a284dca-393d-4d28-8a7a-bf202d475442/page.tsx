@@ -7,7 +7,7 @@ export default function PlaygroundOld() {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace('/playground');
+    router.replace('/sandbox');
   }, [router]);
 
   return (
