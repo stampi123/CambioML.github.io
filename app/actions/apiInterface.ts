@@ -35,7 +35,7 @@ export interface RequestParams {
 
 export interface JobParams {
   targetPageNumbers?: number[];
-  maskPiiFlag: boolean;
+  maskPiiFlag?: boolean;
   lambdaProcessorArgs?: {
     informationExtractionInstruction: string;
     refineFlag: boolean;
@@ -50,6 +50,10 @@ export interface JobParams {
     vqaPageNumsFlag?: boolean;
     vqaTableOnlyFlag?: boolean;
     vqaChartOnlyFlag?: boolean;
+  };
+  schemaInfo?: {
+    dbSchema?: string[];
+    tableSchema?: string[];
   };
 }
 

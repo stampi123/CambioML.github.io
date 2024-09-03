@@ -38,6 +38,8 @@ export const runMappingRequest = async ({ tableSchema, keysToMap }: IParams) => 
   if (keysToMap.length === 0) {
     throw new Error('The keysToMap array is empty. At least one key is required.');
   }
+  console.log(`Mapping request for keys: ${JSON.stringify(keysToMap)}`);
+  console.log(`Table schema: ${JSON.stringify(tableSchema)}`);
 
   const getMappingPrompt = (schema: string[], keys: string[]) => `
     Here is a list of \`raw_schema\`:

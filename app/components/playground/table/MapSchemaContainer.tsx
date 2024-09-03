@@ -1,5 +1,5 @@
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
-import { ExtractState, TableTab, PlaygroundFile } from '@/app/types/PlaygroundTypes';
+import { ExtractState, TableTab, PlaygroundFile, JobType } from '@/app/types/PlaygroundTypes';
 import { useEffect, useState } from 'react';
 import { ArrowLeft, DownloadSimple, Plus, Robot } from '@phosphor-icons/react';
 import Button from '../../Button';
@@ -12,17 +12,19 @@ import { downloadFile } from '@/app/actions/downloadFile';
 import MapSchemaTable from './MapSchemaTable';
 import { useProductionContext } from '../ProductionContext';
 import { usePostHog } from 'posthog-js/react';
+import { runRequestJob } from '@/app/actions/runRequestJob';
+import { AxiosError, AxiosResponse } from 'axios';
 
 const MIN_INPUT_LENGTH = 1;
 
 const MapSchemaContainer = () => {
-  const { selectedFileIndex, files, updateFileAtIndex } = usePlaygroundStore();
+  const { selectedFileIndex, files, updateFileAtIndex, clientId, token, filesFormData } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [filename, setFilename] = useState<string>('');
   const [query, setQuery] = useState<string>('');
   const [inputError, setInputError] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { isProduction } = useProductionContext();
+  const { apiURL, isProduction } = useProductionContext();
   const posthog = usePostHog();
 
   useEffect(() => {
@@ -37,7 +39,163 @@ const MapSchemaContainer = () => {
     }
   }, [selectedFileIndex, files, updateFileAtIndex]);
 
+  const handleTimeout = () => {
+    updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
+    toast.error(`Map Schema request for ${filename} timed out. Please try again.`);
+  };
+
+  const handleError = (e: AxiosError) => {
+    console.error('handling schema error', e);
+    if (e.response) {
+      toast.error(`${filename}: Schema Extraction error. Please try again.`);
+      updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
+    }
+    if (isProduction)
+      posthog.capture('playground.table.extract_table.error', {
+        route: '/playground',
+        module: 'table',
+        submodule: 'extract_table',
+        file_type:
+          selectedFile?.file instanceof File
+            ? selectedFile.file.type
+            : typeof selectedFile?.file === 'string'
+              ? 'html'
+              : undefined,
+        error_status: e.response?.status,
+        error_message: e.response?.data,
+      });
+    toast.error(`${filename}: Schema Extraction error. Please try again.`);
+    updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
+  };
+
+  const handleSuccess = (response: AxiosResponse) => {
+    const result = response.data;
+    if (result === undefined || result['result'] === undefined) {
+      toast.error(`${filename}: Received undefined result. Please try again.`);
+      updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
+      return;
+    }
+    if (isProduction)
+      posthog.capture('playground.table.extract_table.success', {
+        route: '/playground',
+        module: 'table',
+        submodule: 'extract_table',
+        file_type:
+          selectedFile?.file instanceof File
+            ? selectedFile.file.type
+            : typeof selectedFile?.file === 'string'
+              ? 'html'
+              : undefined,
+        num_pages: result.length,
+      });
+
+    if (!isProduction) console.log('[SchemaMap] result:', result, response);
+    setIsLoading(false);
+    if (!selectedFile) return;
+    const currentMap = selectedFile.keyMap;
+    for (const key in result['result']) {
+      if (Object.hasOwn(currentMap, key)) {
+        currentMap[key] = result['result'][key];
+      }
+    }
+    updateFileAtIndex(selectedFileIndex, 'keyMap', currentMap);
+    if (isProduction) {
+      const n_mapped_keys = Object.keys(currentMap).filter((key) => currentMap[key] !== '').length;
+      const n_null_keys = Object.keys(currentMap).length - n_mapped_keys;
+      posthog.capture('playground.table.map_schema.success', {
+        route: '/playground',
+        module: 'table',
+        submodule: 'map_schema',
+        num_mapped_keys: n_mapped_keys,
+        num_null_keys: n_null_keys,
+      });
+    }
+    const inputKeys = Object.keys(currentMap);
+    const tableKeysData = selectedFile.tableMergedData;
+    const tableColumns = [];
+    const tableMappedDataRows: string[][] = [inputKeys];
+    let maxColLength = -1;
+    for (const inputKey of inputKeys) {
+      const mappedKey = currentMap[inputKey];
+      const mappedValues = tableKeysData[mappedKey] || ['None'];
+      maxColLength = Math.max(mappedValues.length, maxColLength);
+      tableColumns.push(mappedValues);
+    }
+
+    for (let i = 0; i < maxColLength; i++) {
+      const thisRow: string[] = [];
+      tableColumns.forEach((col) => {
+        if (col.length === 1) {
+          thisRow.push(col[0]);
+        } else {
+          thisRow.push(col[i] || '');
+        }
+      });
+      tableMappedDataRows.push(thisRow);
+    }
+
+    updateFileAtIndex(selectedFileIndex, 'tableMappedDataRows', tableMappedDataRows);
+
+    toast.success(`Generated Schema Map for ${filename}`);
+  };
+
+  const handleMapSchemaPreprod = async () => {
+    setIsLoading(true);
+    const fileData = filesFormData.find((obj) => obj.presignedUrl.fields['x-amz-meta-filename'] === filename);
+    if (!fileData) {
+      updateFileAtIndex(selectedFileIndex, 'tableMdExtractState', ExtractState.READY);
+      toast.error(`Error extracting ${filename}. Missing formData. Please try again.`);
+      return;
+    }
+    if (selectedFile) {
+      const allTables = selectedFile.tableMdExtractResult;
+      const tablesToMap = allTables.filter((table, i) => selectedFile.tableMapIndices.has(i));
+
+      const currentMap = selectedFile.keyMap;
+
+      const tableKeys: string[] = [];
+      for (const table of tablesToMap) {
+        tableKeys.push(...Object.keys(table['tableData']));
+      }
+      updateFileAtIndex(selectedFileIndex, 'keyMap', currentMap);
+      const currentKeys = Object.keys(currentMap).filter((key) => currentMap[key] === '' || currentMap[key] === null);
+      console.log('fileData', fileData);
+      const jobParams = {
+        schemaInfo: {
+          tableSchema: tableKeys,
+          dbSchema: currentKeys,
+        },
+      };
+      if (selectedFile && selectedFileIndex !== null) {
+        console.log('Preprod mapping', jobParams);
+        runRequestJob({
+          apiURL: apiURL,
+          clientId,
+          token,
+          sourceType: 's3',
+          fileId: fileData.fileId,
+          jobType: JobType.SCHEMA_EXTRACTION_FRONTEND,
+          jobParams,
+          selectedFileIndex,
+          filename,
+          handleError,
+          handleSuccess,
+          handleTimeout,
+          updateFileAtIndex,
+        });
+      }
+    }
+  };
+
   const handleMapSchema = async () => {
+    if (!isProduction) {
+      handleMapSchemaPreprod();
+    } else {
+      handleMapSchemaProd();
+    }
+  };
+
+  const handleMapSchemaProd = async () => {
     if (isProduction)
       posthog.capture('playground.table.map_schema.button_map_schema', {
         route: '/playground',

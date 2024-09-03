@@ -120,4 +120,5 @@ export enum JobType {
   INSTRUCTION_EXTRACTION = 'instruction_extraction',
   FILE_COMPARISON = 'file_comparison',
   SCHEMA_EXTRACTION = 'schema_extraction',
+  SCHEMA_EXTRACTION_FRONTEND = 'schema_extraction_frontend',
 }

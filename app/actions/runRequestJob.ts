@@ -51,6 +51,8 @@ const SLEEP_DURATION: { [key: string]: number } = {
   info_extraction: 5000,
   instruction_extraction: 5000,
   qa_generation: 5000,
+  schema_extraction: 5000,
+  schema_extraction_frontend: 5000,
 };
 
 export const runRequestJob = async ({
