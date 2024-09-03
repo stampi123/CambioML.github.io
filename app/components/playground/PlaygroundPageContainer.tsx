@@ -28,7 +28,7 @@ const PlaygroundPageContainer = ({ production }: PlaygroundPageContainerProps) =
         <div className="pb-10 w-full h-fit flex flex-col justify-center items-center">
           <UploadModal />
           <PageHero
-            title={`${production ? '🛝 AnyParser Playground' : '🚧 PreProd Playground'}`}
+            title={`${production ? 'AnyParser Sandbox' : '🚧 PreProd Sandbox'}`}
             description={`Extract full insights from your PDF* and Image files**`}
             short
           />

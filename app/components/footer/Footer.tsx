@@ -68,11 +68,11 @@ const Footer = () => {
           ]}
         />
         <FooterMenu
-          title="Playground"
+          title="Sandbox"
           links={[
             {
-              title: 'Launch Playground',
-              url: '/playground',
+              title: 'Launch Sandbox',
+              url: '/sandbox',
             },
             {
               title: 'Account',
