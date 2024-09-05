@@ -127,7 +127,7 @@ const PricingPage = () => {
   const contactModal = usePricingContactModal();
   return (
     <div className="x pb-10 w-full h-full flex flex-col justify-center items-center">
-      <PageHero title={`Batch API Pricing`} description={'Batch inference finished within 24 hours. 5-10x cheaper than the real-time API pricing.'} short />
+      <PageHero title={`Batch API Pricing`} description={'Batch inference finished within 24 hours. Only 10%-20% of the real-time API pricing.'} short />
       <div className="container mx-auto px-4 py-16">
         <table className="pricing-table min-w-full bg-white border border-gray-200">
           <thead className="text-2xl">
