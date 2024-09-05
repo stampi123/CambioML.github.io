@@ -63,7 +63,7 @@ const Footer = () => {
             },
             {
               title: 'Blog',
-              url: '/solutions/blog',
+              url: '/blog',
             },
           ]}
         />

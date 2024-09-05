@@ -23,7 +23,7 @@ const Blog = ({ title, publishedOn, children, writtenBy }: BlogProps) => {
           <div className="text-md italic">{publishedOn}</div>
           <div
             className=" flex gap-2 p-2 items-center justify-center cursor-pointer hover:font-semibold rounded-xl hover:bg-neutral-100"
-            onClick={() => router.push('/solutions/blog')}
+            onClick={() => router.push('/blog')}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
