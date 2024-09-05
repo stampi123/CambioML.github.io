@@ -24,8 +24,8 @@ type Plan = {
 const plans: Plan[] = [
   {
     name: 'Starter',
-    price: '$599/year, billed annually*',
-    pages: 'Includes 10k credits** per year, then $0.06 per credit',
+    price: '$12k/year, billed annually*',
+    pages: 'Includes 1 million credits** per year, then $0.01 per credit',
     bgColor: 'bg-neutral-100',
     features: {
       autoCapture: true,
@@ -39,8 +39,8 @@ const plans: Plan[] = [
   },
   {
     name: 'Pro',
-    price: '$5k/year, billed annually*',
-    pages: 'Includes 100k credits** per year, then $0.05 per credit',
+    price: '$24k/year, billed annually*',
+    pages: 'Includes 3 million credits** per year, then $0.007 per credit',
     bgColor: 'bg-sky-200',
     features: {
       autoCapture: true,
@@ -54,8 +54,8 @@ const plans: Plan[] = [
   },
   {
     name: 'Silver',
-    price: '$20k/year, billed annually*',
-    pages: 'Includes 500k credits** per year, then $0.04 per credit',
+    price: '$50k/year, billed annually*',
+    pages: 'Includes 10 million credits** per year, then $0.004 per credit',
     bgColor: 'bg-[#bcc6cc]',
     features: {
       autoCapture: true,
@@ -69,8 +69,8 @@ const plans: Plan[] = [
   },
   {
     name: 'Gold',
-    price: '$30k/year, billed annually*',
-    pages: 'Includes 1 million credits** per year, then $0.03 per credit',
+    price: '$90k/year, billed annually*',
+    pages: 'Includes 30 million credits** per year, then $0.003 per credit',
     bgColor: 'bg-teal-600 text-white',
     features: {
       autoCapture: true,
@@ -127,7 +127,11 @@ const PricingPage = () => {
   const contactModal = usePricingContactModal();
   return (
     <div className="x pb-10 w-full h-full flex flex-col justify-center items-center">
-      <PageHero title={`API Pricing`} description={'Find the right plan for you.'} short />
+      <PageHero
+        title={`Batch API Pricing`}
+        description={'Batch inference finished within 24 hours. Only 10%-20% of the real-time API pricing.'}
+        short
+      />
       <div className="container mx-auto px-4 py-16">
         <table className="pricing-table min-w-full bg-white border border-gray-200">
           <thead className="text-2xl">

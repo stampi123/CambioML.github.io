@@ -127,7 +127,11 @@ const PricingPage = () => {
   const contactModal = usePricingContactModal();
   return (
     <div className="x pb-10 w-full h-full flex flex-col justify-center items-center">
-      <PageHero title={`API Pricing`} description={'Find the right plan for you.'} short />
+      <PageHero
+        title={`Real-time API Pricing`}
+        description={'The fastest vision language model with real-time response around 0.5 to 5 seconds per page.'}
+        short
+      />
       <div className="container mx-auto px-4 py-16">
         <table className="pricing-table min-w-full bg-white border border-gray-200">
           <thead className="text-2xl">
