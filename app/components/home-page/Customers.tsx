@@ -4,22 +4,22 @@ const customers = [
   {
     image: '/images/companies/amazon-logo.png',
     alt: 'Amazon',
-    url: '/solutions/blog/kdd-workshop-2024',
+    url: '/blog/kdd-workshop-2024',
   },
   {
     image: '/images/companies/aws-logo.png',
     alt: 'AWS',
-    url: '/solutions/blog/kdd-workshop-2024',
+    url: '/blog/kdd-workshop-2024',
   },
   {
     image: '/images/companies/jobrightai-logo.png',
     alt: 'Jobright.ai',
-    url: '/solutions/blog/jobright-resumes',
+    url: '/blog/jobright-resumes',
   },
   {
     image: '/images/companies/epsilla-logo.png',
     alt: 'Epsilla',
-    url: '/solutions/blog/epsilla-whitepaper',
+    url: '/blog/epsilla-whitepaper',
   },
   {
     image: '/images/companies/google-logo.png',
