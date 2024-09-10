@@ -1,7 +1,7 @@
 'use client';
 
 import { useUploadModal, UploadModalState } from '@/app/hooks/useUploadModal';
-import { X, CloudArrowUp, FileArrowUp, MonitorArrowUp } from '@phosphor-icons/react';
+import { X, CloudArrowUp, MonitorArrowUp } from '@phosphor-icons/react';
 import { useCallback, useEffect, useState } from 'react';
 import { useOutsideClickModal } from '@/app/hooks/useOutsideClickModal';
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
@@ -9,11 +9,35 @@ import LoginComponent from '../auth/Login';
 import Dropzone from '../playground/Dropzone';
 import { toast } from 'react-hot-toast';
 import PulsingIcon from '../PulsingIcon';
-import Button from '../Button';
 import { uploadFile } from '@/app/actions/uploadFile';
 import { uploadFile as preProdUploadFile } from '@/app/actions/preprod/uploadFile';
 import { useProductionContext } from '../playground/ProductionContext';
 import { usePostHog } from 'posthog-js/react';
+import SampleUploadFile from '../playground/SampleUploadFile';
+
+type SampleUploadFile = {
+  fileName: string;
+  fileLabel: string;
+  previewImage: string;
+};
+
+const sampleUploadFiles: SampleUploadFile[] = [
+  {
+    fileName: 'SamplePortfolioStatement.pdf',
+    fileLabel: 'Portfolio Statement',
+    previewImage: 'SamplePortfolioStatement.png',
+  },
+  {
+    fileName: 'GamingRevenueReport.pdf',
+    fileLabel: 'Gaming Revenue Report',
+    previewImage: 'GamingRevenueReport.png',
+  },
+  {
+    fileName: 'uniflow_intro.pdf',
+    fileLabel: 'Uniflow Intro',
+    previewImage: 'uniflow_intro.png',
+  },
+];
 
 const UploadModal = () => {
   const { apiURL, isProduction } = useProductionContext();
@@ -35,26 +59,6 @@ const UploadModal = () => {
       uploadModal.onClose();
     }, 300);
   }, [uploadModal]);
-
-  const loadPdfFile = async () => {
-    return fetch('/uniflow_intro.pdf')
-      .then((response) => response.blob())
-      .then((blob) => new File([blob], 'uniflow.pdf', { type: 'application/pdf' }))
-      .catch((error) => {
-        console.error('Error loading PDF file:', error);
-      });
-  };
-
-  const handleStarterFile = async () => {
-    const starterFile = await loadPdfFile();
-    if (!starterFile) {
-      uploadModal.setUploadModalState(UploadModalState.ADD_FILES);
-      toast.error('Error loading starter file. Please try again.');
-      return;
-    }
-    setFilesToUpload([starterFile]);
-    uploadModal.setUploadModalState(UploadModalState.UPLOADING);
-  };
 
   useEffect(() => {
     setShowModal(uploadModal.isOpen);
@@ -184,7 +188,7 @@ const UploadModal = () => {
                     <span className="text-gray-500">OR</span>
                     <hr className="flex-1 border-t border-gray-300" />
                   </div>
-                  <div className="w-full h-[20vh] min-h-[50px] border-2 bg-gray-100 border-dashed border-gray-300 hover:border-neutral-500 text-xl flex items-center justify-center gap-4 rounded-md">
+                  <div className="w-full h-[30vh] min-h-[50px] border-2 bg-gray-100 border-dashed border-gray-300 hover:border-neutral-500 text-xl flex items-center justify-center gap-4 rounded-md">
                     <MonitorArrowUp size={32} />
                     Paste a screenshot
                   </div>
@@ -193,8 +197,15 @@ const UploadModal = () => {
                     <span className="text-gray-500">OR</span>
                     <hr className="flex-1 border-t border-gray-300" />
                   </div>
-                  <div className="w-full h-[65px]">
-                    <Button label="Upload Starter File" onClick={handleStarterFile} labelIcon={FileArrowUp} small />
+                  <div className="w-full h-[30vh] min-h-[50px] flex flex-row items-center justify-center gap-8">
+                    {sampleUploadFiles.map((file, index) => (
+                      <SampleUploadFile
+                        key={index}
+                        fileName={file.fileName}
+                        fileLabel={file.fileLabel}
+                        previewImage={file.previewImage}
+                      />
+                    ))}
                   </div>
                 </div>
               )}
