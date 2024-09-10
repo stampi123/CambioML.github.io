@@ -13,7 +13,7 @@ const FooterMenu = ({ title, links }: FooterMenuProps) => {
       <div className="flex flex-col gap-1">
         {links.map((link, i) => (
           <a target="_blank" href={link.url} rel="noopener noreferrer" key={link.title + i}>
-            <div className="cursor-pointer hover:text-cambio-red text-md">{link.title}</div>
+            <div className="cursor-pointer hover:text-amber-400 text-md">{link.title}</div>
           </a>
         ))}
       </div>
