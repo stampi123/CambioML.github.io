@@ -85,12 +85,12 @@ export default function Home() {
         <Feature title="Host your private LLMs anywhere in your control" description="" center alternate>
           <div
             className="w-full min-w-[1200px] h-full
-                            mt-10
-                            grid
-                            grid-cols-1
-                            md:grid-cols-3
-                            gap-8
-                            "
+            mt-10
+            grid
+            grid-cols-1
+            md:grid-cols-3
+            gap-8
+            "
           >
             <ProductCard
               title="Test Cambio API today"
