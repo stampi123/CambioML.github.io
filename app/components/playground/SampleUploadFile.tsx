@@ -48,7 +48,7 @@ const SampleUploadFile = ({ fileName, fileLabel, previewImage }: SampleUploadFil
   return (
     <div
       onClick={handleStarterFile}
-      className="h-full w-full border-2 rounded-lg cursor-pointer hover:border-neutral-500 hover:shadow-lg flex flex-col"
+      className="h-full w-full border-2 rounded-lg cursor-pointer hover:border-neutral-700 hover:shadow-lg flex flex-col"
     >
       <div className="flex-grow relative overflow-hidden rounded-t-lg">
         <div className="relative w-full h-full overflow-hidden rounded-t-lg hover:scale-105 transition-transform duration-300">
@@ -60,7 +60,7 @@ const SampleUploadFile = ({ fileName, fileLabel, previewImage }: SampleUploadFil
           />
         </div>
       </div>
-      <div className="h-[40px] p-1 text-center rounded-b-lg flex items-center justify-center bg-cambio-blue">
+      <div className="h-[40px] p-1 text-center text-neutral-100 rounded-b-md flex items-center justify-center bg-neutral-700">
         <p className="text-sm font-medium font-semibold truncate">{fileLabel}</p>
       </div>
     </div>

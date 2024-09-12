@@ -28,14 +28,14 @@ const sampleUploadFiles: SampleUploadFile[] = [
     previewImage: 'SamplePortfolioStatement.png',
   },
   {
-    fileName: 'GamingRevenueReport.pdf',
-    fileLabel: 'Gaming Revenue Report',
-    previewImage: 'GamingRevenueReport.png',
+    fileName: 'BoeingSustainabilityReport.pdf',
+    fileLabel: 'Sustainability Report',
+    previewImage: 'BoeingSustainabilityReport.png',
   },
   {
-    fileName: 'uniflow_intro.pdf',
-    fileLabel: 'Uniflow Intro',
-    previewImage: 'uniflow_intro.png',
+    fileName: 'TableOfContents.pdf',
+    fileLabel: 'Table of Contents',
+    previewImage: 'TableOfContents.png',
   },
 ];
 
