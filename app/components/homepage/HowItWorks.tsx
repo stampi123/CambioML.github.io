@@ -3,7 +3,6 @@ import { useRouter } from 'next/navigation';
 import Button from '../Button';
 import Container from '../Container';
 import Image from 'next/image';
-import { imgPrefix } from '@/app/hooks/useImgPrefix';
 
 interface HowItWorksCardProps {
   imgPath: string;
@@ -44,17 +43,20 @@ const HowItWorks = () => {
               Parse any data from any documents with straight-forward user interface
             </div>
           </div>
-          <div className="w-full h-[500px] py-4 lg:h-full lg:py-20">
-            <div className="relative w-full h-full">
-              <Image
-                src={`${imgPrefix}/images/homepage/hero-image.png`}
-                alt="Image"
-                layout="fill"
-                objectFit="contain"
-                objectPosition="center"
-                className="rounded-2xl"
+          <div className="flex items-center justify-center w-full h-[calc(100vh-2rem)] py-4 lg:py-20">
+            <div className="relative max-w-[800px] w-full" style={{ paddingBottom: '56.25%' }}>
+              <iframe
+                className="absolute top-0 left-0 w-full h-full border-0"
+                src="https://www.tella.tv/video/clyqcwrvm0fde09jvg77n0rgh/embed?b=1&title=1&a=1&loop=0&t=0&muted=0&wt=1"
+                allowFullScreen
               />
             </div>
+            <a
+              href="https://www.tella.tv/video/clyqcwrvm0fde09jvg77n0rgh/view"
+              className="absolute bottom-4 text-blue-500 underline"
+            >
+              Watch PH Launch Video in Tella screen recorder
+            </a>
           </div>
         </div>
         <div>

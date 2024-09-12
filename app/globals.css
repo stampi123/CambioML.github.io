@@ -21,6 +21,24 @@ body,
   height: 100%;
 }
 
+@keyframes slide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@layer utilities {
+  .animate-slide {
+    animation: slide 40s linear infinite;
+  }
+  .pause {
+    animation-play-state: paused;
+  }
+}
+
 @keyframes pulse {
   0% {
     opacity: 1;

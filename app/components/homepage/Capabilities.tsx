@@ -42,8 +42,8 @@ const CapabilityCard = ({ imgPath, description }: CapabilityCardProps) => {
 
 const Capabilities = () => {
   return (
-    <div className="h-full w-full pt-20">
-      <Container styles="relative z-10 h-[1000px] lg:h-[800px]">
+    <div className="h-fit w-full py-20">
+      <Container styles="relative z-10 h-fit lg:h-[800px]">
         <div className="w-full h-full flex flex-col items-center justify-start px-10">
           <Heading title="AnyParser's Capabilities" center />
           <div className="pt-20 gap-20 grid grid-cols-2 lg:grid-cols-4 items-start justify-items-center w-full">

@@ -9,10 +9,10 @@ import { imgPrefix } from '@/app/hooks/useImgPrefix';
 const Hero = () => {
   const router = useRouter();
   return (
-    <div className="h-full w-full pt-20">
-      <Container styles="relative z-10 h-[70vh] min-h-[650px] max-h-[850px]">
-        <div className="w-full h-full grid grid-cols-1 lg:grid-cols-2">
-          <div className="w-full h-[500px] py-4 lg:h-full lg:py-20">
+    <div className="h-fit w-full pt-20">
+      <Container styles="relative z-10 h-fit min-h-[650px] py-10 lg:py-20">
+        <div className="w-full h-fit grid gap-10 grid-cols-1 lg:grid-cols-2 lg:min-h-[700px]">
+          <div className="w-full h-[500px] py-4 lg:h-full">
             <div className="relative w-full h-full">
               <Image
                 src={`${imgPrefix}/images/homepage/hero-image.png`}
