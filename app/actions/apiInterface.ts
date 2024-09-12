@@ -31,6 +31,7 @@ export interface RequestParams {
   files: { sourceType: string; fileId?: string; url?: string }[];
   jobType: string;
   jobParams?: JobParams;
+  customSchema?: string[];
 }
 
 export interface JobParams {
