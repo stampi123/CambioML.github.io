@@ -1,5 +1,5 @@
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
-import { ExtractState, TableTab, PlaygroundFile } from '@/app/types/PlaygroundTypes';
+import { ExtractState, TableTab, PlaygroundFile, JobType } from '@/app/types/PlaygroundTypes';
 import { useEffect, useState } from 'react';
 import { ArrowLeft, DownloadSimple, Plus, Robot } from '@phosphor-icons/react';
 import Button from '../../Button';
@@ -18,13 +18,13 @@ import { AxiosError, AxiosResponse } from 'axios';
 const MIN_INPUT_LENGTH = 1;
 
 const MapSchemaContainer = () => {
-  const { selectedFileIndex, files, updateFileAtIndex, token, clientId, filesFormData } = usePlaygroundStore();
+  const { selectedFileIndex, files, updateFileAtIndex, clientId, token, filesFormData } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [filename, setFilename] = useState<string>('');
   const [query, setQuery] = useState<string>('');
   const [inputError, setInputError] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { isProduction, apiURL } = useProductionContext();
+  const { apiURL, isProduction } = useProductionContext();
   const posthog = usePostHog();
 
   useEffect(() => {
@@ -204,29 +204,6 @@ const MapSchemaContainer = () => {
         num_keys: Object.keys(selectedFile?.keyMap || {}).length,
       });
     setIsLoading(true);
-    if (!isProduction) {
-      const fileData = filesFormData.find((obj) => obj.presignedUrl.fields['x-amz-meta-filename'] === filename);
-      if (selectedFileIndex === null || !selectedFile || !fileData) {
-        toast.error(`Error extracting ${filename}. Please try again.`);
-        updateFileAtIndex(selectedFileIndex, 'instructionExtractState', ExtractState.READY);
-        return;
-      }
-      runRequestJob({
-        apiURL: apiURL,
-        clientId,
-        token,
-        sourceType: 's3',
-        fileId: fileData.fileId,
-        jobType: JobType.SCHEMA_EXTRACTION,
-        customSchema: Object.keys(selectedFile.keyMap),
-        selectedFileIndex,
-        filename,
-        handleError,
-        handleSuccess,
-        handleTimeout,
-        updateFileAtIndex,
-      });
-    }
     if (selectedFile) {
       const allTables = selectedFile.tableMdExtractResult;
       const tablesToMap = allTables.filter((table, i) => selectedFile.tableMapIndices.has(i));

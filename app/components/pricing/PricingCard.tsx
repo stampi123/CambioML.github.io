@@ -14,8 +14,8 @@ interface PricingCardProps {
   period: string;
   subtitle: string;
   features: string[];
-  userId: string;
-  subscriptionId: string;
+  userId?: string;
+  subscriptionId?: string;
   loading?: boolean;
   footer?: string;
   additionalPrice?: string;
