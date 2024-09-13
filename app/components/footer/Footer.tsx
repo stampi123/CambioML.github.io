@@ -24,11 +24,10 @@ const socialLinks = [
 
 const Footer = () => {
   return (
-    <Container styles="h-[300px]" bgcolor="bg-cambio-blue">
-      <div className="py-10 h-full grid grid-cols-[2fr_50px_1fr_1fr_1fr_1fr_1fr] gap-2 md:gap-5 text-neutral-800">
+    <Container styles="h-[300px]" bgcolor="bg-[#1E1E1E]">
+      <div className="py-10 h-full grid grid-cols-[2fr_50px_1fr_1fr_1fr_1fr_1fr] gap-2 md:gap-5 text-neutral-100">
         <div className="flex flex-col gap-3 md:gap-5">
-          <Logo small />
-          <div className="font-semibold text-md">CambioML: ML Data Platform for Equity Research</div>
+          <Logo small white />
           <div className="flex gap-3">
             {socialLinks.map((socialLink) => (
               <SocialButton key={socialLink.url} image={socialLink.image} url={socialLink.url} />

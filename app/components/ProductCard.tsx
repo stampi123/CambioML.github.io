@@ -37,7 +37,7 @@ const ProductCard = ({ title, subtitle, outline, children, buttonText, buttonHan
           <Button
             label={buttonText || 'Book a Demo'}
             onClick={buttonHandler || bookDemo}
-            outline={outline}
+            outline={!outline}
             labelIcon={CaretRight}
           />
         </div>
