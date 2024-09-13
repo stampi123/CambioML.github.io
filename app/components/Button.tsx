@@ -23,18 +23,18 @@ const Button = ({ label, onClick, disabled, outline, small, icon: Icon, labelIco
         disabled:opacity-70
         disabled:cursor-not-allowed
         rounded-xl
-        hover:bg-cambio-red
-        hover:text-white
+        hover:bg-neutral-200
+        hover:text-cambio-gray
         transition
         w-full
         h-full
-        ${outline ? 'bg-white' : 'bg-cambio-blue'}
-        ${outline ? 'border-cambio-blue' : 'border-neutral-800'}
-        ${outline ? 'text-neutral-800' : 'text-neutral-800'}
-        ${small ? 'py-3' : 'py-4'}
-        ${small ? 'text-lg' : 'text-2xl'}
-        ${small ? 'border-[1px]' : 'border-2'}
-        ${small && 'font-semibold'}
+        px-4
+        ${outline ? 'bg-white' : 'bg-cambio-gray'}
+        ${outline ? 'border-cambio-gray' : 'border-none'}
+        ${outline ? 'border-2' : 'border-none'}
+        ${outline ? 'text-neutral-800' : 'text-neutral-100'}
+        ${small ? 'py-2' : 'py-3'}
+        ${small ? 'text-md' : 'text-lg'}
       `}
     >
       {Icon && (
