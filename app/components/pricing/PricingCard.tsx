@@ -53,13 +53,14 @@ const PricingCard = ({
 
     const formData = new FormData(event.currentTarget); // Collect form data
     const lookupKey = formData.get('lookup_key'); // Get the lookup_key from the form
-    const domainUrl = 'http://localhost:3000/products-fdce3eb9-aa2b-4abf-8842-4bde6dc987c4';
+    const domainUrl =
+      process.env.NEXT_PUBLIC_STRIPE_RETURN_URL ||
+      'https://www.cambioml.com/products-fdce3eb9-aa2b-4abf-8842-4bde6dc987c4';
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_STRIPE_SESSION_URL}payment/create-checkout-session`, {
         method: 'POST',
         headers: {
-          'x-api-key': 'L6pzVkMLkJ1TqnnODeu8L3Ia6bw4vt5k44kabSuc',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ userId, lookupKey, domainUrl }),
