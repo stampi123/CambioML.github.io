@@ -38,9 +38,9 @@ const DropdownButton = ({ options, disabled = false, optionLabel, icon: Icon }: 
   };
 
   return (
-    <div className={`relative w-full text-lg ${disabled ? 'pointer-events-none opacity-50' : ''}`} ref={selectRef}>
+    <div className={`relative w-full text-md ${disabled ? 'pointer-events-none opacity-50' : ''}`} ref={selectRef}>
       <div
-        className="bg-cambio-blue border border-neutral-800 rounded-xl cursor-pointer w-full h-full flex justify-center items-center font-semibold"
+        className="bg-cambio-gray rounded-xl cursor-pointer  text-neutral-100 w-full h-full flex justify-center items-center"
         onClick={toggleDropdown}
       >
         {Icon && <Icon size={24} />}
