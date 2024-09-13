@@ -32,8 +32,8 @@ const HowItWorks = () => {
   const router = useRouter();
   return (
     <div className="h-fit w-full pt-20 bg-[linear-gradient(167.86deg,rgba(141,24,27,0.4)_6.41%,rgba(79,131,176,0)_79.81%)]">
-      <Container styles="relative z-10 min-h-[70vh] h-fit">
-        <div className="w-full h-fit lg:h-[800px] grid grid-cols-1 lg:grid-cols-[400px_1fr]">
+      <Container styles="relative z-10 h-fit">
+        <div className="w-full h-fit grid grid-cols-1 lg:grid-cols-[400px_1fr]">
           <div className="w-full h-full flex flex-col items-center justify-center px-10">
             <div className="text-6xl font-semibold">How AnyParser Works</div>
             <div className="w-full pt-8 pb-2 flex items-center justify-center gap-4">
@@ -43,20 +43,14 @@ const HowItWorks = () => {
               Parse any data from any documents with straight-forward user interface
             </div>
           </div>
-          <div className="flex items-center justify-center w-full h-[calc(100vh-2rem)] py-4 lg:py-20">
-            <div className="relative max-w-[800px] w-full" style={{ paddingBottom: '56.25%' }}>
+          <div className="flex items-center justify-center w-full h-full py-4 lg:py-20">
+            <div className="relative w-full max-w-[800px] h-auto" style={{ aspectRatio: '16/9' }}>
               <iframe
                 className="absolute top-0 left-0 w-full h-full border-0"
                 src="https://www.tella.tv/video/clyqcwrvm0fde09jvg77n0rgh/embed?b=1&title=1&a=1&loop=0&t=0&muted=0&wt=1"
                 allowFullScreen
               />
             </div>
-            <a
-              href="https://www.tella.tv/video/clyqcwrvm0fde09jvg77n0rgh/view"
-              className="absolute bottom-4 text-blue-500 underline"
-            >
-              Watch PH Launch Video in Tella screen recorder
-            </a>
           </div>
         </div>
         <div>
