@@ -32,7 +32,7 @@ interface CapabilityCardProps {
 const CapabilityCard = ({ imgPath, description }: CapabilityCardProps) => {
   return (
     <div className="flex flex-col items-center justify-start w-full">
-      <div className="relative w-full h-[200px]">
+      <div className="relative w-full h-[300px]">
         <Image src={imgPath} alt={description} layout="fill" objectFit="contain" className="rounded-md" />
       </div>
       <div className="mt-12 text-lg text-center w-full">{description}</div>

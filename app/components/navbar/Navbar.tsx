@@ -7,6 +7,7 @@ import NavMenuFull from './NavMenuFull';
 import { useRouter } from 'next/navigation';
 import { useWindowScroll } from '@/app/hooks/useWindowScroll';
 import ProductHunt from './ProductHunt';
+import Button from '../Button';
 
 const menuItems = [
   {
@@ -14,14 +15,9 @@ const menuItems = [
     links: [],
   },
   {
-    label: 'Sandbox',
-    links: [],
-  },
-  {
     label: 'Company',
     links: ['About us'],
   },
-  { label: 'Account', links: [] },
 ];
 
 const Navbar = () => {
@@ -64,6 +60,12 @@ const Navbar = () => {
               {menuItems.map((item, i) => (
                 <NavMenu key={item.label + i} label={item.label} links={item.links} />
               ))}
+              <div className="w-[150px]">
+                <Button label="Try Sandbox" onClick={() => router.push('/sandbox')} outline />
+              </div>
+              <div className="w-[150px]">
+                <Button label="Get API key" onClick={() => router.push('/account')} />
+              </div>
             </div>
             <div className="lg:hidden">
               <NavMenuFull menuItems={menuItems} makeOnClick={makeOnClick} />

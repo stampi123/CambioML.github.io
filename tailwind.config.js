@@ -16,6 +16,7 @@ module.exports = {
         'cambio-red': 'var(--red)',
         'cambio-blue': 'var(--cambio-blue)',
         'cambio-gray': 'var(--cambio-gray)',
+        'cambio-primary': 'var(--cambio-primary)',
       },
     },
   },
