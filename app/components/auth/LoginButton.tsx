@@ -1,3 +1,5 @@
+'use client';
+
 import { SignIn } from '@phosphor-icons/react/dist/ssr';
 import Button from '../Button';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -11,6 +13,7 @@ const LoginButton = () => {
       authorizationParams: {
         scope: 'openid profile email',
       },
+      appState: { returnTo: window.location.pathname }, // Send user back to the current page
     });
   };
   return (

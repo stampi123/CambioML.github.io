@@ -15,6 +15,7 @@ interface IParams {
   url?: string;
   jobParams?: JobParams;
   filename: string;
+  customSchema?: string[];
   handleSuccess: (response: AxiosResponse) => void;
   handleError: (e: AxiosError) => void;
   handleTimeout: () => void;
@@ -66,6 +67,7 @@ export const runRequestJob = async ({
   filename,
   token,
   url,
+  customSchema,
   handleError,
   handleSuccess,
   handleTimeout,
@@ -77,7 +79,9 @@ export const runRequestJob = async ({
     files: [{ sourceType, ...(fileId && { fileId }), ...(url && { url }) }],
     jobType,
     ...(jobParams && { jobParams }),
+    customSchema,
   };
+  console.log('params', params);
   axios
     .post(`${apiURL}/request`, params, {
       headers: {
