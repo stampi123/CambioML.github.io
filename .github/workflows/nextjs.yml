@@ -108,6 +108,7 @@ jobs:
           NEXT_PUBLIC_STRIPE_SESSION_URL: ${{ secrets.NEXT_PUBLIC_STRIPE_SESSION_URL }}
           NEXT_PUBLIC_STRIPE_RETURN_URL: ${{ secrets.NEXT_PUBLIC_STRIPE_RETURN_URL }}
           NEXT_PUBLIC_STRIPE_PORTAL_RETURN_URL: ${{ secrets.NEXT_PUBLIC_STRIPE_PORTAL_RETURN_URL }}
+          NEXT_PUBLIC_PRODUCT_AUTH0_REDIRECT_URI: ${{ secrets.NEXT_PUBLIC_PRODUCT_AUTH0_REDIRECT_URI }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
