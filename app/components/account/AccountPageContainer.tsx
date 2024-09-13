@@ -255,18 +255,20 @@ const AccountPageContainer = () => {
                 small
                 labelIcon={GithubLogo}
               />
-              <div className="w-full">
-                <h3 className={sectionHeadingStyle}>Subscriptions</h3>
-                {profile?.cdkProfile.subscriptionId ? (
-                  <PortalButton />
-                ) : (
-                  <Button
-                    label="View Products"
-                    onClick={() => router.push('/products-fdce3eb9-aa2b-4abf-8842-4bde6dc987c4')}
-                    small
-                  />
-                )}
-              </div>
+              {!isProduction && (
+                <div className="w-full">
+                  <h3 className={sectionHeadingStyle}>Subscriptions</h3>
+                  {profile?.cdkProfile.subscriptionId ? (
+                    <PortalButton />
+                  ) : (
+                    <Button
+                      label="View Products"
+                      onClick={() => router.push('/products-fdce3eb9-aa2b-4abf-8842-4bde6dc987c4')}
+                      small
+                    />
+                  )}
+                </div>
+              )}
               <div>
                 <h3 className={sectionHeadingStyle}>Getting Started with AnyParser</h3>
                 <div className="w-full bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mt-2 mb-4">
