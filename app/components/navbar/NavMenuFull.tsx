@@ -1,7 +1,9 @@
 'use client';
 
 import { List, X } from '@phosphor-icons/react';
+import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
+import Button from '../Button';
 
 interface NavMenuProps {
   menuItems: {
@@ -13,6 +15,7 @@ interface NavMenuProps {
 
 const NavMenu = ({ menuItems, makeOnClick }: NavMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
@@ -61,7 +64,17 @@ const NavMenu = ({ menuItems, makeOnClick }: NavMenuProps) => {
           <div className="w-full flex flex-col justify-center">
             {menuItems.map((item) => (
               <>
-                <div className="w-full h-max flex justify-center text-4xl py-5 font-semibold">{item.label}</div>
+                <div
+                  className={`w-full h-max flex justify-center text-4xl py-5 font-semibold ${item.links.length === 0 && 'cursor-pointer'}`}
+                  onClick={() => {
+                    if (item.links.length === 0) {
+                      router.push(`/${item.label.toLowerCase()}`);
+                      toggleOpen();
+                    }
+                  }}
+                >
+                  {item.label}
+                </div>
                 <div className="flex flex-col align-center justify-center gap-4">
                   {item.links.map((link, i) => (
                     <div
@@ -75,6 +88,27 @@ const NavMenu = ({ menuItems, makeOnClick }: NavMenuProps) => {
                 </div>
               </>
             ))}
+            <div className="w-full flex flex-col gap-4 px-20 ">
+              <div className="w-full pt-20">
+                <Button
+                  label="Try Sandbox"
+                  onClick={() => {
+                    router.push('/sandbox');
+                    toggleOpen();
+                  }}
+                  outline
+                />
+              </div>
+              <div className="w-full">
+                <Button
+                  label="Get API key"
+                  onClick={() => {
+                    router.push('/account');
+                    toggleOpen();
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
       )}
