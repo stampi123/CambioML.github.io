@@ -1,5 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { useState, useEffect } from 'react';
+import { getUserData } from '../actions/getUserData';
 
 interface UserProfile {
   name: string;
@@ -7,7 +8,19 @@ interface UserProfile {
   email_verified: boolean;
   sub: string;
   picture: string;
+  cdkProfile: CdkProfile;
 }
+
+export type CdkProfile = {
+  api_keys: string[];
+  pageLimit: number;
+  remainingPages: number;
+  subscriptionId: string;
+  stripeCustomerId: string;
+  updatedAt: string;
+  createdAt: string;
+  userId: string;
+};
 
 const useUserProfile = () => {
   const { getAccessTokenSilently, isAuthenticated, isLoading } = useAuth0();
@@ -38,6 +51,11 @@ const useUserProfile = () => {
           throw new Error('Failed to fetch user profile');
         }
         const profileData: UserProfile = await response.json();
+        const cdkProfileData = await getUserData({
+          userId: profileData.sub,
+          api_url: 'https://o5uo2f15j7.execute-api.us-west-2.amazonaws.com/v1/',
+        });
+        profileData.cdkProfile = cdkProfileData['user_data'];
         setProfile(profileData);
       } catch (error: unknown) {
         if (error instanceof Error) {

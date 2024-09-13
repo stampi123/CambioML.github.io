@@ -18,6 +18,7 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { useProductionContext } from '../playground/ProductionContext';
 import { resendVerificationEmail } from '../../actions/account/resendVerificationEmail';
+import PortalButton from '../pricing/PortalButton';
 
 const MAX_API_KEYS = 2;
 
@@ -83,7 +84,6 @@ const AccountPageContainer = () => {
   const [sendingVerification, setSendingVerification] = useState(false);
   const { isProduction } = useProductionContext();
   const router = useRouter();
-  const STRIPE_ENABLED: boolean = false;
   const [emailVerified, setEmailVerified] = useState(false);
 
   const logoutUrl = isProduction
@@ -121,10 +121,6 @@ const AccountPageContainer = () => {
       setEmailVerified(profile.email_verified);
     }
   }, [profile]);
-
-  const handleManageSubscriptions = () => {
-    window.open('https://billing.stripe.com/p/login/test_00gcP05cxgSVfjWcMM', '_blank');
-  };
 
   const handleResendVerificationEmail = async () => {
     if (!profile) return;
@@ -180,7 +176,7 @@ const AccountPageContainer = () => {
             </div>
           </div>
           <div>
-            <Heading title="AnyParser API Keys" />
+            <Heading title="AnyParser" />
             <div className="w-full h-fit min-h-[300px] flex flex-col items-center gap-8">
               {loading && <LoadingComponent icon={Key} />}
               {!loading && error && (
@@ -259,6 +255,18 @@ const AccountPageContainer = () => {
                 small
                 labelIcon={GithubLogo}
               />
+              <div className="w-full">
+                <h3 className={sectionHeadingStyle}>Subscriptions</h3>
+                {profile?.cdkProfile.subscriptionId ? (
+                  <PortalButton />
+                ) : (
+                  <Button
+                    label="View Products"
+                    onClick={() => router.push('/products-fdce3eb9-aa2b-4abf-8842-4bde6dc987c4')}
+                    small
+                  />
+                )}
+              </div>
               <div>
                 <h3 className={sectionHeadingStyle}>Getting Started with AnyParser</h3>
                 <div className="w-full bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mt-2 mb-4">
@@ -329,25 +337,6 @@ const AccountPageContainer = () => {
               />
             </div>
           </div>
-          {STRIPE_ENABLED && (
-            <div>
-              <Heading title="Subscriptions" />
-              <div className="w-full h-[300px] flex flex-col items-center gap-8">
-                <button
-                  className="w-full h-full bg-neutral-100 rounded-xl flex items-center justify-center"
-                  onClick={() => router.push('/pricing-stripe-test-b8809880-03ce-421b-a599-1da1b94a82d5')}
-                >
-                  Subscribe to a plan
-                </button>
-                <button
-                  className="w-full h-full bg-neutral-100 rounded-xl flex items-center justify-center"
-                  onClick={handleManageSubscriptions}
-                >
-                  Manage your subscriptions
-                </button>
-              </div>
-            </div>
-          )}
         </div>
       </Container>
     </div>

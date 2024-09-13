@@ -4,6 +4,7 @@ import usePricingContactModal from '@/app/hooks/usePricingContactModal';
 import { Check } from '@phosphor-icons/react';
 import React, { useState } from 'react';
 import LoginButton from '../auth/LoginButton';
+import PortalButton from './PortalButton';
 
 const descriptionStyle = 'text-md font-light text-neutral-600 text-center min-h-[50px]';
 
@@ -14,6 +15,7 @@ interface PricingCardProps {
   subtitle: string;
   features: string[];
   userId: string;
+  subscriptionId: string;
   loading?: boolean;
   footer?: string;
   additionalPrice?: string;
@@ -41,6 +43,7 @@ const PricingCard = ({
   priceLookupKey,
   loggedIn,
   userId,
+  subscriptionId,
 }: PricingCardProps) => {
   const contactModal = usePricingContactModal();
   const [isLoading, setIsLoading] = useState(false);
@@ -56,10 +59,10 @@ const PricingCard = ({
       const response = await fetch(`${process.env.NEXT_PUBLIC_STRIPE_SESSION_URL}payment/create-checkout-session`, {
         method: 'POST',
         headers: {
-          'x-api-key': 'L6pzVkMLkJ1TqnnODeu8L3Ia6bw4vt5k44kabSuc', // Include x-api-key in headers
+          'x-api-key': 'L6pzVkMLkJ1TqnnODeu8L3Ia6bw4vt5k44kabSuc',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId, lookupKey, domainUrl }), // Send lookup_key in the request body
+        body: JSON.stringify({ userId, lookupKey, domainUrl }),
       });
 
       if (!response.ok) {
@@ -125,7 +128,10 @@ const PricingCard = ({
                 {!loggedIn ? (
                   <LoginButton />
                 ) : (
-                  priceLookupKey && (
+                  priceLookupKey &&
+                  (subscriptionId ? (
+                    <PortalButton />
+                  ) : (
                     <form id="stripe-form" onSubmit={handleSubmit} className="w-full flex items-center justify-center">
                       <input type="hidden" name="lookup_key" value={priceLookupKey} />
                       <button
@@ -138,7 +144,7 @@ const PricingCard = ({
                         {isLoading ? 'Loading...' : 'Get Started'}
                       </button>
                     </form>
-                  )
+                  ))
                 )}
               </div>
               {footer && <div className={`${descriptionStyle} italic`}>{footer}</div>}

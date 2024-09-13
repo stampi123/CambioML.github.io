@@ -26,6 +26,7 @@ const ProductDisplay = () => {
           priceLookupKey="starter_annual"
           loggedIn={!loading && !error && !!profile}
           loading={loading}
+          subscriptionId={profile?.cdkProfile?.subscriptionId || ''}
         />
         <PricingCard
           userId={profile?.sub || ''}
@@ -44,6 +45,7 @@ const ProductDisplay = () => {
           priceLookupKey="pro_annual"
           loggedIn={!loading && !error && !!profile}
           loading={loading}
+          subscriptionId={profile?.cdkProfile?.subscriptionId || ''}
         />
         <PricingCard
           userId={profile?.sub || ''}
@@ -55,6 +57,7 @@ const ProductDisplay = () => {
           color
           loggedIn={!loading && !error && !!profile}
           loading={loading}
+          subscriptionId={profile?.cdkProfile?.subscriptionId || ''}
         />
       </div>
       <div className="mt-10 p-8 rounded-xl bg-neutral-100 w-[500px] lg:w-full lg:max-w-screen-xl h-fit">
