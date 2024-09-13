@@ -5,6 +5,7 @@ import Container from '../Container';
 import Button from '../Button';
 import Image from 'next/image';
 import CodeBlock from '../CodeBlock';
+import { useRouter } from 'next/navigation';
 
 interface BannerProps {
   title: string;
@@ -51,6 +52,8 @@ const Banner = ({ title, description, actionLabel, action, inverse, imgPath, cod
 };
 
 const Banners = () => {
+  const router = useRouter();
+
   return (
     <div className="h-fit w-full pt-20">
       <Container styles="relative z-10 min-h-[800px] h-fit bg-white pb-20">
@@ -59,14 +62,14 @@ const Banners = () => {
             title="Parse data accurately"
             description="AnyParser playground is straight-forward, fast, and intuitive. Try the interface now and take a break for the rest of the day"
             actionLabel={'Try on our website!'}
-            action={() => console.log('Try on our website free!')}
+            action={() => router.push('/sandbox')}
             imgPath="/images/homepage/banner-1.png"
           />
           <Banner
             title="Build with AnyParser"
             description="AnyParser playground is straight-forward, fast, truly intuitive, try the interface now and take a break for the rest of the day"
             actionLabel={'Get API access'}
-            action={() => console.log('Try on our website free!')}
+            action={() => router.push('/account')}
             inverse
             code={`from any_parser import AnyParser
 
