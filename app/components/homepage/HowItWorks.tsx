@@ -21,7 +21,7 @@ const HowItWorksCard = ({ imgPath, title, subtitle, description }: HowItWorksCar
       </div>
       <div className="w-full h-[300px] flex justify-end py-10">
         <div className="relative w-[70%]">
-          <Image src={imgPath} alt={description} layout="fill" objectFit="contain" className="rounded-md" />
+          <Image src={imgPath} alt={description} fill style={{ objectFit: 'contain' }} className="rounded-md" />
         </div>
       </div>
     </div>
