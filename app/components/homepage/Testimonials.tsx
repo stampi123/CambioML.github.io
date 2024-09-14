@@ -63,18 +63,18 @@ const Testimonials = () => {
   return (
     <div className="h-full w-full pt-20 bg-cambio-primary">
       <Container styles="relative z-10 h-fit overflow-hidden">
-        <div className="w-full h-full flex flex-col items-center justify-start px-10 py-20 relative">
+        <div className="w-full h-full flex flex-col items-center justify-start p-10 relative">
           <Heading title="Testimonials" center />
-          <div className="relative h-[600px] w-full overflow-hidden border-gray-600">
+          <div className="relative h-fit w-full overflow-hidden border-gray-600 pt-10">
             <div className="absolute top-0 left-0 w-[50px] lg:w-[100px] h-full bg-gradient-to-r from-cambio-primary to-transparent z-20 pointer-events-none" />
             <div className="absolute top-0 right-0 w-[50px] lg:w-[100px] h-full bg-gradient-to-l from-cambio-primary to-transparent z-20 pointer-events-none" />
             <div className="grid grid-rows-2 grid-flow-col gap-4 animate-slide hover:pause flex-col">
-              <div className="flex items-end">
+              <div className="flex items-end h-[350px]">
                 {[...testimonials, ...testimonials].map((testimonial, index) => (
                   <TestimonialCard key={index} {...testimonial} />
                 ))}
               </div>
-              <div className="flex items-start ml-10">
+              <div className="flex items-start ml-10  h-[350px]">
                 {[...testimonials2, ...testimonials2].map((testimonial, index) => (
                   <TestimonialCard key={index} {...testimonial} />
                 ))}
