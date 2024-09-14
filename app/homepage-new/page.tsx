@@ -1,7 +1,6 @@
 import Banners from '../components/homepage/Banners';
 import Capabilities from '../components/homepage/Capabilities';
 import Customers from '../components/homepage/Customers';
-import Differentiators from '../components/homepage/Differentiators';
 import Hero from '../components/homepage/Hero';
 import HowItWorks from '../components/homepage/HowItWorks';
 import Testimonials from '../components/homepage/Testimonials';
@@ -14,7 +13,6 @@ export default function Home() {
       <Testimonials />
       <Capabilities />
       <HowItWorks />
-      <Differentiators />
       <Banners />
     </>
   );
