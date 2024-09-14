@@ -17,9 +17,8 @@ const Hero = () => {
               <Image
                 src={`${imgPrefix}/images/homepage/hero-image.png`}
                 alt="Image"
-                layout="fill"
-                objectFit="contain"
-                objectPosition="center"
+                fill
+                style={{ objectFit: 'contain', objectPosition: 'center' }}
                 className="rounded-2xl"
               />
             </div>
@@ -45,8 +44,8 @@ const Hero = () => {
                 <Image
                   src={`${imgPrefix}/images/homepage/upperright-highlight.png`} // Replace with the path to your image
                   alt="Badge"
-                  layout="fill"
-                  objectFit="contain"
+                  fill
+                  style={{ objectFit: 'contain' }}
                 />
               </div>
               <Heading title="AnyParser: Vision LLM for Document Parsing" center />

@@ -56,7 +56,7 @@ const SampleUploadFile = ({ fileName, fileLabel, previewImage }: SampleUploadFil
             src={`${basePath}${previewImage}`}
             alt={fileName}
             className="object-cover rounded-t-lg"
-            layout="fill"
+          fill
           />
         </div>
       </div>
