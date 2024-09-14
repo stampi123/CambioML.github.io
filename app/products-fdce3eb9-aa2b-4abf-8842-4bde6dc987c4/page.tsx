@@ -13,7 +13,7 @@ const PlaygroundPage = () => {
 
   const redirectUri =
     process.env.NEXT_PUBLIC_PRODUCT_AUTH0_REDIRECT_URI ||
-    'https://www.cambioml.com/products-fdce3eb9-aa2b-4abf-8842-4bde6dc987c4';
+    'http://localhost:3000/products-fdce3eb9-aa2b-4abf-8842-4bde6dc987c4';
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
 
