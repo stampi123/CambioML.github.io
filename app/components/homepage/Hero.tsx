@@ -40,7 +40,17 @@ const Hero = () => {
                 />
               </a>
             </div>
-            <Heading title="AnyParser: Vision LLM for Document Parsing" center />
+            <div className="w-full h-fit relative">
+              <div className="absolute -top-20 -right-4 mt-2 mr-2 w-36 h-24">
+                <Image
+                  src={`${imgPrefix}/images/homepage/upperright-highlight.png`} // Replace with the path to your image
+                  alt="Badge"
+                  layout="fill"
+                  objectFit="contain"
+                />
+              </div>
+              <Heading title="AnyParser: Vision LLM for Document Parsing" center />
+            </div>
             <div className="text-lg text-center py-2">
               80% of OCR users are tired of maintaining glue code. Free up your time with our hands-free document LLM,
               offering unmatched accuracy and complete privacy.
