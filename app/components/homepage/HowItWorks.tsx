@@ -47,7 +47,10 @@ const HowItWorks = () => {
             <div className="relative w-full max-w-[800px] h-auto" style={{ aspectRatio: '16/9' }}>
               <iframe
                 className="absolute top-0 left-0 w-full h-full border-0"
-                src="https://www.tella.tv/video/clyqcwrvm0fde09jvg77n0rgh/embed?b=1&title=1&a=1&loop=0&t=0&muted=0&wt=1"
+                src="https://www.youtube.com/embed/T80TMGOTlK4?si=66Gr2MyYTubtq_mi"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
               />
             </div>
