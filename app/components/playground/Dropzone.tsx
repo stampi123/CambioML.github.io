@@ -1,5 +1,5 @@
 import { useDropzone } from 'react-dropzone';
-import { CloudArrowUp, Info, Warning } from '@phosphor-icons/react';
+import { CloudArrowUp, Info } from '@phosphor-icons/react';
 import { useCallback } from 'react';
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { useUploadModal, UploadModalState } from '@/app/hooks/useUploadModal';
