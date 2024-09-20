@@ -16,7 +16,7 @@ export const solutions: SolutionType[] = [
     description:
       'Struggling to find the perfect candidates through piles of resumes? In this post, we’ll reveal how <strong>JobRight.ai</strong> turned the tables with <strong>AnyParser</strong>, the ultimate resume parser that effortlessly extracts and processes candidate information. Discover how this game-changing tool transformed <strong>JobRight.ai</strong> into the top AI job marketplace, creating career matches faster and more accurately than ever before.',
     url: '/blog/jobright-resumes',
-    image: '/images/solutions/jobright-resumes-metrics.png',
+    image: '/images/solutions/jobright-table.png',
     industries: [],
     blog: true,
     date: new Date('2024-08-30'),
