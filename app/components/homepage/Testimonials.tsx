@@ -80,7 +80,7 @@ const TestimonialCard = ({ name, role, quote, logo }: TestimonialCardProps) => {
         </div>
         <div className={`flex items-center justify-center h-full w-max`}>
           <div className="h-[24px] w-auto">
-            <img src={imgPrefix + logo} alt={'hello'} className={`cursor-pointer max-h-full max-w-full`} />
+            <img src={imgPrefix + logo} alt={'hello'} className={`max-h-full max-w-full`} />
           </div>
         </div>
       </div>
