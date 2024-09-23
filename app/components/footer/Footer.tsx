@@ -43,7 +43,7 @@ const Footer = () => {
               links={[
                 {
                   title: 'AnyParser',
-                  url: '/libraries/any-parser',
+                  url: 'https://docs.cambioml.com',
                 },
                 {
                   title: 'uniflow',
@@ -93,6 +93,10 @@ const Footer = () => {
             <FooterMenu
               title="Resources"
               links={[
+                {
+                  title: 'AnyParser Docs',
+                  url: 'https://docs.cambioml.com',
+                },
                 {
                   title: 'Privacy Policy',
                   url: '/legal/privacy-policy.pdf',
