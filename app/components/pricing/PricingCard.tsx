@@ -126,26 +126,34 @@ const PricingCard = ({
                 ))}
               </div>
               <div className="w-full flex items-center justify-center p-4">
-                {!loggedIn ? (
-                  <LoginButton />
-                ) : (
-                  priceLookupKey &&
-                  (subscriptionId ? (
-                    <PortalButton />
-                  ) : (
-                    <form id="stripe-form" onSubmit={handleSubmit} className="w-full flex items-center justify-center">
-                      <input type="hidden" name="lookup_key" value={priceLookupKey} />
-                      <button
-                        type="submit"
-                        className={`text-lg min-w-[200px] text-white bg-sky-800 p-4 rounded-lg cursor-pointer hover:bg-sky-900 hover:text-neutral-100 ${
-                          isLoading ? 'opacity-40' : ''
-                        }`}
-                        disabled={isLoading}
-                      >
-                        {isLoading ? 'Loading...' : 'Get Started'}
-                      </button>
-                    </form>
-                  ))
+                {price !== 'contact-us' && (
+                  <>
+                    {!loggedIn ? (
+                      <LoginButton />
+                    ) : (
+                      priceLookupKey &&
+                      (subscriptionId ? (
+                        <PortalButton />
+                      ) : (
+                        <form
+                          id="stripe-form"
+                          onSubmit={handleSubmit}
+                          className="w-full flex items-center justify-center"
+                        >
+                          <input type="hidden" name="lookup_key" value={priceLookupKey} />
+                          <button
+                            type="submit"
+                            className={`text-lg min-w-[200px] text-white bg-sky-800 p-4 rounded-lg cursor-pointer hover:bg-sky-900 hover:text-neutral-100 ${
+                              isLoading ? 'opacity-40' : ''
+                            }`}
+                            disabled={isLoading}
+                          >
+                            {isLoading ? 'Loading...' : 'Get Started'}
+                          </button>
+                        </form>
+                      ))
+                    )}
+                  </>
                 )}
               </div>
               {footer && <div className={`${descriptionStyle} italic`}>{footer}</div>}

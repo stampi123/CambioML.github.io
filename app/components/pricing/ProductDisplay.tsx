@@ -23,7 +23,7 @@ const ProductDisplay = () => {
             '20F/40F Segments and KPIs: Coming Soon',
           ]}
           license="Commercial Use. Terms apply."
-          priceLookupKey="starter_annual"
+          priceLookupKey="starter_daily"
           loggedIn={!loading && !error && !!profile}
           loading={loading}
           subscriptionId={profile?.cdkProfile?.subscriptionId || ''}
@@ -32,7 +32,7 @@ const ProductDisplay = () => {
           userId={profile?.sub || ''}
           title="Business"
           subtitle="The license permits internal business use."
-          price="$999*"
+          price="contact-us"
           period="month"
           features={[
             'Tickers: S&P 500, Russell 3000',

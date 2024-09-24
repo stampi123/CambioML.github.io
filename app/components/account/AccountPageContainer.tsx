@@ -258,7 +258,7 @@ const AccountPageContainer = () => {
               {!isProduction && (
                 <div className="w-full">
                   <h3 className={sectionHeadingStyle}>Subscriptions</h3>
-                  {profile?.cdkProfile.subscriptionId ? (
+                  {profile?.cdkProfile && profile?.cdkProfile.subscriptionId ? (
                     <PortalButton />
                   ) : (
                     <Button
