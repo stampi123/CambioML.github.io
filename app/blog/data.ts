@@ -12,6 +12,18 @@ export interface SolutionType {
 
 export const solutions: SolutionType[] = [
   {
+    title: 'OCR vs. VLM',
+    subtitle: '',
+    description:
+      'Vision Language Models (VLMs) are transforming document analysis by addressing the limitations of traditional Optical Character Recognition (OCR). OCR, while essential for digitizing text, struggles with low-quality images, mixed languages, and interpreting visual elements. VLMs combine advanced computer vision and natural language processing, offering more accurate and versatile solutions. This article examines how VLMs improve upon OCR, enhancing document processing in the digital era.',
+    url: '/blog/ocr-vs-vlm',
+    image: '',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-09-25'),
+  },
+  {
     title: "AnyParser: The Secret Weapon Behind JobRight.ai's Resume Extraction",
     subtitle: '',
     description:
@@ -21,7 +33,7 @@ export const solutions: SolutionType[] = [
     imageContain: true,
     industries: [],
     blog: true,
-    date: new Date('2024-08-30'),
+    date: new Date('2024-09-19'),
   },
   {
     title: 'KDD 2024: Talk with Amazon',
