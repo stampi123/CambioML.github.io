@@ -47,6 +47,7 @@ const Navbar = () => {
         "
       >
         <Container>
+          <h2 className="sr-only">Navigation Bar</h2>
           <div
             className="
                     flex
