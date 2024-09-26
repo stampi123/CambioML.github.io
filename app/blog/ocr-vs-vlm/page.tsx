@@ -6,7 +6,7 @@ import BlogSectionTitle from '@/app/components/blog/BlogSectionTitle';
 const Page = () => {
   return (
     <Blog
-      title="OCR vs VLM"
+      title="Vision Language Models: Moving Beyond OCR's Limitations"
       authors={[{ name: 'Rachel', companyName: 'CambioML', companyUrl: 'https://www.cambioml.com' }]}
       publishedOn="September 25, 2024"
     >
