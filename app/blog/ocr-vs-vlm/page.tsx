@@ -1,4 +1,5 @@
 import Blog from '@/app/components/blog/Blog';
+import BlogImage from '@/app/components/blog/BlogImage';
 import BlogList from '@/app/components/blog/BlogListItem';
 import BlogParagraph from '@/app/components/blog/BlogParagraph';
 import BlogSectionTitle from '@/app/components/blog/BlogSectionTitle';
@@ -20,6 +21,7 @@ const Page = () => {
         OCR&apos;s shortcomings, providing more robust and versatile solutions for document processing in the digital
         age.
       </BlogParagraph>
+      <BlogImage src="ocr-vs-vlm-1.png" alt="OCR and VLM comparison" />
       <BlogSectionTitle title="What is OCR? What are the processes of OCR in document parsing?" />
       <BlogParagraph>
         Optical Character Recognition (OCR) is a technology that enables the conversion of different types of documents,
@@ -63,6 +65,8 @@ const Page = () => {
         layouts, low-quality images, and varied fonts. This is where advanced technologies like vision language models
         are stepping in to enhance accuracy and comprehension in extracting data from images and documents.
       </BlogParagraph>
+      <BlogImage src="ocr-vs-vlm-2.png" alt="The OCR Process" />
+      <BlogImage src="ocr-vs-vlm-3.png" alt="The VLM Process" />
       <BlogSectionTitle title="The Limitations of Traditional OCR Technology" />
       <BlogSectionTitle title="Accuracy Challenges in Complex Scenarios" secondary />
       <BlogParagraph>
@@ -89,6 +93,7 @@ const Page = () => {
         more advanced solutions, such as vision language models, which offer a more comprehensive approach to document
         analysis and data extraction.
       </BlogParagraph>
+      <BlogImage src="ocr-vs-vlm-4.png" alt="The Limitations of Traditional OCR" />
       <BlogSectionTitle title="What is Vision-Language Models and how it Improve on OCR" />
       <BlogParagraph>
         Vision language models represent a significant leap forward in document processing technology, addressing many
