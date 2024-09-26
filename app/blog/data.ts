@@ -12,7 +12,7 @@ export interface SolutionType {
 
 export const solutions: SolutionType[] = [
   {
-    title: 'OCR vs. VLM',
+    title: "Vision Language Models: Moving Beyond OCR's Limitations",
     subtitle: '',
     description:
       'Vision Language Models (VLMs) are transforming document analysis by addressing the limitations of traditional Optical Character Recognition (OCR). OCR, while essential for digitizing text, struggles with low-quality images, mixed languages, and interpreting visual elements. VLMs combine advanced computer vision and natural language processing, offering more accurate and versatile solutions. This article examines how VLMs improve upon OCR, enhancing document processing in the digital era.',
