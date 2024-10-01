@@ -52,24 +52,10 @@ const QuotaDisplay = ({ userId }: QuotaDisplayProps) => {
   };
 
   useEffect(() => {
-    const maxRetries = 10;
-    let attempts = 0;
-
-    const intervalId = setInterval(async () => {
-      if (totalQuota > 0 || attempts >= maxRetries) {
-        clearInterval(intervalId);
-        return;
-      }
-
+    const fetchQuota = async () => {
       if (!userId || !apiURL || !token) {
-        if (attempts < maxRetries) {
-          attempts++;
-        } else {
-          handleError(new Error('Max retries reached without valid inputs'));
-        }
         return;
       }
-
       try {
         await updateQuota({
           api_url: apiURL,
@@ -79,24 +65,17 @@ const QuotaDisplay = ({ userId }: QuotaDisplayProps) => {
           setRemainingQuota,
           handleError,
         });
-      } catch {
-        if (attempts < maxRetries) {
-          attempts++;
-        } else {
-          handleError(new Error('Max retries reached due to updateQuota errors'));
-        }
+      } catch (error) {
+        handleError(error instanceof Error ? error : new Error('An unknown error occurred'));
       }
-
-      attempts++;
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, [userId, apiURL, token, totalQuota]);
+    };
+    fetchQuota();
+  }, [userId, apiURL, token, totalQuota]); // Empty dependency array ensures this runs only once when component mounts
 
   return (
     <div className="w-full flex flex-col items-center pt-2">
       <div className="w-full flex justify-between items-center mb-2">
-        <span className={`font-semibold ${fileCollapsed ? 'inline lg:hidden' : 'inline'} text-lg`}>Quota</span>
+        <h2 className={`font-semibold ${fileCollapsed ? 'inline lg:hidden' : 'inline'} text-lg`}>Quota</h2>
         <div
           className="flex items-center text-neutral-600 justify-center bg-white rounded-md w-[30px] h-[30px] hover:bg-neutral-100 hover:text-neutral-800 hover:border-2 shrink-0 cursor-pointer"
           onClick={handleRefresh}

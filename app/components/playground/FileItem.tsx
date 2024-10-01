@@ -41,13 +41,13 @@ const FileItem = ({ pgFile, index }: FileItemProps) => {
                     cursor-pointer
                     px-4
                     rounded-md
-                    ${index === selectedFileIndex ? 'bg-cambio-blue' : 'hover:bg-neutral-200'}
+                    ${index === selectedFileIndex ? 'bg-cambio-primary' : 'hover:bg-neutral-200'}
                     relative
                     group
                     `}
       onClick={handleClick}
     >
-      <div className="truncate">{filename}</div>
+      <h3 className="truncate">{filename}</h3>
       <div
         className="flex items-center text-neutral-500 justify-center bg-white rounded-md w-[35px] h-[35px] hover:bg-neutral-100 hover:text-neutral-800 hover:border-2 shrink-0"
         onClick={handlePreviewClick}
