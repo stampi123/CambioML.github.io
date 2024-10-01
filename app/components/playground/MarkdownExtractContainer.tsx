@@ -3,20 +3,23 @@ import { useCallback, useEffect, useState } from 'react';
 import Button from '../Button';
 import { AxiosError, AxiosResponse } from 'axios';
 import toast from 'react-hot-toast';
-import { PlaygroundFile, ExtractState, ExtractTab } from '@/app/types/PlaygroundTypes';
+import { PlaygroundFile, ExtractState, ExtractTab, ProcessType } from '@/app/types/PlaygroundTypes';
 import { DownloadSimple, CloudArrowUp, ArrowCounterClockwise, FileText } from '@phosphor-icons/react';
 import PulsingIcon from '../PulsingIcon';
 import { downloadFile } from '@/app/actions/downloadFile';
+import { runAsyncRequestJob } from '@/app/actions/runAsyncRequestJob';
 import { runRequestJob as runPreProdRequestJob } from '@/app/actions/preprod/runRequestJob';
 import ResultContainer from './ResultContainer';
 import { useProductionContext } from './ProductionContext';
 import { usePostHog } from 'posthog-js/react';
 import ExtractSettingsChecklist from './ExtractSettingsChecklist';
 import { JobParams } from '@/app/actions/preprod/apiInterface';
-import { runRequestJob } from '@/app/actions/runRequestJob';
 import useResultZoomModal from '@/app/hooks/useResultZoomModal';
 import QuotaLimitPage from './QuotaLimitPage';
 import updateQuota from '@/app/actions/updateQuota';
+import { uploadFile } from '@/app/actions/uploadFile';
+import { runSyncExtract } from '@/app/actions/runSyncExtract';
+import { extractPageAsBase64 } from '@/app/helpers';
 
 const textStyles = 'text-xl font-semibold text-neutral-500';
 
@@ -32,7 +35,7 @@ const MarkdownExtractContainer = () => {
   const {
     selectedFileIndex,
     files,
-    filesFormData,
+    addFilesFormData,
     updateFileAtIndex,
     token,
     clientId,
@@ -85,7 +88,7 @@ const MarkdownExtractContainer = () => {
   }, [selectedFile, filename]);
 
   const handleSuccess = (response: AxiosResponse, targetPageNumbers?: number[]) => {
-    let result = response.data;
+    let result = response.data.markdown;
     if (result === undefined) {
       toast.error(`${filename}: Received undefined result. Please try again.`);
       updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
@@ -117,7 +120,7 @@ const MarkdownExtractContainer = () => {
         num_pages: result.length,
       });
     updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.DONE_EXTRACTING);
-    updateQuota({ api_url: apiURL, userId: userId, token, setTotalQuota, setRemainingQuota, handleError });
+    updateQuota({ api_url: apiURL, userId, token, setTotalQuota, setRemainingQuota, handleError });
     toast.success(`${filename} extracted!`);
     return;
   };
@@ -170,12 +173,6 @@ const MarkdownExtractContainer = () => {
       updateFileAtIndex(selectedFileIndex, 'extractTab', ExtractTab.FILE_EXTRACT);
     }
     updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.EXTRACTING);
-    const fileData = filesFormData.find((obj) => obj.presignedUrl.fields['x-amz-meta-filename'] === filename);
-    if (!fileData) {
-      updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
-      toast.error(`Error extracting ${filename}. Please try again.`);
-      return;
-    }
     if (selectedFile && selectedFileIndex !== null) {
       const jobParams: JobParams = {
         targetPageNumbers,
@@ -190,15 +187,36 @@ const MarkdownExtractContainer = () => {
           vqaPageNumsFlag: extractSettings.includePageNumbers,
         },
       };
+      // get presigned url and metadata
+      const uploadResult = await uploadFile({
+        api_url: apiURL,
+        userId,
+        token,
+        file: selectedFile.file as File,
+        extractArgs: jobParams.vqaProcessorArgs || {},
+        maskPiiFlag: jobParams.maskPiiFlag,
+        process_type: ProcessType.FILE_EXTRACTION,
+        addFilesFormData,
+      });
+      if (uploadResult instanceof Error) {
+        toast.error(`Error uploading ${filename}. Please try again.`);
+        updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
+        return;
+      }
+      const fileData = uploadResult.data;
+
       if (!isProduction) console.log('[MarkdownExtract] jobParams:', jobParams);
       if (isProduction) {
-        runRequestJob({
-          apiURL,
-          fileId: fileData.fileId,
+        runAsyncRequestJob({
+          apiURL: apiURL,
+          jobType: 'info_extraction',
+          userId,
           clientId,
+          fileId: fileData.fileId,
+          fileData,
+          selectedFile,
           token,
           sourceType: 's3',
-          jobType: 'file_extraction',
           jobParams,
           selectedFileIndex,
           filename,
@@ -238,14 +256,38 @@ const MarkdownExtractContainer = () => {
     updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
   };
 
-  const handlePageRetry = () => {
+  const handlePageRetry = async () => {
     if (isProduction)
       posthog.capture('playground.plain_text.page_retry', {
         route: '/playground',
         module: 'plain_text',
         file_type: getFileType(),
       });
-    handleExtract([resultZoomModal.page]);
+    if (selectedFile && selectedFile.file instanceof File) {
+      try {
+        updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.EXTRACTING);
+        const pageBase64 = await extractPageAsBase64(selectedFile.file, resultZoomModal.page);
+
+        const newMarkdown = await runSyncExtract({
+          token: token,
+          userId: userId,
+          apiUrl: apiURL,
+          base64String: pageBase64,
+          maskPii: extractSettings.removePII,
+          fileType: selectedFile.file.type,
+        });
+        const newResult = selectedFile.extractResult.slice();
+        newResult[resultZoomModal.page] = newMarkdown;
+        updateFileAtIndex(selectedFileIndex, 'extractResult', newResult);
+      } catch (error) {
+        console.error('Error during extraction:', error);
+      } finally {
+        updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.DONE_EXTRACTING);
+        updateQuota({ api_url: apiURL, userId, token, setTotalQuota, setRemainingQuota, handleError });
+      }
+    } else {
+      console.warn('Selected file is not valid or is missing.');
+    }
   };
 
   return (
@@ -283,14 +325,16 @@ const MarkdownExtractContainer = () => {
               <ResultContainer extractResult={selectedFile.extractResult} />
               <div className="w-full h-fit flex gap-4">
                 <Button label="Re-run Document" onClick={handleRetry} small labelIcon={ArrowCounterClockwise} />
-                {selectedFile.extractResult.length > 1 && (
-                  <Button
-                    label={`Re-run Page ${resultZoomModal.page + 1}`}
-                    onClick={handlePageRetry}
-                    small
-                    labelIcon={ArrowCounterClockwise}
-                  />
-                )}
+                {selectedFile.extractResult.length > 1 &&
+                  selectedFile.file instanceof File &&
+                  selectedFile.file.type === 'application/pdf' && (
+                    <Button
+                      label={`Re-run Page ${resultZoomModal.page + 1}`}
+                      onClick={handlePageRetry}
+                      small
+                      labelIcon={ArrowCounterClockwise}
+                    />
+                  )}
                 <Button
                   label="Download Markdown"
                   onClick={handleDownload}

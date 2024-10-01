@@ -12,7 +12,7 @@ interface UserProfile {
 }
 
 export type CdkProfile = {
-  api_keys: string[];
+  apiKey: string;
   pageLimit: number;
   remainingPages: number;
   subscriptionId: string;
@@ -20,6 +20,9 @@ export type CdkProfile = {
   updatedAt: string;
   createdAt: string;
   userId: string;
+  userType: string;
+  cancelAtPeriodEnd: boolean;
+  currentPeriodEnd: string;
 };
 
 const useUserProfile = () => {
