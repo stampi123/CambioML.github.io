@@ -11,7 +11,7 @@ type Plan = {
   bgColor?: string;
   features: {
     autoCapture: boolean;
-    customSchemas: boolean;
+    autoRollover: boolean;
     clientOnboarding: boolean;
     customizationServices: boolean;
     customModelTraining: boolean;
@@ -24,12 +24,12 @@ type Plan = {
 const plans: Plan[] = [
   {
     name: 'Starter',
-    price: '$599/year, billed annually*',
-    pages: 'Includes 10k credits** per year, then $0.06 per credit',
+    price: '$99/month*, or $1k/year',
+    pages: 'Includes 2k credits** per month, then $0.045 per credit',
     bgColor: 'bg-neutral-100',
     features: {
       autoCapture: true,
-      customSchemas: true,
+      autoRollover: true,
       clientOnboarding: false,
       customizationServices: false,
       customIntegrations: false,
@@ -39,12 +39,12 @@ const plans: Plan[] = [
   },
   {
     name: 'Pro',
-    price: '$5k/year, billed annually*',
-    pages: 'Includes 100k credits** per year, then $0.05 per credit',
+    price: '$499/month*, or $5k/year',
+    pages: 'Includes 20k credits** per month, then $0.025 per credit',
     bgColor: 'bg-sky-200',
     features: {
       autoCapture: true,
-      customSchemas: true,
+      autoRollover: true,
       clientOnboarding: false,
       customizationServices: false,
       customIntegrations: false,
@@ -54,12 +54,12 @@ const plans: Plan[] = [
   },
   {
     name: 'Silver',
-    price: '$20k/year, billed annually*',
-    pages: 'Includes 500k credits** per year, then $0.04 per credit',
+    price: '$1k/month* or $10k/year',
+    pages: 'Includes 100k credits** per month, then $0.01 per credit',
     bgColor: 'bg-[#bcc6cc]',
     features: {
       autoCapture: true,
-      customSchemas: true,
+      autoRollover: true,
       clientOnboarding: true,
       customizationServices: false,
       customIntegrations: false,
@@ -69,12 +69,12 @@ const plans: Plan[] = [
   },
   {
     name: 'Gold',
-    price: '$30k/year, billed annually*',
-    pages: 'Includes 1 million credits** per year, then $0.03 per credit',
+    price: '$3k/month* or $30k/year',
+    pages: 'Includes 500k credits** per month, then $0.006 per credit',
     bgColor: 'bg-teal-600 text-white',
     features: {
       autoCapture: true,
-      customSchemas: true,
+      autoRollover: true,
       clientOnboarding: true,
       customizationServices: true,
       customIntegrations: false,
@@ -89,7 +89,7 @@ const plans: Plan[] = [
     pages: 'contact-us',
     features: {
       autoCapture: true,
-      customSchemas: true,
+      autoRollover: true,
       clientOnboarding: true,
       customizationServices: true,
       customIntegrations: true,
@@ -201,11 +201,11 @@ const PricingPage = () => {
               ))}
             </tr>
             <tr>
-              <td className={featureRowHeaderStyle}>Mapping to your customized schemas</td>
+              <td className={featureRowHeaderStyle}>Credits automatically roll over</td>
               {plans.map((plan, index) => (
                 <td key={index} className={checkCellStyle}>
                   <div className={checkCellDivStyle}>
-                    <FeatureCheck enabled={plan.features.customSchemas} />
+                    <FeatureCheck enabled={plan.features.autoRollover} />
                   </div>
                 </td>
               ))}
@@ -268,12 +268,12 @@ const PricingPage = () => {
 
       <div className="h-[100px] p-8 rounded-xl w-screen-xl items-center justify-center">
         <ul>
-          <li>*No hidden fees; 30 days money back guaranteed</li>
+          <li>* No hidden fees; Monthly pay as you go; 30 days money back guaranteed.</li>
         </ul>
         <ul>
           <li>
-            ** 1 credit covers 1 page extraction (up to 500 tokens). Pages exceeding 500 tokens will incur an extra
-            credit for every additional 500 tokens.
+            ** 1 credit covers 1 page extraction up to 300 tokens (a normal A4 page). Pages exceeding 300 tokens will
+            incur an extra credit for every additional 300 tokens.
           </li>
         </ul>
       </div>
