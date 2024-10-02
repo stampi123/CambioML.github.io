@@ -284,7 +284,7 @@ const Page = () => {
       <BlogParagraph>
         Try AnyParser for free and unlock the potential of your data.
         <BlogLink url="https://www.cambioml.com/sandbox" text="Convert your PDF to Excel today" />
-        and join the revolution.
+        &nbsp;and join the revolution.
       </BlogParagraph>
     </Blog>
   );

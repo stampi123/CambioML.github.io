@@ -17,7 +17,7 @@ export const solutions: SolutionType[] = [
     description:
       'The demand for Image to Excel converters is rising in industries like finance, education, and healthcare due to their ability to streamline data management. These tools, powered by AI, efficiently convert image to Excel formats, enhancing processing speed and reducing errors.',
     url: '/blog/convert-pdf-to-excel',
-    image: '/images/solutions/convert-pdf-to-excel-1.png',
+    image: '/images/solutions/convert-pdf-to-excel-6.png',
     imageContain: true,
     industries: [],
     blog: true,
@@ -29,7 +29,7 @@ export const solutions: SolutionType[] = [
     description:
       'This guide will walk you through the process of harnessing VLMs to convert your PDFs into CSV or Excel files using AnyParser, streamlining your workflow and unlocking valuable data insights. With AnyParser, you can easily convert PDF to CSV, PDF to Excel, or even convert Word to CSV with just a few clicks on our Playground.',
     url: '/blog/convert-pdf-to-csv',
-    image: '/images/solutions/convert-pdf-to-csv-1.png',
+    image: '/images/solutions/convert-pdf-to-csv-.png',
     imageContain: false,
     industries: [],
     blog: true,
