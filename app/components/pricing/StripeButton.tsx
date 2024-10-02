@@ -28,7 +28,7 @@ const StripeButton = ({ priceLookupKey, userId, loggedIn, subscriptionId, period
       'https://www.cambioml.com/products-fdce3eb9-aa2b-4abf-8842-4bde6dc987c4';
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_STRIPE_SESSION_URL}payment/create-checkout-session`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_STRIPE_SESSION_URL}/payment/create-checkout-session`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
