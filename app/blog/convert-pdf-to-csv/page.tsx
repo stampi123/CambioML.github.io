@@ -129,9 +129,9 @@ const Page = () => {
       </BlogParagraph>
       <BlogSectionTitle title="Logistics and Supply Chain Optimization" secondary />
       <BlogParagraph>
-        In the logistics industry, VLMs shine when converting shipping orders from pdf to google sheet. These models can
-        extract crucial information such as delivery addresses, item descriptions, and tracking numbers, maintaining the
-        integrity of tabular data. This conversion enables efficient inventory management and route optimization.
+        In the logistics industry, VLMs shine when converting shipping orders from pdf to Google Sheets. These models
+        can extract crucial information such as delivery addresses, item descriptions, and tracking numbers, maintaining
+        the integrity of tabular data. This conversion enables efficient inventory management and route optimization.
       </BlogParagraph>
       <BlogParagraph>
         By utilizing a PDF to CSV converter powered by VLMs, you can significantly enhance data processing efficiency
@@ -170,7 +170,7 @@ const Page = () => {
       <BlogParagraph>
         Low-quality scans or images often pose challenges for traditional OCR systems. VLMs, however, can effectively
         filter out noise and focus on relevant information, ensuring high-quality output when converting documents to
-        google sheet or other formats. For example, VLMs can accurately extract data from a blurred or faded PDF
+        Google Sheets or other formats. For example, VLMs can accurately extract data from a blurred or faded PDF
         document.
       </BlogParagraph>
       <BlogSectionTitle title="FAQs on convert PDF to CSV Using Vision Language Models" />

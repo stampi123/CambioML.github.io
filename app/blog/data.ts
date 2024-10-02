@@ -12,6 +12,18 @@ export interface SolutionType {
 
 export const solutions: SolutionType[] = [
   {
+    title: 'Can You Convert a PDF to Excel (for free)? Check AnyParser!',
+    subtitle: '',
+    description:
+      'The demand for Image to Excel converters is rising in industries like finance, education, and healthcare due to their ability to streamline data management. These tools, powered by AI, efficiently convert image to Excel formats, enhancing processing speed and reducing errors.',
+    url: '/blog/convert-pdf-to-excel',
+    image: '/images/solutions/convert-pdf-to-excel-6.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-10-01'),
+  },
+  {
     title: 'Convert PDF to CSV: An In-Depth Guide to Leveraging Vision Language Models',
     subtitle: '',
     description:
