@@ -8,7 +8,7 @@ import BlogSectionTitle from '@/app/components/blog/BlogSectionTitle';
 const KDDPage = () => {
   return (
     <Blog
-      title="AnyParser: The AI Backbone Behind Jobright.ai's Resume Extraction"
+      title="AnyParser: The Resume Parser Behind Jobright.ai's High-Growth Product"
       authors={[
         { name: 'Rachel', companyName: 'CambioML', companyUrl: 'https://www.cambioml.com' },
         { name: 'Ethan', companyName: 'Jobright', companyUrl: 'https://www.jobright.ai' },
@@ -18,15 +18,16 @@ const KDDPage = () => {
       <BlogImage src="jobright-resumes.png" alt="First llm for your resume" />
       <BlogParagraph>
         In the competitive landscape of AI-driven job marketplaces, Jobright.ai has emerged as a frontrunner, largely
-        due to its innovative approach to resume processing. At the heart of this success lies AnyParser, a cutting-edge
-        AI technology that has revolutionized the way Jobright.ai extracts and analyzes resume data. This article delves
-        into the intricacies of <BlogLink text={'CambioML’s AnyParser'} url="https://www.cambioml.com/sandbox" />,
-        exploring how it has become the backbone of Jobright.ai&apos;s resume extraction capabilities. By examining the
-        technical prowess and practical applications of AnyParser, we will uncover how this AI-powered tool has
-        significantly enhanced the accuracy, efficiency, and overall user experience of Jobright.ai&apos;s platform,
-        setting a new standard in the industry.
+        due to its innovative approach to resume document processing. At the heart of this success lies AnyParser, a
+        cutting-edge AI technology that has revolutionized the way Jobright.ai extracts and analyzes resume data. This
+        article delves into the intricacies of{' '}
+        <BlogLink text={'CambioML’s AnyParser'} url="https://www.cambioml.com/sandbox" />, exploring how it has become
+        the backbone of Jobright.ai&apos;s resume extraction capabilities. By examining the technical prowess and
+        practical applications of AnyParser, we will uncover how this AI-powered docparser has significantly enhanced
+        the accuracy, efficiency, and overall user experience of Jobright.ai&apos;s platform, setting a new standard in
+        the industry.
       </BlogParagraph>
-      <BlogSectionTitle title="Jobright.ai's Ask for Accurate Resume Parsing" />
+      <BlogSectionTitle title="Jobright.ai's Ask for Accurate Resume Parser" />
       <BlogParagraph>
         As the leading AI-powered job marketplace, Jobright.ai faced a critical challenge in processing millions of
         resumes annually. The company recognized that accurate data extraction from resumes was crucial for user
@@ -38,7 +39,7 @@ const KDDPage = () => {
         Traditional OCR models can&apos;t capture semantic information from resumes, often struggle with accuracy in
         diverse document formats. These limitations frequently resulted in missed crucial details, potentially impacting
         the quality of matches between job seekers and employers. Jobright.ai needed a solution that could overcome
-        these hurdles and provide superior parsing capabilities.
+        these hurdles and provide superior resume parsing capabilities.
       </BlogParagraph>
       <BlogSectionTitle title="The Quest for High Accuracy and Low Latency" secondary />
       <BlogParagraph>
@@ -55,7 +56,7 @@ const KDDPage = () => {
         The company recognized that improving accuracy while adhering to stringent latency standards was essential for
         enhancing both job seeker and employer experiences on their platform. This dual focus on precision and speed in
         pdf parsing led Jobright.ai to explore advanced solutions in the field of document extraction, ultimately
-        leading them to consider AnyParser as a potential game-changer for their resume processing needs.
+        leading them to consider AnyParser as a potential game-changer for their resume document processing needs.
       </BlogParagraph>
       <BlogSectionTitle title="The Limitations of Traditional Document Extraction Methods" />
       <BlogParagraph>
@@ -82,6 +83,13 @@ const KDDPage = () => {
         handwritten content.
       </BlogParagraph>
       <BlogSectionTitle title="How AnyParser Boosted Jobright.ai's Resume Parsing Accuracy" />
+      <BlogParagraph>
+        After an intensive proof-of-concept testing period, Jobright.ai chose CambioML’s Resume Parser crucially due to
+        AnyParser model quality, which is far beyond the 10+ other OCR based parsers. Traditional OCR models can’t
+        capture semantic information from resumes, often struggle with accuracy, and frequently miss crucial details in
+        diverse document formats. That&apos;s why CambioML’s AnyParser shine—a multi-modality model designed to
+        accurately extract text, tables, and chart information from PDFs, Words, PPTs, and images.
+      </BlogParagraph>
       <BlogImage src="jobright-table.png" alt="Table showing how AnyParser is best of LLM and OCR solutions." />
       <BlogSectionTitle title="Revolutionizing Document Extraction" secondary />
       <BlogParagraph>
