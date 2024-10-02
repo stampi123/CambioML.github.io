@@ -38,7 +38,7 @@ const plans: Plan[] = [
       customModelTraining: false,
       personalizedTraining: false,
     },
-    annual_price_lookup_key: 'starter_monthly_test', //'starter_annual_20241001',
+    annual_price_lookup_key: 'starter_annual_20241001',
   },
   {
     name: 'Pro',
