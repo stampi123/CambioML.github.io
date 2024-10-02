@@ -17,7 +17,7 @@ export const solutions: SolutionType[] = [
     description:
       'The demand for Image to Excel converters is rising in industries like finance, education, and healthcare due to their ability to streamline data management. These tools, powered by AI, efficiently convert image to Excel formats, enhancing processing speed and reducing errors.',
     url: '/blog/convert-pdf-to-excel',
-    image: '/images/solutions/convert-pdf-to-excel-1.png',
+    image: '/images/solutions/convert-pdf-to-excel-6.png',
     imageContain: true,
     industries: [],
     blog: true,
