@@ -9,6 +9,7 @@ import {
   TableTab,
   ExtractedMDTable,
   ExtractSettings,
+  ModelType,
 } from '../types/PlaygroundTypes';
 import { PresignedResponse } from '../actions/apiInterface';
 
@@ -20,6 +21,7 @@ export interface AddFileParams {
 }
 
 interface PlaygroundStore {
+  modelType: ModelType;
   extractSettings: ExtractSettings;
   selectedFileIndex: number | null;
   fileCollapsed: boolean;
@@ -65,6 +67,7 @@ interface PlaygroundStore {
       | { [key: string]: string[] }
   ) => void;
   toggleExtractSetting: (settingName: keyof ExtractSettings) => void;
+  updateModelType: (modelType: ModelType) => void;
 }
 
 const initialFileState = {
@@ -89,6 +92,7 @@ const initialFileState = {
 };
 
 const usePlaygroundStore = create<PlaygroundStore>((set) => ({
+  modelType: ModelType.PRO,
   extractSettings: {
     removePII: true,
     includePageNumbers: true,
@@ -230,6 +234,9 @@ const usePlaygroundStore = create<PlaygroundStore>((set) => ({
       }
       return state; // Return current state if settingName is not found
     });
+  },
+  updateModelType: (modelType) => {
+    set({ modelType });
   },
 }));
 

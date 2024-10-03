@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import Button from '../Button';
 import { AxiosError, AxiosResponse } from 'axios';
 import toast from 'react-hot-toast';
-import { PlaygroundFile, ExtractState, ExtractTab, ProcessType } from '@/app/types/PlaygroundTypes';
+import { PlaygroundFile, ExtractState, ExtractTab, ProcessType, ModelType } from '@/app/types/PlaygroundTypes';
 import { DownloadSimple, CloudArrowUp, ArrowCounterClockwise, FileText } from '@phosphor-icons/react';
 import PulsingIcon from '../PulsingIcon';
 import { downloadFile } from '@/app/actions/downloadFile';
@@ -44,6 +44,7 @@ const MarkdownExtractContainer = () => {
     setRemainingQuota,
     remainingQuota,
     userId,
+    modelType,
   } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [filename, setFilename] = useState<string>('');
@@ -187,6 +188,9 @@ const MarkdownExtractContainer = () => {
           vqaPageNumsFlag: extractSettings.includePageNumbers,
         },
       };
+
+      const processType =
+        modelType === ModelType.MINI ? ProcessType.FILE_EXTRACTION : ProcessType.FILE_REFINED_EXTRACTION;
       // get presigned url and metadata
       const uploadResult = await uploadFile({
         api_url: apiURL,
@@ -195,7 +199,7 @@ const MarkdownExtractContainer = () => {
         file: selectedFile.file as File,
         extractArgs: jobParams.vqaProcessorArgs || {},
         maskPiiFlag: jobParams.maskPiiFlag,
-        process_type: ProcessType.FILE_EXTRACTION,
+        process_type: processType,
         addFilesFormData,
       });
       if (uploadResult instanceof Error) {

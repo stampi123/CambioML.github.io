@@ -33,6 +33,11 @@ export enum TableTab {
   MAP_SCHEMA,
 }
 
+export enum ModelType {
+  MINI,
+  PRO,
+}
+
 export interface MapSchemaResult {
   keyMap: { [key: string]: string };
   extractedKeys: { [key: string]: string };
@@ -127,4 +132,5 @@ export enum ProcessType {
   FILE_EXTRACTION = 'file',
   TABLE_EXTRACTION = 'table',
   JSON_EXTRACTION = 'json',
+  FILE_REFINED_EXTRACTION = 'file_refined',
 }
