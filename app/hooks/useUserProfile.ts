@@ -56,7 +56,7 @@ const useUserProfile = () => {
         const profileData: UserProfile = await response.json();
         const cdkProfileData = await getUserData({
           userId: profileData.sub,
-          api_url: process.env.NEXT_PUBLIC_STRIPE_SESSION_URL || '',
+          api_url: process.env.NEXT_PUBLIC_PLAYGROUND_API_URL || '',
         });
         profileData.cdkProfile = cdkProfileData['user_data'];
         setProfile(profileData);

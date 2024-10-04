@@ -321,7 +321,7 @@ const MarkdownExtractContainer = () => {
                   <Button label="Extract Plain Text" onClick={() => handleExtract()} small labelIcon={FileText} />
                 </div>
               </div>
-              <ExtractSettingsChecklist />
+              <ExtractSettingsChecklist removePIIOnly={isProduction} />
             </div>
           )}
           {selectedFile?.extractState === ExtractState.UPLOADING && (
