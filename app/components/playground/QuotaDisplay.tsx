@@ -14,9 +14,10 @@ const QUOTA_RED_THRESHOLD = 15;
 
 interface QuotaDisplayProps {
   userId: string;
+  isCollapsed?: boolean;
 }
 
-const QuotaDisplay = ({ userId }: QuotaDisplayProps) => {
+const QuotaDisplay = ({ userId, isCollapsed }: QuotaDisplayProps) => {
   const { totalQuota, remainingQuota, token, setTotalQuota, setRemainingQuota, fileCollapsed } = usePlaygroundStore();
   const { apiURL, isProduction } = useProductionContext();
   const [isLoading, setIsLoading] = useState(false);
@@ -98,7 +99,9 @@ const QuotaDisplay = ({ userId }: QuotaDisplayProps) => {
               style={{ width: `${quotaPercent}%` }}
             ></div>
           </div>
-          <span className="text-xs mt-1">{`${remainingQuota}/${totalQuota} pages`}</span>
+          <span className="text-xs mt-1">
+            {`${remainingQuota}/${totalQuota}`} {!isCollapsed && ' pages'}
+          </span>
         </>
       )}
     </div>

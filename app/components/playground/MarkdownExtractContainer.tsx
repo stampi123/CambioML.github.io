@@ -3,17 +3,17 @@ import { useCallback, useEffect, useState } from 'react';
 import Button from '../Button';
 import { AxiosError, AxiosResponse } from 'axios';
 import toast from 'react-hot-toast';
-import { PlaygroundFile, ExtractState, ExtractTab, ProcessType } from '@/app/types/PlaygroundTypes';
+import { PlaygroundFile, ExtractState, ExtractTab, ProcessType, ModelType } from '@/app/types/PlaygroundTypes';
 import { DownloadSimple, CloudArrowUp, ArrowCounterClockwise, FileText } from '@phosphor-icons/react';
 import PulsingIcon from '../PulsingIcon';
 import { downloadFile } from '@/app/actions/downloadFile';
 import { runAsyncRequestJob } from '@/app/actions/runAsyncRequestJob';
-import { runRequestJob as runPreProdRequestJob } from '@/app/actions/preprod/runRequestJob';
+import { JobParams } from '@/app/actions/apiInterface';
+import { runAsyncRequestJob as runPreprodAsyncRequestJob } from '@/app/actions/preprod/runAsyncRequestJob';
 import ResultContainer from './ResultContainer';
 import { useProductionContext } from './ProductionContext';
 import { usePostHog } from 'posthog-js/react';
 import ExtractSettingsChecklist from './ExtractSettingsChecklist';
-import { JobParams } from '@/app/actions/preprod/apiInterface';
 import useResultZoomModal from '@/app/hooks/useResultZoomModal';
 import QuotaLimitPage from './QuotaLimitPage';
 import updateQuota from '@/app/actions/updateQuota';
@@ -44,6 +44,7 @@ const MarkdownExtractContainer = () => {
     setRemainingQuota,
     remainingQuota,
     userId,
+    modelType,
   } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
   const [filename, setFilename] = useState<string>('');
@@ -187,6 +188,18 @@ const MarkdownExtractContainer = () => {
           vqaPageNumsFlag: extractSettings.includePageNumbers,
         },
       };
+      let processType: ProcessType;
+      if (modelType === ModelType.BASE) {
+        processType = ProcessType.FILE_EXTRACTION;
+      } else if (modelType === ModelType.PRO) {
+        processType = ProcessType.FILE_EXTRACTION_PRO;
+      } else if (modelType === ModelType.ULTRA) {
+        processType = ProcessType.FILE_EXTRACTION_ULTRA;
+      } else {
+        toast.error('Invalid model type. Please try again.');
+        updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
+        return;
+      }
       // get presigned url and metadata
       const uploadResult = await uploadFile({
         api_url: apiURL,
@@ -195,7 +208,7 @@ const MarkdownExtractContainer = () => {
         file: selectedFile.file as File,
         extractArgs: jobParams.vqaProcessorArgs || {},
         maskPiiFlag: jobParams.maskPiiFlag,
-        process_type: ProcessType.FILE_EXTRACTION,
+        process_type: processType,
         addFilesFormData,
       });
       if (uploadResult instanceof Error) {
@@ -226,13 +239,16 @@ const MarkdownExtractContainer = () => {
           updateFileAtIndex,
         });
       } else {
-        runPreProdRequestJob({
-          apiURL,
-          fileId: fileData.fileId,
+        runPreprodAsyncRequestJob({
+          apiURL: apiURL,
+          jobType: 'info_extraction',
+          userId,
           clientId,
+          fileId: fileData.fileId,
+          fileData,
+          selectedFile,
           token,
           sourceType: 's3',
-          jobType: 'file_extraction',
           jobParams,
           selectedFileIndex,
           filename,
@@ -305,7 +321,7 @@ const MarkdownExtractContainer = () => {
                   <Button label="Extract Plain Text" onClick={() => handleExtract()} small labelIcon={FileText} />
                 </div>
               </div>
-              <ExtractSettingsChecklist />
+              <ExtractSettingsChecklist removePIIOnly={isProduction} />
             </div>
           )}
           {selectedFile?.extractState === ExtractState.UPLOADING && (
