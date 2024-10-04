@@ -34,8 +34,9 @@ export enum TableTab {
 }
 
 export enum ModelType {
-  MINI,
+  BASE,
   PRO,
+  ULTRA,
 }
 
 export interface MapSchemaResult {
@@ -132,5 +133,6 @@ export enum ProcessType {
   FILE_EXTRACTION = 'file',
   TABLE_EXTRACTION = 'table',
   JSON_EXTRACTION = 'json',
-  FILE_REFINED_EXTRACTION = 'file_refined',
+  FILE_EXTRACTION_PRO = 'file_refined_quick',
+  FILE_EXTRACTION_ULTRA = 'file_refined',
 }

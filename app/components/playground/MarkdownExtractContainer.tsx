@@ -8,12 +8,12 @@ import { DownloadSimple, CloudArrowUp, ArrowCounterClockwise, FileText } from '@
 import PulsingIcon from '../PulsingIcon';
 import { downloadFile } from '@/app/actions/downloadFile';
 import { runAsyncRequestJob } from '@/app/actions/runAsyncRequestJob';
-import { runRequestJob as runPreProdRequestJob } from '@/app/actions/preprod/runRequestJob';
+import { JobParams } from '@/app/actions/apiInterface';
+import { runAsyncRequestJob as runPreprodAsyncRequestJob } from '@/app/actions/preprod/runAsyncRequestJob';
 import ResultContainer from './ResultContainer';
 import { useProductionContext } from './ProductionContext';
 import { usePostHog } from 'posthog-js/react';
 import ExtractSettingsChecklist from './ExtractSettingsChecklist';
-import { JobParams } from '@/app/actions/preprod/apiInterface';
 import useResultZoomModal from '@/app/hooks/useResultZoomModal';
 import QuotaLimitPage from './QuotaLimitPage';
 import updateQuota from '@/app/actions/updateQuota';
@@ -188,9 +188,18 @@ const MarkdownExtractContainer = () => {
           vqaPageNumsFlag: extractSettings.includePageNumbers,
         },
       };
-
-      const processType =
-        modelType === ModelType.MINI ? ProcessType.FILE_EXTRACTION : ProcessType.FILE_REFINED_EXTRACTION;
+      let processType: ProcessType;
+      if (modelType === ModelType.BASE) {
+        processType = ProcessType.FILE_EXTRACTION;
+      } else if (modelType === ModelType.PRO) {
+        processType = ProcessType.FILE_EXTRACTION_PRO;
+      } else if (modelType === ModelType.ULTRA) {
+        processType = ProcessType.FILE_EXTRACTION_ULTRA;
+      } else {
+        toast.error('Invalid model type. Please try again.');
+        updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.READY);
+        return;
+      }
       // get presigned url and metadata
       const uploadResult = await uploadFile({
         api_url: apiURL,
@@ -230,13 +239,16 @@ const MarkdownExtractContainer = () => {
           updateFileAtIndex,
         });
       } else {
-        runPreProdRequestJob({
-          apiURL,
-          fileId: fileData.fileId,
+        runPreprodAsyncRequestJob({
+          apiURL: apiURL,
+          jobType: 'info_extraction',
+          userId,
           clientId,
+          fileId: fileData.fileId,
+          fileData,
+          selectedFile,
           token,
           sourceType: 's3',
-          jobType: 'file_extraction',
           jobParams,
           selectedFileIndex,
           filename,
