@@ -26,6 +26,7 @@ interface IParams {
 interface Config {
   headers: {
     'x-api-key': string;
+    Authorization: string;
   };
 }
 
@@ -44,19 +45,21 @@ export const uploadFile = async ({
     return;
   }
 
-  let apiKey;
-  try {
-    apiKey = await getApiKeysForUser({ userId, token, apiURL: api_url });
-    if (apiKey.length === 0) {
-      throw new Error('API key not found');
-    }
-  } catch (e) {
-    return e;
-  }
+  // let apiKey;
+  // try {
+  //   apiKey = await getApiKeysForUser({ userId, token, apiURL: api_url });
+  //   if (apiKey.length === 0) {
+  //     throw new Error('API key not found');
+  //   }
+  // } catch (e) {
+  //   return e;
+  // }
 
   const getConfig: Config = {
     headers: {
-      'x-api-key': apiKey[0].key || '-',
+      // 'x-api-key': apiKey[0].key || '-',
+      'x-api-key': '-',
+      Authorization: token,
     },
   };
 

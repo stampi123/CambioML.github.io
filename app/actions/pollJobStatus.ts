@@ -39,8 +39,10 @@ const pollJobStatus = async ({
       .post(jobStatusAPI, requestBody, {
         headers: {
           'Content-Type': 'application/json',
-          authorizationToken: token,
-          'x-api-key': apiKey || '-',
+          // authorizationToken: token,
+          // 'x-api-key': apiKey || '-',
+          'x-api-key': '-',
+          Authorization: token,
         },
       })
       .then((response) => {
