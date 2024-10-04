@@ -6,10 +6,13 @@ import { useEffect, useState } from 'react';
 import { PlaygroundFile, PlaygroundTabs } from '@/app/types/PlaygroundTypes';
 import UploadButton from './UploadButton';
 import MapContainer from './table/MapContainer';
+import ModelToggleDropdown from './ModelToggleDropdown';
+import { useProductionContext } from './ProductionContext';
 
 const ActionContainer = () => {
   const { loggedIn, selectedFileIndex, files } = usePlaygroundStore();
   const [selectedFile, setSelectedFile] = useState<PlaygroundFile>();
+  const { isProduction } = useProductionContext();
 
   useEffect(() => {
     if (selectedFileIndex !== null && files.length > 0) {
@@ -19,10 +22,15 @@ const ActionContainer = () => {
 
   return (
     <div className="w-full h-full min-h-[600px] grid grid-rows-[50px_1fr]">
-      <div className={`w-full grid grid-cols-2`}>
+      <div className={`w-full grid ${isProduction ? 'grid-cols-2' : 'grid-cols-[1fr_1fr_150px]'}`}>
         {Object.values(PlaygroundTabs).map((tab) => (
           <PlaygroundTab key={tab} label={tab} />
         ))}
+        {!isProduction && (
+          <div className="border-b-2 flex justify-end">
+            <ModelToggleDropdown />
+          </div>
+        )}
       </div>
       {loggedIn ? (
         selectedFileIndex === null ? (

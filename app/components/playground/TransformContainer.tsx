@@ -3,7 +3,6 @@ import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { ExtractState } from '@/app/types/PlaygroundTypes';
 import ComingSoonBanner from './ComingSoonBanner';
 import { useProductionContext } from './ProductionContext';
-import QAContainer from './QAContainer';
 
 enum TransformMethod {
   QA,
@@ -45,10 +44,7 @@ const TransformContainer = () => {
             <div className="text-xl font-semibold text-neutral-500">Please extract the data first.</div>
           </div>
         ) : (
-          <>
-            {transformMethod === TransformMethod.QA && !isProduction && <QAContainer />}
-            {transformMethod === TransformMethod.SUMMARIZE && !isProduction && <ComingSoonBanner />}
-          </>
+          <>{transformMethod === TransformMethod.SUMMARIZE && !isProduction && <ComingSoonBanner />}</>
         )}
       </div>
     </div>

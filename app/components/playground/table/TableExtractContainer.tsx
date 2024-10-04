@@ -9,11 +9,11 @@ import { downloadFile } from '@/app/actions/downloadFile';
 import { AxiosError, AxiosResponse } from 'axios';
 import ResultContainer from '../ResultContainer';
 import { useProductionContext } from '../ProductionContext';
-import { runRequestJob as runPreProdRequestJob } from '@/app/actions/preprod/runRequestJob';
+import { runAsyncRequestJob as runPreprodAsyncRequestJob } from '@/app/actions/preprod/runAsyncRequestJob';
 import * as XLSX from 'xlsx';
 import { usePostHog } from 'posthog-js/react';
 import ExtractSettingsChecklist from '../ExtractSettingsChecklist';
-import { JobParams } from '@/app/actions/preprod/apiInterface';
+import { JobParams } from '@/app/actions/apiInterface';
 import useResultZoomModal from '@/app/hooks/useResultZoomModal';
 import DropdownButton from '../../inputs/DropdownButton';
 import QuotaLimitPage from '../QuotaLimitPage';
@@ -200,13 +200,16 @@ const TableExtractContainer = () => {
       });
     } else {
       console.log('[TableExtractContainer] handleTableExtractTransform', jobParams);
-      runPreProdRequestJob({
+      runPreprodAsyncRequestJob({
         apiURL: apiURL,
+        jobType: 'info_extraction',
+        userId,
         clientId,
+        fileId: fileData.fileId,
+        fileData,
+        selectedFile,
         token,
         sourceType: 's3',
-        fileId: fileData.fileId,
-        jobType: 'info_extraction',
         jobParams,
         selectedFileIndex,
         filename,
