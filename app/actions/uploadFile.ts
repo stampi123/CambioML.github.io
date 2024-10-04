@@ -1,7 +1,6 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { PresignedResponse } from './apiInterface';
-import getApiKeysForUser from './account/getApiKeysForUser';
 interface IParams {
   api_url: string;
   file: File | undefined;
@@ -32,7 +31,6 @@ interface Config {
 
 export const uploadFile = async ({
   api_url,
-  userId,
   token,
   file,
   extractArgs,
@@ -45,19 +43,8 @@ export const uploadFile = async ({
     return;
   }
 
-  // let apiKey;
-  // try {
-  //   apiKey = await getApiKeysForUser({ userId, token, apiURL: api_url });
-  //   if (apiKey.length === 0) {
-  //     throw new Error('API key not found');
-  //   }
-  // } catch (e) {
-  //   return e;
-  // }
-
   const getConfig: Config = {
     headers: {
-      // 'x-api-key': apiKey[0].key || '-',
       'x-api-key': '-',
       Authorization: token,
     },
