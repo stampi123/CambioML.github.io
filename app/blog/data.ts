@@ -12,6 +12,18 @@ export interface SolutionType {
 
 export const solutions: SolutionType[] = [
   {
+    title: 'Extracting Table from PDF: Unlocking Efficiency with AnyParser',
+    subtitle: '',
+    description:
+      'The digital transformation demands efficient extraction of tables from PDF files and copying them to Excel, but traditional methods struggle with complexity and errors. AnyParser solves this by offering fast, accurate table extraction features.',
+    url: '/blog/extract-table-from-pdf',
+    image: '/images/solutions/extract-table-from-pdf-1.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-10-03'),
+  },
+  {
     title: 'Convert Word to Excel for FREE: A Comprehensive Guide',
     subtitle: '',
     description:
