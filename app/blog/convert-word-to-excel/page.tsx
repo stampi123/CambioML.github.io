@@ -145,34 +145,34 @@ const Page = () => {
       </BlogParagraph>
       <BlogParagraph bold>1. Limited Font Legibility:</BlogParagraph>
       <BlogParagraph>
-        - Traditional conversion methods may struggle with certain fonts, particularly if they are ornate or complex. To
+        Traditional conversion methods may struggle with certain fonts, particularly if they are ornate or complex. To
         mitigate this, opt for clean, sans serif fonts such as Arial, Helvetica, Proxima Nova, Futura, or Calibri, which
         are easier for conversion tools to interpret correctly.
       </BlogParagraph>
       <BlogParagraph bold>2. Small Font Sizes:</BlogParagraph>
       <BlogParagraph>
-        - Text that is too small can lead to readability issues during the conversion process. To avoid this, increase
-        the font size to at least 11pt to ensure that the text remains legible and accurately convertible.
+        Text that is too small can lead to readability issues during the conversion process. To avoid this, increase the
+        font size to at least 11pt to ensure that the text remains legible and accurately convertible.
       </BlogParagraph>
       <BlogParagraph bold>3. Inconspicuous Borders:</BlogParagraph>
       <BlogParagraph>
-        - Light-colored borders on text or tables can blend into the background, causing the conversion tool to
+        Light-colored borders on text or tables can blend into the background, causing the conversion tool to
         misinterpret or overlook them. To prevent this, ensure that borders are distinct and not light-colored.
       </BlogParagraph>
       <BlogParagraph bold>4. Background Colors Interference:</BlogParagraph>
       <BlogParagraph>
-        - Background colors can interfere with the conversion process, leading to inaccuracies or misreads. It&apos;s
-        best to remove any background colors from the document before attempting conversion.
+        Background colors can interfere with the conversion process, leading to inaccuracies or misreads. It&apos;s best
+        to remove any background colors from the document before attempting conversion.
       </BlogParagraph>
       <BlogParagraph bold>5. Post-Conversion Data Verification:</BlogParagraph>
       <BlogParagraph>
-        - Even after a successful conversion, it&apos;s crucial to manually check your data in the new spreadsheet.
+        Even after a successful conversion, it&apos;s crucial to manually check your data in the new spreadsheet.
         Conversion tools can sometimes misinterpret formatting or layout, so a final review ensures everything has been
         accurately translated.
       </BlogParagraph>
       <BlogParagraph bold>6. Final Adjustments in Excel:</BlogParagraph>
       <BlogParagraph>
-        - After pasting your converted data into Excel, you may encounter formatting issues that require manual
+        After pasting your converted data into Excel, you may encounter formatting issues that require manual
         adjustment. To enhance readability, you might need to adjust these to fit your data properly. You also need to
         use Excel&apos;s formatting tools to present your data clearly and coherently.
       </BlogParagraph>
