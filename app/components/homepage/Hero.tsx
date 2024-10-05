@@ -48,7 +48,7 @@ const Hero = () => {
               extract table and charts, keeping footnotes and headers, and much more!
             </div>
             <div className="w-full pt-8 pb-2 flex items-center justify-center gap-4">
-              <Button label="Try on our website!" onClick={() => router.push('/sandbox')} />
+              <Button label="Try for FREE" onClick={() => router.push('/sandbox')} />
               <Button label="Get API Access" onClick={() => router.push('/account')} outline />
             </div>
             <div className="w-full pt-4">

@@ -61,7 +61,7 @@ const Banners = () => {
           <Banner
             title="Parse data accurately"
             description="AnyParser playground is straight-forward, fast, and intuitive. Try the interface now and take a break for the rest of the day"
-            actionLabel={'Try on our website!'}
+            actionLabel={'Try for FREE'}
             action={() => router.push('/sandbox')}
             imgPath="/images/homepage/banner-1.png"
           />
