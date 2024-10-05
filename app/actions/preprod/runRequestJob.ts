@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { ExtractState, TransformState } from '../../types/PlaygroundTypes';
+import { ExtractState, TransformState } from '@/app/types/PlaygroundTypes';
 import pollJobStatus from './pollJobStatus';
 import toast from 'react-hot-toast';
 import { JobParams, QueryParams, RequestParams } from './apiInterface';
@@ -15,6 +15,7 @@ interface IParams {
   url?: string;
   jobParams?: JobParams;
   filename: string;
+  customSchema?: string[];
   handleSuccess: (response: AxiosResponse) => void;
   handleError: (e: AxiosError) => void;
   handleTimeout: () => void;
@@ -51,6 +52,8 @@ const SLEEP_DURATION: { [key: string]: number } = {
   info_extraction: 5000,
   instruction_extraction: 5000,
   qa_generation: 5000,
+  schema_extraction: 5000,
+  schema_extraction_frontend: 5000,
 };
 
 export const runRequestJob = async ({
@@ -64,6 +67,7 @@ export const runRequestJob = async ({
   filename,
   token,
   url,
+  customSchema,
   handleError,
   handleSuccess,
   handleTimeout,
@@ -75,8 +79,9 @@ export const runRequestJob = async ({
     files: [{ sourceType, ...(fileId && { fileId }), ...(url && { url }) }],
     jobType,
     ...(jobParams && { jobParams }),
+    customSchema,
   };
-  console.log('[runPreProdRequestJob] params: ', params);
+  console.log('params', params);
   axios
     .post(`${apiURL}/request`, params, {
       headers: {
@@ -87,11 +92,8 @@ export const runRequestJob = async ({
     })
     .then((response) => {
       if (response.status === 200) {
-        console.log(response.data);
         toast.success(`${filename} submitted!`);
         updateFileAtIndex(selectedFileIndex, JOB_STATE[jobType], SUCCESS_STATE[jobType]);
-        console.log(`Transforming ${filename} | job_id: $${response.data.jobId}`);
-
         const postParams: QueryParams = {
           userId: response.data.userId,
           fileId,
@@ -100,6 +102,7 @@ export const runRequestJob = async ({
         };
         setTimeout(() => {
           pollJobStatus({
+            apiKey: '-',
             api_url: apiURL,
             postParams,
             token,
@@ -110,7 +113,6 @@ export const runRequestJob = async ({
           });
         }, SLEEP_DURATION[jobType]); // Need to delay the polling to give the server time to process the file
       } else {
-        toast.error(`Error uploading ${filename}. Please try again.`);
         updateFileAtIndex(selectedFileIndex, JOB_STATE[jobType], FAIL_STATE[jobType]);
       }
     })
