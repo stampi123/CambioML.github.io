@@ -12,6 +12,18 @@ export interface SolutionType {
 
 export const solutions: SolutionType[] = [
   {
+    title: 'Convert Word to Excel for FREE: A Comprehensive Guide',
+    subtitle: '',
+    description:
+      "Whether you're managing financial reports, inventory lists, or simple data tables, the ability to switch between Microsoft Word and Excel seamlessly is crucial. Today, we're diving into how you can convert word to excel effortlessly and for free, leveraging both traditional methods and cutting-edge AI technologies.",
+    url: '/blog/convert-word-to-excel',
+    image: '/images/solutions/convert-word-to-excel-4.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-10-02'),
+  },
+  {
     title: 'Can You Convert a PDF to Excel (for free)? Check AnyParser!',
     subtitle: '',
     description:
