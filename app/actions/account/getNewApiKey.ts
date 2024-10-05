@@ -17,8 +17,8 @@ export default async function getApiKey({ userId, token, apiURL }: IParams): Pro
     const response = await axios.post(`${apiURL}/makekey`, params, {
       headers: {
         'Content-Type': 'application/json',
-        authorizationToken: token,
-        apiKey: '-',
+        Authorization: token,
+        'x-api-key': '-',
       },
     });
     if (response.status === 200) {
