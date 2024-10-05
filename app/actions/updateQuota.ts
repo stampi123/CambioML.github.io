@@ -35,11 +35,6 @@ const updateQuota = async ({ api_url, token, userId, setRemainingQuota, setTotal
       });
       const newApiKeyResult = await getNewApiKey({ userId, token, apiURL: api_url });
       if (newApiKeyResult) {
-        // Retry fetching
-        toast('It may take up to 30 seconds for your account to be fully activated.', {
-          duration: 5000,
-          icon: 'ℹ️',
-        });
         return await fetchUserData();
       } else {
         throw new Error('Failed to create new API key');
