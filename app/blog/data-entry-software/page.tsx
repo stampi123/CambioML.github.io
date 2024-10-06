@@ -4,7 +4,6 @@ import BlogLink from '@/app/components/blog/BlogLink';
 import BlogList from '@/app/components/blog/BlogListItem';
 import BlogParagraph from '@/app/components/blog/BlogParagraph';
 import BlogSectionTitle from '@/app/components/blog/BlogSectionTitle';
-import BlogVideo from '@/app/components/blog/BlogVideo';
 
 const Page = () => {
   return (

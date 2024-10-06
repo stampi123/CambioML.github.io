@@ -12,6 +12,18 @@ export interface SolutionType {
 
 export const solutions: SolutionType[] = [
   {
+    title: 'Data Entry Automation for Logistics: Streamline Operations with auto data entry',
+    subtitle: '',
+    description:
+      "The logistics industry is a cornerstone of the global economy, accounting for approximately 12% of the world's GDP. This sector, however, has been slow to adopt new technologies, with many companies still relying on manual processes. In this blog, we dive into the power of automation and how it’s reshaping the future of logistics.",
+    url: '/blog/data-entry-automation',
+    image: '/images/solutions/data-entry-automation-2.png',
+    imageContain: false,
+    industries: [],
+    blog: true,
+    date: new Date('2024-10-05'),
+  },
+  {
     title: 'Data Entry Software: Use Cases and Best Practices',
     subtitle: '',
     description:
