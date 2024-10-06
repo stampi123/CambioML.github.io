@@ -46,6 +46,7 @@ const testimonials2 = [
     role: 'CEO',
     quote: '“We had tried all the pdf extraction tool and CambioML gave us the most accurate results.”',
     logo: '/images/companies/epsilla-logo.png',
+    link: 'https://epsilla.com/',
   },
   {
     name: 'Jamal',
@@ -67,11 +68,12 @@ interface TestimonialCardProps {
   role: string;
   quote: string;
   logo: string;
+  link?: string;
 }
 
-const TestimonialCard = ({ name, role, quote, logo }: TestimonialCardProps) => {
-  return (
-    <div className="flex-shrink-0 h-fit w-[500px] mx-2 bg-white shadow-lg rounded-lg p-6 text-center rounded-xl">
+const TestimonialCard = ({ name, role, quote, logo, link }: TestimonialCardProps) => {
+  const content = (
+    <>
       <p className="text-lg italic text-gray-700">{quote}</p>
       <div className="mt-4 w-full flex justify-between items-center">
         <div className="flex flex-col items-start">
@@ -84,6 +86,18 @@ const TestimonialCard = ({ name, role, quote, logo }: TestimonialCardProps) => {
           </div>
         </div>
       </div>
+    </>
+  );
+
+  return (
+    <div className="flex-shrink-0 h-fit w-[500px] mx-2 bg-white shadow-lg rounded-lg p-6 text-center rounded-xl">
+      {link ? (
+        <a href={link} target="_blank" rel="noopener noreferrer">
+          {content}
+        </a>
+      ) : (
+        content
+      )}
     </div>
   );
 };
