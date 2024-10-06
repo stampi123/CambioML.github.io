@@ -12,13 +12,25 @@ export interface SolutionType {
 
 export const solutions: SolutionType[] = [
   {
+    title: 'Data Entry Software: Use Cases and Best Practices',
+    subtitle: '',
+    description:
+      'In the rapidly evolving digital landscape, data entry software has become an indispensable tool for organizations of all sizes. This blog will explore the use cases of data entry software, delve into the best practices for implementation, and discuss how to automate data entry effectively.',
+    url: '/blog/data-entry-software',
+    image: '/images/solutions/data-entry-software-2.png',
+    imageContain: false,
+    industries: [],
+    blog: true,
+    date: new Date('2024-10-04'),
+  },
+  {
     title: 'Extracting Table from PDF: Unlocking Efficiency with AnyParser',
     subtitle: '',
     description:
       'The digital transformation demands efficient extraction of tables from PDF files and copying them to Excel, but traditional methods struggle with complexity and errors. AnyParser solves this by offering fast, accurate table extraction features.',
     url: '/blog/extract-table-from-pdf',
     image: '/images/solutions/extract-table-from-pdf-1.png',
-    imageContain: true,
+    imageContain: false,
     industries: [],
     blog: true,
     date: new Date('2024-10-03'),
@@ -42,7 +54,7 @@ export const solutions: SolutionType[] = [
       'The demand for Image to Excel converters is rising in industries like finance, education, and healthcare due to their ability to streamline data management. These tools, powered by AI, efficiently convert image to Excel formats, enhancing processing speed and reducing errors.',
     url: '/blog/convert-pdf-to-excel',
     image: '/images/solutions/convert-pdf-to-excel-6.png',
-    imageContain: true,
+    imageContain: false,
     industries: [],
     blog: true,
     date: new Date('2024-10-01'),
