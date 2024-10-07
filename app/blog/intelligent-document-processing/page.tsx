@@ -77,7 +77,7 @@ const Page = () => {
         ]}
         ordered
       />
-      <BlogImage src="automating-data-extraction-1.png" alt="Components of AI" />
+      <BlogImage src="intelligent-document-processing-1.png" alt="Components of AI" />
       <BlogSectionTitle title="Intelligent Document Processing: The future of data automation software." secondary />
       <BlogParagraph>
         By implementing IDP, organizations can significantly enhance their operational efficiency. It reduces manual
@@ -239,7 +239,7 @@ const Page = () => {
           },
         ]}
       />
-      <BlogImage src="automating-data-extraction-2.png" alt="Uses of PDF Parsers" />
+      <BlogImage src="intelligent-document-processing-2.png" alt="Uses of PDF Parsers" />
       <BlogSectionTitle title="Use Cases for Intelligent Document Processing Software: Invoice scanning and document digitalization" />
       <BlogSectionTitle title="Streamlining Invoice Processing" secondary />
       <BlogParagraph>

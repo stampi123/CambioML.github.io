@@ -12,12 +12,12 @@ export interface SolutionType {
 
 export const solutions: SolutionType[] = [
   {
-    title: 'Intelligent Document Processing solutions: Automating Data Extraction',
+    title: 'Intelligent Document Processing Solutions: Automating Data Extraction',
     subtitle: '',
     description:
       'This article explores how IDP intelligent document processing is revolutionizing document analysis, empowering you to unlock hidden insights, streamline workflows, and make data-driven decisions with confidence. Discover how this cutting-edge solution can transform your approach to information management and propel your projects to new heights.',
-    url: '/blog/automating-data-extraction',
-    image: '/images/solutions/automating-data-extraction-2.png',
+    url: '/blog/intelligent-document-processing',
+    image: '/images/solutions/intelligent-document-processing-2.png',
     imageContain: true,
     industries: [],
     blog: true,
