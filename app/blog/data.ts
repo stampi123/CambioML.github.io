@@ -24,7 +24,7 @@ export const solutions: SolutionType[] = [
     date: new Date('2024-10-07'),
   },
   {
-    title: 'What is Parsing and Best PDF Parser',
+    title: 'What is Parsing and Best Free PDF Parser',
     subtitle: '',
     description:
       "In the realm of data management, parsing involves converting the content—such as <strong>text, images, tables, and metadata</strong>—into a usable format (e.g., plain text, structured data, or images) that can be further processed or analyzed. You'll explore various parsing methods, with a particular focus on PDF parsing and how tools like <strong>AnyParser</strong> stand out from the crowd.",
