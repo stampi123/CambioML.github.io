@@ -8,7 +8,7 @@ import BlogSectionTitle from '@/app/components/blog/BlogSectionTitle';
 const Page = () => {
   return (
     <Blog
-      title="What is Parsing and Best PDF Parser"
+      title="What is Parsing and Best Free PDF Parser"
       authors={[{ name: 'Rachel', companyName: 'CambioML', companyUrl: 'https://www.cambioml.com' }]}
       publishedOn="October 6, 2024"
     >
@@ -168,7 +168,7 @@ const Page = () => {
         unstructured text or documents with varying formats. Some advanced parsers utilize deep learning models to
         identify and extract relevant information with high accuracy, even from previously unseen document layouts.
       </BlogParagraph>
-      <BlogSectionTitle title="How to Perform PDF Parsing:The Best PDF Parser for Extracting PDF Metadata" />
+      <BlogSectionTitle title="How to Perform PDF Parsing:The Best Free PDF Parser for Extracting PDF Metadata" />
       <BlogSectionTitle title="Understanding PDF Metadata" secondary />
       <BlogParagraph>
         PDF metadata contains crucial information about a document, including its title, author, creation date, and
@@ -178,7 +178,7 @@ const Page = () => {
       </BlogParagraph>
       <BlogSectionTitle title="Key Features of Top PDF Parsers" secondary />
       <BlogParagraph>
-        The best PDF parsers offer a combination of accuracy, speed, and versatility. They should be able to handle
+        The best Free PDF parsers offer a combination of accuracy, speed, and versatility. They should be able to handle
         various PDF formats, including scanned documents and those with complex layouts. Look for parsers that can
         extract not only basic metadata but also custom fields and hidden information. Additionally, top-tier parsers
         often provide options for pdf data extractor to batch processing and integration with other software systems.
