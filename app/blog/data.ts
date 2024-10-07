@@ -12,10 +12,22 @@ export interface SolutionType {
 
 export const solutions: SolutionType[] = [
   {
+    title: 'What is Parsing and Best PDF Parser',
+    subtitle: '',
+    description:
+      "In the realm of data management, parsing involves converting the content—such as <strong>text, images, tables, and metadata</strong>—into a usable format (e.g., plain text, structured data, or images) that can be further processed or analyzed. You'll explore various parsing methods, with a particular focus on PDF parsing and how tools like <strong>AnyParser</strong> stand out from the crowd.",
+    url: '/blog/best-pdf-parser',
+    image: '/images/solutions/best-pdf-parser-1.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-10-06'),
+  },
+  {
     title: 'Data Entry Automation for Logistics: Streamline Operations with auto data entry',
     subtitle: '',
     description:
-      "The logistics industry is a cornerstone of the global economy, accounting for approximately 12% of the world's GDP. This sector, however, has been slow to adopt new technologies, with many companies still relying on manual processes. In this blog, we dive into the power of automation and how it’s reshaping the future of logistics.",
+      "The logistics industry is a cornerstone of the global economy, accounting for approximately <strong>12% of the world's GDP</strong>. This sector, however, has been slow to adopt new technologies, with many companies still relying on manual processes. In this blog, we dive into the power of automation and how it’s reshaping the future of logistics.",
     url: '/blog/data-entry-automation',
     image: '/images/solutions/data-entry-automation-2.png',
     imageContain: true,
@@ -39,9 +51,9 @@ export const solutions: SolutionType[] = [
     title: 'Extracting Table from PDF: Unlocking Efficiency with AnyParser',
     subtitle: '',
     description:
-      'The digital transformation demands efficient extraction of tables from PDF files and copying them to Excel, but traditional methods struggle with complexity and errors. AnyParser solves this by offering fast, accurate table extraction features.',
+      'The digital transformation demands efficient extraction of tables from PDF files and copying them to Excel, but traditional methods struggle with complexity and errors. <strong>AnyParser</strong> solves this by offering fast, accurate table extraction features.',
     url: '/blog/extract-table-from-pdf',
-    image: '/images/solutions/convert-word-to-excel-4.png',
+    image: '/images/solutions/convert-word-to-excel-3.png',
     imageContain: true,
     industries: [],
     blog: true,
