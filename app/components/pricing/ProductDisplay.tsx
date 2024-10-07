@@ -26,7 +26,7 @@ type Plan = {
 const plans: Plan[] = [
   {
     name: 'Starter',
-    price: '$1k/year',
+    price: '$99/month*, or $1k/year',
     pages: 'Includes 2k credits** per month, then $0.045 per credit',
     bgColor: 'bg-neutral-100',
     features: {
@@ -38,11 +38,12 @@ const plans: Plan[] = [
       customModelTraining: false,
       personalizedTraining: false,
     },
-    annual_price_lookup_key: 'starter_monthly_test', //'starter_annual_20241001',
+    monthly_price_lookup_key: 'starter_test',
+    annual_price_lookup_key: 'starter_annual_20241001',
   },
   {
     name: 'Pro',
-    price: '$5k/year',
+    price: '$499/month*, or $5k/year',
     pages: 'Includes 20k credits** per month, then $0.025 per credit',
     bgColor: 'bg-sky-200',
     features: {
@@ -54,6 +55,7 @@ const plans: Plan[] = [
       customModelTraining: false,
       personalizedTraining: false,
     },
+    monthly_price_lookup_key: 'pro_monthly_20241001',
     annual_price_lookup_key: 'pro_annual_20241001',
   },
   // {
@@ -274,14 +276,25 @@ const ProductDisplay = () => {
               </td>
               {plans.map((plan, index) => (
                 <td key={index} className={checkCellStyle}>
-                  <div className="flex flex-col justify-center items-center">
-                    {plan.annual_price_lookup_key && (
+                  <div className="flex flex-col justify-center items-center gap-1">
+                    {plan.monthly_price_lookup_key && (
+                      <StripeButton
+                        priceLookupKey={plan.monthly_price_lookup_key}
+                        userId={profile?.sub || ''}
+                        loggedIn={!loading && !error && !!profile}
+                        subscriptionId={profile?.cdkProfile?.subscriptionId || ''}
+                        period={Period.MONTHLY}
+                        authLoading={loading}
+                      />
+                    )}
+                    {!loading && !error && !!profile && plan.annual_price_lookup_key && (
                       <StripeButton
                         priceLookupKey={plan.annual_price_lookup_key}
                         userId={profile?.sub || ''}
                         loggedIn={!loading && !error && !!profile}
                         subscriptionId={profile?.cdkProfile?.subscriptionId || ''}
                         period={Period.ANNUAL}
+                        authLoading={loading}
                       />
                     )}
                   </div>
