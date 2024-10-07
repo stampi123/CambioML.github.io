@@ -18,7 +18,7 @@ const ModelToggleDropdown = () => {
   const proLabel = 'AP-pro';
   const ultraLabel = 'AP-ultra';
 
-  const modelTypes = Object.values(ModelType).filter((value) => typeof value === 'number');
+  const modelTypes = Object.values(ModelType).filter((value): value is ModelType => typeof value === 'number');
 
   const getLabel = (type: ModelType) => {
     switch (type) {
@@ -33,7 +33,7 @@ const ModelToggleDropdown = () => {
     }
   };
 
-  const disabledTypes = [ModelType.ULTRA];
+  const disabledTypes: ModelType[] = [ModelType.ULTRA];
 
   return (
     <div className="relative inline-block text-left">
@@ -59,7 +59,7 @@ const ModelToggleDropdown = () => {
           aria-labelledby="menu-button"
         >
           <div className="py-1">
-            {modelTypes.map((type) => {
+            {modelTypes.map((type: ModelType) => {
               if (disabledTypes.includes(type)) return null;
               return (
                 <button
