@@ -16,7 +16,7 @@ const ModelToggleDropdown = () => {
 
   const miniLabel = 'AP-base';
   const proLabel = 'AP-pro';
-  // const ultraLabel = 'AP-ultra';
+  const ultraLabel = 'AP-ultra';
 
   const modelTypes = Object.values(ModelType).filter((value) => typeof value === 'number');
 
@@ -26,12 +26,14 @@ const ModelToggleDropdown = () => {
         return miniLabel;
       case ModelType.PRO:
         return proLabel;
-      // case ModelType.ULTRA:
-      //   return ultraLabel;
+      case ModelType.ULTRA:
+        return ultraLabel;
       default:
         return 'Select Model';
     }
   };
+
+  const disabledTypes = [ModelType.ULTRA];
 
   return (
     <div className="relative inline-block text-left">
@@ -57,18 +59,21 @@ const ModelToggleDropdown = () => {
           aria-labelledby="menu-button"
         >
           <div className="py-1">
-            {modelTypes.map((type) => (
-              <button
-                key={type}
-                onClick={() => handleOptionSelect(type)}
-                className={`${
-                  modelType === type ? 'bg-gray-100' : ''
-                } block w-full text-left px-4 py-2 text-md text-gray-700 hover:bg-gray-100`}
-                role="menuitem"
-              >
-                {getLabel(type)}
-              </button>
-            ))}
+            {modelTypes.map((type) => {
+              if (disabledTypes.includes(type)) return null;
+              return (
+                <button
+                  key={type}
+                  onClick={() => handleOptionSelect(type)}
+                  className={`${
+                    modelType === type ? 'bg-gray-100' : ''
+                  } block w-full text-left px-4 py-2 text-md text-gray-700 hover:bg-gray-100`}
+                  role="menuitem"
+                >
+                  {getLabel(type)}
+                </button>
+              );
+            })}
           </div>
         </div>
       )}
