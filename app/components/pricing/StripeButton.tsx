@@ -13,9 +13,10 @@ interface StripeButtonProps {
   userId: string;
   subscriptionId: string;
   period: Period;
+  authLoading: boolean;
 }
 
-const StripeButton = ({ priceLookupKey, userId, loggedIn, subscriptionId, period }: StripeButtonProps) => {
+const StripeButton = ({ priceLookupKey, userId, loggedIn, subscriptionId, period, authLoading }: StripeButtonProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -50,7 +51,9 @@ const StripeButton = ({ priceLookupKey, userId, loggedIn, subscriptionId, period
   return (
     <>
       {!loggedIn ? (
-        <LoginButton />
+        <>
+          {authLoading ? <div className="w-full p-4 rounded-lg bg-neutral-100 animate-pulse"></div> : <LoginButton />}
+        </>
       ) : (
         priceLookupKey &&
         (subscriptionId ? (
@@ -60,12 +63,12 @@ const StripeButton = ({ priceLookupKey, userId, loggedIn, subscriptionId, period
             <input type="hidden" name="lookup_key" value={priceLookupKey} />
             <button
               type="submit"
-              className={`text-lg min-w-[200px] text-white bg-sky-800 p-4 rounded-lg cursor-pointer hover:bg-sky-900 hover:text-neutral-100 ${
+              className={`text-md min-w-[200px] text-white ${period === Period.MONTHLY ? 'bg-sky-800 hover:bg-sky-200' : 'bg-cambio-gray hover:bg-neutral-200'} hover:text-cambio-gray px-4 py-2 rounded-lg cursor-pointer ${
                 isLoading ? 'opacity-40' : ''
               }`}
               disabled={isLoading}
             >
-              {isLoading ? 'Loading...' : period === Period.MONTHLY ? 'Subscribe Monthly' : 'Subscribe'}
+              {isLoading ? 'Loading...' : period === Period.MONTHLY ? 'Subscribe Monthly' : 'Subscribe Annually'}
             </button>
           </form>
         ))
@@ -73,5 +76,4 @@ const StripeButton = ({ priceLookupKey, userId, loggedIn, subscriptionId, period
     </>
   );
 };
-
 export default StripeButton;
