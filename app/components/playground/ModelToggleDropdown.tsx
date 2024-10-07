@@ -73,7 +73,7 @@ const ModelToggleDropdown = () => {
             >
               {proLabel}
             </button>
-            <button
+            {/* <button
               onClick={() => handleOptionSelect(ModelType.ULTRA)}
               className={`${
                 modelType === ModelType.ULTRA ? 'bg-gray-100' : ''
@@ -81,7 +81,7 @@ const ModelToggleDropdown = () => {
               role="menuitem"
             >
               {ultraLabel}
-            </button>
+            </button> */}
           </div>
         </div>
       )}
