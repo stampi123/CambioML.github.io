@@ -10,7 +10,7 @@ const Page = () => {
     <Blog
       title="Intelligent Document Processing Solutions: Automating Data Extraction"
       authors={[{ name: 'Rachel', companyName: 'CambioML', companyUrl: 'https://www.cambioml.com' }]}
-      publishedOn="August 29, 2024"
+      publishedOn="October 7, 2024"
     >
       <BlogParagraph>
         In today&apos;s data-driven world, you face an ever-growing challenge: efficiently extracting valuable
