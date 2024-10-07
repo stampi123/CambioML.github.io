@@ -36,7 +36,7 @@ export enum TableTab {
 export enum ModelType {
   BASE,
   PRO,
-  ULTRA,
+  // ULTRA,
 }
 
 export interface MapSchemaResult {

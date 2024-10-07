@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import { ModelType } from '@/app/types/PlaygroundTypes';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa'; // Example icon for the dropdown arrow
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 const ModelToggleDropdown = () => {
   const { modelType, updateModelType } = usePlaygroundStore();
@@ -11,12 +11,14 @@ const ModelToggleDropdown = () => {
 
   const handleOptionSelect = (option: ModelType) => {
     updateModelType(option);
-    setIsOpen(false); // Close the dropdown after selection
+    setIsOpen(false);
   };
 
   const miniLabel = 'AP-base';
   const proLabel = 'AP-pro';
-  const ultraLabel = 'AP-ultra';
+  // const ultraLabel = 'AP-ultra';
+
+  const modelTypes = Object.values(ModelType).filter((value) => typeof value === 'number');
 
   const getLabel = (type: ModelType) => {
     switch (type) {
@@ -24,8 +26,8 @@ const ModelToggleDropdown = () => {
         return miniLabel;
       case ModelType.PRO:
         return proLabel;
-      case ModelType.ULTRA:
-        return ultraLabel;
+      // case ModelType.ULTRA:
+      //   return ultraLabel;
       default:
         return 'Select Model';
     }
@@ -55,33 +57,18 @@ const ModelToggleDropdown = () => {
           aria-labelledby="menu-button"
         >
           <div className="py-1">
-            <button
-              onClick={() => handleOptionSelect(ModelType.BASE)}
-              className={`${
-                modelType === ModelType.BASE ? 'bg-gray-100' : ''
-              } block w-full text-left px-4 py-2 text-md text-gray-700 hover:bg-gray-100`}
-              role="menuitem"
-            >
-              {miniLabel}
-            </button>
-            <button
-              onClick={() => handleOptionSelect(ModelType.PRO)}
-              className={`${
-                modelType === ModelType.PRO ? 'bg-gray-100' : ''
-              } block w-full text-left px-4 py-2 text-md text-gray-700 hover:bg-gray-100`}
-              role="menuitem"
-            >
-              {proLabel}
-            </button>
-            {/* <button
-              onClick={() => handleOptionSelect(ModelType.ULTRA)}
-              className={`${
-                modelType === ModelType.ULTRA ? 'bg-gray-100' : ''
-              } block w-full text-left px-4 py-2 text-md text-gray-700 hover:bg-gray-100`}
-              role="menuitem"
-            >
-              {ultraLabel}
-            </button> */}
+            {modelTypes.map((type) => (
+              <button
+                key={type}
+                onClick={() => handleOptionSelect(type)}
+                className={`${
+                  modelType === type ? 'bg-gray-100' : ''
+                } block w-full text-left px-4 py-2 text-md text-gray-700 hover:bg-gray-100`}
+                role="menuitem"
+              >
+                {getLabel(type)}
+              </button>
+            ))}
           </div>
         </div>
       )}
