@@ -12,6 +12,18 @@ export interface SolutionType {
 
 export const solutions: SolutionType[] = [
   {
+    title: 'Convert PDF to Google Sheets: A Step-by-Step Guide to Leveraging Vision Language Models',
+    subtitle: '',
+    description:
+      "In today's data-driven world, whether you're dealing with financial statements, medical records, or logistics documents, you often encounter the need to convert PDF files into editable formats like Google Sheets. This guide will walk you through leveraging AnyParser to seamlessly transform your documents.",
+    url: '/blog/convert-pdf-to-google-sheets',
+    image: '/images/solutions/convert-pdf-to-google-sheets-2.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-10-08'),
+  },
+  {
     title: 'Intelligent Document Processing Solutions: Automating Data Extraction',
     subtitle: '',
     description:
