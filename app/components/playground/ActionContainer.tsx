@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import { PlaygroundFile, PlaygroundTabs } from '@/app/types/PlaygroundTypes';
 import UploadButton from './UploadButton';
 import MapContainer from './table/MapContainer';
-import ModelToggleDropdown from './ModelToggleDropdown';
 
 const ActionContainer = () => {
   const { loggedIn, selectedFileIndex, files } = usePlaygroundStore();
