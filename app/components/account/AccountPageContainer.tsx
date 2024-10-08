@@ -258,7 +258,10 @@ const AccountPageContainer = () => {
               {!isProduction && (
                 <div className="w-full">
                   <h3 className={sectionHeadingStyle}>Subscriptions</h3>
-                  {profile?.cdkProfile && profile?.cdkProfile.subscriptionId ? (
+                  <p className="pb-4">View products or modify your subscription.</p>
+                  {loading ? (
+                    <LoadingComponent icon={UserCircle} />
+                  ) : profile?.cdkProfile && profile?.cdkProfile.subscriptionId ? (
                     <PortalButton />
                   ) : (
                     <Button
