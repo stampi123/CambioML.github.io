@@ -20,6 +20,7 @@ import updateQuota from '@/app/actions/updateQuota';
 import { uploadFile } from '@/app/actions/uploadFile';
 import { runSyncExtract } from '@/app/actions/runSyncExtract';
 import { extractPageAsBase64 } from '@/app/helpers';
+import ModelToggleDropdown from './ModelToggleDropdown';
 
 const textStyles = 'text-xl font-semibold text-neutral-500';
 
@@ -321,6 +322,7 @@ const MarkdownExtractContainer = () => {
                   <Button label="Extract Plain Text" onClick={() => handleExtract()} small labelIcon={FileText} />
                 </div>
               </div>
+              <ModelToggleDropdown />
               <ExtractSettingsChecklist removePIIOnly={isProduction} />
             </div>
           )}
