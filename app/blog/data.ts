@@ -12,6 +12,30 @@ export interface SolutionType {
 
 export const solutions: SolutionType[] = [
   {
+    title: 'What Does OCR Stand For? Understanding the downside of Optical Character Recognition',
+    subtitle: '',
+    description:
+      "Optical Character Recognition (OCR) is a powerful technology that converts images of text into machine-readable data. While it offers tremendous benefits for digitizing documents and extracting information, it's not without its drawbacks. By gaining a comprehensive understanding of OCR, you'll be equipped to determine if and how to implement this technology in your workflows and projects.",
+    url: '/blog/optical-character-recognition',
+    image: '/images/solutions/optical-character-recognition-2.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-10-08'),
+  },
+  {
+    title: 'Convert PDF to Google Sheets: A Step-by-Step Guide to Leveraging Vision Language Models',
+    subtitle: '',
+    description:
+      "In today's data-driven world, whether you're dealing with financial statements, medical records, or logistics documents, you often encounter the need to convert PDF files into editable formats like Google Sheets. This guide will walk you through leveraging AnyParser to seamlessly transform your documents.",
+    url: '/blog/convert-pdf-to-google-sheets',
+    image: '/images/solutions/convert-pdf-to-google-sheets-2.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-10-08'),
+  },
+  {
     title: 'Intelligent Document Processing Solutions: Automating Data Extraction',
     subtitle: '',
     description:
