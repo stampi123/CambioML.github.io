@@ -37,7 +37,7 @@ const ModelToggleDropdown = () => {
 
   return (
     <div className="relative inline-block text-left">
-      <div className="w-[124px]">
+      <div className="w-[150px]">
         <button
           type="button"
           onClick={toggleDropdown}

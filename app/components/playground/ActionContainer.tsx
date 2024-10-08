@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import { PlaygroundFile, PlaygroundTabs } from '@/app/types/PlaygroundTypes';
 import UploadButton from './UploadButton';
 import MapContainer from './table/MapContainer';
-import ModelToggleDropdown from './ModelToggleDropdown';
 
 const ActionContainer = () => {
   const { loggedIn, selectedFileIndex, files } = usePlaygroundStore();
@@ -20,13 +19,10 @@ const ActionContainer = () => {
 
   return (
     <div className="w-full h-full min-h-[600px] grid grid-rows-[50px_1fr]">
-      <div className={`w-full grid grid-cols-[1fr_1fr_150px]`}>
+      <div className={`w-full grid grid-cols-2`}>
         {Object.values(PlaygroundTabs).map((tab) => (
           <PlaygroundTab key={tab} label={tab} />
         ))}
-        <div className="border-b-2 flex justify-end">
-          <ModelToggleDropdown />
-        </div>
       </div>
       {loggedIn ? (
         selectedFileIndex === null ? (
