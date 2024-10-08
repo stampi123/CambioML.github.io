@@ -12,6 +12,18 @@ export interface SolutionType {
 
 export const solutions: SolutionType[] = [
   {
+    title: 'What Does OCR Stand For? Understanding the downside of Optical Character Recognition',
+    subtitle: '',
+    description:
+      "Optical Character Recognition (OCR) is a powerful technology that converts images of text into machine-readable data. While it offers tremendous benefits for digitizing documents and extracting information, it's not without its drawbacks. By gaining a comprehensive understanding of OCR, you'll be equipped to determine if and how to implement this technology in your workflows and projects.",
+    url: '/blog/optical-character-recognition',
+    image: '/images/solutions/optical-character-recognition-2.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-10-08'),
+  },
+  {
     title: 'Convert PDF to Google Sheets: A Step-by-Step Guide to Leveraging Vision Language Models',
     subtitle: '',
     description:
