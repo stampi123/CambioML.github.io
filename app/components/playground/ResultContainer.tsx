@@ -112,7 +112,7 @@ const ResultContent = ({ extractResult }: ResultContentProps) => {
         className="overflow-auto relative w-full h-full rounded-xl border border-1 border-solid px-10"
       >
         {extractResult.map((content, index) => (
-          <div key={index} className="p-4 w-full border-b-2" style={{ minHeight: '100%' }}>
+          <div key={index} className="p-4 w-full border-b-2" style={{ minHeight: '100%' }} id="result-container">
             {hasHtmlTags(content) ? (
               <div dangerouslySetInnerHTML={{ __html: content }} />
             ) : (

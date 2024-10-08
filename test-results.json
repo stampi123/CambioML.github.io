@@ -1,0 +1,224 @@
+{
+  "config": {
+    "configFile": "/Users/joseortiz/Coding/CambioML/CambioML.github.io/playwright.config.ts",
+    "rootDir": "/Users/joseortiz/Coding/CambioML/CambioML.github.io/tests",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 15000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/Users/joseortiz/Coding/CambioML/CambioML.github.io/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {},
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/Users/joseortiz/Coding/CambioML/CambioML.github.io/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "version": "1.48.0",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "test.test.ts",
+      "file": "test.test.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "should log in successfully",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 4370,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2024-10-08T23:33:40.507Z",
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a41e2865410cdb168a5b-ae88ed6923ce4e0839ad",
+          "file": "test.test.ts",
+          "line": 19,
+          "column": 5
+        }
+      ],
+      "suites": [
+        {
+          "title": "File Upload and Extraction: tests/data/SamplePortfolioStatement.pdf",
+          "file": "test.test.ts",
+          "line": 44,
+          "column": 8,
+          "specs": [
+            {
+              "title": "should upload the file",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 1068,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-10-08T23:33:45.602Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a41e2865410cdb168a5b-ab9a1b1d018ac2c420b2",
+              "file": "test.test.ts",
+              "line": 45,
+              "column": 9
+            },
+            {
+              "title": "should extract the file with PII masking",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 7906,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Extracted text: CambioML\nINVESTMENT REPORT\nJuly 1 - July 31, 2015\nYour Portfolio Value: $274,222.20\nChange from Last Period: $21,000.37\nEnvelope # BABCEJBPPRTLA\n[NAME_1]\n[ADDRESS_1]\nBeginning Portfolio ValueThis Period $253,221.83Year-to-Date $232,643.16Additions59,269.64121,433.55Subtractions-45,430.74-98,912.58Transaction Costs, Fees & Charges-139.77-625.87Change in Investment Value*7,161.4719,058.07Ending Portfolio Value**$274,222.20$274,222.20\n\nAppreciation or depreciation of your holdings due to price changes plus any distribution and income earned during the statement period.\n** Excludes unpriced securities.\n\nYour account numbers can be found on page 2 in the Accounts Included in this Report section. Your statement also has a new look and more information. We hope you find the changes beneficial and we look forward to hearing your feedback.\n1 of 28\n"
+                        },
+                        {
+                          "text": "Similarity: 1\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-10-08T23:33:46.672Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a41e2865410cdb168a5b-4b2f187ea3d8b7b8c7cd",
+              "file": "test.test.ts",
+              "line": 70,
+              "column": 9
+            },
+            {
+              "title": "should extract the file without PII masking",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 7521,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "Similarity: 1\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-10-08T23:33:54.581Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a41e2865410cdb168a5b-1ea737e5c393ceead2fc",
+              "file": "test.test.ts",
+              "line": 94,
+              "column": 9
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2024-10-08T23:33:40.149Z",
+    "duration": 22001.871,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
