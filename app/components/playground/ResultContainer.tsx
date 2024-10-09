@@ -214,6 +214,9 @@ const ResultContainer = ({ extractResult }: ResultContainerProps) => {
 
   return (
     <div className="w-full h-[60vh] relative">
+      <div style={{ display: 'none' }} id="raw-extract-result">
+        {JSON.stringify(extractResult)}
+      </div>
       <div
         className="absolute top-4 right-5 z-10 cursor-pointer px-4 py-2 rounded-full text-neutral-600 bg-neutral-100 hover:text-neutral-800 hover:bg-neutral-200 font-semibold flex items-center gap-1"
         onClick={handleZoomClick}
