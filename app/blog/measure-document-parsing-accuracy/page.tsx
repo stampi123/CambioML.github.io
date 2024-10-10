@@ -74,7 +74,10 @@ const Page = () => {
       <BlogList
         items={[
           {
-            content: 'OpenAI&apos;s GPT-4o',
+            content: 'AnyParser',
+          },
+          {
+            content: "OpenAI's GPT-4o",
           },
           {
             content: "Google's Gemini 1.5 Pro",
