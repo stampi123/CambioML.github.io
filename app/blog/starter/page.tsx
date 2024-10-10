@@ -1,5 +1,6 @@
 import Blog from '@/app/components/blog/Blog';
 import BlogImage from '@/app/components/blog/BlogImage';
+import BlogLaTeX from '@/app/components/blog/BlogLaTeX';
 import BlogLink from '@/app/components/blog/BlogLink';
 import BlogList from '@/app/components/blog/BlogListItem';
 import BlogParagraph from '@/app/components/blog/BlogParagraph';
@@ -15,6 +16,8 @@ const Page = () => {
     >
       <BlogSectionTitle title="BlogSectionTitle" />
       <BlogParagraph>You can add section titles to your blog post using the BlogSectionTitle component.</BlogParagraph>
+      <BlogSectionTitle title="Secondary Title" secondary />
+      <BlogSectionTitle title="Tertiary Title" tertiary />
       <BlogSectionTitle title="BlogParagraph" />
       <BlogParagraph>
         This is a blog paragraph. Create a new one every time you want to add a new paragraph to your blog post.
@@ -51,7 +54,7 @@ const Page = () => {
         items={[
           {
             label: 'Label 1',
-            content: 'check out this conent.',
+            content: 'check out this content.',
           },
           {
             label: 'label 2',
@@ -71,7 +74,14 @@ const Page = () => {
         ]}
         ordered
       />
-      <BlogSectionTitle title="Conclustion" />
+      <BlogSectionTitle title="BlogLaTeX" />
+      <BlogParagraph>
+        We also have a <code>BlogLaTeX</code> component
+      </BlogParagraph>
+      <BlogLaTeX
+        latex={`\\text{Recall} = \\frac{\\text{True Positives (TP)}}{\\text{True Positives (TP) + False Negatives (FN)}}`}
+      />
+      <BlogSectionTitle title="Conclusion" />
       <BlogParagraph>And that&apos;s it! Happy blogging 😊</BlogParagraph>
     </Blog>
   );

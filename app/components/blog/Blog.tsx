@@ -47,7 +47,6 @@ const Blog = ({ title, publishedOn, children, authors }: BlogProps) => {
           ))}
         </div>
         {children}
-        <hr className="my-6" />
       </div>
     </div>
   );
