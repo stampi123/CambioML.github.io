@@ -12,6 +12,18 @@ export interface SolutionType {
 
 export const solutions: SolutionType[] = [
   {
+    title: 'Invoice Scanning Software: Digitize Your Billing Workflow with AnyParser',
+    subtitle: '',
+    description:
+      "Are you tired of manually processing stacks of paper invoices? It's time to revolutionize your billing workflow with invoice scanning software. AnyParser offers a cutting-edge solution that transforms your PNG invoice images into editable text and convert bank statement to excel in mere minutes.",
+    url: '/blog/invoice-scanning-software',
+    image: '/images/solutions/invoice-scanning-software-1.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-10-11'),
+  },
+  {
     title: 'Evaluating Your Parsing Solution: A Comparative Look at PDF to Markdown Conversion',
     subtitle: '',
     description:
@@ -22,6 +34,18 @@ export const solutions: SolutionType[] = [
     industries: [],
     blog: true,
     date: new Date('2024-10-10'),
+  },
+  {
+    title: 'Convert Image to Excel: Vision Language Models changing image to excel converter',
+    subtitle: '',
+    description:
+      "Enter Vision Language Models (VLMs), a revolutionary approach that combines computer vision and natural language processing. This guide will walk you through the ai image processing of converting images to Excel using AnyParser. You'll discover practical applications, explore the advantages of VLMs over traditional OCR, and gain insights into this transformative technology.",
+    url: '/blog/convert-image-to-excel',
+    image: '/images/solutions/convert-image-to-excel-2.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-10-9'),
   },
   {
     title: 'What Does OCR Stand For? Understanding the downside of Optical Character Recognition',
