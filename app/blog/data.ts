@@ -12,6 +12,18 @@ export interface SolutionType {
 
 export const solutions: SolutionType[] = [
   {
+    title: 'Invoice Scanning Software: Digitize Your Billing Workflow with AnyParser',
+    subtitle: '',
+    description:
+      "Are you tired of manually processing stacks of paper invoices? It's time to revolutionize your billing workflow with invoice scanning software. AnyParser offers a cutting-edge solution that transforms your PNG invoice images into editable text and convert bank statement to excel in mere minutes.",
+    url: '/blog/invoice-scanning-software',
+    image: '/images/solutions/invoice-scanning-software-1.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-10-11'),
+  },
+  {
     title: 'Evaluating Your Parsing Solution: A Comparative Look at PDF to Markdown Conversion',
     subtitle: '',
     description:
