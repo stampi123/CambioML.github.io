@@ -75,12 +75,12 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 12571,
+                  "duration": 5511,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2024-10-11T19:18:51.859Z",
+                  "startTime": "2024-10-11T22:13:38.474Z",
                   "attachments": []
                 }
               ],
@@ -115,12 +115,12 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 148,
+                      "duration": 184,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-10-11T19:19:08.976Z",
+                      "startTime": "2024-10-11T22:13:44.252Z",
                       "attachments": []
                     }
                   ],
@@ -147,7 +147,7 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 11695,
+                      "duration": 9832,
                       "errors": [],
                       "stdout": [
                         {
@@ -156,7 +156,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-10-11T19:19:09.127Z",
+                      "startTime": "2024-10-11T22:13:44.437Z",
                       "attachments": []
                     }
                   ],
@@ -183,7 +183,7 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 8000,
+                      "duration": 8546,
                       "errors": [],
                       "stdout": [
                         {
@@ -192,7 +192,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-10-11T19:19:20.825Z",
+                      "startTime": "2024-10-11T22:13:54.272Z",
                       "attachments": []
                     }
                   ],
@@ -227,12 +227,12 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 103,
+                      "duration": 123,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-10-11T19:19:28.827Z",
+                      "startTime": "2024-10-11T22:14:02.820Z",
                       "attachments": []
                     }
                   ],
@@ -259,7 +259,7 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 6770,
+                      "duration": 7270,
                       "errors": [],
                       "stdout": [
                         {
@@ -268,7 +268,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-10-11T19:19:28.932Z",
+                      "startTime": "2024-10-11T22:14:02.945Z",
                       "attachments": []
                     }
                   ],
@@ -295,7 +295,7 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 6523,
+                      "duration": 6507,
                       "errors": [],
                       "stdout": [
                         {
@@ -304,7 +304,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-10-11T19:19:35.705Z",
+                      "startTime": "2024-10-11T22:14:10.217Z",
                       "attachments": []
                     }
                   ],
@@ -339,12 +339,12 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 107,
+                      "duration": 95,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-10-11T19:19:42.231Z",
+                      "startTime": "2024-10-11T22:14:16.727Z",
                       "attachments": []
                     }
                   ],
@@ -371,16 +371,16 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 7381,
+                      "duration": 7267,
                       "errors": [],
                       "stdout": [
                         {
-                          "text": "MaskPII Result Similarity: 1\n"
+                          "text": "MaskPII Result Similarity: 0.9627329192546584\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-10-11T19:19:42.340Z",
+                      "startTime": "2024-10-11T22:14:16.824Z",
                       "attachments": []
                     }
                   ],
@@ -407,7 +407,7 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 6564,
+                      "duration": 6509,
                       "errors": [],
                       "stdout": [
                         {
@@ -416,7 +416,7 @@
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-10-11T19:19:49.723Z",
+                      "startTime": "2024-10-11T22:14:24.095Z",
                       "attachments": []
                     }
                   ],
@@ -429,15 +429,127 @@
               "column": 9
             }
           ]
+        },
+        {
+          "title": "File Upload and Extraction: tests/data/test.png",
+          "file": "test.test.ts",
+          "line": 57,
+          "column": 8,
+          "specs": [
+            {
+              "title": "should upload the file",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 105,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-10-11T22:14:30.606Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a41e2865410cdb168a5b-0832c7b07377c839fe63",
+              "file": "test.test.ts",
+              "line": 58,
+              "column": 9
+            },
+            {
+              "title": "should extract the file with PII masking",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 8778,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "MaskPII Result Similarity: 1\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-10-11T22:14:30.713Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a41e2865410cdb168a5b-39ae471a1892be61e6d8",
+              "file": "test.test.ts",
+              "line": 80,
+              "column": 9
+            },
+            {
+              "title": "should extract the file without PII masking",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "status": "passed",
+                      "duration": 6461,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "NoMaskPII Result Similarity: 1\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2024-10-11T22:14:39.493Z",
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "a41e2865410cdb168a5b-b786f55460847c2ba883",
+              "file": "test.test.ts",
+              "line": 123,
+              "column": 9
+            }
+          ]
         }
       ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2024-10-11T19:18:51.376Z",
-    "duration": 64975.617999999995,
-    "expected": 10,
+    "startTime": "2024-10-11T22:13:38.062Z",
+    "duration": 67947.261,
+    "expected": 13,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0
