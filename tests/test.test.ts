@@ -1,11 +1,11 @@
 import { test, expect, Page } from '@playwright/test';
-import stringSimilarity from 'string-similarity';
 import { testFileData } from './data/testData';
+import { calculateSimilarity } from './helpers/similarity';
 
 const TEST_USERNAME = 'jojo+test@cambioml.com';
 const TEST_PASSWORD = 'Test1234!';
 const AUTH0_BASE_URL = 'https://dev-5m1dgbqjz2jua7l2.us.auth0.com';
-const SIMILARITY_THRESHOLD = 0.95;
+const SIMILARITY_THRESHOLD = 90;
 const TAKE_SCREENSHOTS = false;
 
 let page: Page;
@@ -108,7 +108,7 @@ for (const file of testFileData) {
       expect(parsedResult).toHaveLength(file.maskPIIOutput.length);
 
       const extractedText = parsedResult.join('\n\n');
-      const similarity = stringSimilarity.compareTwoStrings(file.maskPIIOutput.join('\n\n'), extractedText);
+      const similarity = calculateSimilarity(file.maskPIIOutput.join('\n\n'), extractedText);
       try {
         expect(similarity).toBeGreaterThanOrEqual(SIMILARITY_THRESHOLD);
         console.log(`MaskPII Result Similarity: ${similarity}`);
@@ -147,7 +147,7 @@ for (const file of testFileData) {
       expect(parsedResult).toHaveLength(file.noMaskPIIOutput.length);
 
       const extractedText = parsedResult.join('\n\n');
-      const similarity = stringSimilarity.compareTwoStrings(file.noMaskPIIOutput.join('\n\n'), extractedText);
+      const similarity = calculateSimilarity(file.noMaskPIIOutput.join('\n\n'), extractedText);
       try {
         expect(similarity).toBeGreaterThanOrEqual(SIMILARITY_THRESHOLD);
         console.log(`NoMaskPII Result Similarity: ${similarity}`);

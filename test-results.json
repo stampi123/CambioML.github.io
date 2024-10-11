@@ -75,12 +75,12 @@
                 {
                   "workerIndex": 0,
                   "status": "passed",
-                  "duration": 5511,
+                  "duration": 4502,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2024-10-11T22:13:38.474Z",
+                  "startTime": "2024-10-11T22:38:43.581Z",
                   "attachments": []
                 }
               ],
@@ -115,12 +115,12 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 184,
+                      "duration": 340,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-10-11T22:13:44.252Z",
+                      "startTime": "2024-10-11T22:38:48.801Z",
                       "attachments": []
                     }
                   ],
@@ -147,16 +147,16 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 9832,
+                      "duration": 8295,
                       "errors": [],
                       "stdout": [
                         {
-                          "text": "MaskPII Result Similarity: 1\n"
+                          "text": "MaskPII Result Similarity: 100\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-10-11T22:13:44.437Z",
+                      "startTime": "2024-10-11T22:38:49.271Z",
                       "attachments": []
                     }
                   ],
@@ -183,16 +183,16 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 8546,
+                      "duration": 7519,
                       "errors": [],
                       "stdout": [
                         {
-                          "text": "NoMaskPII Result Similarity: 1\n"
+                          "text": "NoMaskPII Result Similarity: 100\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-10-11T22:13:54.272Z",
+                      "startTime": "2024-10-11T22:38:57.568Z",
                       "attachments": []
                     }
                   ],
@@ -227,12 +227,12 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 123,
+                      "duration": 121,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-10-11T22:14:02.820Z",
+                      "startTime": "2024-10-11T22:39:05.089Z",
                       "attachments": []
                     }
                   ],
@@ -259,16 +259,16 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 7270,
+                      "duration": 6745,
                       "errors": [],
                       "stdout": [
                         {
-                          "text": "MaskPII Result Similarity: 1\n"
+                          "text": "MaskPII Result Similarity: 100\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-10-11T22:14:02.945Z",
+                      "startTime": "2024-10-11T22:39:05.211Z",
                       "attachments": []
                     }
                   ],
@@ -295,16 +295,16 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 6507,
+                      "duration": 5996,
                       "errors": [],
                       "stdout": [
                         {
-                          "text": "NoMaskPII Result Similarity: 1\n"
+                          "text": "NoMaskPII Result Similarity: 100\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-10-11T22:14:10.217Z",
+                      "startTime": "2024-10-11T22:39:11.958Z",
                       "attachments": []
                     }
                   ],
@@ -344,7 +344,7 @@
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-10-11T22:14:16.727Z",
+                      "startTime": "2024-10-11T22:39:17.956Z",
                       "attachments": []
                     }
                   ],
@@ -371,16 +371,16 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 7267,
+                      "duration": 7264,
                       "errors": [],
                       "stdout": [
                         {
-                          "text": "MaskPII Result Similarity: 0.9627329192546584\n"
+                          "text": "MaskPII Result Similarity: 100\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-10-11T22:14:16.824Z",
+                      "startTime": "2024-10-11T22:39:18.053Z",
                       "attachments": []
                     }
                   ],
@@ -407,16 +407,16 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 6509,
+                      "duration": 6009,
                       "errors": [],
                       "stdout": [
                         {
-                          "text": "NoMaskPII Result Similarity: 0.9598214285714286\n"
+                          "text": "NoMaskPII Result Similarity: 100\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-10-11T22:14:24.095Z",
+                      "startTime": "2024-10-11T22:39:25.319Z",
                       "attachments": []
                     }
                   ],
@@ -451,12 +451,12 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 105,
+                      "duration": 98,
                       "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-10-11T22:14:30.606Z",
+                      "startTime": "2024-10-11T22:39:31.330Z",
                       "attachments": []
                     }
                   ],
@@ -483,16 +483,16 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 8778,
+                      "duration": 7778,
                       "errors": [],
                       "stdout": [
                         {
-                          "text": "MaskPII Result Similarity: 1\n"
+                          "text": "MaskPII Result Similarity: 99.61190168175938\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-10-11T22:14:30.713Z",
+                      "startTime": "2024-10-11T22:39:31.430Z",
                       "attachments": []
                     }
                   ],
@@ -519,16 +519,16 @@
                     {
                       "workerIndex": 0,
                       "status": "passed",
-                      "duration": 6461,
+                      "duration": 6524,
                       "errors": [],
                       "stdout": [
                         {
-                          "text": "NoMaskPII Result Similarity: 1\n"
+                          "text": "NoMaskPII Result Similarity: 100\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2024-10-11T22:14:39.493Z",
+                      "startTime": "2024-10-11T22:39:39.210Z",
                       "attachments": []
                     }
                   ],
@@ -547,8 +547,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2024-10-11T22:13:38.062Z",
-    "duration": 67947.261,
+    "startTime": "2024-10-11T22:38:43.283Z",
+    "duration": 62523.88,
     "expected": 13,
     "skipped": 0,
     "unexpected": 0,
