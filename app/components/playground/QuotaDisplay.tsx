@@ -21,7 +21,6 @@ const QuotaDisplay = ({ userId, isCollapsed }: QuotaDisplayProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { apiKeys } = useAccountStore();
   const quotaPercent = (remainingQuota / totalQuota) * 100;
-  const madeApiKey = false;
 
   const handleRefresh = async () => {
     setIsLoading(true);
@@ -38,7 +37,7 @@ const QuotaDisplay = ({ userId, isCollapsed }: QuotaDisplayProps) => {
 
   const handleError = async (e: AxiosError | Error) => {
     console.error(e);
-    if (apiKeys.length === 0 && !madeApiKey) {
+    if (apiKeys.length === 0) {
       if (!userId || !token) {
         console.log('No profile or token', userId, token);
         return;
