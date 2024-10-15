@@ -4,6 +4,7 @@ module.exports = {
   generateRobotsTxt: true,
   exclude: [
     '/api/*',
+    '/blog/starter',
     '/homepage-old',
     '/account-preprod',
     '/playground-3a284dca-393d-4d28-8a7a-bf202d475442',
