@@ -4,7 +4,10 @@ interface BlogVideoProps {
 
 const BlogVideo = ({ src }: BlogVideoProps) => {
   return (
-    <div className="relative w-full max-w-[800px] h-auto" style={{ aspectRatio: '16/9' }}>
+    // Responsive:
+    // - Width adjusts to screen size, max-width prevents oversizing on large screens
+    // - Aspect ratio maintained across all devices
+    <div className="relative w-full max-w-[800px] mx-auto my-4 sm:my-6" style={{ aspectRatio: '16/9' }}>
       <iframe
         className="absolute top-0 left-0 w-full h-full border-0"
         src={src}
