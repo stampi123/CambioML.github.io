@@ -7,6 +7,9 @@ const BlogLink = ({ text, url }: BlogLinkProps) => {
   return (
     <>
       &nbsp;
+      {/* Responsive:
+          - Text color changes on hover for better interaction on desktop
+          - Underline provides clear indication of link on all devices */}
       <a
         href={url}
         target="_blank"

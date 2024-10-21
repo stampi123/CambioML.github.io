@@ -9,7 +9,10 @@ interface BlogImageProps {
 
 const BlogImage = ({ src, alt, subtitle }: BlogImageProps) => {
   return (
-    <div className="mb-6">
+    // Responsive:
+    // - Image width is full on all devices, height auto-adjusts
+    // - Margin bottom adjusts for better spacing on different devices
+    <div className="mb-4 sm:mb-6">
       <Image
         alt={alt}
         src={imgPrefix + '/images/solutions/' + src}
@@ -17,7 +20,11 @@ const BlogImage = ({ src, alt, subtitle }: BlogImageProps) => {
         height={800}
         className="block w-full h-auto"
       />
-      {subtitle && <p className="text-center text-sm text-neutral-500 pt-2">{subtitle}</p>}
+      {subtitle && (
+        // Responsive:
+        // - Text size and padding adjust for readability on different devices
+        <p className="text-center text-xs sm:text-sm text-neutral-500 pt-1 sm:pt-2">{subtitle}</p>
+      )}
     </div>
   );
 };
