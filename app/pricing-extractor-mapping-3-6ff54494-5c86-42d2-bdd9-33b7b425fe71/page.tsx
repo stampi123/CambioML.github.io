@@ -11,7 +11,7 @@ type Plan = {
   bgColor?: string;
   features: {
     autoCapture: boolean;
-    customSchemas: boolean;
+    autoRollover: boolean;
     clientOnboarding: boolean;
     customizationServices: boolean;
     customModelTraining: boolean;
@@ -29,7 +29,7 @@ const plans: Plan[] = [
     bgColor: 'bg-neutral-100',
     features: {
       autoCapture: true,
-      customSchemas: true,
+      autoRollover: true,
       clientOnboarding: false,
       customizationServices: false,
       customIntegrations: false,
@@ -44,7 +44,7 @@ const plans: Plan[] = [
     bgColor: 'bg-sky-200',
     features: {
       autoCapture: true,
-      customSchemas: true,
+      autoRollover: true,
       clientOnboarding: false,
       customizationServices: false,
       customIntegrations: false,
@@ -59,7 +59,7 @@ const plans: Plan[] = [
     bgColor: 'bg-[#bcc6cc]',
     features: {
       autoCapture: true,
-      customSchemas: true,
+      autoRollover: true,
       clientOnboarding: true,
       customizationServices: false,
       customIntegrations: false,
@@ -74,7 +74,7 @@ const plans: Plan[] = [
     bgColor: 'bg-teal-600 text-white',
     features: {
       autoCapture: true,
-      customSchemas: true,
+      autoRollover: true,
       clientOnboarding: true,
       customizationServices: true,
       customIntegrations: false,
@@ -89,7 +89,7 @@ const plans: Plan[] = [
     pages: 'contact-us',
     features: {
       autoCapture: true,
-      customSchemas: true,
+      autoRollover: true,
       clientOnboarding: true,
       customizationServices: true,
       customIntegrations: true,
@@ -191,21 +191,21 @@ const PricingPage = () => {
               </td>
             </tr>
             <tr>
-              <td className={featureRowHeaderStyle}>Auto-capture tables and transform to Markdown, CSV, or JSON</td>
+              <td className={featureRowHeaderStyle}>Credits automatically roll over</td>
               {plans.map((plan, index) => (
                 <td key={index} className={checkCellStyle}>
                   <div className={checkCellDivStyle}>
-                    <FeatureCheck enabled={plan.features.autoCapture} />
+                    <FeatureCheck enabled={plan.features.autoRollover} />
                   </div>
                 </td>
               ))}
             </tr>
             <tr>
-              <td className={featureRowHeaderStyle}>Mapping to your customized schemas</td>
+              <td className={featureRowHeaderStyle}>Auto-capture tables and transform to Markdown, CSV, or JSON</td>
               {plans.map((plan, index) => (
                 <td key={index} className={checkCellStyle}>
                   <div className={checkCellDivStyle}>
-                    <FeatureCheck enabled={plan.features.customSchemas} />
+                    <FeatureCheck enabled={plan.features.autoCapture} />
                   </div>
                 </td>
               ))}
