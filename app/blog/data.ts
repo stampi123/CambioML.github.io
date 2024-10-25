@@ -12,6 +12,30 @@ export interface SolutionType {
 
 export const solutions: SolutionType[] = [
   {
+    title: 'Banking in AI: Increasing Productivity via Fast and Accurate Document Parsing',
+    subtitle: '',
+    description:
+      'Intelligent Document Processing (IDP) is revolutionizing the banking industry, boosting productivity and efficiency. This blog examines the challenges of document parsing in banking, such as data security, compliance, and legacy system integration, alongside its numerous benefits. Discover how cutting-edge solutions like AnyParser are transforming key processes including KYC, loan processing, and fraud detection.',
+    url: '/blog/intelligent-document-processing-banking',
+    image: '/images/solutions/ocr-vs-vlm-1.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-10-25'),
+  },
+  {
+    title: 'Streamlining Insurance Workflows with LLM Powered Document Parsing',
+    subtitle: '',
+    description:
+      'Document parsing is revolutionizing the insurance industry, enhancing efficiency and accuracy in handling claims, policies, and regulatory compliance. This blog explores the challenges of implementing document parsing in insurance, including data privacy, document variety, and system integration. Discover how advanced solutions like AnyParser are transforming key processes such as claims processing, underwriting, and fraud detection.',
+    url: '/blog/document-parsing-insurance',
+    image: '/images/solutions/intelligent-document-processing-1.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-10-24'),
+  },
+  {
     title: 'AnyParser On-prem Enterprise Security Whitepaper',
     subtitle: '',
     description:
@@ -46,6 +70,18 @@ export const solutions: SolutionType[] = [
     industries: [],
     blog: true,
     date: new Date('2024-10-16'),
+  },
+  {
+    title: 'Mastering Document Parsing for 10x More Stock Market Insights',
+    subtitle: '',
+    description:
+      "Document parsing is transforming the stock market by enabling faster and more accurate data analysis. This blog explores how AnyParser's advanced document parsing capabilities are revolutionizing the way investors and analysts process financial documents, providing deeper insights and enabling faster decision-making.",
+    url: '/blog/document-parsing-stock',
+    image: '/images/solutions/invoice-scanning-software-2.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-10-14'),
   },
   {
     title: 'Invoice Scanning Software: Digitize Your Billing Workflow with AnyParser',
