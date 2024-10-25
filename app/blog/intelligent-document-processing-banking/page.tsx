@@ -260,7 +260,7 @@ const Page = () => {
         seamless integration allows for a smooth transition to modern document parsing without disrupting current
         workflows.
       </BlogParagraph>
-      <BlogImage src="intelligent-document-processing-1.png" alt="Components of AI" />
+      <BlogImage src="intelligent-document-processing-banking-1.png" alt="Components of AI" />
       <BlogSectionTitle title="Applications in Banking" />
 
       <BlogSectionTitle title="KYC (Know Your Customer) Compliance" secondary />
@@ -383,7 +383,7 @@ const Page = () => {
         monitoring and document management are also significantly improved with AnyParser&apos;s ability to analyze and
         organize documents efficiently.
       </BlogParagraph>
-      <BlogImage src="intelligent-document-processing-2.png" alt="Uses of PDF Parsers" />
+      <BlogImage src="intelligent-document-processing-banking-2.png" alt="Uses of PDF Parsers" />
       <BlogSectionTitle title="Future Trends" />
 
       <BlogSectionTitle title="AI and Machine Learning Advancements" secondary />

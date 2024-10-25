@@ -57,7 +57,7 @@ const Page = () => {
           },
         ]}
       />
-      <BlogImage src="intelligent-document-processing-1.png" alt="Components of AI" />
+      <BlogImage src="document-parsing-insurance-1.png" alt="Components of AI" />
 
       <BlogSectionTitle title="Challenges and Considerations in Document Parsing for the Insurance Industry" />
       <BlogSectionTitle title="Data Privacy and Compliance" secondary />
@@ -153,7 +153,7 @@ const Page = () => {
         of AnyParser into existing systems can provide a seamless solution to the question &quot;can you convert a pdf
         to excel&quot;.
       </BlogParagraph>
-      <BlogImage src="intelligent-document-processing-1.png" alt="Components of AI" />
+      <BlogImage src="document-parsing-insurance-2.png" alt="Components of AI" />
       <BlogSectionTitle title="Real-World Applications: How Document Parsing Transforms Insurance" />
       <BlogSectionTitle title="Claims Processing" secondary />
       <BlogParagraph>

@@ -23,7 +23,7 @@ const Page = () => {
         errors.
       </BlogParagraph>
 
-      <BlogImage src="extract-table-from-pdf-1.png" alt="Real-World Applications of AnyParser" />
+      <BlogImage src="document-parsing-stock-1.png" alt="Real-World Applications of AnyParser" />
       <BlogSectionTitle title="What is Document Parsing?" />
       <BlogParagraph>
         Document parsing involves the automated analysis of documents to extract and organize specific information
@@ -167,7 +167,7 @@ const Page = () => {
         integration ensures that the parsing solution can be tailored to fit specific workflow requirements without
         disrupting current operations.
       </BlogParagraph>
-      <BlogImage src="extract-table-from-pdf-2.png" alt="Real-World Applications of AnyParser" />
+      <BlogImage src="document-parsing-stock-2.png" alt="Real-World Applications of AnyParser" />
 
       <BlogSectionTitle title="Practical Applications of Document Parsing in Stock Trading" />
 
