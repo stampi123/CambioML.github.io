@@ -276,7 +276,7 @@ const AccountPageContainer = () => {
                 <h3 className={sectionHeadingStyle}>Getting Started with AnyParser</h3>
                 <div className="w-full bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mt-2 mb-4">
                   <p className="font-semibold">Limited time!</p>
-                  <p>Each account can extract up to 100 free pages with one API key!</p>
+                  <p>Each API can extract up to 1000 pages for free!</p>
                 </div>
                 <p>
                   <a
