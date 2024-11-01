@@ -1,14 +1,14 @@
 import usePlaygroundStore from '@/app/hooks/usePlaygroundStore';
 import toast from 'react-hot-toast';
 import { useCallback, useEffect } from 'react';
-import Button from '../Button';
-import { SignIn, UserCircle } from '@phosphor-icons/react';
+import { UserCircle } from '@phosphor-icons/react';
 import PulsingIcon from '../PulsingIcon';
 import { useAuth0 } from '@auth0/auth0-react';
 import { usePostHog } from 'posthog-js/react';
+import LoginButton from './LoginButton';
 
 const LoginComponent = () => {
-  const { isAuthenticated, isLoading, loginWithRedirect, getAccessTokenSilently, logout } = useAuth0();
+  const { isAuthenticated, isLoading, getAccessTokenSilently, logout } = useAuth0();
   const posthog = usePostHog();
   const { loggedIn, setLoggedIn, setClientId, setToken, setUserId } = usePlaygroundStore();
 
@@ -71,15 +71,6 @@ const LoginComponent = () => {
     logout();
   };
 
-  const handleAuth0Login = () => {
-    posthog.capture('playground.login.button', { route: '/playground' });
-    loginWithRedirect({
-      authorizationParams: {
-        scope: 'openid profile email',
-      },
-    });
-  };
-
   return (
     <div className="h-full w-full flex flex-col items-center justify-center gap-4">
       {isLoading ? (
@@ -87,9 +78,7 @@ const LoginComponent = () => {
       ) : (
         <>
           <UserCircle size={80} className="text-neutral-700" />
-          <div className="w-full max-w-[500px]">
-            <Button label="Login" small onClick={handleAuth0Login} labelIcon={SignIn} />
-          </div>
+          <LoginButton />
         </>
       )}
     </div>

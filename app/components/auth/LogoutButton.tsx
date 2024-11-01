@@ -1,7 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import Button from '../Button';
 import { SignOut } from '@phosphor-icons/react';
-// import useUserProfile from '@/app/hooks/useUserProfile';
 
 export interface LogoutButtonProps {
   logoutUrl: string;
