@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Check if any files in the playground or sandbox directories are staged for commit
+if git diff --cached --name-only | grep -q "^app/\(components/playground\|sandbox\)/"; then
+  echo "🎮 Playground/Sandbox files changed. Running playground tests..."
+  npm run test:playground
+else
+  echo "No playground or sandbox files changed, skipping playground tests."
+fi
