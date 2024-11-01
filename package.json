@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postbuild": "next-sitemap"
+    "postbuild": "next-sitemap",
+    "prepare": "husky",
+    "test:playground": "playwright test"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
@@ -69,8 +71,8 @@
     "@types/uuid": "^9.0.7",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
-    "eslint": "^8.57.1",
     "dotenv": "^16.4.5",
+    "eslint": "^8.57.1",
     "eslint-config-next": "14.0.4",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
@@ -78,6 +80,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.1",
     "eslint-plugin-react-hooks": "^4.6.2",
+    "husky": "^9.1.6",
     "prettier": "^3.3.3",
     "string-similarity": "^4.0.4"
   }

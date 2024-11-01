@@ -30,6 +30,15 @@ AUTH0_CLIENT_SECRET=********
 AUTH0_SANDBOX_CLIENT_ID=********
 ```
 
+## Husky Pre-commit Hook
+Husky is used to run the tests before committing the code. It should be set up to run the tests before committing the code.
+
+You can read more about it [here](https://typicode.github.io/husky/get-started.html).
+
+This pre-commit hook is configured in `.husky/pre-commit`. As you can see, it checks if any files in the `app/components/playground` or `app/sandbox` directories are staged for commit. If so, it will run the tests. If not, it will skip the tests.
+
+> ⚠️ **WARNING**: Make sure you are running the local server via `npm run dev` before running the tests.
+
 ## Running Tests
 1. Make sure you are in the root folder.
 2. Run the following command:
