@@ -46,14 +46,6 @@ const Footer = () => {
                   title: 'AnyParser',
                   url: 'https://docs.cambioml.com',
                 },
-                {
-                  title: 'uniflow',
-                  url: '/libraries/uniflow',
-                },
-                {
-                  title: 'pykoi',
-                  url: '/libraries/pykoi',
-                },
               ]}
             />
             <FooterMenu
