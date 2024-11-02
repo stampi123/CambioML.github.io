@@ -33,7 +33,19 @@ export const solutions: SolutionType[] = [
     imageContain: true,
     industries: [],
     blog: true,
-    date: new Date('2024-11-01'),
+    date: new Date('2024-10-31'),
+  },
+  {
+    title: 'Document Parsing in Investment Decision-Making',
+    subtitle: '',
+    description:
+      'In the fast-paced world of investment, timely and accurate data is crucial for making informed decisions. Learn how document parsing automates data extraction from financial documents, enabling investment firms to streamline their analysis process. Discover how AnyParser&apos;s advanced features help investment professionals handle diverse document types while maintaining accuracy and efficiency.',
+    url: '/blog/document-parsing-investment',
+    image: '/images/solutions/document-parsing-investment-1.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-10-31'),
   },
   {
     title: 'Banking in AI: Increasing Productivity via Fast and Accurate Document Parsing',
