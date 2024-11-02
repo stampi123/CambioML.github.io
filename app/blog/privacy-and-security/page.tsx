@@ -71,10 +71,10 @@ const PrivacySecurityPage = () => {
       <BlogSectionTitle title="Why Is This Data at Risk?" secondary />
 
       <BlogParagraph>
-        An <BlogLink href="https://www.cambioml.com" text="IDP solution" /> provides a comprehensive approach to
-        managing the complexities of document parsing. Understanding what is intelligent document processing is
-        essential for businesses looking to improve their data handling capabilities. Sensitive data is at risk during
-        document parsing due to several vulnerabilities:
+        An <BlogLink url="https://www.cambioml.com" text="IDP solution" /> provides a comprehensive approach to managing
+        the complexities of document parsing. Understanding what is intelligent document processing is essential for
+        businesses looking to improve their data handling capabilities. Sensitive data is at risk during document
+        parsing due to several vulnerabilities:
       </BlogParagraph>
 
       <BlogList
@@ -175,7 +175,7 @@ const PrivacySecurityPage = () => {
       <BlogSectionTitle title="AnyParser in Document Parsing: Enhancing Privacy and Security" />
       <BlogParagraph>
         Intelligent document processing tools are designed to extract, analyze, and manage data with high precision.
-        <BlogLink href="https://www.cambioml.com" text="AnyParser" />, developed by the CambioML team, stands out as a
+        <BlogLink url="https://www.cambioml.com" text="AnyParser" />, developed by the CambioML team, stands out as a
         robust document parsing tool that addresses the key privacy and security challenges in document parsing with its
         unique set of features and capabilities.
       </BlogParagraph>
