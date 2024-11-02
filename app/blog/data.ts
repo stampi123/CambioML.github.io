@@ -12,6 +12,42 @@ export interface SolutionType {
 
 export const solutions: SolutionType[] = [
   {
+    title: 'Drill AI: Revolutionizing Oil Drill Bit Efficiency While Ensuring Safety',
+    subtitle: '',
+    description:
+      'Drill AI is revolutionizing the oil and gas industry by delivering cutting-edge solutions for equipment maintenance and real-time data analysis while maximizing safety and cost-effectiveness. As the pioneering AI agent specifically engineered for the oil and gas sector, Drill AI seamlessly integrates real-time data analysis, predictive insights, and intuitive user interaction to achieve optimal drill bit efficiency and industry-leading safety standards.',
+    url: '/blog/drill-ai',
+    image: '/images/solutions/drill-ai-3.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-11-02'),
+  },
+  {
+    title: 'Safeguarding Sensitive Data During Document Processing',
+    subtitle: '',
+    description:
+      'Data security is paramount when handling sensitive information through document processing. This comprehensive guide explores the challenges and best practices in protecting sensitive data, from personal identification to financial records. Learn how AnyParser&apos;s advanced features ensure secure document parsing while maintaining compliance with regulations like GDPR and HIPAA.',
+    url: '/blog/privacy-and-security',
+    image: '/images/solutions/privacy-and-security-1.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-10-31'),
+  },
+  {
+    title: 'Document Parsing in Investment Decision-Making',
+    subtitle: '',
+    description:
+      'In the fast-paced world of investment, timely and accurate data is crucial for making informed decisions. Learn how document parsing automates data extraction from financial documents, enabling investment firms to streamline their analysis process. Discover how AnyParser&apos;s advanced features help investment professionals handle diverse document types while maintaining accuracy and efficiency.',
+    url: '/blog/document-parsing-investment',
+    image: '/images/solutions/document-parsing-investment-1.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-10-31'),
+  },
+  {
     title: 'Banking in AI: Increasing Productivity via Fast and Accurate Document Parsing',
     subtitle: '',
     description:
