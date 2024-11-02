@@ -1,6 +1,5 @@
 import Blog from '@/app/components/blog/Blog';
 import BlogImage from '@/app/components/blog/BlogImage';
-import BlogLink from '@/app/components/blog/BlogLink';
 import BlogList from '@/app/components/blog/BlogListItem';
 import BlogParagraph from '@/app/components/blog/BlogParagraph';
 import BlogSectionTitle from '@/app/components/blog/BlogSectionTitle';
@@ -297,11 +296,10 @@ const DocumentParsingInvestmentPage = () => {
         Embrace the future of document parsing and enhance your investment strategies with AnyParser.
       </BlogParagraph>
       <BlogParagraph>
-        <a href="https://www.cambioml.com/sandbox" className="text-blue-600 hover:text-blue-800 underline">
-          Visit AnyParser
-        </a>{' '}
-        to learn more and begin your journey towards more efficient and accurate document parsing in the investment
-        industry.
+        IDP intelligent document processing is revolutionizing the way businesses handle data extraction from documents.
+        The answer for what is intelligent document processing is that IDP is an advanced technology that automates the
+        extraction and classification of data from documents. IDP technology has become indispensable for businesses
+        looking to automate and secure their document parsing
       </BlogParagraph>
     </Blog>
   );

@@ -19,12 +19,10 @@ const PrivacySecurityPage = () => {
       </BlogParagraph>
 
       <BlogParagraph>
-        <BlogLink href="https://www.cambioml.com" text="IDP intelligent document processing" /> is revolutionizing the
-        way businesses handle data extraction from documents. The answer for "what is intelligent document processing"
-        is that IDP is an advanced technology that automates the extraction and classification of data from documents.
-        IDP technology has become indispensable for businesses looking to automate and secure their document parsing
-        processes. However, this process also brings significant privacy and security challenges, particularly when
-        handling sensitive data.
+        IDP intelligent document processing is revolutionizing the way businesses handle data extraction from documents.
+        The answer for what is intelligent document processing is that IDP is an advanced technology that automates the
+        extraction and classification of data from documents. IDP technology has become indispensable for businesses
+        looking to automate and secure their document parsing
       </BlogParagraph>
 
       <BlogImage src="privacy-and-security-1.png" alt="Document Processing Security Illustration" />
