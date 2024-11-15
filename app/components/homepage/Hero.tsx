@@ -31,8 +31,7 @@ const Hero = () => {
           </div>
           <Heading title="AnyParser: Vision LLM for Document Parsing" center />
           <div className="text-lg text-center py-1.5 max-w-4xl mx-auto">
-            Parsing PDFs, PPTs, Word, and images with configurable options such as removing private identity info,
-            extract table and charts, keeping footnotes and headers, and much more!
+            Parsing PDFs, PPTs, Word, and images with configurable options in a few clicks!
           </div>
         </div>
         <div className="w-full h-fit grid gap-2 grid-cols-1 lg:grid-cols-3">
@@ -61,9 +60,15 @@ const Hero = () => {
             </div>
           </div>
           <div className="w-full h-full flex flex-col items-center justify-center px-10 lg:col-span-1">
-            <div className="text-lg text-center py-2">
-              80% of OCR users are tired of maintaining glue code. Free up your time with our hands-free document LLM,
-              offering unmatched accuracy and complete privacy.
+            <div className="text-lg text-left py-2">
+              80% of OCR users are tired of maintaining glue code. Free up your time with unmatched accuracy, complete
+              privacy and configurable options such as:
+              <ul className="list-disc pl-6 py-1">
+                <li>removing private identity info,</li>
+                <li>extract table and charts,</li>
+                <li>keeping footnotes and headers,</li>
+              </ul>
+              and much more!
             </div>
             <div className="w-full pt-8 pb-2 flex items-center justify-center gap-4">
               <Button label="Try for FREE" onClick={() => router.push('/sandbox')} />
