@@ -5,7 +5,6 @@ import Container from '../Container';
 import Heading from '../Heading';
 import Image from 'next/image';
 import { imgPrefix } from '@/app/hooks/useImgPrefix';
-import ProductHunt from '../navbar/ProductHunt';
 import { useState } from 'react';
 
 const Hero = () => {
