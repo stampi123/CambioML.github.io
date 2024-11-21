@@ -84,7 +84,6 @@ const MarkdownExtractContainer = () => {
       // Extract image links from markdown content
       const imageLinks = extractImageLinks(markdownContent);
 
-      // eslint-disable-next-line no-console
       // console.log('[MarkdownExtract] imageLinks:', imageLinks);
 
       if (imageLinks.length > 0) {
@@ -100,7 +99,6 @@ const MarkdownExtractContainer = () => {
               return { filename: link.filename, blob };
             } catch (error) {
               if (axios.isAxiosError(error)) {
-                // eslint-disable-next-line no-console
                 console.error(`Failed to fetch image from ${link.url}:`, error.message);
                 // You might want to show this error to the user or handle it differently
               }
@@ -278,7 +276,6 @@ const MarkdownExtractContainer = () => {
       }
       const fileData = uploadResult.data;
 
-      // eslint-disable-next-line no-console
       if (!isProduction) console.log('[MarkdownExtract] jobParams:', jobParams);
       if (isProduction) {
         runAsyncRequestJob({
@@ -357,14 +354,12 @@ const MarkdownExtractContainer = () => {
         newResult[resultZoomModal.page] = newMarkdown;
         updateFileAtIndex(selectedFileIndex, 'extractResult', newResult);
       } catch (error) {
-        // eslint-disable-next-line no-console
         console.error('Error during extraction:', error);
       } finally {
         updateFileAtIndex(selectedFileIndex, 'extractState', ExtractState.DONE_EXTRACTING);
         updateQuota({ api_url: apiURL, userId, token, setTotalQuota, setRemainingQuota, handleError });
       }
     } else {
-      // eslint-disable-next-line no-console
       console.warn('Selected file is not valid or is missing.');
     }
   };
