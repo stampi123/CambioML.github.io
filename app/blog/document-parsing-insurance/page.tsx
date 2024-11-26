@@ -57,7 +57,7 @@ const Page = () => {
           },
         ]}
       />
-      <BlogImage src="document-parsing-insurance-1.png" alt="Components of AI" />
+      <BlogImage src="best-pdf-parser-healthcare.png" alt="Parsing Importance in Healthcare" />
 
       <BlogSectionTitle title="Challenges and Considerations in Document Parsing for the Insurance Industry" />
       <BlogSectionTitle title="Data Privacy and Compliance" secondary />
