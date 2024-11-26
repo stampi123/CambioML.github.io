@@ -17,7 +17,7 @@ export const solutions: SolutionType[] = [
     description:
       'Document parsing is transforming healthcare by streamlining patient records management, insurance processing, and regulatory compliance. This comprehensive guide explores how advanced parsing solutions enhance healthcare operations, from managing electronic health records (EHR) to ensuring HIPAA compliance, while improving patient care quality and operational efficiency.',
     url: '/blog/document-parsing-healthcare',
-    image: '/images/solutions/best-pdf-parser-2.png',
+    image: '/images/solutions/healthcare-cover-photo.png',
     imageContain: true,
     industries: [],
     blog: true,
