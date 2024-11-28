@@ -12,6 +12,55 @@ export interface SolutionType {
 
 export const solutions: SolutionType[] = [
   {
+    title: 'AI Image Extraction: Leveraging Intelligent Document Parsing for Images',
+    subtitle: '',
+    description:
+      'In today’s data-driven world, the ability to extract information from images is crucial for businesses across industries. Documents containing images—such as invoices, charts, scanned forms, or receipts—often hold valuable insights but present challenges in data extraction. AI image processing has emerged as a transformative solution, enabling organizations to efficiently extract and interpret data embedded in visuals.',
+    url: '/blog/ai-image-extraction',
+    image: '/images/solutions/ai-image-extraction.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-11-25'),
+  },
+  {
+    title: 'AI Table Extraction: Harnessing Intelligent Document Parsing for Tables',
+    subtitle: '',
+    description:
+      'Tables are a cornerstone of structured data representation, widely used in industries like finance, healthcare, and research. However, extracting tabular information from formats like PDFs, scanned documents, or images remains a challenge due to varied layouts and complexities.',
+    url: '/blog/ai-table-extraction',
+    image: '/images/solutions/ai-table-extraction.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-11-22'),
+  },
+  {
+    title: 'AI PDF Extraction: Intelligent Document Parsing for PDF Files',
+    subtitle: '',
+    description:
+      'In today’s digital-first world, PDF files have become the cornerstone for storing and sharing information across industries. From invoices and contracts to reports and forms, PDFs are widely used due to their portability and consistent formatting. However, extracting meaningful data from these documents often poses significant challenges, particularly when dealing with unstructured layouts, scanned files, or large volumes of documents.',
+    url: '/blog/ai-pdf-extraction',
+    image: '/images/solutions/ai-pdf-extraction.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-11-20'),
+  },
+  {
+    title:
+      'AI in Banking Data Processing: How Intelligent Document Parsing Can Assist ETL Processes in the Banking Industry',
+    subtitle: '',
+    description:
+      'The banking industry operates within a vast and intricate data landscape, where information is the lifeblood of operations. Banks handle an enormous volume of data daily, ranging from customer transactions to regulatory compliance documents. This data is often complex and unstructured, posing significant challenges for traditional data processing methods. The sheer variety and volume of data sources, including loan applications, customer onboarding forms, and transaction records, require a more sophisticated approach to data management.',
+    url: '/blog/ai-in-banking-data-processing',
+    image: '/images/solutions/ai-in-banking-data-processing.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-11-18'),
+  },
+  {
     title: 'Drill AI: Revolutionizing Oil Drill Bit Efficiency While Ensuring Safety',
     subtitle: '',
     description:
