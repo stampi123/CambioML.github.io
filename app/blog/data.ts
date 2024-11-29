@@ -12,6 +12,30 @@ export interface SolutionType {
 
 export const solutions: SolutionType[] = [
   {
+    title: 'The Importance of Integration with Existing Systems in Document Parsing Software',
+    subtitle: '',
+    description:
+      'In today’s fast-paced digital landscape, organizations rely on intelligent document processing tools to manage large volumes of data. These tools extract meaningful insights from unstructured data sources like PDFs, invoices, and scanned documents, revolutionizing workflows across industries. However, the true potential of such solutions can only be unlocked when they seamlessly integrate with existing systems.',
+    url: '/blog/document-parsing-software',
+    image: '/images/solutions/document-parsing-software.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-11-30'),
+  },
+  {
+    title: 'Data Extraction from Medical Records: Unlocking the Power of Medical Data with AI',
+    subtitle: '',
+    description:
+      'The healthcare industry generates a massive volume of medical data daily, from patient records to diagnostic reports. Unlocking the full potential of this data is essential for driving innovation in patient care, medical research, and operational efficiency. However, traditional methods struggle to handle the complexity and variety of formats in medical records, especially when dealing with PDFs and images.',
+    url: '/blog/data-extraction-medical-records',
+    image: '/images/solutions/data-extraction-from-medical-records.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-11-27'),
+  },
+  {
     title: 'AI Image Extraction: Leveraging Intelligent Document Parsing for Images',
     subtitle: '',
     description:
