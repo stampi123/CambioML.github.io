@@ -35,7 +35,7 @@ const Page = () => {
         JSON or XML.
       </BlogParagraph>
       
-      <BlogImage src="best-pdf-parser-2.png" alt="Document Parsing Applications" />
+      <BlogImage src="best-pdf-parser-healthcare.png" alt="Parsing Importance in Healthcare" />
 
       <BlogSectionTitle title="Why Document Parsing is Crucial in Healthcare" />
 
