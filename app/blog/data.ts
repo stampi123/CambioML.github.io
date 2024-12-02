@@ -12,6 +12,18 @@ export interface SolutionType {
 
 export const solutions: SolutionType[] = [
   {
+    title: 'Drill AI: Revolutionizing Oil Drill Bit Efficiency While Ensuring Safety',
+    subtitle: '',
+    description:
+      'Drill AI is revolutionizing the oil and gas industry by delivering cutting-edge solutions for equipment maintenance and real-time data analysis while maximizing safety and cost-effectiveness. As the pioneering AI agent specifically engineered for the oil and gas sector, Drill AI seamlessly integrates real-time data analysis, predictive insights, and intuitive user interaction to achieve optimal drill bit efficiency and industry-leading safety standards.',
+    url: '/blog/drill-ai',
+    image: '/images/solutions/drill-ai-3.png',
+    imageContain: true,
+    industries: [],
+    blog: true,
+    date: new Date('2024-12-02'),
+  },
+  {
     title: 'The Importance of Integration with Existing Systems in Document Parsing Software',
     subtitle: '',
     description:
@@ -83,18 +95,6 @@ export const solutions: SolutionType[] = [
     industries: [],
     blog: true,
     date: new Date('2024-11-18'),
-  },
-  {
-    title: 'Drill AI: Revolutionizing Oil Drill Bit Efficiency While Ensuring Safety',
-    subtitle: '',
-    description:
-      'Drill AI is revolutionizing the oil and gas industry by delivering cutting-edge solutions for equipment maintenance and real-time data analysis while maximizing safety and cost-effectiveness. As the pioneering AI agent specifically engineered for the oil and gas sector, Drill AI seamlessly integrates real-time data analysis, predictive insights, and intuitive user interaction to achieve optimal drill bit efficiency and industry-leading safety standards.',
-    url: '/blog/drill-ai',
-    image: '/images/solutions/drill-ai-3.png',
-    imageContain: true,
-    industries: [],
-    blog: true,
-    date: new Date('2024-11-02'),
   },
   {
     title: 'Safeguarding Sensitive Data During Document Processing',
