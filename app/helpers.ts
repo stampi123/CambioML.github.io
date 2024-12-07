@@ -53,8 +53,11 @@ export function extractImageLinks(markdown: string): { url: string; filename: st
   visit(tree, 'image', (node: any) => {
     if (node.url) {
       const url = node.url;
-      // Extract the filename from the URL
-      const filename = url.split('/').pop().split('?')[0];
+      // Extract the filename from the URL and ensure it has .png extension
+      let filename = url.split('/').pop().split('?')[0];
+      if (!filename.toLowerCase().endsWith('.png')) {
+        filename += '.png';
+      }
       imageLinks.push({ url, filename });
     }
   });
