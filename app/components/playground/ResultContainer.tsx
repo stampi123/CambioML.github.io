@@ -114,7 +114,11 @@ const ResultContent = ({ extractResult }: ResultContentProps) => {
         {extractResult.map((content, index) => (
           <div key={index} className="p-4 w-full border-b-2" style={{ minHeight: '100%' }} id="result-container">
             {hasHtmlTags(content) ? (
-              <div dangerouslySetInnerHTML={{ __html: content }} />
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: content.replace(/\n\n\n/g, '<br/><br/>'),
+                }}
+              />
             ) : (
               <Markdown className="markdown" remarkPlugins={[remarkGfm]}>
                 {content}
@@ -127,21 +131,11 @@ const ResultContent = ({ extractResult }: ResultContentProps) => {
   );
 };
 
-function countHtmlTags(input: string): number {
-  const htmlTagsRegex = /<([a-z]+)([^<]*)>/gi;
-  let count = 0;
-
-  input.replace(htmlTagsRegex, () => {
-    count++;
-    return '';
-  });
-
-  return count;
-}
-
 function hasHtmlTags(input: string): boolean {
-  const tagCount = countHtmlTags(input);
-  return tagCount > 10;
+  const htmlTagsRegex = /<\/?(?:text|section_header|header|footer|list|page_number|[a-z]+)[^>]*>/i;
+  const markdownImageRegex = /!\[.*?\]\(.*?\)/;
+
+  return htmlTagsRegex.test(input) && !markdownImageRegex.test(input);
 }
 
 interface ResultContainerProps {
