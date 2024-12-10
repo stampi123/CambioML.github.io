@@ -133,6 +133,7 @@ export enum ProcessType {
   FILE_EXTRACTION = 'file',
   TABLE_EXTRACTION = 'table',
   JSON_EXTRACTION = 'json',
-  FILE_EXTRACTION_PRO = 'file_refined_quick',
+  // FILE_EXTRACTION_PRO = 'file_refined_quick',
+  FILE_EXTRACTION_PRO = 'parse_with_layout_ocr',
   FILE_EXTRACTION_ULTRA = 'file_refined',
 }
