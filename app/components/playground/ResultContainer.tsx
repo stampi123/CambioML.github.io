@@ -114,7 +114,14 @@ const ResultContent = ({ extractResult }: ResultContentProps) => {
         {extractResult.map((content, index) => (
           <div key={index} className="p-4 w-full border-b-2" style={{ minHeight: '100%' }} id="result-container">
             {hasHtmlTags(content) ? (
-              <div dangerouslySetInnerHTML={{ __html: content }} />
+              <div
+                dangerouslySetInnerHTML={{
+                  // Convert triple newlines (\n\n\n) to double HTML line breaks (<br/><br/>)
+                  // This preserves the spacing/formatting in the rendered HTML output
+                  // Without this, all newlines would be collapsed into a single space
+                  __html: content.replace(/\n\n\n/g, '<br/><br/>'),
+                }}
+              />
             ) : (
               <Markdown className="markdown" remarkPlugins={[remarkGfm]}>
                 {content}
@@ -127,21 +134,16 @@ const ResultContent = ({ extractResult }: ResultContentProps) => {
   );
 };
 
-function countHtmlTags(input: string): number {
-  const htmlTagsRegex = /<([a-z]+)([^<]*)>/gi;
-  let count = 0;
-
-  input.replace(htmlTagsRegex, () => {
-    count++;
-    return '';
-  });
-
-  return count;
-}
-
 function hasHtmlTags(input: string): boolean {
-  const tagCount = countHtmlTags(input);
-  return tagCount > 10;
+  // Updated regex to include all custom HTML tags used in the document
+  // Matches: <text>, <section_header>, <header>, <footer>, <list>, <page_number>
+  // Plus any other standard HTML tags via [a-z]+
+  const htmlTagsRegex = /<\/?(?:text|section_header|header|footer|list|page_number|[a-z]+)[^>]*>/i;
+  // Matches markdown image syntax: ![alt text](url)
+  // Used to prevent treating markdown images as HTML content
+  const markdownImageRegex = /!\[.*?\]\(.*?\)/;
+  // Returns true if content contains HTML tags but isn't just a markdown image
+  return htmlTagsRegex.test(input) && !markdownImageRegex.test(input);
 }
 
 interface ResultContainerProps {
